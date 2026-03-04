@@ -1,4 +1,73 @@
 <!DOCTYPE html>
+<script>
+// ===== CONFIGURACIÓN SUPABASE =====
+const SUPABASE_URL = 'TU_SUPABASE_URL';
+const SUPABASE_ANON_KEY = 'TU_SUPABASE_ANON_KEY';
+
+// ===== FUNCIÓN PARA GUARDAR MASCOTA =====
+async function savePetToCloud(petData) {
+    try {
+        // 1. Si hay foto, subirla primero
+        let photoUrl = null;
+        if (petData.photoFile) {
+            const fileName = `${Date.now()}-${petData.photoFile.name}`;
+            const uploadResponse = await fetch(
+                `${SUPABASE_URL}/storage/v1/object/pet-photos/${fileName}`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'apikey': SUPABASE_ANON_KEY,
+                        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+                    },
+                    body: petData.photoFile,
+                }
+            );
+            if (uploadResponse.ok) {
+                photoUrl = `${SUPABASE_URL}/storage/v1/object/public/pet-photos/${fileName}`;
+            }
+        }
+
+        // 2. Guardar datos de la mascota
+        const response = await fetch(`${SUPABASE_URL}/rest/v1/pets`, {
+            method: 'POST',
+            headers: {
+                'apikey': SUPABASE_ANON_KEY,
+                'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+                'Content-Type': 'application/json',
+                'Prefer': 'return=representation',
+            },
+            body: JSON.stringify({
+                name: petData.name,
+                breed: petData.breed,
+                sex: petData.sex,
+                age: petData.age,
+                weight: petData.weight,
+                vaccines: petData.vaccines,
+                allergies: petData.allergies,
+                vet_name: petData.vetName,
+                vet_city: petData.vetCity,
+                emergency_phone: petData.phone,
+                photo_url: photoUrl,
+            }),
+        });
+
+        const data = await response.json();
+        const pet = data[0];
+
+        // 3. Retornar el ID y URL del perfil
+        return {
+            success: true,
+            petId: pet.id,
+            profileUrl: `https://mipet-app.github.io/perfil.html?id=${pet.id}`,
+        };
+
+    } catch (error) {
+        console.error('Error guardando mascota:', error);
+        return { success: false, error: error.message };
+    }
+}
+</script>
+
 <html lang="es">
 <head>
 <meta charset="UTF-8">
