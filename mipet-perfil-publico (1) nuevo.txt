@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MiPet — Perfil de Mascota</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2DB67D;
+            --primary-dark: #239963;
+            --primary-light: #E8F8F0;
+            --danger: #E74C3C;
+            --danger-light: #FDE8E6;
+            --warning: #F39C12;
+            --bg: #F5F7FA;
+            --card: #FFFFFF;
+            --text: #2C3E50;
+            --text-light: #7F8C8D;
+            --border: #E8ECF0;
+            --shadow: 0 2px 16px rgba(0,0,0,0.06);
+            --shadow-lg: 0 8px 32px rgba(0,0,0,0.10);
+            --radius: 16px;
+            --radius-sm: 10px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            padding-bottom: 100px;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, #1A9D6B 100%);
+            padding: 20px 20px 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 60%);
+            animation: shimmer 8s ease-in-out infinite;
+        }
+        @keyframes shimmer {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(10%, 10%); }
+        }
+        .header-brand {
+            font-family: 'Nunito', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            color: rgba(255,255,255,0.85);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            position: relative;
+            z-index: 1;
+        }
+        .header-brand span { font-size: 16px; }
+
+        /* ===== PET CARD ===== */
+        .pet-card {
+            max-width: 420px;
+            margin: -40px auto 0;
+            padding: 0 16px;
+            position: relative;
+            z-index: 2;
+        }
+        .card {
+            background: var(--card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+        }
+
+        /* Photo section */
+        .pet-photo-section {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, #e0e5ec 0%, #d0d5dc 100%);
+            overflow: hidden;
+        }
+        .pet-photo-section img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .pet-photo-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            font-size: 80px;
+            opacity: 0.3;
+        }
+        .verified-badge {
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            background: var(--primary);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            box-shadow: 0 2px 8px rgba(45,182,125,0.4);
+        }
+        .lost-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: var(--danger);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 2px 12px rgba(231,76,60,0.4);
+            animation: pulse-lost 2s ease-in-out infinite;
+            display: none;
+        }
+        .lost-badge.active { display: flex; }
+        @keyframes pulse-lost {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* Pet info */
+        .pet-info {
+            padding: 20px 24px;
+        }
+        .pet-name {
+            font-family: 'Nunito', sans-serif;
+            font-size: 28px;
+            font-weight: 900;
+            color: var(--text);
+            margin-bottom: 4px;
+        }
+        .pet-breed {
+            font-size: 15px;
+            color: var(--text-light);
+            font-weight: 500;
+            margin-bottom: 16px;
+        }
+
+        /* Stats row */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+        .stat-item {
+            background: var(--bg);
+            border-radius: var(--radius-sm);
+            padding: 12px 8px;
+            text-align: center;
+        }
+        .stat-icon { font-size: 20px; margin-bottom: 4px; }
+        .stat-value {
+            font-family: 'Nunito', sans-serif;
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--text);
+        }
+        .stat-label {
+            font-size: 11px;
+            color: var(--text-light);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* ===== SECTIONS ===== */
+        .section {
+            max-width: 420px;
+            margin: 12px auto 0;
+            padding: 0 16px;
+        }
+        .section-card {
+            background: var(--card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 20px;
+        }
+        .section-title {
+            font-family: 'Nunito', sans-serif;
+            font-size: 14px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-light);
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .section-title span { font-size: 18px; }
+
+        /* Vaccines */
+        .vaccine-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .vaccine-item:last-child { border-bottom: none; }
+        .vaccine-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--primary);
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+        .vaccine-dot.pending { background: var(--warning); }
+        .vaccine-name {
+            flex: 1;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .vaccine-status {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--primary);
+            background: var(--primary-light);
+            padding: 3px 10px;
+            border-radius: 12px;
+        }
+        .vaccine-status.pending {
+            color: var(--warning);
+            background: #FEF5E7;
+        }
+
+        /* Allergies */
+        .allergy-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .allergy-tag {
+            background: var(--danger-light);
+            color: var(--danger);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+        .no-data {
+            color: var(--text-light);
+            font-size: 14px;
+            font-style: italic;
+        }
+
+        /* Vet info */
+        .vet-info {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .vet-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--primary-light);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+        .vet-details { flex: 1; }
+        .vet-name {
+            font-weight: 700;
+            font-size: 15px;
+        }
+        .vet-city {
+            font-size: 13px;
+            color: var(--text-light);
+        }
+
+        /* ===== EMERGENCY BUTTON ===== */
+        .emergency-section {
+            max-width: 420px;
+            margin: 16px auto 0;
+            padding: 0 16px;
+        }
+        .emergency-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--danger) 0%, #C0392B 100%);
+            color: white;
+            border: none;
+            border-radius: var(--radius);
+            font-family: 'Nunito', sans-serif;
+            font-size: 18px;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 4px 16px rgba(231,76,60,0.35);
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+        .emergency-btn:active {
+            transform: scale(0.98);
+        }
+        .emergency-btn-icon { font-size: 24px; }
+
+        /* Call owner button (shown when pet is found by someone) */
+        .call-owner-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: none;
+            border-radius: var(--radius);
+            font-family: 'Nunito', sans-serif;
+            font-size: 18px;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 4px 16px rgba(45,182,125,0.35);
+            transition: all 0.2s;
+            text-decoration: none;
+            margin-top: 10px;
+        }
+        .call-owner-btn:active { transform: scale(0.98); }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            max-width: 420px;
+            margin: 24px auto 0;
+            padding: 0 16px;
+            text-align: center;
+        }
+        .footer-brand {
+            font-family: 'Nunito', sans-serif;
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+        .footer-text {
+            font-size: 12px;
+            color: var(--text-light);
+        }
+        .footer-link {
+            display: inline-block;
+            margin-top: 10px;
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+        /* ===== LOADING STATE ===== */
+        .loading-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            gap: 16px;
+        }
+        .loading-paw {
+            font-size: 48px;
+            animation: bounce 1s ease-in-out infinite;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+        .loading-text {
+            font-family: 'Nunito', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-light);
+        }
+
+        /* ===== ERROR STATE ===== */
+        .error-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            gap: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+        .error-icon { font-size: 64px; opacity: 0.5; }
+        .error-title {
+            font-family: 'Nunito', sans-serif;
+            font-size: 22px;
+            font-weight: 800;
+        }
+        .error-text {
+            font-size: 15px;
+            color: var(--text-light);
+            max-width: 300px;
+        }
+
+        /* ===== SCAN NOTIFICATION ===== */
+        .scan-toast {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-100px);
+            background: var(--text);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 13px;
+            z-index: 100;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: var(--shadow-lg);
+        }
+        .scan-toast.visible {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* Animations */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUp 0.5s ease forwards;
+        }
+        @keyframes fadeUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+        .delay-5 { animation-delay: 0.5s; }
+    </style>
+</head>
+<body>
+
+<!-- LOADING -->
+<div id="loading-screen" class="loading-screen">
+    <div class="loading-paw">🐾</div>
+    <div class="loading-text">Cargando perfil...</div>
+</div>
+
+<!-- ERROR -->
+<div id="error-screen" class="error-screen" style="display:none;">
+    <div class="error-icon">🐾</div>
+    <div class="error-title">Mascota no encontrada</div>
+    <div class="error-text">Este perfil no existe o el enlace es incorrecto.</div>
+    <a href="https://mipet-app.github.io" style="margin-top:16px; color:var(--primary); font-weight:700; font-size:15px;">Ir a MiPet</a>
+</div>
+
+<!-- SCAN TOAST -->
+<div id="scan-toast" class="scan-toast">
+    📍 El dueño ha sido notificado de este escaneo
+</div>
+
+<!-- MAIN PROFILE (hidden until loaded) -->
+<div id="profile" style="display:none;">
+
+    <header class="header fade-up">
+        <div class="header-brand"><span>🐾</span> MIPET</div>
+    </header>
+
+    <div class="pet-card fade-up delay-1">
+        <div class="card">
+            <div class="pet-photo-section">
+                <div id="pet-photo-placeholder" class="pet-photo-placeholder">🐾</div>
+                <img id="pet-photo" src="" alt="" style="display:none;">
+                <div class="verified-badge">✓ Verificado</div>
+                <div id="lost-badge" class="lost-badge">
+                    🚨 PERDID@
+                </div>
+            </div>
+            <div class="pet-info">
+                <div id="pet-name" class="pet-name">—</div>
+                <div id="pet-breed" class="pet-breed">—</div>
+                <div class="stats-row">
+                    <div class="stat-item">
+                        <div class="stat-icon">🎂</div>
+                        <div id="pet-age" class="stat-value">—</div>
+                        <div class="stat-label">Edad</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon">⚖️</div>
+                        <div id="pet-weight" class="stat-value">—</div>
+                        <div class="stat-label">Peso</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon">💉</div>
+                        <div id="pet-vaccine-status" class="stat-value">—</div>
+                        <div class="stat-label">Vacunas</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- VACCINES -->
+    <div class="section fade-up delay-2">
+        <div class="section-card">
+            <div class="section-title"><span>💉</span> Vacunas</div>
+            <div id="vaccines-list">
+                <div class="no-data">Sin registro de vacunas</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ALLERGIES -->
+    <div class="section fade-up delay-3">
+        <div class="section-card">
+            <div class="section-title"><span>⚠️</span> Alergias</div>
+            <div id="allergies-list" class="allergy-tags">
+                <div class="no-data">Sin alergias registradas</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- VET -->
+    <div class="section fade-up delay-4">
+        <div class="section-card">
+            <div class="section-title"><span>🏥</span> Veterinario</div>
+            <div id="vet-section" class="vet-info">
+                <div class="vet-icon">🩺</div>
+                <div class="vet-details">
+                    <div id="vet-name" class="vet-name">No registrado</div>
+                    <div id="vet-city" class="vet-city"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- EMERGENCY BUTTONS -->
+    <div class="emergency-section fade-up delay-5">
+        <a id="emergency-btn" class="emergency-btn" href="tel:">
+            <span class="emergency-btn-icon">🚨</span>
+            <span id="emergency-text">Llamar al dueño</span>
+        </a>
+        <a id="whatsapp-btn" class="call-owner-btn" href="" target="_blank">
+            <span>💬</span>
+            <span>Enviar WhatsApp al dueño</span>
+        </a>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer fade-up delay-5">
+        <div class="footer-brand">🐾 MiPet</div>
+        <div class="footer-text">Pasaporte Digital de Mascotas</div>
+        <a class="footer-link" href="https://mipet-app.github.io">Crea el de tu mascota — Gratis</a>
+    </div>
+</div>
+
+<script>
+    // =============================================
+    // SUPABASE CONFIG — REEMPLAZA CON TUS DATOS
+    // =============================================
+   const SUPABASE_URL = 'https://thvhrpccvwjhtmkbuqag.supabase.co';           // Ej: https://xxxx.supabase.co
+    const SUPABASE_ANON_KEY = 'PEGA_TU_ANON_KEY_COMPLETA_AQUI'; // https://thvhrpccvwjhtmkbuqag.supabase.co/rest/v1/pets?id=eq.ibiza-demo-001&select=*&apikey=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRodmhycGNjdndqaHRta2J1cWFnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI2NTk0NTUsImV4cCI6MjA4ODIzNTQ1NX0.zyIIih3XsvdOlJaHYgbxJEFk5Us-cA3VfLRRhYBN9hM
+
+    // =============================================
+    // GET PET ID FROM URL
+    // =============================================
+    // URL format: perfil.html?id=abc123 or /p/abc123
+    const params = new URLSearchParams(window.location.search);
+    const petId = params.get('id');
+
+    // =============================================
+    // LOAD PET PROFILE
+    // =============================================
+    async function loadPet() {
+        if (!petId) {
+            showError();
+            return;
+        }
+
+        try {
+            // Fetch from Supabase REST API
+            const response = await fetch(
+                `${SUPABASE_URL}/rest/v1/pets?id=eq.${petId}&select=*`,
+                {
+                    headers: {
+                        'apikey': SUPABASE_ANON_KEY,
+                        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+                    }
+                }
+            );
+
+            if (!response.ok) throw new Error('Network error');
+
+            const data = await response.json();
+
+            if (!data || data.length === 0) {
+                showError();
+                return;
+            }
+
+            const pet = data[0];
+            renderPet(pet);
+            logScan(petId);
+
+        } catch (err) {
+            console.error('Error loading pet:', err);
+            showError();
+        }
+    }
+
+    // =============================================
+    // RENDER PET DATA
+    // =============================================
+    function renderPet(pet) {
+        // Basic info
+        document.getElementById('pet-name').textContent = pet.name || '—';
+        document.getElementById('pet-breed').textContent = 
+            `${pet.breed || ''}${pet.sex ? ' · ' + pet.sex : ''}`;
+        document.getElementById('pet-age').textContent = pet.age || '—';
+        document.getElementById('pet-weight').textContent = pet.weight ? pet.weight + ' kg' : '—';
+
+        // Photo
+        if (pet.photo_url) {
+            document.getElementById('pet-photo').src = pet.photo_url;
+            document.getElementById('pet-photo').style.display = 'block';
+            document.getElementById('pet-photo-placeholder').style.display = 'none';
+        }
+
+        // Lost status
+        if (pet.is_lost) {
+            document.getElementById('lost-badge').classList.add('active');
+        }
+
+        // Vaccines
+        const vaccines = pet.vaccines || [];
+        const vaccinesEl = document.getElementById('vaccines-list');
+        const upToDate = vaccines.filter(v => v.status === 'al_dia').length;
+        document.getElementById('pet-vaccine-status').textContent = 
+            vaccines.length > 0 ? `${upToDate}/${vaccines.length}` : '—';
+
+        if (vaccines.length > 0) {
+            vaccinesEl.innerHTML = vaccines.map(v => `
+                <div class="vaccine-item">
+                    <div class="vaccine-dot ${v.status === 'al_dia' ? '' : 'pending'}"></div>
+                    <div class="vaccine-name">${v.name}</div>
+                    <div class="vaccine-status ${v.status === 'al_dia' ? '' : 'pending'}">
+                        ${v.status === 'al_dia' ? 'Al día' : 'Pendiente'}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Allergies
+        const allergies = pet.allergies || [];
+        const allergiesEl = document.getElementById('allergies-list');
+        if (allergies.length > 0) {
+            allergiesEl.innerHTML = allergies.map(a => 
+                `<div class="allergy-tag">⚠️ ${a}</div>`
+            ).join('');
+        }
+
+        // Vet
+        if (pet.vet_name) {
+            document.getElementById('vet-name').textContent = pet.vet_name;
+            document.getElementById('vet-city').textContent = pet.vet_city || '';
+        }
+
+        // Emergency contact
+        const phone = pet.emergency_phone || '';
+        if (phone) {
+            const cleanPhone = phone.replace(/\D/g, '');
+            document.getElementById('emergency-btn').href = `tel:${cleanPhone}`;
+            document.getElementById('emergency-text').textContent = 
+                `${pet.name || ''} — Llamar al dueño`;
+            
+            // WhatsApp link
+            const waPhone = cleanPhone.startsWith('57') ? cleanPhone : '57' + cleanPhone;
+            const waText = encodeURIComponent(
+                `¡Hola! Encontré a ${pet.name || 'tu mascota'}. Escaneé su código QR de MiPet.`
+            );
+            document.getElementById('whatsapp-btn').href = 
+                `https://wa.me/${waPhone}?text=${waText}`;
+        }
+
+        // Show profile
+        document.getElementById('loading-screen').style.display = 'none';
+        document.getElementById('profile').style.display = 'block';
+        
+        // Update page title
+        document.title = `${pet.name || 'Mascota'} — MiPet`;
+    }
+
+    // =============================================
+    // LOG SCAN (notifies owner)
+    // =============================================
+    async function logScan(petId) {
+        try {
+            await fetch(`${SUPABASE_URL}/rest/v1/scans`, {
+                method: 'POST',
+                headers: {
+                    'apikey': SUPABASE_ANON_KEY,
+                    'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+                    'Content-Type': 'application/json',
+                    'Prefer': 'return=minimal',
+                },
+                body: JSON.stringify({
+                    pet_id: petId,
+                    scanned_at: new Date().toISOString(),
+                    user_agent: navigator.userAgent,
+                })
+            });
+
+            // Show toast
+            const toast = document.getElementById('scan-toast');
+            toast.classList.add('visible');
+            setTimeout(() => toast.classList.remove('visible'), 4000);
+
+        } catch (err) {
+            console.log('Scan log failed:', err);
+        }
+    }
+
+    // =============================================
+    // ERROR STATE
+    // =============================================
+    function showError() {
+        document.getElementById('loading-screen').style.display = 'none';
+        document.getElementById('error-screen').style.display = 'flex';
+    }
+
+    // =============================================
+    // INIT
+    // =============================================
+    loadPet();
+</script>
+</body>
+</html>
