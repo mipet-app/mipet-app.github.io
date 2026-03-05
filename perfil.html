@@ -1,73 +1,4 @@
 <!DOCTYPE html>
-<script>
-// ===== CONFIGURACIÓN SUPABASE =====
-const SUPABASE_URL = 'https://thvhrpccvwjhtmkbuqag.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRodmhycGNjdndqaHRta2J1cWFnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI2NTk0NTUsImV4cCI6MjA4ODIzNTQ1NX0.zyIIih3XsvdOlJaHYgbxJEFk5Us-cA3VfLRRhYBN9hM';
-
-// ===== FUNCIÓN PARA GUARDAR MASCOTA =====
-async function savePetToCloud(petData) {
-    try {
-        // 1. Si hay foto, subirla primero
-        let photoUrl = null;
-        if (petData.photoFile) {
-            const fileName = `${Date.now()}-${petData.photoFile.name}`;
-            const uploadResponse = await fetch(
-                `${SUPABASE_URL}/storage/v1/object/pet-photos/${fileName}`,
-                {
-                    method: 'POST',
-                    headers: {
-                        'apikey': SUPABASE_ANON_KEY,
-                        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-                    },
-                    body: petData.photoFile,
-                }
-            );
-            if (uploadResponse.ok) {
-                photoUrl = `${SUPABASE_URL}/storage/v1/object/public/pet-photos/${fileName}`;
-            }
-        }
-
-        // 2. Guardar datos de la mascota
-        const response = await fetch(`${SUPABASE_URL}/rest/v1/pets`, {
-            method: 'POST',
-            headers: {
-                'apikey': SUPABASE_ANON_KEY,
-                'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-                'Content-Type': 'application/json',
-                'Prefer': 'return=representation',
-            },
-            body: JSON.stringify({
-                name: petData.name,
-                breed: petData.breed,
-                sex: petData.sex,
-                age: petData.age,
-                weight: petData.weight,
-                vaccines: petData.vaccines,
-                allergies: petData.allergies,
-                vet_name: petData.vetName,
-                vet_city: petData.vetCity,
-                emergency_phone: petData.phone,
-                photo_url: photoUrl,
-            }),
-        });
-
-        const data = await response.json();
-        const pet = data[0];
-
-        // 3. Retornar el ID y URL del perfil
-        return {
-            success: true,
-            petId: pet.id,
-            profileUrl: `https://mipet-app.github.io/perfil.html?id=${pet.id}`,
-        };
-
-    } catch (error) {
-        console.error('Error guardando mascota:', error);
-        return { success: false, error: error.message };
-    }
-}
-</script>
-
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -622,7 +553,7 @@ async function savePetToCloud(petData) {
     // CONFIGURACION DE SUPABASE
     // =============================================
     const SUPABASE_URL = 'https://thvhrpccvwjhtmkbuqag.supabase.co';
-    const SUPABASE_ANON_KEY = 'PEGA_TU_ANON_KEY_AQUI';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRodmhycGNjdndqaHRta2J1cWFnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI2NTk0NTUsImV4cCI6MjA4ODIzNTQ1NX0.zyIIih3XsvdOlJaHYgbxJEFk5Us-cA3VfLRRhYBN9hM';
 
     // =============================================
     // OBTENER ID DE LA MASCOTA DESDE LA URL
