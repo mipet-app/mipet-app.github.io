@@ -16,8 +16,6 @@
   .section{display:none;flex-direction:column;align-items:center;padding:20px 16px 40px;min-height:100vh}
   .section.active{display:flex}
   @keyframes up{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
-
-  /* LANDING */
   .landing{text-align:center}
   .land-brand{display:flex;align-items:center;gap:8px;justify-content:center;margin:20px 0 40px;animation:up .6s cubic-bezier(.16,1,.3,1) both}
   .land-brand-icon{width:40px;height:40px;background:linear-gradient(135deg,var(--mint),var(--blue));border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px}
@@ -48,14 +46,13 @@
   .land-cta{width:100%;max-width:420px;margin-top:28px;animation:up .7s cubic-bezier(.16,1,.3,1) .4s both}
   .btn-primary{width:100%;padding:18px;border:none;border-radius:16px;background:linear-gradient(135deg,var(--mint),var(--blue));color:white;font-family:'DM Sans',sans-serif;font-size:17px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 8px 30px rgba(91,200,168,.35);transition:transform .2s,box-shadow .2s}
   .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(91,200,168,.45)}
+  .btn-primary:disabled{opacity:.6;cursor:not-allowed;transform:none}
   .btn-download{background:linear-gradient(135deg,#2E7D5B,#1C6B4A)}
   .land-example{width:100%;max-width:420px;margin-top:20px;text-align:center;animation:up .7s cubic-bezier(.16,1,.3,1) .5s both}
   .land-example a{color:var(--blue);font-size:14px;font-weight:600;text-decoration:none}
   .land-footer{margin-top:30px;text-align:center;animation:up .7s cubic-bezier(.16,1,.3,1) .5s both}
   .land-footer-text{font-size:12px;color:var(--muted)}
   .land-footer a{color:var(--mint);text-decoration:none;font-weight:600}
-
-  /* FORM */
   .form-container{width:100%;max-width:420px}
   .form-header{text-align:center;margin:20px 0 24px;animation:up .6s cubic-bezier(.16,1,.3,1) both}
   .form-back{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--muted);font-weight:500;cursor:pointer;border:none;background:none;margin-bottom:16px;font-family:'DM Sans',sans-serif}
@@ -89,8 +86,7 @@
   .add-vaccine-btn:hover{background:var(--mint-pale)}
   .form-submit{margin-top:24px}
   .form-note{text-align:center;margin-top:16px;font-size:12px;color:var(--muted);animation:up .7s cubic-bezier(.16,1,.3,1) .2s both}
-
-  /* PASSPORT */
+  .saving-msg{text-align:center;font-size:13px;color:var(--mint);font-weight:600;margin-top:8px;display:none}
   .passport-container{width:100%;max-width:420px}
   .result-header{text-align:center;margin:20px 0 16px;animation:up .6s cubic-bezier(.16,1,.3,1) both}
   .result-title{font-family:'Fraunces',serif;font-size:24px;font-weight:900;color:var(--dark)}
@@ -150,6 +146,7 @@
   .btn-secondary:hover{background:var(--mint-pale)}
   .no-vet{font-size:13px;color:var(--muted);font-style:italic}
   .downloading-msg{text-align:center;font-size:13px;color:var(--mint);font-weight:600;margin-top:8px;display:none}
+  .cloud-badge{display:inline-flex;align-items:center;gap:4px;padding:4px 12px;background:linear-gradient(135deg,#25D366,#128C7E);border-radius:20px;font-size:11px;font-weight:600;color:white;margin-left:8px}
   @media(max-width:380px){.land-title{font-size:34px}.form-card{padding:22px 16px}.land-diff-row{flex-direction:column}}
 </style>
 </head>
@@ -201,7 +198,8 @@
       <div class="form-group"><label class="form-label">Ciudad</label><input class="form-input" type="text" id="fCity" placeholder="Ej: Medellín"></div>
       <div class="form-section-title">📞 Contacto de emergencia</div>
       <div class="form-group"><label class="form-label">Teléfono *</label><input class="form-input" type="tel" id="fPhone" placeholder="Ej: +57 322 847 1820"></div>
-      <div class="form-submit"><button class="btn-primary" onclick="generatePassport()">🐾 Generar pasaporte</button></div>
+      <div class="form-submit"><button class="btn-primary" id="generateBtn" onclick="generatePassport()">🐾 Generar pasaporte</button></div>
+      <div class="saving-msg" id="savingMsg">☁️ Guardando en la nube...</div>
     </div>
     <div class="form-note">🔒 Tu información está segura. Solo se muestra lo que tú eliges.</div>
   </div>
@@ -209,7 +207,7 @@
 
 <div class="section" id="result">
   <div class="passport-container">
-    <div class="result-header"><div class="result-title">¡Pasaporte listo! 🎉</div><div class="result-sub">Descárgalo como imagen para tenerlo siempre</div></div>
+    <div class="result-header"><div class="result-title">¡Pasaporte listo! 🎉</div><div class="result-sub">Descárgalo como imagen para tenerlo siempre<span class="cloud-badge" id="cloudBadge" style="display:none">☁️ En la nube</span></div></div>
     <div class="passport" id="passportCard">
       <div class="hdr"><div class="brand"><div class="brand-icon">🐾</div><span class="brand-name">MiPet</span></div><div class="passport-label">Pasaporte Digital</div><div class="hero"><div id="passportPhoto"></div><div class="hero-info"><div class="pet-name" id="pName"></div><div class="pet-breed" id="pBreed"></div></div></div></div>
       <div class="body-sec">
@@ -235,95 +233,311 @@
 </div>
 
 <script>
-let photoData=null;
-function showSection(id){document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0)}
-function handlePhoto(input){const file=input.files[0];if(!file)return;const reader=new FileReader();reader.onload=function(e){photoData=e.target.result;const preview=document.getElementById('photoPreview');preview.src=photoData;preview.style.display='block';document.getElementById('photoPlaceholder').style.display='none'};reader.readAsDataURL(file)}
-function addVaccine(){const list=document.getElementById('vaccineList');const row=document.createElement('div');row.className='vaccine-row';row.innerHTML='<input class="form-input" type="text" placeholder="Nombre de vacuna"><div class="vaccine-check"><input type="checkbox" checked> <span>Al día</span></div>';list.appendChild(row)}
+// =============================================
+// SUPABASE
+// =============================================
+var SUPABASE_URL = 'https://thvhrpccvwjhtmkbuqag.supabase.co';
+var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRodmhycGNjdndqaHRta2J1cWFnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI2NTk0NTUsImV4cCI6MjA4ODIzNTQ1NX0.zyIIih3XsvdOlJaHYgbxJEFk5Us-cA3VfLRRhYBN9hM';
 
-function generatePassport(){
-  const name=document.getElementById('fName').value.trim();
-  const breed=document.getElementById('fBreed').value.trim();
-  const sex=document.getElementById('fSex').value;
-  const age=document.getElementById('fAge').value.trim();
-  const weight=document.getElementById('fWeight').value.trim();
-  const allergy=document.getElementById('fAllergy').value.trim();
-  const vet=document.getElementById('fVet').value.trim();
-  const city=document.getElementById('fCity').value.trim();
-  const phone=document.getElementById('fPhone').value.trim();
-  if(!name){alert('Por favor ingresa el nombre de tu mascota');return}
-  if(!breed){alert('Por favor ingresa la raza');return}
-  if(!sex){alert('Por favor selecciona el sexo');return}
-  if(!age){alert('Por favor ingresa la edad');return}
-  if(!phone){alert('Por favor ingresa un teléfono de contacto');return}
-  const vaccineRows=document.querySelectorAll('.vaccine-row');
-  const vaccines=[];let vacUp=0;
-  vaccineRows.forEach(row=>{const vN=row.querySelector('input[type="text"]').value.trim();const vC=row.querySelector('input[type="checkbox"]').checked;if(vN){vaccines.push({name:vN,up:vC});if(vC)vacUp++}});
-  document.getElementById('pName').textContent=name;
-  document.getElementById('pBreed').textContent=breed+' · '+sex+' · '+age;
-  document.getElementById('pAge').textContent=age;
-  document.getElementById('pWeight').textContent=weight?weight+'kg':'—';
-  document.getElementById('pVacCount').textContent=vaccines.length>0?vacUp+'/'+vaccines.length:'—';
-  const pc=document.getElementById('passportPhoto');
-  if(photoData){pc.innerHTML='<img class="pet-photo" src="'+photoData+'" alt="'+name+'">'}else{pc.innerHTML='<div class="pet-photo-placeholder">🐾</div>'}
-  const vl=document.getElementById('pVacList');vl.innerHTML='';
-  if(vaccines.length===0){vl.innerHTML='<div style="font-size:13px;color:var(--muted)">Sin vacunas registradas</div>'}else{vaccines.forEach(v=>{vl.innerHTML+='<div class="vac-item"><span class="vac-name">'+v.name+'</span><span class="badge'+(v.up?'':' badge-pending')+'">'+(v.up?'Al día ✓':'Pendiente')+'</span></div>'})}
-  const ae=document.getElementById('pAllergy');
-  if(!allergy||allergy.toLowerCase().includes('sin alergias')||allergy.toLowerCase()==='no'||allergy.toLowerCase()==='ninguna'){ae.innerHTML='<span class="no-allergy">Sin alergias conocidas ✓</span>'}else{ae.innerHTML='<span class="has-allergy">⚠️ '+allergy+'</span>'}
-  if(vet){document.getElementById('pVetCard').style.display='flex';document.getElementById('pNoVet').style.display='none';document.getElementById('pVetName').textContent=vet;document.getElementById('pVetCity').textContent=city||'';document.getElementById('pVetCall').href='tel:'+phone.replace(/\s/g,'')}else{document.getElementById('pVetCard').style.display='none';document.getElementById('pNoVet').style.display='block'}
-  document.getElementById('pQR').src='https://api.qrserver.com/v1/create-qr-code/?size=70x70&data=https://mipet-app.github.io&color=1C2B2A';
-  document.getElementById('pCity').innerHTML=city?'📍 '+city+', Colombia':'📍 Colombia';
-  document.getElementById('pPhone').innerHTML='📱 '+phone;
-  document.getElementById('pLostBtn').href='tel:'+phone.replace(/\s/g,'');
-  document.getElementById('pLostName').textContent=name;
-  showSection('result');
-}
-
-function downloadPassport(){
-  const msg=document.getElementById('downloadMsg');
-  msg.style.display='block';
-  const card=document.getElementById('passportCard');
-  // Wait for QR image to load
-  setTimeout(function(){
-    html2canvas(card,{
-      scale:2,
-      useCORS:true,
-      backgroundColor:'#ffffff',
-      borderRadius:32,
-      logging:false
-    }).then(function(canvas){
-      const link=document.createElement('a');
-      const petName=document.getElementById('pName').textContent||'mascota';
-      link.download='pasaporte-mipet-'+petName.toLowerCase().replace(/\s/g,'-')+'.png';
-      link.href=canvas.toDataURL('image/png');
-      link.click();
-      msg.style.display='none';
-    }).catch(function(){
-      msg.textContent='Error al generar. Intenta hacer captura de pantalla.';
-      setTimeout(function(){msg.style.display='none';msg.textContent='⏳ Generando imagen...'},3000);
-    });
-  },500);
-}
-
-function sharePassport(){
-  if(navigator.share){
-    // Try to share as image first
-    const card=document.getElementById('passportCard');
-    html2canvas(card,{scale:2,useCORS:true,backgroundColor:'#ffffff'}).then(function(canvas){
-      canvas.toBlob(function(blob){
-        const file=new File([blob],'pasaporte-mipet.png',{type:'image/png'});
-        if(navigator.canShare&&navigator.canShare({files:[file]})){
-          navigator.share({files:[file],title:'Pasaporte MiPet',text:'¡Mira el pasaporte digital de mi mascota! Creado gratis en MiPet 🐾 mipet-app.github.io'});
-        }else{
-          navigator.share({title:'Pasaporte MiPet',text:'¡Mira el pasaporte digital de mi mascota! Creado gratis en MiPet 🐾',url:'https://mipet-app.github.io'});
+async function savePetToCloud(petData) {
+    try {
+        var photoUrl = null;
+        if (petData.photoFile) {
+            var fileName = Date.now() + '-' + petData.photoFile.name.replace(/[^a-zA-Z0-9.]/g, '_');
+            var uploadResponse = await fetch(
+                SUPABASE_URL + '/storage/v1/object/pet-photos/' + fileName,
+                {
+                    method: 'POST',
+                    headers: {
+                        'apikey': SUPABASE_ANON_KEY,
+                        'Authorization': 'Bearer ' + SUPABASE_ANON_KEY
+                    },
+                    body: petData.photoFile
+                }
+            );
+            if (uploadResponse.ok) {
+                photoUrl = SUPABASE_URL + '/storage/v1/object/public/pet-photos/' + fileName;
+            }
         }
-      });
-    });
-  }else{
-    navigator.clipboard.writeText('¡Mira el pasaporte digital de mi mascota! Creado gratis en MiPet 🐾 https://mipet-app.github.io').then(function(){alert('¡Texto copiado! Pégalo donde quieras compartirlo 🐾')});
-  }
+
+        var response = await fetch(SUPABASE_URL + '/rest/v1/pets', {
+            method: 'POST',
+            headers: {
+                'apikey': SUPABASE_ANON_KEY,
+                'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+                'Content-Type': 'application/json',
+                'Prefer': 'return=representation'
+            },
+            body: JSON.stringify({
+                name: petData.name,
+                breed: petData.breed,
+                sex: petData.sex,
+                age: petData.age,
+                weight: petData.weight,
+                vaccines: petData.vaccines,
+                allergies: petData.allergies,
+                vet_name: petData.vetName,
+                vet_city: petData.vetCity,
+                emergency_phone: petData.phone,
+                photo_url: photoUrl
+            })
+        });
+
+        var data = await response.json();
+        if (data && data.length > 0) {
+            return {
+                success: true,
+                petId: data[0].id,
+                profileUrl: 'https://mipet-app.github.io/perfil.html?id=' + data[0].id
+            };
+        }
+        return { success: false };
+    } catch (error) {
+        console.error('Error guardando:', error);
+        return { success: false };
+    }
 }
 
-function showIbizaPassport(){document.getElementById('fName').value='Ibiza';document.getElementById('fBreed').value='Criolla';document.getElementById('fSex').value='Hembra';document.getElementById('fAge').value='2 años';document.getElementById('fWeight').value='21';document.getElementById('fAllergy').value='Sin alergias conocidas';document.getElementById('fVet').value='Vital Clínica Veterinaria de Especialistas';document.getElementById('fCity').value='Medellín';document.getElementById('fPhone').value='+57 322 847 1820';photoData=null;generatePassport()}
+// =============================================
+// VARIABLES
+// =============================================
+var photoData = null;
+var photoFile = null;
+var lastProfileUrl = null;
+
+// =============================================
+// FUNCIONES BASE
+// =============================================
+function showSection(id) {
+    document.querySelectorAll('.section').forEach(function(s) { s.classList.remove('active'); });
+    document.getElementById(id).classList.add('active');
+    window.scrollTo(0, 0);
+}
+
+function handlePhoto(input) {
+    var file = input.files[0];
+    if (!file) return;
+    photoFile = file;
+    var reader = new FileReader();
+    reader.onload = function(e) {
+        photoData = e.target.result;
+        var preview = document.getElementById('photoPreview');
+        preview.src = photoData;
+        preview.style.display = 'block';
+        document.getElementById('photoPlaceholder').style.display = 'none';
+    };
+    reader.readAsDataURL(file);
+}
+
+function addVaccine() {
+    var list = document.getElementById('vaccineList');
+    var row = document.createElement('div');
+    row.className = 'vaccine-row';
+    row.innerHTML = '<input class="form-input" type="text" placeholder="Nombre de vacuna"><div class="vaccine-check"><input type="checkbox" checked> <span>Al día</span></div>';
+    list.appendChild(row);
+}
+
+// =============================================
+// GENERAR PASAPORTE (con Supabase)
+// =============================================
+async function generatePassport() {
+    var name = document.getElementById('fName').value.trim();
+    var breed = document.getElementById('fBreed').value.trim();
+    var sex = document.getElementById('fSex').value;
+    var age = document.getElementById('fAge').value.trim();
+    var weight = document.getElementById('fWeight').value.trim();
+    var allergy = document.getElementById('fAllergy').value.trim();
+    var vet = document.getElementById('fVet').value.trim();
+    var city = document.getElementById('fCity').value.trim();
+    var phone = document.getElementById('fPhone').value.trim();
+
+    if (!name) { alert('Por favor ingresa el nombre de tu mascota'); return; }
+    if (!breed) { alert('Por favor ingresa la raza'); return; }
+    if (!sex) { alert('Por favor selecciona el sexo'); return; }
+    if (!age) { alert('Por favor ingresa la edad'); return; }
+    if (!phone) { alert('Por favor ingresa un teléfono de contacto'); return; }
+
+    // Recoger vacunas
+    var vaccineRows = document.querySelectorAll('.vaccine-row');
+    var vaccines = [];
+    var vacUp = 0;
+    vaccineRows.forEach(function(row) {
+        var vN = row.querySelector('input[type="text"]').value.trim();
+        var vC = row.querySelector('input[type="checkbox"]').checked;
+        if (vN) {
+            vaccines.push({ name: vN, up: vC });
+            if (vC) vacUp++;
+        }
+    });
+
+    // Deshabilitar botón y mostrar mensaje
+    var btn = document.getElementById('generateBtn');
+    var msg = document.getElementById('savingMsg');
+    btn.disabled = true;
+    btn.innerHTML = '☁️ Guardando...';
+    msg.style.display = 'block';
+
+    // Preparar datos para Supabase
+    var vaccinesForDB = vaccines.map(function(v) {
+        return { name: v.name, status: v.up ? 'al_dia' : 'pendiente' };
+    });
+    var allergiesForDB = [];
+    if (allergy && !allergy.toLowerCase().includes('sin alergias') && allergy.toLowerCase() !== 'no' && allergy.toLowerCase() !== 'ninguna') {
+        allergiesForDB = [allergy];
+    }
+
+    // Guardar en Supabase
+    var result = await savePetToCloud({
+        name: name,
+        breed: breed,
+        sex: sex,
+        age: age,
+        weight: weight,
+        vaccines: vaccinesForDB,
+        allergies: allergiesForDB,
+        vetName: vet,
+        vetCity: city,
+        phone: phone,
+        photoFile: photoFile
+    });
+
+    // Restaurar botón
+    btn.disabled = false;
+    btn.innerHTML = '🐾 Generar pasaporte';
+    msg.style.display = 'none';
+
+    // Guardar URL del perfil
+    lastProfileUrl = result.success ? result.profileUrl : null;
+
+    // Llenar pasaporte visual
+    document.getElementById('pName').textContent = name;
+    document.getElementById('pBreed').textContent = breed + ' · ' + sex + ' · ' + age;
+    document.getElementById('pAge').textContent = age;
+    document.getElementById('pWeight').textContent = weight ? weight + 'kg' : '—';
+    document.getElementById('pVacCount').textContent = vaccines.length > 0 ? vacUp + '/' + vaccines.length : '—';
+
+    var pc = document.getElementById('passportPhoto');
+    if (photoData) {
+        pc.innerHTML = '<img class="pet-photo" src="' + photoData + '" alt="' + name + '">';
+    } else {
+        pc.innerHTML = '<div class="pet-photo-placeholder">🐾</div>';
+    }
+
+    var vl = document.getElementById('pVacList');
+    vl.innerHTML = '';
+    if (vaccines.length === 0) {
+        vl.innerHTML = '<div style="font-size:13px;color:var(--muted)">Sin vacunas registradas</div>';
+    } else {
+        vaccines.forEach(function(v) {
+            vl.innerHTML += '<div class="vac-item"><span class="vac-name">' + v.name + '</span><span class="badge' + (v.up ? '' : ' badge-pending') + '">' + (v.up ? 'Al día ✓' : 'Pendiente') + '</span></div>';
+        });
+    }
+
+    var ae = document.getElementById('pAllergy');
+    if (!allergy || allergy.toLowerCase().includes('sin alergias') || allergy.toLowerCase() === 'no' || allergy.toLowerCase() === 'ninguna') {
+        ae.innerHTML = '<span class="no-allergy">Sin alergias conocidas ✓</span>';
+    } else {
+        ae.innerHTML = '<span class="has-allergy">⚠️ ' + allergy + '</span>';
+    }
+
+    if (vet) {
+        document.getElementById('pVetCard').style.display = 'flex';
+        document.getElementById('pNoVet').style.display = 'none';
+        document.getElementById('pVetName').textContent = vet;
+        document.getElementById('pVetCity').textContent = city || '';
+        document.getElementById('pVetCall').href = 'tel:' + phone.replace(/\s/g, '');
+    } else {
+        document.getElementById('pVetCard').style.display = 'none';
+        document.getElementById('pNoVet').style.display = 'block';
+    }
+
+    // QR apunta al perfil en la nube si se guardó, si no a la landing
+    var qrTarget = lastProfileUrl || 'https://mipet-app.github.io';
+    document.getElementById('pQR').src = 'https://api.qrserver.com/v1/create-qr-code/?size=70x70&data=' + encodeURIComponent(qrTarget) + '&color=1C2B2A';
+
+    document.getElementById('pCity').innerHTML = city ? '📍 ' + city + ', Colombia' : '📍 Colombia';
+    document.getElementById('pPhone').innerHTML = '📱 ' + phone;
+    document.getElementById('pLostBtn').href = 'tel:' + phone.replace(/\s/g, '');
+    document.getElementById('pLostName').textContent = name;
+
+    // Mostrar badge de nube si se guardó
+    document.getElementById('cloudBadge').style.display = result.success ? 'inline-flex' : 'none';
+
+    showSection('result');
+}
+
+// =============================================
+// DESCARGAR
+// =============================================
+function downloadPassport() {
+    var msg = document.getElementById('downloadMsg');
+    msg.style.display = 'block';
+    var card = document.getElementById('passportCard');
+    setTimeout(function() {
+        html2canvas(card, {
+            scale: 2,
+            useCORS: true,
+            backgroundColor: '#ffffff',
+            borderRadius: 32,
+            logging: false
+        }).then(function(canvas) {
+            var link = document.createElement('a');
+            var petName = document.getElementById('pName').textContent || 'mascota';
+            link.download = 'pasaporte-mipet-' + petName.toLowerCase().replace(/\s/g, '-') + '.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            msg.style.display = 'none';
+        }).catch(function() {
+            msg.textContent = 'Error al generar. Intenta hacer captura de pantalla.';
+            setTimeout(function() { msg.style.display = 'none'; msg.textContent = '⏳ Generando imagen...'; }, 3000);
+        });
+    }, 500);
+}
+
+// =============================================
+// COMPARTIR
+// =============================================
+function sharePassport() {
+    var shareUrl = lastProfileUrl || 'https://mipet-app.github.io';
+    var petName = document.getElementById('pName').textContent || 'mi mascota';
+    var shareText = '¡Mira el pasaporte digital de ' + petName + '! Creado gratis en MiPet 🐾';
+
+    if (navigator.share) {
+        var card = document.getElementById('passportCard');
+        html2canvas(card, { scale: 2, useCORS: true, backgroundColor: '#ffffff' }).then(function(canvas) {
+            canvas.toBlob(function(blob) {
+                var file = new File([blob], 'pasaporte-mipet.png', { type: 'image/png' });
+                if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                    navigator.share({ files: [file], title: 'Pasaporte MiPet', text: shareText + ' ' + shareUrl });
+                } else {
+                    navigator.share({ title: 'Pasaporte MiPet', text: shareText, url: shareUrl });
+                }
+            });
+        });
+    } else {
+        navigator.clipboard.writeText(shareText + ' ' + shareUrl).then(function() {
+            alert('¡Texto copiado! Pégalo donde quieras compartirlo 🐾');
+        });
+    }
+}
+
+// =============================================
+// EJEMPLO IBIZA
+// =============================================
+function showIbizaPassport() {
+    document.getElementById('fName').value = 'Ibiza';
+    document.getElementById('fBreed').value = 'Criolla';
+    document.getElementById('fSex').value = 'Hembra';
+    document.getElementById('fAge').value = '2 años';
+    document.getElementById('fWeight').value = '21';
+    document.getElementById('fAllergy').value = 'Sin alergias conocidas';
+    document.getElementById('fVet').value = 'Vital Clínica Veterinaria de Especialistas';
+    document.getElementById('fCity').value = 'Medellín';
+    document.getElementById('fPhone').value = '+57 322 847 1820';
+    photoData = null;
+    photoFile = null;
+    generatePassport();
+}
 </script>
 </body>
 </html>
