@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>MiPet — Registrar mascota</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --m:#E8A020;--md:#C47D0A;--ml:#FFF3D0;
+  --co:#6B3F1E;--cd:#3D1A08;--cr:#FDFAF5;
+  --tx:#3D2010;--mu:#9A7860;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+body{font-family:'Nunito',sans-serif;background:var(--cd);min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:16px 0 40px;}
+.orb{position:fixed;border-radius:50%;pointer-events:none;animation:fl 8s ease-in-out infinite;}
+.o1{width:300px;height:300px;background:radial-gradient(circle,rgba(232,160,32,.18),transparent 70%);top:-80px;right:-60px;}
+.o2{width:250px;height:250px;background:radial-gradient(circle,rgba(107,63,30,.25),transparent 70%);bottom:-60px;left:-40px;animation-delay:-3s;}
+@keyframes fl{0%,100%{transform:translateY(0)}50%{transform:translateY(-18px)}}
+.card{width:92vw;max-width:390px;background:var(--cr);border-radius:32px;padding:20px;position:relative;z-index:1;box-shadow:0 32px 80px rgba(0,0,0,.4);animation:pi .8s cubic-bezier(.16,1,.3,1) both;display:flex;flex-direction:column;gap:16px;}
+@keyframes pi{from{opacity:0;transform:scale(.92) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--m),var(--md),var(--co));border-radius:32px 32px 0 0;}
+.brand{display:flex;align-items:center;justify-content:space-between;}
+.bl{display:flex;align-items:center;gap:10px;}
+.ai{width:44px;height:44px;background:linear-gradient(135deg,var(--m),var(--md));border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(232,160,32,.4);flex-shrink:0;line-height:1;}
+.ai-top{font-size:13px;letter-spacing:1px;}
+.ai-bot{font-size:11px;margin-top:1px;}
+.bn{font-family:'Playfair Display',serif;font-size:22px;font-weight:900;color:var(--cd);}
+.back-btn{background:white;border:1.5px solid rgba(232,160,32,.3);border-radius:20px;padding:6px 12px;font-size:11px;font-weight:800;color:var(--co);cursor:pointer;text-decoration:none;display:flex;align-items:center;gap:4px;}
+.form-title{text-align:center;}
+.form-title h1{font-family:'Playfair Display',serif;font-size:22px;font-weight:900;color:var(--cd);line-height:1.1;}
+.form-title h1 span{color:var(--md);font-style:italic;}
+.form-title p{font-size:11px;color:var(--mu);font-weight:600;margin-top:4px;}
+.steps{display:flex;align-items:center;justify-content:center;}
+.step{display:flex;flex-direction:column;align-items:center;gap:4px;}
+.step-dot{width:28px;height:28px;border-radius:50%;background:rgba(107,63,30,.1);border:2px solid rgba(107,63,30,.15);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;color:var(--mu);transition:all .3s;}
+.step-dot.active{background:linear-gradient(135deg,var(--m),var(--md));border-color:var(--md);color:white;box-shadow:0 3px 10px rgba(232,160,32,.4);}
+.step-dot.done{background:var(--co);border-color:var(--co);color:white;}
+.step-label{font-size:8px;font-weight:800;color:var(--mu);text-transform:uppercase;letter-spacing:.5px;transition:color .3s;}
+.step-label.active{color:var(--md);}
+.step-line{width:32px;height:2px;background:rgba(107,63,30,.12);margin:0 4px;margin-bottom:16px;transition:background .3s;}
+.step-line.done{background:var(--co);}
+.section-page{display:none;flex-direction:column;gap:10px;}
+.section-page.active{display:flex;}
+.photo-upload{display:flex;flex-direction:column;align-items:center;gap:10px;}
+.photo-circle{width:100px;height:100px;border-radius:50%;background:var(--ml);border:3px dashed var(--m);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;transition:all .2s;}
+.photo-circle:hover{border-color:var(--md);background:#FEF0B0;}
+.photo-circle img{width:100%;height:100%;object-fit:cover;}
+.ph-placeholder{display:flex;flex-direction:column;align-items:center;gap:3px;}
+.ph-icon{font-size:28px;}
+.ph-label{font-size:9px;font-weight:800;color:var(--md);text-transform:uppercase;letter-spacing:.5px;}
+#photo-input{display:none;}
+.photo-tip{font-size:10px;color:var(--mu);font-weight:600;text-align:center;}
+.field{display:flex;flex-direction:column;gap:4px;}
+.field label{font-size:11px;font-weight:800;color:var(--tx);text-transform:uppercase;letter-spacing:.5px;}
+.field input,.field select,.field textarea{width:100%;padding:11px 13px;border:1.5px solid rgba(107,63,30,.15);border-radius:13px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;color:var(--tx);background:white;outline:none;transition:border-color .2s,box-shadow .2s;-webkit-appearance:none;appearance:none;}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--m);box-shadow:0 0 0 3px rgba(232,160,32,.12);}
+.field textarea{resize:none;min-height:72px;line-height:1.5;}
+.field select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23C47D0A' d='M6 8L0 0h12z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 13px center;padding-right:36px;}
+.field input::placeholder,.field textarea::placeholder{color:rgba(154,120,96,.5);font-weight:600;}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.sex-toggle{display:flex;gap:8px;}
+.sex-btn{flex:1;padding:10px;border:1.5px solid rgba(107,63,30,.15);border-radius:13px;background:white;font-family:'Nunito',sans-serif;font-size:12px;font-weight:800;color:var(--mu);cursor:pointer;transition:all .2s;text-align:center;}
+.sex-btn.active{background:var(--ml);border-color:var(--m);color:var(--md);}
+.vac-list{display:flex;flex-direction:column;gap:6px;}
+.vac-item{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:white;border-radius:12px;border-left:3px solid var(--m);box-shadow:0 2px 5px rgba(107,63,30,.05);}
+.vac-name{font-size:12px;font-weight:700;color:var(--tx);}
+.vac-del{width:26px;height:26px;background:rgba(200,60,40,.08);border:none;border-radius:8px;cursor:pointer;font-size:12px;color:#C03020;display:flex;align-items:center;justify-content:center;}
+.add-vac{width:100%;padding:9px;background:var(--ml);border:1.5px dashed var(--m);border-radius:12px;cursor:pointer;font-family:'Nunito',sans-serif;font-size:11px;font-weight:800;color:var(--md);display:flex;align-items:center;justify-content:center;gap:5px;}
+.sec-label{font-size:10px;font-weight:800;color:var(--mu);text-transform:uppercase;letter-spacing:1.5px;display:flex;align-items:center;gap:6px;}
+.sec-label::after{content:'';flex:1;height:1.5px;background:linear-gradient(to right,rgba(232,160,32,.3),transparent);}
+.btn-primary{width:100%;padding:14px;background:linear-gradient(135deg,var(--m),var(--md));border:none;border-radius:16px;color:white;font-family:'Nunito',sans-serif;font-size:14px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;box-shadow:0 6px 20px rgba(232,160,32,.4);position:relative;overflow:hidden;transition:transform .15s,opacity .2s;}
+.btn-primary::after{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.25),transparent);animation:sh 2.5s ease-in-out infinite;}
+@keyframes sh{0%{left:-100%}50%,100%{left:150%}}
+.btn-primary:active{transform:scale(.97);}
+.btn-primary:disabled{opacity:.6;cursor:not-allowed;}
+.btn-secondary{width:100%;padding:12px;background:white;border:2px solid var(--m);border-radius:16px;color:var(--md);font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;cursor:pointer;transition:all .15s;}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--cd);color:white;padding:12px 20px;border-radius:16px;font-size:12px;font-weight:800;z-index:999;box-shadow:0 8px 24px rgba(0,0,0,.3);transition:transform .4s cubic-bezier(.16,1,.3,1);white-space:nowrap;border-left:4px solid var(--m);}
+.toast.show{transform:translateX(-50%) translateY(0);}
+.toast.error{border-left-color:#E03020;}
+.success-screen{display:none;flex-direction:column;align-items:center;gap:14px;text-align:center;padding:10px 0;}
+.success-screen.show{display:flex;}
+.success-icon{width:80px;height:80px;background:linear-gradient(135deg,var(--m),var(--md));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:36px;box-shadow:0 8px 24px rgba(232,160,32,.4);animation:pop .5s cubic-bezier(.16,1,.3,1) both;}
+@keyframes pop{from{transform:scale(0)}to{transform:scale(1)}}
+.success-title{font-family:'Playfair Display',serif;font-size:24px;font-weight:900;color:var(--cd);}
+.success-sub{font-size:12px;color:var(--mu);font-weight:600;line-height:1.6;}
+.success-link-box{background:var(--ml);border:1.5px solid rgba(232,160,32,.3);border-radius:14px;padding:12px 16px;display:flex;flex-direction:column;gap:4px;width:100%;}
+.success-link-label{font-size:9px;font-weight:800;color:var(--mu);text-transform:uppercase;letter-spacing:1px;}
+.success-link-url{font-size:12px;font-weight:700;color:var(--co);word-break:break-all;margin-top:2px;}
+.success-link-btn{margin-top:8px;padding:8px;background:linear-gradient(135deg,var(--m),var(--md));border:none;border-radius:10px;color:white;font-family:'Nunito',sans-serif;font-size:11px;font-weight:800;cursor:pointer;width:100%;}
+.loading-ov{position:fixed;inset:0;z-index:200;background:rgba(61,26,8,.7);backdrop-filter:blur(4px);display:none;flex-direction:column;align-items:center;justify-content:center;gap:16px;}
+.loading-ov.show{display:flex;}
+.spinner{width:48px;height:48px;border:4px solid rgba(232,160,32,.2);border-top-color:var(--m);border-radius:50%;animation:spin .8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-ov p{color:white;font-size:13px;font-weight:800;}
+</style>
+</head>
+<body>
+<div class="orb o1"></div>
+<div class="orb o2"></div>
+
+<div class="loading-ov" id="loadingOv">
+  <div class="spinner"></div>
+  <p>Guardando pasaporte…</p>
+</div>
+
+<div class="card">
+  <div class="brand">
+    <div class="bl">
+      <div class="ai"><div class="ai-top">🐶🐱</div><div class="ai-bot">🐰</div></div>
+      <span class="bn">MiPet</span>
+    </div>
+    <a href="index.html" class="back-btn">← Volver</a>
+  </div>
+
+  <!-- PANTALLA DE ÉXITO -->
+  <div class="success-screen" id="successScreen">
+    <div class="success-icon">🐾</div>
+    <div class="success-title">¡Pasaporte creado!</div>
+    <div class="success-sub">El perfil de tu mascota ya está en MiPet.<br>Guarda o comparte el enlace del pasaporte.</div>
+    <div class="success-link-box">
+      <div class="success-link-label">🔗 Enlace del pasaporte</div>
+      <div class="success-link-url" id="successUrl">—</div>
+      <button class="success-link-btn" onclick="copyLink()">📋 Copiar enlace</button>
+    </div>
+    <button class="btn-primary" id="viewBtn" onclick="">👁 Ver pasaporte</button>
+    <button class="btn-secondary" onclick="resetForm()">+ Registrar otra mascota</button>
+  </div>
+
+  <!-- FORMULARIO -->
+  <div id="formContent">
+    <div class="form-title">
+      <h1>Crear <span>pasaporte</span></h1>
+      <p>Completa los datos de tu peludo 🐾</p>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-dot active" id="dot1">1</div>
+        <div class="step-label active" id="lbl1">Mascota</div>
+      </div>
+      <div class="step-line" id="line1"></div>
+      <div class="step">
+        <div class="step-dot" id="dot2">2</div>
+        <div class="step-label" id="lbl2">Salud</div>
+      </div>
+      <div class="step-line" id="line2"></div>
+      <div class="step">
+        <div class="step-dot" id="dot3">3</div>
+        <div class="step-label" id="lbl3">Dueño</div>
+      </div>
+    </div>
+
+    <!-- PASO 1: MASCOTA -->
+    <div class="section-page active" id="page1">
+      <div class="photo-upload">
+        <div class="photo-circle" onclick="document.getElementById('photo-input').click()" id="photoCircle">
+          <div class="ph-placeholder" id="phPlaceholder">
+            <div class="ph-icon">📸</div>
+            <div class="ph-label">Foto</div>
+          </div>
+        </div>
+        <div class="photo-tip">Toca para subir una foto de tu mascota</div>
+        <input type="file" id="photo-input" accept="image/*" onchange="previewPhoto(this)">
+      </div>
+      <div class="field">
+        <label>Nombre de la mascota *</label>
+        <input type="text" id="petName" placeholder="Ej: Ibiza, Max, Luna…" maxlength="50">
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label>Especie *</label>
+          <select id="petSpecies">
+            <option value="">Seleccionar</option>
+            <option value="Perro">🐶 Perro</option>
+            <option value="Gato">🐱 Gato</option>
+            <option value="Conejo">🐰 Conejo</option>
+            <option value="Ave">🦜 Ave</option>
+            <option value="Otro">Otro</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Raza</label>
+          <input type="text" id="petBreed" placeholder="Ej: Criolla">
+        </div>
+      </div>
+      <div class="field">
+        <label>Sexo *</label>
+        <div class="sex-toggle">
+          <button class="sex-btn" onclick="setSex('Macho',this)">♂ Macho</button>
+          <button class="sex-btn" onclick="setSex('Hembra',this)">♀ Hembra</button>
+        </div>
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label>Fecha de nacimiento</label>
+          <input type="date" id="petBirth">
+        </div>
+        <div class="field">
+          <label>Peso (kg)</label>
+          <input type="number" id="petWeight" placeholder="Ej: 8.5" step="0.1" min="0" max="200">
+        </div>
+      </div>
+      <button class="btn-primary" onclick="goStep(2)">Continuar →</button>
+    </div>
+
+    <!-- PASO 2: SALUD -->
+    <div class="section-page" id="page2">
+      <div class="sec-label">💉 Vacunas</div>
+      <div class="vac-list" id="vacList"></div>
+      <button class="add-vac" onclick="addVaccine()">+ Agregar vacuna</button>
+      <div class="sec-label" style="margin-top:4px;">🐛 Desparasitación</div>
+      <div class="field">
+        <label>Última desparasitación</label>
+        <input type="month" id="lastDeworming">
+      </div>
+      <div class="sec-label" style="margin-top:4px;">⚠️ Alergias</div>
+      <div class="field">
+        <textarea id="petAllergies" placeholder="Ej: Pollo, antiinflamatorios… (vacío si no tiene)"></textarea>
+      </div>
+      <div class="sec-label" style="margin-top:4px;">🏥 Veterinario</div>
+      <div class="field">
+        <label>Nombre clínica / veterinario</label>
+        <input type="text" id="vetName" placeholder="Ej: Vital Clínica Veterinaria">
+      </div>
+      <div class="field">
+        <label>Teléfono veterinario</label>
+        <input type="tel" id="vetPhone" placeholder="+57 300 000 0000">
+      </div>
+      <div style="display:flex;gap:9px;">
+        <button class="btn-secondary" onclick="goStep(1)" style="width:auto;padding:12px 18px;">← Atrás</button>
+        <button class="btn-primary" onclick="goStep(3)">Continuar →</button>
+      </div>
+    </div>
+
+    <!-- PASO 3: DUEÑO -->
+    <div class="section-page" id="page3">
+      <div class="sec-label">👤 Datos del dueño</div>
+      <div class="field">
+        <label>Tu nombre *</label>
+        <input type="text" id="ownerName" placeholder="Ej: Lina Torres">
+      </div>
+      <div class="field">
+        <label>Teléfono de contacto *</label>
+        <input type="tel" id="ownerPhone" placeholder="+57 300 000 0000">
+      </div>
+      <div class="field">
+        <label>Ciudad</label>
+        <input type="text" id="ownerCity" placeholder="Ej: Medellín">
+      </div>
+      <div class="field">
+        <label>Email (opcional, no es público)</label>
+        <input type="email" id="ownerEmail" placeholder="tu@correo.com">
+      </div>
+      <div style="background:var(--ml);border-radius:13px;padding:12px;border:1.5px solid rgba(232,160,32,.2);">
+        <p style="font-size:11px;color:var(--mu);font-weight:600;line-height:1.6;">
+          Al escanear el QR se verá: nombre, foto, datos médicos y tu <strong style="color:var(--co);">teléfono</strong>. El email nunca es público.
+        </p>
+      </div>
+      <div style="display:flex;gap:9px;">
+        <button class="btn-secondary" onclick="goStep(2)" style="width:auto;padding:12px 18px;">← Atrás</button>
+        <button class="btn-primary" id="submitBtn" onclick="submitForm()">🐾 Crear pasaporte</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════════
+// SUPABASE — KEY ACTUALIZADA
+// ═══════════════════════════════════════════════
+var SUPABASE_URL = 'https://thvhrpccvwjhtmkbuqag.supabase.co';
+var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRodmhycGNjdndqaHRta2J1cWFnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI2NTk0NTUsImV4cCI6MjA4ODIzNTQ1NX0.zyIIih3XsvdOlJaHYgbxJEFk5Us-cA3VfLRRhYBN9hM';
+
+var currentStep = 1;
+var selectedSex = '';
+var vaccines = [];
+var photoFile = null;
+var createdPetUrl = '';
+
+// ── PASOS ────────────────────────────────────────
+function goStep(step) {
+  if (step > currentStep && !validateStep(currentStep)) return;
+  document.getElementById('page' + currentStep).classList.remove('active');
+  var prevDot = document.getElementById('dot' + currentStep);
+  var prevLbl = document.getElementById('lbl' + currentStep);
+  if (step > currentStep) {
+    prevDot.textContent = '✓';
+    prevDot.classList.remove('active');
+    prevDot.classList.add('done');
+  } else {
+    prevDot.textContent = currentStep;
+    prevDot.classList.remove('done');
+  }
+  prevLbl.classList.remove('active');
+  if (currentStep < 3) {
+    var line = document.getElementById('line' + currentStep);
+    if (step > currentStep) line.classList.add('done');
+    else line.classList.remove('done');
+  }
+  currentStep = step;
+  var nd = document.getElementById('dot' + step);
+  var nl = document.getElementById('lbl' + step);
+  nd.classList.add('active'); nd.classList.remove('done'); nd.textContent = step;
+  nl.classList.add('active');
+  document.getElementById('page' + step).classList.add('active');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function validateStep(step) {
+  if (step === 1) {
+    if (!v('petName')) { toast('⚠️ Escribe el nombre de tu mascota', true); return false; }
+    if (!document.getElementById('petSpecies').value) { toast('⚠️ Selecciona la especie', true); return false; }
+    if (!selectedSex) { toast('⚠️ Selecciona el sexo', true); return false; }
+  }
+  if (step === 3) {
+    if (!v('ownerName')) { toast('⚠️ Escribe tu nombre', true); return false; }
+    if (!v('ownerPhone')) { toast('⚠️ Escribe tu teléfono', true); return false; }
+  }
+  return true;
+}
+
+function v(id) { return document.getElementById(id).value.trim(); }
+
+// ── SEXO ─────────────────────────────────────────
+function setSex(val, btn) {
+  selectedSex = val;
+  document.querySelectorAll('.sex-btn').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+}
+
+// ── FOTO ─────────────────────────────────────────
+function previewPhoto(input) {
+  if (!input.files || !input.files[0]) return;
+  photoFile = input.files[0];
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    document.getElementById('phPlaceholder').style.display = 'none';
+    var c = document.getElementById('photoCircle');
+    var old = c.querySelector('img');
+    if (old) old.remove();
+    var img = document.createElement('img');
+    img.src = e.target.result;
+    c.appendChild(img);
+  };
+  reader.readAsDataURL(photoFile);
+}
+
+// ── VACUNAS ──────────────────────────────────────
+function addVaccine() {
+  var name = prompt('Nombre de la vacuna:');
+  if (!name || !name.trim()) return;
+  vaccines.push(name.trim());
+  renderVaccines();
+}
+function removeVaccine(idx) { vaccines.splice(idx, 1); renderVaccines(); }
+function renderVaccines() {
+  var list = document.getElementById('vacList');
+  list.innerHTML = '';
+  vaccines.forEach(function(vac, i) {
+    var d = document.createElement('div');
+    d.className = 'vac-item';
+    d.innerHTML = '<span class="vac-name">💉 ' + vac + '</span><button class="vac-del" onclick="removeVaccine(' + i + ')">🗑</button>';
+    list.appendChild(d);
+  });
+}
+
+// ── SUBIR FOTO ───────────────────────────────────
+async function uploadPhoto(petId) {
+  if (!photoFile) return null;
+  try {
+    var ext = photoFile.name.split('.').pop();
+    var filename = petId + '.' + ext;
+    var res = await fetch(SUPABASE_URL + '/storage/v1/object/pet-photos/' + filename, {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer ' + SUPABASE_KEY,
+        'Content-Type': photoFile.type,
+        'x-upsert': 'true'
+      },
+      body: photoFile
+    });
+    if (!res.ok) throw new Error('storage');
+    return SUPABASE_URL + '/storage/v1/object/public/pet-photos/' + filename;
+  } catch(e) {
+    console.warn('Foto no subida:', e);
+    return null;
+  }
+}
+
+// ── GUARDAR EN SUPABASE ──────────────────────────
+async function submitForm() {
+  if (!validateStep(3)) return;
+  document.getElementById('submitBtn').disabled = true;
+  document.getElementById('loadingOv').classList.add('show');
+
+  try {
+    var petId = 'pet_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
+    var photoUrl = await uploadPhoto(petId);
+
+    // Calcular edad desde fecha de nacimiento
+    var birthDate = document.getElementById('petBirth').value;
+    var age = null;
+    if (birthDate) {
+      var years = Math.floor((Date.now() - new Date(birthDate).getTime()) / (1000*60*60*24*365.25));
+      age = years > 0 ? years + (years === 1 ? ' año' : ' años') : 'Menos de 1 año';
+    }
+
+    // Alergias: convertir texto a array
+    var allergyText = document.getElementById('petAllergies').value.trim();
+    var allergies = allergyText ? allergyText.split(',').map(function(a){return a.trim();}).filter(Boolean) : [];
+
+    // Vacunas con formato {name, status}
+    var vacData = vaccines.map(function(vac){ return {name: vac, status: 'al_dia'}; });
+
+    var petData = {
+      id: petId,
+      name: v('petName'),
+      species: document.getElementById('petSpecies').value,
+      breed: v('petBreed') || null,
+      sex: selectedSex,
+      birth_date: birthDate || null,
+      age: age,
+      weight: parseFloat(document.getElementById('petWeight').value) || null,
+      photo_url: photoUrl,
+      vaccines: vacData,
+      last_deworming: document.getElementById('lastDeworming').value || null,
+      allergies: allergies,
+      vet_name: v('vetName') || null,
+      vet_phone: v('vetPhone') || null,
+      owner_name: v('ownerName'),
+      emergency_phone: v('ownerPhone'),
+      vet_city: v('ownerCity') || null,
+      owner_email: v('ownerEmail') || null,
+      is_lost: false,
+      created_at: new Date().toISOString()
+    };
+
+    var res = await fetch(SUPABASE_URL + '/rest/v1/pets', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SUPABASE_KEY,
+        'Authorization': 'Bearer ' + SUPABASE_KEY,
+        'Prefer': 'return=representation'
+      },
+      body: JSON.stringify(petData)
+    });
+
+    if (!res.ok) {
+      var err = await res.json();
+      throw new Error(err.message || 'Error al guardar');
+    }
+
+    // ÉXITO
+    createdPetUrl = 'https://mipet-app.github.io/perfil.html?id=' + petId;
+    document.getElementById('loadingOv').classList.remove('show');
+    document.getElementById('formContent').style.display = 'none';
+    var s = document.getElementById('successScreen');
+    s.classList.add('show');
+    document.getElementById('successUrl').textContent = createdPetUrl;
+    document.getElementById('viewBtn').onclick = function(){ window.open(createdPetUrl, '_blank'); };
+
+  } catch(error) {
+    document.getElementById('loadingOv').classList.remove('show');
+    document.getElementById('submitBtn').disabled = false;
+    console.error(error);
+    toast('❌ Error: ' + error.message, true);
+  }
+}
+
+// ── COPIAR ENLACE ────────────────────────────────
+function copyLink() {
+  navigator.clipboard.writeText(createdPetUrl).then(function(){
+    toast('✅ Enlace copiado');
+  }).catch(function(){
+    toast('⚠️ No se pudo copiar', true);
+  });
+}
+
+// ── TOAST ────────────────────────────────────────
+function toast(msg, isError) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast' + (isError ? ' error' : '');
+  t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 3200);
+}
+
+// ── RESET ────────────────────────────────────────
+function resetForm() {
+  document.getElementById('successScreen').classList.remove('show');
+  document.getElementById('formContent').style.display = 'block';
+  document.querySelectorAll('input, select, textarea').forEach(function(el){ el.value = ''; });
+  selectedSex = ''; vaccines = []; photoFile = null; createdPetUrl = '';
+  document.querySelectorAll('.sex-btn').forEach(function(b){ b.classList.remove('active'); });
+  document.getElementById('phPlaceholder').style.display = 'flex';
+  var img = document.querySelector('#photoCircle img');
+  if (img) img.remove();
+  renderVaccines();
+  // Resetear steps
+  currentStep = 2; goStep(1);
+  [1,2,3].forEach(function(i){
+    var d = document.getElementById('dot'+i);
+    d.className = 'step-dot'; d.textContent = i;
+    document.getElementById('lbl'+i).className = 'step-label';
+  });
+  document.getElementById('line1').className = 'step-line';
+  document.getElementById('line2').className = 'step-line';
+  document.getElementById('submitBtn').disabled = false;
+}
+</script>
+</body>
+</html>
