@@ -70,6 +70,22 @@ section{padding:52px 0;}
 .feat p{font-size:13px;color:var(--mut);font-weight:600;line-height:1.6;margin-top:6px;}
 
 .cta-end{text-align:center;}
+/* por qué kolita */
+.why{background:var(--bg);}
+.why-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin-top:34px;}
+.why-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:26px 22px;}
+.why-card .w-emoji{font-size:30px;}
+.why-card h3{font-family:'Fraunces',serif;font-size:17px;margin-top:12px;line-height:1.35;}
+.why-card p{font-size:13px;color:var(--mut);font-weight:600;line-height:1.65;margin-top:8px;}
+.why-card p strong{color:var(--deep);}
+/* FAQ */
+.faq-list{max-width:640px;margin:30px auto 0;display:flex;flex-direction:column;gap:10px;}
+.faq-list details{background:#fff;border:1px solid var(--line);border-radius:16px;padding:0 20px;}
+.faq-list summary{font-size:14px;font-weight:800;padding:17px 0;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px;}
+.faq-list summary::after{content:'+';font-family:'Fraunces',serif;font-size:20px;color:var(--mid);flex-shrink:0;}
+.faq-list details[open] summary::after{content:'–';}
+.faq-list details p{font-size:13px;color:var(--mut);font-weight:600;line-height:1.7;padding-bottom:17px;}
+.faq-list details p a{color:var(--deep);}
 .cta-box{background:var(--deep);border-radius:28px;padding:48px 28px;}
 .cta-box h2{font-family:'Fraunces',serif;font-size:clamp(24px,4vw,32px);color:#fff;font-weight:700;}
 .cta-box p{color:#C9DAC4;font-size:14px;font-weight:600;margin-top:10px;}
@@ -97,7 +113,7 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:8px;}
   <p>Sus vacunas, su historial y tu contacto en un solo enlace con QR. Si se pierde, quien lo encuentre te escribe por WhatsApp en segundos.</p>
   <div class="hero-btns">
     <a class="btn btn-main" href="registro.html">Crear su carnet 🐾</a>
-   <a class="btn btn-ghost" href="perfil.html?id=pet_1783916734681_olda0f">Ver un ejemplo</a>
+    <a class="btn btn-ghost" href="perfil.html?id=pet_1783916734681_olda0f">Ver un ejemplo</a>
   </div>
   <div class="hero-note">Sin descargar apps · Sin costo · Listo en 2 minutos</div>
 </header>
@@ -117,6 +133,28 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:8px;}
     <div class="d-btn">💬 Escribir por WhatsApp</div>
   </div>
 </div>
+
+<section class="why container" id="porque">
+  <div class="sec-kicker">¿Por qué importa?</div>
+  <h2 class="sec-title">Porque estos momentos llegan sin avisar</h2>
+  <div class="why-grid">
+    <div class="why-card">
+      <div class="w-emoji">🚪</div>
+      <h3>"Se me voló por la puerta"</h3>
+      <p>Un descuido de 3 segundos y tu peludo está solo en una ciudad de millones. Sin identificación, dependés de la suerte y de grupos de Facebook. <strong>Con Kolita, quien lo encuentre escanea su QR y te escribe por WhatsApp al instante.</strong></p>
+    </div>
+    <div class="why-card">
+      <div class="w-emoji">🎆</div>
+      <h3>La pólvora y los sustos</h3>
+      <p>Diciembre es la época en que más peludos se pierden en Antioquia: se asustan, corren y no miran atrás. <strong>El collar con QR es su boleto de regreso a casa, funcione donde funcione el susto.</strong></p>
+    </div>
+    <div class="why-card">
+      <div class="w-emoji">📋</div>
+      <h3>"¿Cuándo fue su última vacuna?"</h3>
+      <p>El carnet de papel vive perdido en un cajón, y en la veterinaria toca responder de memoria. <strong>Con Kolita su historial completo vive en un enlace que nunca se pierde ni se moja.</strong></p>
+    </div>
+  </div>
+</section>
 
 <section class="container" id="como">
   <div class="sec-kicker">Así de simple</div>
@@ -172,6 +210,37 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:8px;}
   </div>
 </section>
 
+<section class="container" id="preguntas">
+  <div class="sec-kicker">Preguntas frecuentes</div>
+  <h2 class="sec-title">Lo que todos preguntan</h2>
+  <div class="faq-list">
+    <details>
+      <summary>¿De verdad es gratis? ¿Dónde está la trampa?</summary>
+      <p>Sí, crear el carnet es 100% gratis y lo seguirá siendo. No hay trampa: más adelante ofreceremos funciones adicionales opcionales de pago (como recordatorios automáticos de vacunas), pero el carnet básico con QR y contacto de emergencia es gratis para siempre.</p>
+    </details>
+    <details>
+      <summary>¿Tengo que descargar una app?</summary>
+      <p>No. Kolita funciona en el navegador de cualquier celular. Ni vos ni la persona que encuentre a tu peludo necesitan instalar nada — con escanear el QR desde la cámara es suficiente.</p>
+    </details>
+    <details>
+      <summary>¿Cómo pongo el QR en el collar?</summary>
+      <p>Al crear el carnet recibís su enlace único. Podés generar el QR e imprimirlo para llevarlo a grabar en una placa metálica (cualquier taller de grabado o veterinaria lo hace), o pedirla en tiendas de placas con tu código. Mientras tanto, guardá el enlace: también sirve compartido por WhatsApp.</p>
+    </details>
+    <details>
+      <summary>¿Quién puede ver mis datos?</summary>
+      <p>El carnet muestra los datos de tu peludo, tu nombre y tu celular parcialmente oculto (ej: 312 *** 45) — nunca tu número completo. Nadie puede modificar ni borrar la información desde la página. Todos los detalles están en nuestra <a href="privacidad.html">Política de Privacidad</a>.</p>
+    </details>
+    <details>
+      <summary>¿Sirve para gatos y otros peludos?</summary>
+      <p>¡Claro! Perros, gatos, conejos, aves y cualquier compañero de casa. Los gatos exploradores son, de hecho, los que más lo necesitan.</p>
+    </details>
+    <details>
+      <summary>¿Qué pasa si mi peludo se pierde?</summary>
+      <p>Quien lo encuentre escanea el QR de su collar, ve su carnet y te contacta por WhatsApp o llamada con un solo toque. Además el carnet registra la zona aproximada donde fue escaneado, una pista valiosa para la búsqueda.</p>
+    </details>
+  </div>
+</section>
+
 <section class="container cta-end">
   <div class="cta-box">
     <h2>Su carnet lo protege.<br>Crearlo toma 2 minutos.</h2>
@@ -185,7 +254,7 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:8px;}
     <svg class="brand-k" style="width:26px;height:26px;" viewBox="0 0 92 92"><rect x="2" y="2" width="88" height="88" rx="24" fill="#7C9877"/><path d="M32 24 L32 68" stroke="#FBFCFA" stroke-width="9" stroke-linecap="round"/><path d="M34 48 C 48 46, 58 36, 56 24" fill="none" stroke="#FBFCFA" stroke-width="9" stroke-linecap="round"/><path d="M34 48 C 48 52, 58 60, 62 70" fill="none" stroke="#DCE8D8" stroke-width="9" stroke-linecap="round"/></svg>
     <span class="brand-name" style="font-size:16px;">kolita</span>
   </div>
-  <p>El carnet digital de tu peludo · Medellín, Colombia 🇨🇴</p>
+  <p>El carnet digital de tu peludo · Medellín, Colombia 🇨🇴 · <a href="privacidad.html" style="color:var(--mut);">Política de Privacidad</a></p>
 </footer>
 
 </body>
