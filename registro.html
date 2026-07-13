@@ -203,6 +203,11 @@ input:focus,select:focus,textarea:focus{border-color:var(--mid);}
       <label>Tu correo (opcional)</label>
       <input type="email" id="ownerEmail" placeholder="Para recordatorios de vacunas">
 
+      <label style="display:flex;align-items:flex-start;gap:10px;margin-top:20px;text-transform:none;letter-spacing:0;font-size:12px;font-weight:600;color:var(--ink);cursor:pointer;">
+        <input type="checkbox" id="acceptData" style="width:18px;height:18px;margin-top:1px;flex:none;">
+        <span>Autorizo el tratamiento de mis datos personales conforme a la <a href="privacidad.html" target="_blank" style="color:var(--deep);font-weight:800;">Política de Privacidad</a> de Kolita (Ley 1581 de 2012) *</span>
+      </label>
+
       <div class="nav">
         <button class="btn btn-back" onclick="goStep(2)">← Atrás</button>
         <button class="btn btn-next" id="submitBtn" onclick="submitForm()">Crear carnet 🐾</button>
@@ -233,7 +238,14 @@ input:focus,select:focus,textarea:focus{border-color:var(--mid);}
 // KOLITA · REGISTRO — misma lógica probada, nueva piel
 // ═══════════════════════════════════════════════
 var SUPABASE_URL = 'https://fdwbstqxqdailyeedmuo.supabase.co';
-var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZkd2JzdHF4cWRhaWx5ZWVkbXVvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM5MDEwMDEsImV4cCI6MjA5OTQ3NzAwMX0.GG6O9z1Exu5z0DsM8Fzk-fx1h2BIII0I9flMVZiPwIw';
+var SUPABASE_KEY = 'PEGA_AQUI_TU_LLAVE_ANON_NUEVA';
+// ⚠️ LINA: reemplazá el texto de arriba (entre las comillas) por tu
+// anon key nueva de Supabase → Settings → API Keys → Legacy → anon public
+if (SUPABASE_KEY.indexOf('PEGA_AQUI') === 0) {
+  window.addEventListener('load', function(){
+    toast('⚠️ Falta pegar la llave de Supabase en el código', true);
+  });
+}
 
 var currentStep = 1;
 var selectedSex = '';
@@ -279,6 +291,7 @@ function validateStep(step) {
   if (step === 3) {
     if (!v('ownerName')) { toast('⚠️ Escribí tu nombre', true); return false; }
     if (!v('ownerPhone')) { toast('⚠️ Escribí tu celular', true); return false; }
+    if (!document.getElementById('acceptData').checked) { toast('⚠️ Debés autorizar el tratamiento de datos', true); return false; }
   }
   return true;
 }
