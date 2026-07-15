@@ -6,7 +6,7 @@
 <title>Kolita — El carnet digital de tu peludo</title>
 <meta name="description" content="Carnet digital gratis para perros y gatos. Vacunas al día, modo perdido con un clic y contacto inmediato por QR. Hecho en Colombia 🐾">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Quicksand:wght@600;700&family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-<style>
+<style> .nav-link{margin-left:auto;font-size:13px;font-weight:800;color:var(--deep);text-decoration:none;margin-right:14px;}
 :root{
   --bg:#FBFCFA; --soft:#EDF2EA; --mid:#7C9877; --deep:#556F51; --ink:#3C4A3A; --mut:#93A28F;
   --line:#E4EAE1; --alert:#C87B5B;
@@ -21,7 +21,7 @@ nav{position:sticky;top:0;background:rgba(251,252,250,.92);backdrop-filter:blur(
 .nav-in{display:flex;align-items:center;gap:9px;padding:13px 0;}
 .brand-k{width:34px;height:34px;flex-shrink:0;}
 .brand-name{font-family:'Quicksand',sans-serif;font-weight:700;font-size:20px;}
-.nav-cta{margin-left:auto;background:var(--mid);color:#fff;text-decoration:none;font-size:13px;font-weight:800;padding:10px 18px;border-radius:12px;transition:.2s;}
+.nav-cta{background:var(--mid);color:#fff;text-decoration:none;font-size:13px;font-weight:800;padding:10px 18px;border-radius:12px;transition:.2s;}
 .nav-cta:hover{background:var(--deep);}
 
 /* hero */
@@ -99,11 +99,12 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:8px;}
 </head>
 <body>
 
-<nav>
+<nav> 
   <div class="container nav-in">
     <svg class="brand-k" viewBox="0 0 92 92"><rect x="2" y="2" width="88" height="88" rx="24" fill="#7C9877"/><path d="M32 24 L32 68" stroke="#FBFCFA" stroke-width="9" stroke-linecap="round"/><path d="M34 48 C 48 46, 58 36, 56 24" fill="none" stroke="#FBFCFA" stroke-width="9" stroke-linecap="round"/><path d="M34 48 C 48 52, 58 60, 62 70" fill="none" stroke="#DCE8D8" stroke-width="9" stroke-linecap="round"/></svg>
     <span class="brand-name">kolita</span>
-    <a class="nav-cta" href="registro.html">Crear carnet gratis</a>
+    <a href="mis-carnets.html" class="nav-link">Mis carnets</a>
+      <a class="nav-cta" href="registro.html">Crear carnet gratis</a>
   </div>
 </nav>
 
