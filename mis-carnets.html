@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mis carnets — Kolita</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Quicksand:wght@600;700&family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FBFCFA; --soft:#EDF2EA; --mid:#7C9877; --deep:#556F51; --ink:#3C4A3A; --mut:#93A28F;
+  --line:#E4EAE1; --alert:#C87B5B;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+body{font-family:'Nunito Sans',sans-serif;background:#F1F3EF;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:22px 16px 60px;color:var(--ink);}
+
+.top{max-width:460px;width:100%;display:flex;align-items:center;gap:8px;margin-bottom:18px;}
+.brand-k{width:32px;height:32px;flex-shrink:0;}
+.brand-name{font-family:'Quicksand',sans-serif;font-weight:700;font-size:18px;}
+.top a{margin-left:auto;font-size:12px;font-weight:800;color:var(--deep);text-decoration:none;}
+
+.wrap{max-width:460px;width:100%;background:var(--bg);border:1px solid var(--line);border-radius:26px;padding:26px 22px;box-shadow:0 14px 40px rgba(70,85,66,.08);}
+h1{font-family:'Fraunces',serif;font-size:23px;font-weight:700;}
+.sub{font-size:13px;color:var(--mut);margin-top:6px;line-height:1.55;}
+
+label{display:block;font-size:11px;font-weight:800;color:var(--deep);text-transform:uppercase;letter-spacing:.8px;margin:20px 0 6px;}
+input{width:100%;padding:14px;border:1.5px solid var(--line);border-radius:13px;background:#fff;font-family:'Nunito Sans',sans-serif;font-size:15px;color:var(--ink);outline:none;transition:.2s;}
+input:focus{border-color:var(--mid);}
+::placeholder{color:#C3CCC0;}
+.btn{width:100%;padding:15px;border:none;border-radius:14px;font-family:'Nunito Sans',sans-serif;font-size:14.5px;font-weight:800;cursor:pointer;margin-top:16px;background:var(--mid);color:#fff;transition:.2s;}
+.btn:hover{background:var(--deep);}
+.btn:disabled{opacity:.55;cursor:default;}
+
+.spinner{width:34px;height:34px;border:4px solid var(--soft);border-top-color:var(--mid);border-radius:50%;animation:spin .8s linear infinite;margin:24px auto;display:none;}
+.spinner.show{display:block;}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.msg{display:none;text-align:center;padding:24px 10px;font-size:13.5px;color:var(--mut);line-height:1.6;}
+.msg.show{display:block;}
+.msg a{color:var(--deep);font-weight:800;}
+
+.results{margin-top:22px;display:none;flex-direction:column;gap:14px;}
+.results.show{display:flex;}
+.results-title{font-size:11px;font-weight:800;color:var(--mut);text-transform:uppercase;letter-spacing:1.5px;}
+
+.pet{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px;display:flex;gap:14px;align-items:center;}
+.pet-photo{width:60px;height:60px;border-radius:15px;object-fit:cover;background:var(--soft);flex-shrink:0;}
+.pet-photo-ph{width:60px;height:60px;border-radius:15px;background:var(--soft);display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;}
+.pet-info{flex:1;min-width:0;}
+.pet-name{font-family:'Fraunces',serif;font-size:19px;font-weight:700;line-height:1.1;}
+.pet-breed{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:2px;}
+.pet-actions{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap;}
+.chip{font-size:11px;font-weight:800;padding:7px 12px;border-radius:20px;text-decoration:none;display:inline-flex;align-items:center;gap:4px;cursor:pointer;border:none;font-family:'Nunito Sans',sans-serif;}
+.chip-view{background:var(--soft);color:var(--deep);}
+.chip-qr{background:var(--mid);color:#fff;}
+.chip-copy{background:#fff;border:1.5px solid var(--line);color:var(--mut);}
+
+/* modal QR */
+.modal{position:fixed;inset:0;background:rgba(60,74,58,.6);display:none;align-items:center;justify-content:center;z-index:50;padding:20px;}
+.modal.show{display:flex;}
+.modal-box{background:var(--bg);border-radius:22px;padding:26px;max-width:320px;width:100%;text-align:center;}
+.modal-box h3{font-family:'Fraunces',serif;font-size:19px;margin-bottom:4px;}
+.modal-box p{font-size:12px;color:var(--mut);margin-bottom:16px;}
+.modal-box img{width:200px;height:200px;border:1px solid var(--line);border-radius:14px;padding:8px;background:#fff;}
+.modal-btns{display:flex;flex-direction:column;gap:8px;margin-top:16px;}
+.modal-btns a,.modal-btns button{padding:12px;border-radius:12px;font-size:13px;font-weight:800;text-decoration:none;border:none;cursor:pointer;font-family:'Nunito Sans',sans-serif;}
+.dl{background:var(--mid);color:#fff;}
+.close{background:#fff;border:1.5px solid var(--line);color:var(--mut);}
+
+.toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--deep);color:#fff;padding:12px 22px;border-radius:14px;font-size:13px;font-weight:700;opacity:0;transition:.3s;z-index:60;}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <svg class="brand-k" viewBox="0 0 92 92"><rect x="2" y="2" width="88" height="88" rx="24" fill="#7C9877"/><path d="M32 24 L32 68" stroke="#FBFCFA" stroke-width="9" stroke-linecap="round"/><path d="M34 48 C 48 46, 58 36, 56 24" fill="none" stroke="#FBFCFA" stroke-width="9" stroke-linecap="round"/><path d="M34 48 C 48 52, 58 60, 62 70" fill="none" stroke="#DCE8D8" stroke-width="9" stroke-linecap="round"/></svg>
+  <span class="brand-name">kolita</span>
+  <a href="index.html">← Inicio</a>
+</div>
+
+<div class="wrap">
+  <h1>🔎 Recuperá tus carnets</h1>
+  <p class="sub">¿Perdiste el enlace o el QR de tu peludo? Escribí el correo con el que registraste sus carnets y te los mostramos todos aquí.</p>
+
+  <div id="searchForm">
+    <label>Tu correo electrónico</label>
+    <input type="email" id="email" placeholder="Ej: tucorreo@gmail.com" onkeydown="if(event.key==='Enter')buscar()">
+    <button class="btn" id="searchBtn" onclick="buscar()">Buscar mis carnets 🐾</button>
+  </div>
+
+  <div class="spinner" id="spinner"></div>
+
+  <div class="msg" id="msgEmpty">
+    😿 No encontramos carnets con ese correo.<br>
+    Revisá que esté bien escrito, o <a href="registro.html">creá el carnet de tu peludo</a>.
+  </div>
+
+  <div class="msg" id="msgError">
+    ⚠️ No pudimos conectar en este momento.<br>Revisá tu internet e intentá de nuevo.
+  </div>
+
+  <div class="results" id="results">
+    <div class="results-title" id="resultsTitle"></div>
+    <div id="petList"></div>
+  </div>
+</div>
+
+<!-- Modal QR -->
+<div class="modal" id="qrModal">
+  <div class="modal-box">
+    <h3 id="qrPetName">—</h3>
+    <p>Escaneá o descargá este código para el collar</p>
+    <img id="qrImage" src="" alt="Código QR">
+    <div class="modal-btns">
+      <a class="dl" id="qrDownload" href="#" download>⬇️ Descargar QR</a>
+      <button class="close" onclick="closeModal()">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════════
+// KOLITA · MIS CARNETS — recuperar por correo
+// ═══════════════════════════════════════════════
+var SUPABASE_URL = 'https://fdwbstqxqdailyeedmuo.supabase.co';
+var SUPABASE_KEY = 'PEGA_AQUI_TU_LLAVE_ANON_NUEVA';
+// ⚠️ LINA: reemplazá el texto de arriba (entre comillas) por tu
+// anon key nueva → Supabase → Settings → API Keys → Legacy → anon public
+
+var SPECIES_EMOJI = { perro:'🐶', gato:'🐱', conejo:'🐰', ave:'🐦', otro:'🐾' };
+var BASE_PERFIL = 'https://mipet-app.github.io/perfil.html?id=';
+
+function qs(id){ return document.getElementById(id); }
+
+async function buscar(){
+  var email = qs('email').value.trim().toLowerCase();
+  if(!email || email.indexOf('@') === -1){ toast('⚠️ Escribí un correo válido'); return; }
+
+  // reset
+  qs('results').classList.remove('show');
+  qs('msgEmpty').classList.remove('show');
+  qs('msgError').classList.remove('show');
+  qs('searchBtn').disabled = true;
+  qs('spinner').classList.add('show');
+
+  try{
+    var res = await fetch(SUPABASE_URL + '/rest/v1/pets?owner_email=eq.' + encodeURIComponent(email) + '&select=*&order=created_at.asc', {
+      headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
+    });
+    if(!res.ok) throw new Error('net');
+    var pets = await res.json();
+    qs('spinner').classList.remove('show');
+    qs('searchBtn').disabled = false;
+
+    if(!pets || pets.length === 0){
+      qs('msgEmpty').classList.add('show');
+      return;
+    }
+    renderPets(pets);
+  }catch(e){
+    console.error(e);
+    qs('spinner').classList.remove('show');
+    qs('searchBtn').disabled = false;
+    qs('msgError').classList.add('show');
+  }
+}
+
+function renderPets(pets){
+  var list = qs('petList');
+  list.innerHTML = '';
+  qs('resultsTitle').textContent = pets.length === 1 ? '1 carnet encontrado' : pets.length + ' carnets encontrados';
+
+  pets.forEach(function(p){
+    var url = BASE_PERFIL + p.id;
+    var emoji = SPECIES_EMOJI[(p.species||'').toLowerCase()] || '🐾';
+    var breed = [p.breed, p.sex === 'macho' ? 'Macho' : (p.sex === 'hembra' ? 'Hembra' : '')].filter(Boolean).join(' · ') || (p.species||'');
+
+    var card = document.createElement('div');
+    card.className = 'pet';
+
+    var photoHtml = p.photo_url
+      ? '<img class="pet-photo" src="' + p.photo_url + '" alt="">'
+      : '<div class="pet-photo-ph">' + emoji + '</div>';
+
+    card.innerHTML =
+      photoHtml +
+      '<div class="pet-info">' +
+        '<div class="pet-name">' + escapeHtml(p.name || 'Sin nombre') + '</div>' +
+        '<div class="pet-breed">' + escapeHtml(breed) + '</div>' +
+        '<div class="pet-actions">' +
+          '<a class="chip chip-view" href="' + url + '" target="_blank">👁️ Ver</a>' +
+          '<button class="chip chip-qr" onclick="showQR(\'' + p.id + '\',\'' + escapeAttr(p.name||'peludo') + '\')">📱 Ver QR</button>' +
+          '<button class="chip chip-copy" onclick="copyLink(\'' + url + '\')">🔗 Copiar enlace</button>' +
+        '</div>' +
+      '</div>';
+    list.appendChild(card);
+  });
+
+  qs('results').classList.add('show');
+}
+
+// ── Modal QR ──
+function showQR(petId, petName){
+  var url = BASE_PERFIL + petId;
+  var qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=' + encodeURIComponent(url) + '&color=556F51&bgcolor=FFFFFF';
+  qs('qrPetName').textContent = petName;
+  qs('qrImage').src = qrUrl;
+  qs('qrDownload').href = qrUrl + '&download=1';
+  qs('qrDownload').setAttribute('download', 'QR-' + petName + '.png');
+  qs('qrModal').classList.add('show');
+}
+function closeModal(){ qs('qrModal').classList.remove('show'); }
+qs('qrModal').addEventListener('click', function(e){ if(e.target === this) closeModal(); });
+
+// ── Copiar ──
+function copyLink(url){
+  navigator.clipboard.writeText(url).then(function(){ toast('✅ Enlace copiado'); })
+  .catch(function(){ toast('⚠️ No se pudo copiar'); });
+}
+
+// ── Utilidades ──
+function toast(msg){
+  var t = qs('toast'); t.textContent = msg; t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 3000);
+}
+function escapeHtml(s){ var d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+function escapeAttr(s){ return String(s).replace(/'/g,"\\'").replace(/"/g,'&quot;'); }
+</script>
+</body>
+</html>
