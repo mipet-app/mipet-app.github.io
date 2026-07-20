@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Editar carnet — Kolita</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Quicksand:wght@600;700&family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FBFCFA; --soft:#EDF2EA; --mid:#7C9877; --deep:#556F51; --ink:#3C4A3A; --mut:#93A28F;
+  --line:#E4EAE1; --alert:#C87B5B;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+body{font-family:'Nunito Sans',sans-serif;background:#F1F3EF;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:22px 16px 60px;color:var(--ink);}
+.top{max-width:460px;width:100%;display:flex;align-items:center;gap:8px;margin-bottom:18px;}
+.brand-k{width:32px;height:32px;flex-shrink:0;}
+.brand-name{font-family:'Quicksand',sans-serif;font-weight:700;font-size:18px;}
+.top a{margin-left:auto;font-size:12px;font-weight:800;color:var(--deep);text-decoration:none;}
+.wrap{max-width:460px;width:100%;background:var(--bg);border:1px solid var(--line);border-radius:26px;padding:26px 22px;box-shadow:0 14px 40px rgba(70,85,66,.08);}
+h1{font-family:'Fraunces',serif;font-size:22px;font-weight:700;}
+.sub{font-size:12.5px;color:var(--mut);margin-top:5px;line-height:1.55;}
+label{display:block;font-size:11px;font-weight:800;color:var(--deep);text-transform:uppercase;letter-spacing:.8px;margin:16px 0 6px;}
+input,select,textarea{width:100%;padding:13px 14px;border:1.5px solid var(--line);border-radius:13px;background:#fff;font-family:'Nunito Sans',sans-serif;font-size:14px;color:var(--ink);outline:none;transition:.2s;}
+input:focus,select:focus,textarea:focus{border-color:var(--mid);}
+::placeholder{color:#C3CCC0;}
+.sex-row{display:flex;gap:8px;}
+.sex-btn{flex:1;padding:12px;border:1.5px solid var(--line);border-radius:13px;background:#fff;font-family:'Nunito Sans',sans-serif;font-size:13px;font-weight:700;color:var(--mut);cursor:pointer;transition:.2s;}
+.sex-btn.active{border-color:var(--mid);background:var(--soft);color:var(--deep);}
+.photo-wrap{display:flex;justify-content:center;margin-top:8px;}
+#photoCircle{width:100px;height:100px;border-radius:26px;background:var(--soft);border:2px dashed var(--mid);display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;position:relative;}
+#photoCircle img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;}
+#phPlaceholder{font-size:22px;text-align:center;}
+.photo-hint{text-align:center;font-size:11px;color:var(--mut);font-weight:700;margin-top:6px;}
+.vac-item{display:flex;align-items:center;justify-content:space-between;padding:10px 13px;background:#fff;border:1px solid var(--line);border-radius:12px;margin-bottom:6px;font-size:13px;font-weight:600;}
+.vac-del{background:none;border:none;cursor:pointer;font-size:14px;opacity:.55;}
+.vac-add-row{display:flex;gap:8px;margin-top:6px;}
+.vac-add-row input{flex:1;}
+.vac-add-btn{padding:0 18px;background:var(--soft);border:1.5px solid var(--mid);border-radius:13px;color:var(--deep);font-weight:800;font-size:13px;cursor:pointer;font-family:'Nunito Sans',sans-serif;}
+/* modo perdido */
+.lost-box{display:flex;align-items:center;justify-content:space-between;gap:12px;background:#FDF7F3;border:1.5px solid #EAD4C9;border-radius:15px;padding:14px 16px;margin-top:20px;}
+.lost-box .lb-title{font-size:13.5px;font-weight:800;color:var(--alert);}
+.lost-box .lb-sub{font-size:11px;color:#B08A75;font-weight:600;margin-top:2px;line-height:1.4;}
+.switch{position:relative;width:52px;height:30px;flex-shrink:0;}
+.switch input{opacity:0;width:0;height:0;}
+.slider{position:absolute;inset:0;background:#E8DCD4;border-radius:30px;cursor:pointer;transition:.25s;}
+.slider:before{content:'';position:absolute;width:24px;height:24px;border-radius:50%;background:#fff;top:3px;left:3px;transition:.25s;box-shadow:0 1px 4px rgba(0,0,0,.2);}
+.switch input:checked + .slider{background:var(--alert);}
+.switch input:checked + .slider:before{transform:translateX(22px);}
+.btn{width:100%;padding:15px;border:none;border-radius:14px;font-family:'Nunito Sans',sans-serif;font-size:14.5px;font-weight:800;cursor:pointer;margin-top:22px;background:var(--mid);color:#fff;transition:.2s;}
+.btn:hover{background:var(--deep);}
+.btn:disabled{opacity:.55;cursor:default;}
+.state{text-align:center;padding:40px 10px;display:none;}
+.state.show{display:block;}
+.spinner{width:38px;height:38px;border:4px solid var(--soft);border-top-color:var(--mid);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 14px;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.state p{font-size:13px;color:var(--mut);line-height:1.6;}
+.state a{color:var(--deep);font-weight:800;}
+.toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--deep);color:#fff;padding:12px 22px;border-radius:14px;font-size:13px;font-weight:700;opacity:0;transition:.3s;z-index:60;white-space:nowrap;}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
+.toast.error{background:var(--alert);}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <svg class="brand-k" viewBox="0 0 92 92"><rect x="2" y="2" width="88" height="88" rx="24" fill="#7C9877"/><path d="M32 24 L32 68" stroke="#FBFCFA" stroke-width="9" stroke-linecap="round"/><path d="M34 48 C 48 46, 58 36, 56 24" fill="none" stroke="#FBFCFA" stroke-width="9" stroke-linecap="round"/><path d="M34 48 C 48 52, 58 60, 62 70" fill="none" stroke="#DCE8D8" stroke-width="9" stroke-linecap="round"/></svg>
+  <span class="brand-name">kolita</span>
+  <a href="mis-carnets.html">← Mis carnets</a>
+</div>
+
+<div class="wrap">
+  <!-- cargando -->
+  <div class="state show" id="loading"><div class="spinner"></div><p>Cargando el carnet…</p></div>
+
+  <!-- error -->
+  <div class="state" id="errorState">
+    <div style="font-size:38px;">🐾</div>
+    <p style="margin-top:10px;">No encontramos este carnet.<br>¿Perdiste el enlace? Recuperalo en <a href="mis-carnets.html">Mis carnets</a>.</p>
+  </div>
+
+  <!-- formulario -->
+  <div id="form" style="display:none;">
+    <h1>✏️ Editar carnet</h1>
+    <p class="sub">Corregí o actualizá los datos de tu peludo. Los cambios se guardan al instante.</p>
+
+    <div class="photo-wrap" style="margin-top:16px;">
+      <div id="photoCircle" onclick="document.getElementById('photoInput').click()">
+        <div id="phPlaceholder">📸</div>
+      </div>
+      <input type="file" id="photoInput" accept="image/*" style="display:none;" onchange="previewPhoto(this)">
+    </div>
+    <div class="photo-hint">Tocá la foto para cambiarla</div>
+
+    <label>Nombre *</label>
+    <input type="text" id="petName" maxlength="40">
+
+    <label>Especie *</label>
+    <select id="petSpecies">
+      <option value="perro">🐶 Perro</option>
+      <option value="gato">🐱 Gato</option>
+      <option value="conejo">🐰 Conejo</option>
+      <option value="ave">🐦 Ave</option>
+      <option value="otro">🐾 Otro</option>
+    </select>
+
+    <label>Raza</label>
+    <input type="text" id="petBreed" maxlength="40">
+
+    <label>Sexo *</label>
+    <div class="sex-row">
+      <button type="button" class="sex-btn" id="sexM" onclick="setSex('macho', this)">♂ Macho</button>
+      <button type="button" class="sex-btn" id="sexH" onclick="setSex('hembra', this)">♀ Hembra</button>
+    </div>
+
+    <label>Peso (kg)</label>
+    <input type="number" id="petWeight" step="0.1" min="0">
+
+    <label>Vacunas</label>
+    <div id="vacList"></div>
+    <div class="vac-add-row">
+      <input type="text" id="vacInput" placeholder="Ej: Rabia" maxlength="40" onkeydown="if(event.key==='Enter'){event.preventDefault();addVaccine();}">
+      <button type="button" class="vac-add-btn" onclick="addVaccine()">+ Agregar</button>
+    </div>
+
+    <label>Última desparasitación</label>
+    <input type="date" id="lastDeworming">
+
+    <label>Próxima vacuna (para recordatorios)</label>
+    <input type="date" id="nextVaccine">
+
+    <label>Próxima desparasitación (para recordatorios)</label>
+    <input type="date" id="nextDeworming">
+
+    <label>Alergias (separadas por coma)</label>
+    <textarea id="petAllergies" rows="2" placeholder="Ej: Pollo, penicilina"></textarea>
+
+    <label>Veterinario</label>
+    <input type="text" id="vetName" placeholder="Nombre de la veterinaria">
+
+    <label>Teléfono del veterinario</label>
+    <input type="tel" id="vetPhone">
+
+    <label>Tu nombre *</label>
+    <input type="text" id="ownerName" maxlength="60">
+
+    <label>Tu celular (WhatsApp) *</label>
+    <input type="tel" id="ownerPhone">
+
+    <label>Ciudad</label>
+    <input type="text" id="ownerCity">
+
+    <label>Tu correo (para recordatorios y avisos)</label>
+    <input type="email" id="ownerEmail">
+
+    <!-- MODO PERDIDO -->
+    <div class="lost-box">
+      <div>
+        <div class="lb-title">🚨 Modo perdido</div>
+        <div class="lb-sub">Activalo si tu peludo se perdió: su carnet mostrará la alerta a todo el que lo escanee.</div>
+      </div>
+      <label class="switch">
+        <input type="checkbox" id="isLost">
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <button class="btn" id="saveBtn" onclick="guardar()">Guardar cambios 💚</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════════
+// KOLITA · EDITAR CARNET
+// ═══════════════════════════════════════════════
+var SUPABASE_URL = 'https://fdwbstqxqdailyeedmuo.supabase.co';
+var SUPABASE_KEY = 'PEGA_AQUI_TU_LLAVE_ANON';
+
+var petId = new URLSearchParams(location.search).get('id');
+var selectedSex = '';
+var vaccines = [];
+var photoFile = null;
+var currentPhotoUrl = null;
+
+function qs(id){ return document.getElementById(id); }
+
+// ── Cargar datos actuales ────────────────────────
+async function cargar(){
+  if(!petId){ return showError(); }
+  try{
+    var res = await fetch(SUPABASE_URL + '/rest/v1/pets?id=eq.' + encodeURIComponent(petId) + '&select=*', {
+      headers:{ 'apikey':SUPABASE_KEY, 'Authorization':'Bearer '+SUPABASE_KEY }
+    });
+    var rows = await res.json();
+    if(!rows || rows.length===0) return showError();
+    llenar(rows[0]);
+  }catch(e){ console.error(e); showError(); }
+}
+
+function showError(){
+  qs('loading').classList.remove('show');
+  qs('errorState').classList.add('show');
+}
+
+function llenar(p){
+  qs('petName').value = p.name || '';
+  qs('petSpecies').value = p.species || 'perro';
+  qs('petBreed').value = p.breed || '';
+  if(p.sex === 'macho') setSex('macho', qs('sexM'));
+  if(p.sex === 'hembra') setSex('hembra', qs('sexH'));
+  qs('petWeight').value = p.weight || '';
+  vaccines = Array.isArray(p.vaccines) ? p.vaccines.map(function(v){ return (typeof v==='string') ? v : (v.name||''); }).filter(Boolean) : [];
+  renderVaccines();
+  qs('lastDeworming').value = p.last_deworming || '';
+  qs('nextVaccine').value = p.next_vaccine_date || '';
+  qs('nextDeworming').value = p.next_deworming_date || '';
+  qs('petAllergies').value = Array.isArray(p.allergies) ? p.allergies.join(', ') : '';
+  qs('vetName').value = p.vet_name || '';
+  qs('vetPhone').value = p.vet_phone || '';
+  qs('ownerName').value = p.owner_name || '';
+  qs('ownerPhone').value = p.emergency_phone || '';
+  qs('ownerCity').value = p.vet_city || '';
+  qs('ownerEmail').value = p.owner_email || '';
+  qs('isLost').checked = p.is_lost === true;
+  currentPhotoUrl = p.photo_url || null;
+  if(currentPhotoUrl){
+    qs('phPlaceholder').style.display='none';
+    var img = document.createElement('img'); img.src = currentPhotoUrl;
+    qs('photoCircle').appendChild(img);
+  }
+  document.title = 'Editar a ' + (p.name||'peludo') + ' — Kolita';
+  qs('loading').classList.remove('show');
+  qs('form').style.display = 'block';
+}
+
+// ── Sexo / foto / vacunas ────────────────────────
+function setSex(val, btn){
+  selectedSex = val;
+  document.querySelectorAll('.sex-btn').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+}
+function previewPhoto(input){
+  if(!input.files || !input.files[0]) return;
+  photoFile = input.files[0];
+  var reader = new FileReader();
+  reader.onload = function(e){
+    qs('phPlaceholder').style.display='none';
+    var old = qs('photoCircle').querySelector('img'); if(old) old.remove();
+    var img = document.createElement('img'); img.src = e.target.result;
+    qs('photoCircle').appendChild(img);
+  };
+  reader.readAsDataURL(photoFile);
+}
+function addVaccine(){
+  var name = qs('vacInput').value.trim();
+  if(!name){ toast('⚠️ Escribí el nombre de la vacuna', true); return; }
+  vaccines.push(name); qs('vacInput').value=''; renderVaccines();
+}
+function removeVaccine(i){ vaccines.splice(i,1); renderVaccines(); }
+function renderVaccines(){
+  var list = qs('vacList'); list.innerHTML='';
+  vaccines.forEach(function(vac,i){
+    var d = document.createElement('div'); d.className='vac-item';
+    var s = document.createElement('span'); s.textContent = '💉 ' + vac;
+    var b = document.createElement('button'); b.className='vac-del'; b.textContent='🗑';
+    b.onclick = function(){ removeVaccine(i); };
+    d.appendChild(s); d.appendChild(b); list.appendChild(d);
+  });
+}
+
+// ── Guardar ──────────────────────────────────────
+async function guardar(){
+  if(!qs('petName').value.trim()){ toast('⚠️ El nombre es obligatorio', true); return; }
+  if(!qs('ownerName').value.trim() || !qs('ownerPhone').value.trim()){ toast('⚠️ Tu nombre y celular son obligatorios', true); return; }
+  var btn = qs('saveBtn'); btn.disabled = true; btn.textContent = 'Guardando…';
+
+  try{
+    // foto nueva (si cambió)
+    var photoUrl = currentPhotoUrl;
+    if(photoFile){
+      var ext = photoFile.name.split('.').pop();
+      var fname = petId + '_' + Date.now() + '.' + ext;
+      var up = await fetch(SUPABASE_URL + '/storage/v1/object/pet-photos/' + fname, {
+        method:'POST',
+        headers:{ 'Authorization':'Bearer '+SUPABASE_KEY, 'Content-Type': photoFile.type },
+        body: photoFile
+      });
+      if(up.ok) photoUrl = SUPABASE_URL + '/storage/v1/object/public/pet-photos/' + fname;
+    }
+
+    var allergyText = qs('petAllergies').value.trim();
+    var cambios = {
+      name: qs('petName').value.trim(),
+      species: qs('petSpecies').value,
+      breed: qs('petBreed').value.trim() || null,
+      sex: selectedSex || null,
+      weight: parseFloat(qs('petWeight').value) || null,
+      photo_url: photoUrl,
+      vaccines: vaccines.map(function(v){ return {name:v, status:'al_dia'}; }),
+      last_deworming: qs('lastDeworming').value || null,
+      next_vaccine_date: qs('nextVaccine').value || null,
+      next_deworming_date: qs('nextDeworming').value || null,
+      allergies: allergyText ? allergyText.split(',').map(function(a){return a.trim();}).filter(Boolean) : [],
+      vet_name: qs('vetName').value.trim() || null,
+      vet_phone: qs('vetPhone').value.trim() || null,
+      owner_name: qs('ownerName').value.trim(),
+      emergency_phone: qs('ownerPhone').value.trim(),
+      vet_city: qs('ownerCity').value.trim() || null,
+      owner_email: qs('ownerEmail').value.trim() || null,
+      is_lost: qs('isLost').checked
+    };
+
+    var res = await fetch(SUPABASE_URL + '/rest/v1/pets?id=eq.' + encodeURIComponent(petId), {
+      method:'PATCH',
+      headers:{ 'Content-Type':'application/json', 'apikey':SUPABASE_KEY, 'Authorization':'Bearer '+SUPABASE_KEY, 'Prefer':'return=minimal' },
+      body: JSON.stringify(cambios)
+    });
+    if(!res.ok) throw new Error('No se pudo guardar');
+
+    btn.textContent = '✅ ¡Guardado!';
+    toast('💚 Cambios guardados');
+    setTimeout(function(){
+      location.href = 'perfil.html?id=' + encodeURIComponent(petId);
+    }, 1200);
+  }catch(e){
+    console.error(e);
+    btn.disabled = false; btn.textContent = 'Guardar cambios 💚';
+    toast('❌ Error al guardar. Intentá de nuevo', true);
+  }
+}
+
+function toast(msg, isError){
+  var t = qs('toast'); t.textContent = msg;
+  t.className = 'toast' + (isError ? ' error' : '');
+  t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 3000);
+}
+
+cargar();
+</script>
+</body>
+</html>
