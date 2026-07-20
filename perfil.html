@@ -239,7 +239,7 @@ body{font-family:'Nunito Sans',sans-serif;background:#F1F3EF;min-height:100vh;di
     <div class="rep-success" id="repSuccess">
       <div class="big">💚</div>
       <h4>¡Aviso enviado!</h4>
-      <p>La familia recibirá tu mensaje.<br>Si querés, también podés escribirle directamente ahora:</p>
+      <p id="repSuccessMsg">Procesando…</p>
     </div>
   </div>
 </div>
@@ -367,20 +367,17 @@ function renderPet(p){
     }
   }
 
-  // Dueño
+  // Dueño (modo protegido: nunca mostrar el número, ni enmascarado)
   qs('ownerName').textContent = p.owner_name || '—';
   if(p.vet_city){ qs('ownerCity').textContent = '📍 ' + p.vet_city; qs('ownerCity').style.display = 'block'; }
   if(p.emergency_phone){
-    qs('ownerPhoneMasked').textContent = '📱 ' + maskPhone(p.emergency_phone);
-    qs('ownerPhoneMasked').style.display = 'block';
-
     var digits = String(p.emergency_phone).replace(/\D/g,'');
     if(digits.length === 10) digits = '57' + digits; // celular colombiano
     var waText = encodeURIComponent('¡Hola! Encontré a ' + (p.name||'tu peludo') + ' 🐾 Vi su carnet Kolita y quiero ayudarle a volver a casa.');
     qs('waBtn').href = 'https://wa.me/' + digits + '?text=' + waText;
     qs('telBtn').href = 'tel:+' + digits;
-    // 🔒 Los botones directos permanecen ocultos: se revelan
-    // únicamente después de enviar el aviso (contacto seguro)
+    // 🔒 Botones directos: SOLO se usan como plan B si la familia
+    // no tiene correo registrado para recibir el aviso protegido
   }
 
   // QR del propio carnet
@@ -455,14 +452,37 @@ async function submitReport(){
     });
     if(!res.ok) throw new Error('report');
 
-    // éxito: mostrar mensaje y REVELAR el contacto directo
+    // 🔒 FLUJO PROTEGIDO: avisar a la familia por correo (robot #2)
+    var notificado = false;
+    try{
+      var nr = await fetch(SUPABASE_URL + '/functions/v1/nuevo-reporte', {
+        method:'POST',
+        headers:{ 'Content-Type':'application/json', 'Authorization':'Bearer '+SUPABASE_KEY },
+        body: JSON.stringify({
+          pet_id: getPetId(), finder_name: name, finder_phone: phone,
+          message: msg, photo_url: photoUrl, lat: coords.lat, lng: coords.lng
+        })
+      });
+      var nrd = await nr.json();
+      notificado = nrd && nrd.notificado === true;
+    }catch(e){ console.warn('aviso por correo no enviado', e); }
+
     qs('repForm').style.display = 'none';
     qs('repSuccess').classList.add('show');
     qs('reportBtn').style.display = 'none';
-    if(qs('waBtn').href && qs('waBtn').href.indexOf('wa.me') !== -1){
+
+    if(notificado){
+      // La familia fue avisada: el contacto del dueño NUNCA se muestra
+      qs('repSuccessMsg').innerHTML = 'La familia de este peludo ya recibió tu aviso 💚<br>Te contactarán al WhatsApp que dejaste.<br><br>Si podés, quedate cerca del peludo 🙏';
+    } else if(qs('waBtn').href && qs('waBtn').href.indexOf('wa.me') !== -1){
+      // Plan B: la familia no tiene correo registrado → contacto directo
+      qs('repSuccessMsg').innerHTML = 'Tu aviso quedó registrado.<br>Podés escribirle a la familia directamente:';
       qs('waBtn').style.display = 'flex';
       qs('telBtn').style.display = 'flex';
+    } else {
+      qs('repSuccessMsg').innerHTML = 'Tu aviso quedó registrado 💚<br>Kolita hará llegar tu mensaje a la familia.';
     }
+
     setTimeout(function(){
       closeReport();
       window.scrollTo({top: document.body.scrollHeight, behavior:'smooth'});
