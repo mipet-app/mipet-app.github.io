@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kolita — Carnet digital</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Quicksand:wght@600;700&family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FBFCFA; --soft:#EDF2EA; --mid:#7C9877; --deep:#556F51; --ink:#3C4A3A; --mut:#93A28F;
+  --line:#E4EAE1; --alert:#C87B5B;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+body{font-family:'Nunito Sans',sans-serif;background:#F1F3EF;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:22px 16px 50px;color:var(--ink);}
+
+/* ── ESTADOS DE CARGA ── */
+.state{max-width:400px;width:100%;background:var(--bg);border:1px solid var(--line);border-radius:24px;padding:48px 28px;text-align:center;display:none;flex-direction:column;align-items:center;gap:14px;}
+.state.show{display:flex;}
+.spinner{width:42px;height:42px;border:4px solid var(--soft);border-top-color:var(--mid);border-radius:50%;animation:spin .8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.state h2{font-family:'Fraunces',serif;font-size:20px;}
+.state p{font-size:13px;color:var(--mut);line-height:1.6;}
+.state a{color:var(--deep);font-weight:800;}
+
+/* ── CARNET ── */
+.card{max-width:400px;width:100%;background:var(--bg);border:1px solid var(--line);border-radius:26px;overflow:hidden;display:none;flex-direction:column;box-shadow:0 14px 40px rgba(70,85,66,.10);}
+.card.show{display:flex;animation:up .5s ease both;}
+@keyframes up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+/* banner perdido */
+.lost-banner{display:none;background:var(--alert);color:#fff;text-align:center;padding:12px 16px;font-size:13px;font-weight:800;}
+.lost-banner.show{display:block;}
+
+.hdr{padding:20px 22px 0;display:flex;align-items:center;justify-content:space-between;}
+.brand{display:flex;align-items:center;gap:8px;}
+.brand-k{width:34px;height:34px;flex-shrink:0;}
+.brand-name{font-family:'Quicksand',sans-serif;font-weight:700;font-size:19px;color:var(--ink);}
+.brand-tag{font-size:9px;font-weight:800;color:var(--mut);letter-spacing:1.5px;text-transform:uppercase;}
+.badge{font-size:10px;font-weight:800;color:var(--deep);background:var(--soft);border-radius:20px;padding:5px 11px;}
+
+.hero{padding:18px 22px 0;display:flex;gap:14px;align-items:center;}
+.photo{width:92px;height:92px;border-radius:22px;object-fit:cover;background:var(--soft);flex-shrink:0;border:1px solid var(--line);}
+.photo-ph{width:92px;height:92px;border-radius:22px;background:var(--soft);display:flex;align-items:center;justify-content:center;font-size:40px;flex-shrink:0;}
+.pet-name{font-family:'Fraunces',serif;font-size:30px;font-weight:700;line-height:1.05;}
+.pet-breed{font-size:12.5px;color:var(--mut);font-weight:600;margin-top:3px;}
+
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:16px 22px 0;}
+.stat{background:var(--soft);border-radius:14px;padding:11px 6px;text-align:center;}
+.stat-val{font-family:'Fraunces',serif;font-size:17px;font-weight:700;color:var(--deep);}
+.stat-lbl{font-size:9px;font-weight:800;color:var(--mut);text-transform:uppercase;letter-spacing:.5px;margin-top:2px;}
+
+.body{padding:18px 22px 22px;display:flex;flex-direction:column;gap:16px;}
+.sec-title{font-size:10px;font-weight:800;color:var(--mut);text-transform:uppercase;letter-spacing:1.5px;display:flex;align-items:center;gap:6px;}
+.sec-title::after{content:'';flex:1;height:1px;background:var(--line);}
+.list{display:flex;flex-direction:column;gap:6px;margin-top:8px;}
+.item{display:flex;align-items:center;justify-content:space-between;padding:10px 13px;background:#fff;border:1px solid var(--line);border-radius:12px;font-size:13px;font-weight:600;}
+.ok{font-size:10.5px;font-weight:800;padding:3px 10px;border-radius:20px;background:var(--soft);color:var(--deep);}
+.empty{font-size:12.5px;color:var(--mut);font-weight:600;margin-top:8px;}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:7px 13px;background:#fff;border:1px solid var(--line);border-radius:20px;font-size:12px;font-weight:700;color:var(--deep);margin-top:8px;}
+.allergy-pill{color:var(--alert);border-color:#EAD4C9;background:#FDF7F3;margin-right:6px;}
+
+.vet{display:flex;align-items:center;gap:10px;padding:12px;background:#fff;border:1px solid var(--line);border-radius:15px;margin-top:8px;}
+.vet-av{width:40px;height:40px;background:var(--soft);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.vet-name{font-size:13px;font-weight:700;}
+.vet-sub{font-size:11px;color:var(--mut);margin-top:1px;}
+.call{width:36px;height:36px;background:var(--mid);border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:16px;text-decoration:none;flex-shrink:0;margin-left:auto;}
+
+.bottom{display:flex;gap:10px;margin-top:2px;}
+.qr-box{background:#fff;border:1px solid var(--line);border-radius:15px;padding:10px;display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0;}
+.qr-box img{width:64px;height:64px;border-radius:6px;}
+.qr-lbl{font-size:8.5px;color:var(--mut);font-weight:800;text-transform:uppercase;letter-spacing:1px;}
+.owner{flex:1;background:var(--soft);border-radius:15px;padding:12px 14px;display:flex;flex-direction:column;justify-content:center;gap:3px;}
+.owner-lbl{font-size:9px;color:var(--mut);font-weight:800;text-transform:uppercase;letter-spacing:1px;}
+.owner-name{font-family:'Fraunces',serif;font-size:16px;font-weight:700;color:var(--deep);}
+.owner-line{font-size:11px;font-weight:600;color:var(--ink);}
+
+.actions{display:flex;flex-direction:column;gap:8px;margin-top:2px;}
+.btn{padding:14px;border:none;border-radius:14px;font-family:'Nunito Sans',sans-serif;font-size:13.5px;font-weight:800;cursor:pointer;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:7px;}
+.btn-wa{background:var(--mid);color:#fff;}
+.btn-tel{background:#fff;border:1.5px solid var(--mid);color:var(--deep);}
+
+.foot{padding:14px 22px 18px;text-align:center;border-top:1px solid var(--line);}
+.foot a{font-size:11px;color:var(--mut);font-weight:700;text-decoration:none;}
+.foot a strong{color:var(--deep);}
+
+.promo{max-width:400px;width:100%;margin-top:16px;background:var(--deep);border-radius:20px;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;text-decoration:none;}
+.promo-title{font-family:'Fraunces',serif;font-size:14px;font-weight:700;color:#fff;}
+.promo-sub{font-size:11px;color:#C9DAC4;margin-top:2px;font-weight:600;}
+.promo-btn{background:var(--mid);border-radius:10px;padding:8px 13px;font-size:11.5px;font-weight:800;color:#fff;white-space:nowrap;flex-shrink:0;}
+
+/* ── contacto seguro ── */
+.rep-modal{position:fixed;inset:0;background:rgba(60,74,58,.6);display:none;align-items:flex-end;justify-content:center;z-index:50;}
+.rep-modal.show{display:flex;}
+.rep-box{background:var(--bg);border-radius:26px 26px 0 0;padding:24px 22px 30px;max-width:440px;width:100%;max-height:88vh;overflow-y:auto;}
+.rep-box h3{font-family:'Fraunces',serif;font-size:20px;font-weight:700;}
+.rep-box .rep-sub{font-size:12px;color:var(--mut);margin-top:5px;line-height:1.55;}
+.rep-box label{display:block;font-size:10.5px;font-weight:800;color:var(--deep);text-transform:uppercase;letter-spacing:.8px;margin:15px 0 6px;}
+.rep-box input,.rep-box textarea{width:100%;padding:12px 13px;border:1.5px solid var(--line);border-radius:12px;background:#fff;font-family:'Nunito Sans',sans-serif;font-size:14px;color:var(--ink);outline:none;}
+.rep-box input:focus,.rep-box textarea:focus{border-color:var(--mid);}
+.rep-photo-row{display:flex;align-items:center;gap:10px;margin-top:6px;}
+.rep-photo-btn{padding:10px 14px;background:var(--soft);border:1.5px dashed var(--mid);border-radius:12px;color:var(--deep);font-size:12px;font-weight:800;cursor:pointer;font-family:'Nunito Sans',sans-serif;}
+.rep-photo-name{font-size:11px;color:var(--mut);font-weight:700;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.rep-send{width:100%;padding:14px;border:none;border-radius:14px;background:var(--mid);color:#fff;font-family:'Nunito Sans',sans-serif;font-size:14px;font-weight:800;cursor:pointer;margin-top:18px;}
+.rep-send:disabled{opacity:.55;}
+.rep-cancel{width:100%;padding:12px;border:none;background:none;color:var(--mut);font-size:12px;font-weight:800;cursor:pointer;font-family:'Nunito Sans',sans-serif;margin-top:6px;}
+.rep-note{font-size:10.5px;color:var(--mut);line-height:1.55;margin-top:12px;text-align:center;}
+.rep-success{display:none;text-align:center;padding:10px 0;}
+.rep-success.show{display:block;}
+.rep-success .big{font-size:44px;}
+.rep-success h4{font-family:'Fraunces',serif;font-size:19px;margin-top:8px;}
+.rep-success p{font-size:12.5px;color:var(--mut);margin-top:6px;line-height:1.6;}
+</style>
+</head>
+<body>
+
+<!-- CARGANDO -->
+<div class="state show" id="loading">
+  <div class="spinner"></div>
+  <p>Buscando el carnet…</p>
+</div>
+
+<!-- ERROR -->
+<div class="state" id="error">
+  <div style="font-size:40px;">🐾</div>
+  <h2>No encontramos este carnet</h2>
+  <p id="errorMsg">El enlace puede estar incompleto o el carnet ya no existe.<br>¿Querés crear uno nuevo? Es gratis y toma 2 minutos.</p>
+  <a href="registro.html">Crear carnet gratis →</a>
+</div>
+
+<!-- CARNET -->
+<div class="card" id="card">
+  <div class="lost-banner" id="lostBanner">🚨 ¡Este peludo está perdido! Ayudalo a volver a casa 🙏</div>
+
+  <div class="hdr">
+    <div class="brand">
+      <svg class="brand-k" viewBox="0 0 92 92"><rect x="2" y="2" width="88" height="88" rx="24" fill="#7C9877"/><path d="M32 24 L32 68" stroke="#FBFCFA" stroke-width="9" stroke-linecap="round"/><path d="M34 48 C 48 46, 58 36, 56 24" fill="none" stroke="#FBFCFA" stroke-width="9" stroke-linecap="round"/><path d="M34 48 C 48 52, 58 60, 62 70" fill="none" stroke="#DCE8D8" stroke-width="9" stroke-linecap="round"/></svg>
+      <div>
+        <div class="brand-name">kolita</div>
+        <div class="brand-tag">Carnet digital</div>
+      </div>
+    </div>
+    <span class="badge">✓ Carnet activo</span>
+  </div>
+
+  <div class="hero">
+    <img class="photo" id="petPhoto" alt="" style="display:none;">
+    <div class="photo-ph" id="petPhotoPh">🐾</div>
+    <div>
+      <div class="pet-name" id="petName">—</div>
+      <div class="pet-breed" id="petBreed">—</div>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-val" id="stAge">—</div><div class="stat-lbl">Edad</div></div>
+    <div class="stat"><div class="stat-val" id="stWeight">—</div><div class="stat-lbl">Peso</div></div>
+    <div class="stat"><div class="stat-val" id="stVac">—</div><div class="stat-lbl">Vacunas</div></div>
+  </div>
+
+  <div class="body">
+    <div>
+      <div class="sec-title">💉 Vacunas</div>
+      <div class="list" id="vacList"></div>
+      <div class="empty" id="vacEmpty" style="display:none;">Sin vacunas registradas todavía.</div>
+    </div>
+
+    <div>
+      <div class="sec-title">🐛 Desparasitación</div>
+      <span class="pill" id="dewormPill">Sin registro</span>
+    </div>
+
+    <div>
+      <div class="sec-title">⚠️ Alergias</div>
+      <div id="allergyBox"><span class="pill">✓ Sin alergias conocidas</span></div>
+    </div>
+
+    <div id="vetSection" style="display:none;">
+      <div class="sec-title">🏥 Veterinario</div>
+      <div class="vet">
+        <div class="vet-av">👩‍⚕️</div>
+        <div><div class="vet-name" id="vetName">—</div><div class="vet-sub" id="vetSub">—</div></div>
+        <a class="call" id="vetCall" href="#" style="display:none;">📞</a>
+      </div>
+    </div>
+
+    <div class="bottom">
+      <div class="qr-box">
+        <img id="qrImg" src="" alt="QR del carnet">
+        <div class="qr-lbl">Escanear</div>
+      </div>
+      <div class="owner">
+        <div class="owner-lbl">Familia</div>
+        <div class="owner-name" id="ownerName">—</div>
+        <div class="owner-line" id="ownerCity" style="display:none;">📍 —</div>
+        <div class="owner-line" id="ownerPhoneMasked" style="display:none;">📱 —</div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-wa" id="reportBtn" onclick="openReport()" style="border:none;cursor:pointer;">🐾 ¿Encontraste a este peludo? Avisá a su familia</button>
+      <a class="btn btn-wa" id="waBtn" href="#" style="display:none;">💬 Escribir por WhatsApp</a>
+      <a class="btn btn-tel" id="telBtn" href="#" style="display:none;">📞 Llamar a la familia</a>
+    </div>
+  </div>
+
+  <div class="foot">
+    <a href="index.html">Carnet creado con <strong>kolita</strong> 🐾 · Creá el de tu peludo gratis</a>
+  </div>
+</div>
+
+<!-- MODAL CONTACTO SEGURO -->
+<div class="rep-modal" id="repModal">
+  <div class="rep-box">
+    <div id="repForm">
+      <h3>🐾 Avisale a su familia</h3>
+      <p class="rep-sub">Por seguridad de todos, contanos primero quién sos y dónde viste al peludo. Tu mensaje le llega a la familia y ahí se abre el contacto directo.</p>
+
+      <label>Tu nombre *</label>
+      <input type="text" id="repName" placeholder="Ej: Carolina" maxlength="60">
+
+      <label>Tu WhatsApp *</label>
+      <input type="tel" id="repPhone" placeholder="Ej: 3001234567">
+
+      <label>¿Dónde lo viste y cómo está? *</label>
+      <textarea id="repMsg" rows="3" placeholder="Ej: Está conmigo en el parque La Presidenta, se ve asustado pero bien"></textarea>
+
+      <label>Foto del peludo (opcional pero ayuda mucho)</label>
+      <div class="rep-photo-row">
+        <button type="button" class="rep-photo-btn" onclick="document.getElementById('repPhotoInput').click()">📷 Subir foto</button>
+        <span class="rep-photo-name" id="repPhotoName">Sin foto</span>
+      </div>
+      <input type="file" id="repPhotoInput" accept="image/*" style="display:none;" onchange="repPhotoSel(this)">
+
+      <button class="rep-send" id="repSend" onclick="submitReport()">Enviar aviso 💚</button>
+      <button class="rep-cancel" onclick="closeReport()">Cancelar</button>
+      <p class="rep-note">🔒 Tu ubicación aproximada se incluye en el aviso para ayudar en la búsqueda. Datos protegidos según nuestra <a href="privacidad.html" target="_blank" style="color:var(--deep);">Política de Privacidad</a>.</p>
+    </div>
+
+    <div class="rep-success" id="repSuccess">
+      <div class="big">💚</div>
+      <h4>¡Aviso enviado!</h4>
+      <p>La familia recibirá tu mensaje.<br>Si querés, también podés escribirle directamente ahora:</p>
+    </div>
+  </div>
+</div>
+
+<a class="promo" id="promo" href="registro.html" style="display:none;">
+  <div>
+    <div class="promo-title">¿Tu peludo ya tiene su carnet?</div>
+    <div class="promo-sub">Gratis · Vacunas al día · Modo perdido</div>
+  </div>
+  <div class="promo-btn">Crear gratis →</div>
+</a>
+
+<script>
+// ═══════════════════════════════════════════════
+// KOLITA · CARNET DINÁMICO — lee la mascota real
+// ═══════════════════════════════════════════════
+var SUPABASE_URL = 'https://fdwbstqxqdailyeedmuo.supabase.co';
+var SUPABASE_KEY = 'PEGA_AQUI_TU_LLAVE_ANON_NUEVA';
+// ⚠️ LINA: reemplazá el texto de arriba (entre las comillas) por tu
+// anon key nueva de Supabase → Settings → API Keys → Legacy → anon public
+
+var SPECIES_EMOJI = { perro:'🐶', gato:'🐱', conejo:'🐰', ave:'🐦', otro:'🐾' };
+
+function qs(id){ return document.getElementById(id); }
+function show(id){ qs(id).classList.add('show'); }
+function hide(id){ qs(id).classList.remove('show'); }
+
+function getPetId(){
+  var p = new URLSearchParams(window.location.search);
+  return p.get('id');
+}
+
+// ── Cargar mascota ───────────────────────────────
+async function loadPet(){
+  var petId = getPetId();
+  if(!petId){ return showError('Este enlace no tiene un carnet asociado.'); }
+
+  try{
+    var res = await fetch(SUPABASE_URL + '/rest/v1/pets?id=eq.' + encodeURIComponent(petId) + '&select=*', {
+      headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
+    });
+    if(!res.ok) throw new Error('network');
+    var rows = await res.json();
+    if(!rows || rows.length === 0){ return showError(); }
+    renderPet(rows[0]);
+    logScan(petId); // registra el escaneo (silencioso)
+  }catch(e){
+    console.error(e);
+    showError('No pudimos conectar. Revisá tu internet e intentá de nuevo.');
+  }
+}
+
+function showError(msg){
+  hide('loading');
+  if(msg) qs('errorMsg').innerHTML = msg;
+  show('error');
+}
+
+// ── Pintar el carnet ─────────────────────────────
+function renderPet(p){
+  document.title = (p.name || 'Peludo') + ' — Carnet Kolita';
+
+  // Banner perdido
+  if(p.is_lost === true){ qs('lostBanner').classList.add('show'); }
+
+  // Foto
+  if(p.photo_url){
+    qs('petPhoto').src = p.photo_url;
+    qs('petPhoto').style.display = 'block';
+    qs('petPhotoPh').style.display = 'none';
+  }else{
+    qs('petPhotoPh').textContent = SPECIES_EMOJI[(p.species||'').toLowerCase()] || '🐾';
+  }
+
+  // Nombre y raza
+  qs('petName').textContent = p.name || 'Sin nombre';
+  var breedBits = [];
+  if(p.breed) breedBits.push(p.breed);
+  if(p.sex) breedBits.push(p.sex === 'macho' ? 'Macho' : (p.sex === 'hembra' ? 'Hembra' : p.sex));
+  qs('petBreed').textContent = breedBits.join(' · ') || (p.species || '');
+
+  // Stats
+  qs('stAge').textContent = p.age ? String(p.age).replace(' años','').replace(' año','') : '—';
+  qs('stWeight').textContent = p.weight ? p.weight + 'kg' : '—';
+
+  // Vacunas (soporta formato {name,status} y texto plano)
+  var vacs = Array.isArray(p.vaccines) ? p.vaccines : [];
+  qs('stVac').textContent = vacs.length > 0 ? vacs.length : '—';
+  if(vacs.length === 0){
+    qs('vacEmpty').style.display = 'block';
+  }else{
+    var list = qs('vacList');
+    vacs.forEach(function(v){
+      var name = (typeof v === 'string') ? v : (v.name || '');
+      var d = document.createElement('div');
+      d.className = 'item';
+      d.innerHTML = '<span>💉 ' + escapeHtml(name) + '</span><span class="ok">Al día ✓</span>';
+      list.appendChild(d);
+    });
+  }
+
+  // Desparasitación
+  if(p.last_deworming){ qs('dewormPill').textContent = '✓ Última: ' + formatDate(p.last_deworming); }
+
+  // Alergias
+  var alls = Array.isArray(p.allergies) ? p.allergies : [];
+  if(alls.length > 0){
+    var box = qs('allergyBox'); box.innerHTML = '';
+    alls.forEach(function(a){
+      var s = document.createElement('span');
+      s.className = 'pill allergy-pill';
+      s.textContent = '⚠️ ' + a;
+      box.appendChild(s);
+    });
+  }
+
+  // Veterinario
+  if(p.vet_name){
+    qs('vetSection').style.display = 'block';
+    qs('vetName').textContent = p.vet_name;
+    qs('vetSub').textContent = p.vet_city ? p.vet_city : 'Veterinaria de confianza';
+    if(p.vet_phone){
+      qs('vetCall').href = 'tel:' + p.vet_phone;
+      qs('vetCall').style.display = 'flex';
+    }
+  }
+
+  // Dueño
+  qs('ownerName').textContent = p.owner_name || '—';
+  if(p.vet_city){ qs('ownerCity').textContent = '📍 ' + p.vet_city; qs('ownerCity').style.display = 'block'; }
+  if(p.emergency_phone){
+    qs('ownerPhoneMasked').textContent = '📱 ' + maskPhone(p.emergency_phone);
+    qs('ownerPhoneMasked').style.display = 'block';
+
+    var digits = String(p.emergency_phone).replace(/\D/g,'');
+    if(digits.length === 10) digits = '57' + digits; // celular colombiano
+    var waText = encodeURIComponent('¡Hola! Encontré a ' + (p.name||'tu peludo') + ' 🐾 Vi su carnet Kolita y quiero ayudarle a volver a casa.');
+    qs('waBtn').href = 'https://wa.me/' + digits + '?text=' + waText;
+    qs('telBtn').href = 'tel:+' + digits;
+    // 🔒 Los botones directos permanecen ocultos: se revelan
+    // únicamente después de enviar el aviso (contacto seguro)
+  }
+
+  // QR del propio carnet
+  var url = window.location.href.split('#')[0];
+  qs('qrImg').src = 'https://api.qrserver.com/v1/create-qr-code/?size=128x128&data=' + encodeURIComponent(url) + '&color=556F51&bgcolor=FFFFFF';
+
+  hide('loading');
+  show('card');
+  qs('promo').style.display = 'flex';
+}
+
+// ── CONTACTO SEGURO: reportar hallazgo ───────────
+var repPhotoFile = null;
+
+function openReport(){ qs('repModal').classList.add('show'); }
+function closeReport(){ qs('repModal').classList.remove('show'); }
+document.getElementById('repModal').addEventListener('click', function(e){
+  if(e.target === this) closeReport();
+});
+
+function repPhotoSel(input){
+  if(input.files && input.files[0]){
+    repPhotoFile = input.files[0];
+    qs('repPhotoName').textContent = '✓ ' + repPhotoFile.name;
+  }
+}
+
+async function submitReport(){
+  var name = qs('repName').value.trim();
+  var phone = qs('repPhone').value.trim();
+  var msg = qs('repMsg').value.trim();
+  if(!name || !phone || !msg){
+    alert('Por favor completá tu nombre, tu WhatsApp y el mensaje 🐾');
+    return;
+  }
+  var btn = qs('repSend');
+  btn.disabled = true; btn.textContent = 'Enviando…';
+
+  // ubicación (opcional, con permiso)
+  var coords = await new Promise(function(resolve){
+    if(!navigator.geolocation) return resolve({lat:null,lng:null});
+    navigator.geolocation.getCurrentPosition(
+      function(p){ resolve({lat:p.coords.latitude, lng:p.coords.longitude}); },
+      function(){ resolve({lat:null,lng:null}); },
+      { timeout:5000 }
+    );
+  });
+
+  // foto (opcional)
+  var photoUrl = null;
+  if(repPhotoFile){
+    try{
+      var ext = repPhotoFile.name.split('.').pop();
+      var fname = 'reporte_' + getPetId() + '_' + Date.now() + '.' + ext;
+      var up = await fetch(SUPABASE_URL + '/storage/v1/object/pet-photos/' + fname, {
+        method:'POST',
+        headers:{ 'Authorization':'Bearer '+SUPABASE_KEY, 'Content-Type': repPhotoFile.type },
+        body: repPhotoFile
+      });
+      if(up.ok) photoUrl = SUPABASE_URL + '/storage/v1/object/public/pet-photos/' + fname;
+    }catch(e){ console.warn('foto no subida', e); }
+  }
+
+  try{
+    var res = await fetch(SUPABASE_URL + '/rest/v1/reports', {
+      method:'POST',
+      headers:{ 'Content-Type':'application/json', 'apikey':SUPABASE_KEY, 'Authorization':'Bearer '+SUPABASE_KEY, 'Prefer':'return=minimal' },
+      body: JSON.stringify({
+        pet_id: getPetId(), finder_name: name, finder_phone: phone,
+        message: msg, photo_url: photoUrl, lat: coords.lat, lng: coords.lng
+      })
+    });
+    if(!res.ok) throw new Error('report');
+
+    // éxito: mostrar mensaje y REVELAR el contacto directo
+    qs('repForm').style.display = 'none';
+    qs('repSuccess').classList.add('show');
+    qs('reportBtn').style.display = 'none';
+    if(qs('waBtn').href && qs('waBtn').href.indexOf('wa.me') !== -1){
+      qs('waBtn').style.display = 'flex';
+      qs('telBtn').style.display = 'flex';
+    }
+    setTimeout(function(){
+      closeReport();
+      window.scrollTo({top: document.body.scrollHeight, behavior:'smooth'});
+    }, 2600);
+  }catch(e){
+    console.error(e);
+    btn.disabled = false; btn.textContent = 'Enviar aviso 💚';
+    alert('No pudimos enviar el aviso. Revisá tu internet e intentá de nuevo 🙏');
+  }
+}
+
+// ── Registrar escaneo (silencioso, nunca rompe) ──
+function logScan(petId){
+  function send(lat, lng){
+    fetch(SUPABASE_URL + '/rest/v1/scans', {
+      method:'POST',
+      headers:{ 'Content-Type':'application/json', 'apikey':SUPABASE_KEY, 'Authorization':'Bearer '+SUPABASE_KEY },
+      body: JSON.stringify({ pet_id: petId, lat: lat, lng: lng })
+    }).catch(function(){});
+  }
+  if(navigator.geolocation){
+    navigator.geolocation.getCurrentPosition(
+      function(pos){ send(pos.coords.latitude, pos.coords.longitude); },
+      function(){ send(null, null); },
+      { timeout: 5000 }
+    );
+  }else{ send(null, null); }
+}
+
+// ── Utilidades ───────────────────────────────────
+function maskPhone(ph){
+  var d = String(ph).replace(/\D/g,'');
+  if(d.length < 7) return ph;
+  return d.slice(0,3) + ' *** ' + d.slice(-2);
+}
+function formatDate(iso){
+  try{
+    var dt = new Date(iso + 'T12:00:00');
+    var meses = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+    return meses[dt.getMonth()] + ' ' + dt.getFullYear();
+  }catch(e){ return iso; }
+}
+function escapeHtml(s){
+  var d = document.createElement('div'); d.textContent = s; return d.innerHTML;
+}
+
+loadPet();
+</script>
+</body>
+</html>
