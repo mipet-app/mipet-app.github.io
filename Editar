@@ -175,7 +175,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--mid);}
 // KOLITA · EDITAR CARNET
 // ═══════════════════════════════════════════════
 var SUPABASE_URL = 'https://fdwbstqxqdailyeedmuo.supabase.co';
-var SUPABASE_KEY = 'PEGA_AQUI_TU_LLAVE_ANON';
+var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZkd2JzdHF4cWRhaWx5ZWVkbXVvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM5MDEwMDEsImV4cCI6MjA5OTQ3NzAwMX0.GG6O9z1Exu5z0DsM8Fzk-fx1h2BIII0I9flMVZiPwIw';
 
 var petId = new URLSearchParams(location.search).get('id');
 var selectedSex = '';
