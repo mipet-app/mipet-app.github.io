@@ -173,6 +173,12 @@ input:focus,select:focus,textarea:focus{border-color:var(--mid);}
       <label>Última desparasitación</label>
       <input type="date" id="lastDeworming">
 
+      <label>Próxima vacuna (fecha aproximada)</label>
+      <input type="date" id="nextVaccine">
+
+      <label>Próxima desparasitación (fecha aproximada)</label>
+      <input type="date" id="nextDeworming">
+
       <label>Alergias (separadas por coma)</label>
       <textarea id="petAllergies" rows="2" placeholder="Ej: Pollo, penicilina"></textarea>
 
@@ -414,6 +420,8 @@ async function submitForm() {
       emergency_phone: v('ownerPhone'),
       vet_city: v('ownerCity') || null,
       owner_email: v('ownerEmail') || null,
+      next_vaccine_date: document.getElementById('nextVaccine').value || null,
+      next_deworming_date: document.getElementById('nextDeworming').value || null,
       is_lost: false,
       created_at: new Date().toISOString()
     };
