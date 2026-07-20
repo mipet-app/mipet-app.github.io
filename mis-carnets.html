@@ -193,6 +193,7 @@ function renderPets(pets){
           '<a class="chip chip-view" href="' + url + '" target="_blank">👁️ Ver</a>' +
           '<button class="chip chip-qr" onclick="showQR(\'' + p.id + '\',\'' + escapeAttr(p.name||'peludo') + '\')">📱 Ver QR</button>' +
           '<button class="chip chip-copy" onclick="copyLink(\'' + url + '\')">🔗 Copiar enlace</button>' +
+          '<a class="chip chip-view" href="editar.html?id=' + p.id + '">✏️ Editar</a>' +
         '</div>' +
       '</div>';
     list.appendChild(card);
