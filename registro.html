@@ -249,6 +249,22 @@ var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSI
 // ⚠️ LINA: reemplazá el texto de arriba (entre las comillas) por tu
 // anon key nueva de Supabase → Settings → API Keys → Legacy → anon public
 
+// ── Convertir cualquier foto (HEIC de iPhone incluido) a JPG ──
+async function fotoAJpg(file){
+  try{
+    var bmp = await createImageBitmap(file);
+    var MAX = 1200;
+    var scale = Math.min(1, MAX / Math.max(bmp.width, bmp.height));
+    var canvas = document.createElement('canvas');
+    canvas.width = Math.round(bmp.width * scale);
+    canvas.height = Math.round(bmp.height * scale);
+    canvas.getContext('2d').drawImage(bmp, 0, 0, canvas.width, canvas.height);
+    var blob = await new Promise(function(res){ canvas.toBlob(res, 'image/jpeg', 0.85); });
+    if(blob) return blob;
+  }catch(e){ console.warn('conversión falló, subo original', e); }
+  return file;
+}
+
 var currentStep = 1;
 var selectedSex = '';
 var vaccines = [];
@@ -357,16 +373,17 @@ function renderVaccines() {
 async function uploadPhoto(petId) {
   if (!photoFile) return null;
   try {
-    var ext = photoFile.name.split('.').pop();
+    var fotoLista = await fotoAJpg(photoFile);
+    var ext = 'jpg';
     var filename = petId + '.' + ext;
     var res = await fetch(SUPABASE_URL + '/storage/v1/object/pet-photos/' + filename, {
       method: 'POST',
       headers: {
         'Authorization': 'Bearer ' + SUPABASE_KEY,
-        'Content-Type': photoFile.type,
+        'Content-Type': 'image/jpeg',
         'x-upsert': 'true'
       },
-      body: photoFile
+      body: fotoLista
     });
     if (!res.ok) throw new Error('storage');
     return SUPABASE_URL + '/storage/v1/object/public/pet-photos/' + filename;
