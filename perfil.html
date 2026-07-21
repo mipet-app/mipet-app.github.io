@@ -132,13 +132,13 @@ body{font-family:'Nunito Sans',sans-serif;background:#F1F3EF;min-height:100vh;di
   <div class="lost-banner" id="lostBanner">🚨 ¡Este peludo está perdido! Ayudalo a volver a casa 🙏</div>
 
   <div class="hdr">
-    <a class="brand" href="index.html" style="text-decoration:none;color:inherit;">
+    <div class="brand">
       <svg class="brand-k" viewBox="0 0 92 92"><rect x="2" y="2" width="88" height="88" rx="24" fill="#7C9877"/><path d="M32 24 L32 68" stroke="#FBFCFA" stroke-width="9" stroke-linecap="round"/><path d="M34 48 C 48 46, 58 36, 56 24" fill="none" stroke="#FBFCFA" stroke-width="9" stroke-linecap="round"/><path d="M34 48 C 48 52, 58 60, 62 70" fill="none" stroke="#DCE8D8" stroke-width="9" stroke-linecap="round"/></svg>
       <div>
-        <div class="brand-name">kolita 🏠</div>
-        <div class="brand-tag">Ir al inicio</div>
+        <div class="brand-name">kolita</div>
+        <div class="brand-tag">Carnet digital</div>
       </div>
-    </a>
+    </div>
     <span class="badge">✓ Carnet activo</span>
   </div>
 
@@ -257,7 +257,7 @@ body{font-family:'Nunito Sans',sans-serif;background:#F1F3EF;min-height:100vh;di
 // KOLITA · CARNET DINÁMICO — lee la mascota real
 // ═══════════════════════════════════════════════
 var SUPABASE_URL = 'https://fdwbstqxqdailyeedmuo.supabase.co';
-var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZkd2JzdHF4cWRhaWx5ZWVkbXVvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM5MDEwMDEsImV4cCI6MjA5OTQ3NzAwMX0.GG6O9z1Exu5z0DsM8Fzk-fx1h2BIII0I9flMVZiPwIw';
+var SUPABASE_KEY = 'PEGA_AQUI_TU_LLAVE_ANON_NUEVA';
 // ⚠️ LINA: reemplazá el texto de arriba (entre las comillas) por tu
 // anon key nueva de Supabase → Settings → API Keys → Legacy → anon public
 
@@ -390,6 +390,23 @@ function renderPet(p){
 }
 
 // ── CONTACTO SEGURO: reportar hallazgo ───────────
+
+// ── Convertir cualquier foto (HEIC de iPhone incluido) a JPG ──
+async function fotoAJpg(file){
+  try{
+    var bmp = await createImageBitmap(file);
+    var MAX = 1200; // tamaño máximo: suficiente y liviano
+    var scale = Math.min(1, MAX / Math.max(bmp.width, bmp.height));
+    var canvas = document.createElement('canvas');
+    canvas.width = Math.round(bmp.width * scale);
+    canvas.height = Math.round(bmp.height * scale);
+    canvas.getContext('2d').drawImage(bmp, 0, 0, canvas.width, canvas.height);
+    var blob = await new Promise(function(res){ canvas.toBlob(res, 'image/jpeg', 0.85); });
+    if(blob) return blob;
+  }catch(e){ console.warn('conversión falló, subo original', e); }
+  return file; // plan B: original
+}
+
 var repPhotoFile = null;
 
 function openReport(){ qs('repModal').classList.add('show'); }
@@ -430,12 +447,13 @@ async function submitReport(){
   var photoUrl = null;
   if(repPhotoFile){
     try{
-      var ext = repPhotoFile.name.split('.').pop();
+      var fotoLista = await fotoAJpg(repPhotoFile);
+      var ext = 'jpg';
       var fname = 'reporte_' + getPetId() + '_' + Date.now() + '.' + ext;
       var up = await fetch(SUPABASE_URL + '/storage/v1/object/pet-photos/' + fname, {
         method:'POST',
-        headers:{ 'Authorization':'Bearer '+SUPABASE_KEY, 'Content-Type': repPhotoFile.type },
-        body: repPhotoFile
+        headers:{ 'Authorization':'Bearer '+SUPABASE_KEY, 'Content-Type': 'image/jpeg' },
+        body: fotoLista
       });
       if(up.ok) photoUrl = SUPABASE_URL + '/storage/v1/object/public/pet-photos/' + fname;
     }catch(e){ console.warn('foto no subida', e); }
