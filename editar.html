@@ -177,6 +177,23 @@ input:focus,select:focus,textarea:focus{border-color:var(--mid);}
 var SUPABASE_URL = 'https://fdwbstqxqdailyeedmuo.supabase.co';
 var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZkd2JzdHF4cWRhaWx5ZWVkbXVvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM5MDEwMDEsImV4cCI6MjA5OTQ3NzAwMX0.GG6O9z1Exu5z0DsM8Fzk-fx1h2BIII0I9flMVZiPwIw';
 
+
+// ── Convertir cualquier foto (HEIC de iPhone incluido) a JPG ──
+async function fotoAJpg(file){
+  try{
+    var bmp = await createImageBitmap(file);
+    var MAX = 1200; // tamaño máximo: suficiente y liviano
+    var scale = Math.min(1, MAX / Math.max(bmp.width, bmp.height));
+    var canvas = document.createElement('canvas');
+    canvas.width = Math.round(bmp.width * scale);
+    canvas.height = Math.round(bmp.height * scale);
+    canvas.getContext('2d').drawImage(bmp, 0, 0, canvas.width, canvas.height);
+    var blob = await new Promise(function(res){ canvas.toBlob(res, 'image/jpeg', 0.85); });
+    if(blob) return blob;
+  }catch(e){ console.warn('conversión falló, subo original', e); }
+  return file; // plan B: original
+}
+
 var petId = new URLSearchParams(location.search).get('id');
 var selectedSex = '';
 var vaccines = [];
@@ -279,12 +296,13 @@ async function guardar(){
     // foto nueva (si cambió)
     var photoUrl = currentPhotoUrl;
     if(photoFile){
-      var ext = photoFile.name.split('.').pop();
+      var fotoLista = await fotoAJpg(photoFile);
+      var ext = 'jpg';
       var fname = petId + '_' + Date.now() + '.' + ext;
       var up = await fetch(SUPABASE_URL + '/storage/v1/object/pet-photos/' + fname, {
         method:'POST',
-        headers:{ 'Authorization':'Bearer '+SUPABASE_KEY, 'Content-Type': photoFile.type },
-        body: photoFile
+        headers:{ 'Authorization':'Bearer '+SUPABASE_KEY, 'Content-Type': 'image/jpeg' },
+        body: fotoLista
       });
       if(up.ok) photoUrl = SUPABASE_URL + '/storage/v1/object/public/pet-photos/' + fname;
     }
