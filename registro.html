@@ -206,8 +206,9 @@ input:focus,select:focus,textarea:focus{border-color:var(--mid);}
       <label>Ciudad</label>
       <input type="text" id="ownerCity" placeholder="Ej: Medellín">
 
-      <label>Tu correo (opcional)</label>
-      <input type="email" id="ownerEmail" placeholder="Para recordatorios de vacunas">
+      <label>Tu correo *</label>
+      <input type="email" id="ownerEmail" placeholder="Ej: tucorreo@gmail.com">
+      <p class="sub" style="margin-top:6px;">Acá te llegan los recordatorios de vacunas y los avisos si alguien encuentra a tu peludo 🔒</p>
 
       <label style="display:flex;align-items:flex-start;gap:10px;margin-top:20px;text-transform:none;letter-spacing:0;font-size:12px;font-weight:600;color:var(--ink);cursor:pointer;">
         <input type="checkbox" id="acceptData" style="width:18px;height:18px;margin-top:1px;flex:none;">
@@ -292,6 +293,7 @@ function validateStep(step) {
   if (step === 3) {
     if (!v('ownerName')) { toast('⚠️ Escribí tu nombre', true); return false; }
     if (!v('ownerPhone')) { toast('⚠️ Escribí tu celular', true); return false; }
+    if (!v('ownerEmail') || v('ownerEmail').indexOf('@') === -1) { toast('⚠️ Escribí un correo válido', true); return false; }
     if (!document.getElementById('acceptData').checked) { toast('⚠️ Debés autorizar el tratamiento de datos', true); return false; }
   }
   return true;
