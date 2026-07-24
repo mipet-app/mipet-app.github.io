@@ -80,11 +80,11 @@ input:focus{border-color:var(--mid);}
 
 <div class="wrap">
   <h1>🔎 Recuperá tus carnets</h1>
-  <p class="sub">¿Perdiste el enlace o el QR de tu peludo? Escribí el correo con el que registraste sus carnets y te los mostramos todos aquí.</p>
+  <p class="sub">¿Perdiste el enlace o el QR de tu peludo? Escribe tu correo o tu número de celular con el que registraste sus carnets y te los mostramos todos aquí.</p>
 
   <div id="searchForm">
-    <label>Tu correo electrónico</label>
-    <input type="email" id="email" placeholder="Ej: tucorreo@gmail.com" onkeydown="if(event.key==='Enter')buscar()">
+   <label>Tu correo o tu celular</label>
+    <input type="text" id="email" placeholder="tucorreo@gmail.com  o  3001234567" onkeydown="if(event.key==='Enter')buscar()">
     <button class="btn" id="searchBtn" onclick="buscar()">Buscar mis carnets 🐾</button>
   </div>
 
@@ -130,15 +130,28 @@ var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSI
 // anon key nueva → Supabase → Settings → API Keys → Legacy → anon public
 
 var SPECIES_EMOJI = { perro:'🐶', gato:'🐱', conejo:'🐰', ave:'🐦', otro:'🐾' };
-var BASE_PERFIL = 'https://mipet-app.github.io/perfil.html?id=';
+var BASE_PERFIL = 'https://kolita.co/perfil.html?id=';
 
 function qs(id){ return document.getElementById(id); }
 
-async function buscar(){
-  var email = qs('email').value.trim().toLowerCase();
-  if(!email || email.indexOf('@') === -1){ toast('⚠️ Escribí un correo válido'); return; }
+function soloDigitos(t){
+  var d = String(t).replace(/\D/g, '');
+  if(d.length === 12 && d.indexOf('57') === 0) d = d.substring(2);
+  return d;
+}
 
-  // reset
+async function buscar(){
+  var dato = qs('email').value.trim();
+  if(!dato){ toast('⚠️ Escribí tu correo o tu celular'); return; }
+
+  var esCorreo = dato.indexOf('@') !== -1;
+  var digitos = soloDigitos(dato);
+
+  if(!esCorreo && digitos.length < 7){
+    toast('⚠️ Escribí un correo o un celular válido');
+    return;
+  }
+
   qs('results').classList.remove('show');
   qs('msgEmpty').classList.remove('show');
   qs('msgError').classList.remove('show');
@@ -146,11 +159,26 @@ async function buscar(){
   qs('spinner').classList.add('show');
 
   try{
-    var res = await fetch(SUPABASE_URL + '/rest/v1/pets?owner_email=eq.' + encodeURIComponent(email) + '&select=*&order=created_at.asc', {
+    var url;
+    if(esCorreo){
+      url = SUPABASE_URL + '/rest/v1/pets?owner_email=eq.' + encodeURIComponent(dato.toLowerCase()) + '&select=*&order=created_at.asc';
+    }else{
+      var cola = digitos.slice(-4);
+      url = SUPABASE_URL + '/rest/v1/pets?emergency_phone=like.*' + encodeURIComponent(cola) + '&select=*&order=created_at.asc';
+    }
+
+    var res = await fetch(url, {
       headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
     });
     if(!res.ok) throw new Error('net');
     var pets = await res.json();
+
+    if(!esCorreo){
+      pets = (pets || []).filter(function(p){
+        return soloDigitos(p.emergency_phone || '') === digitos;
+      });
+    }
+
     qs('spinner').classList.remove('show');
     qs('searchBtn').disabled = false;
 
