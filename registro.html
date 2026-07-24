@@ -184,6 +184,12 @@ input:focus,select:focus,textarea:focus{border-color:var(--mid);}
 
       <label>Veterinario de confianza</label>
       <input type="text" id="vetName" placeholder="Nombre de la veterinaria o del doctor">
+      <label>¿Doctor o doctora?</label>
+      <select id="vetSex">
+        <option value="">No especificar 🩺</option>
+        <option value="f">Doctora 👩‍⚕️</option>
+        <option value="m">Doctor 👨‍⚕️</option>
+      </select>
 
       <label>Teléfono del veterinario</label>
       <input type="tel" id="vetPhone" placeholder="Ej: 3001234567">
@@ -429,6 +435,7 @@ async function submitForm() {
       last_deworming: document.getElementById('lastDeworming').value || null,
       allergies: allergies,
       vet_name: v('vetName') || null,
+      vet_sex: document.getElementById('vetSex').value || null,
       vet_phone: v('vetPhone') || null,
       owner_name: v('ownerName'),
       emergency_phone: v('ownerPhone'),
