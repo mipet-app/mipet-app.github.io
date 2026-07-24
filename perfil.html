@@ -177,7 +177,7 @@ body{font-family:'Nunito Sans',sans-serif;background:#F1F3EF;min-height:100vh;di
     <div id="vetSection" style="display:none;">
       <div class="sec-title">🏥 Veterinario</div>
       <div class="vet">
-        <div class="vet-av">👩‍⚕️</div>
+        <div class="vet-av" id="vetAvatar">🩺</div>
         <div><div class="vet-name" id="vetName">—</div><div class="vet-sub" id="vetSub">—</div></div>
         <a class="call" id="vetCall" href="#" style="display:none;">📞</a>
       </div>
@@ -361,6 +361,8 @@ function renderPet(p){
     qs('vetSection').style.display = 'block';
     qs('vetName').textContent = p.vet_name;
     qs('vetSub').textContent = p.vet_city ? p.vet_city : 'Veterinaria de confianza';
+    var vsex = (p.vet_sex || '').toLowerCase();
+    qs('vetAvatar').textContent = vsex === 'm' ? '👨‍⚕️' : (vsex === 'f' ? '👩‍⚕️' : '🩺');
     if(p.vet_phone){
       qs('vetCall').href = 'tel:' + p.vet_phone;
       qs('vetCall').style.display = 'flex';
