@@ -136,6 +136,12 @@ input:focus,select:focus,textarea:focus{border-color:var(--mid);}
 
     <label>Veterinario</label>
     <input type="text" id="vetName" placeholder="Nombre de la veterinaria">
+    <label>¿Doctor o doctora?</label>
+    <select id="vetSex">
+      <option value="">No especificar 🩺</option>
+      <option value="f">Doctora 👩‍⚕️</option>
+      <option value="m">Doctor 👨‍⚕️</option>
+    </select>
 
     <label>Teléfono del veterinario</label>
     <input type="tel" id="vetPhone">
@@ -234,6 +240,7 @@ function llenar(p){
   qs('nextDeworming').value = p.next_deworming_date || '';
   qs('petAllergies').value = Array.isArray(p.allergies) ? p.allergies.join(', ') : '';
   qs('vetName').value = p.vet_name || '';
+  qs('vetSex').value = p.vet_sex || '';
   qs('vetPhone').value = p.vet_phone || '';
   qs('ownerName').value = p.owner_name || '';
   qs('ownerPhone').value = p.emergency_phone || '';
@@ -321,6 +328,7 @@ async function guardar(){
       next_deworming_date: qs('nextDeworming').value || null,
       allergies: allergyText ? allergyText.split(',').map(function(a){return a.trim();}).filter(Boolean) : [],
       vet_name: qs('vetName').value.trim() || null,
+      vet_sex: qs('vetSex').value || null,
       vet_phone: qs('vetPhone').value.trim() || null,
       owner_name: qs('ownerName').value.trim(),
       emergency_phone: qs('ownerPhone').value.trim(),
