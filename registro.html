@@ -113,8 +113,8 @@ input:focus,select:focus,textarea:focus{border-color:var(--mid);}
 
 <div class="wrap">
   <div id="formContent">
-    <h1>Creá el carnet de tu peludo</h1>
-    <p class="sub">Gratis, en 2 minutos. Al final recibís un enlace con QR para su collar.</p>
+    <h1>Crea el carnet de tu peludo</h1>
+    <p class="sub">Gratis, en 2 minutos. Al final recibes un enlace con QR para su collar.</p>
 
     <div class="steps">
       <div class="step-dot active" id="dot1">1</div>
@@ -143,7 +143,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--mid);}
 
       <label>Especie *</label>
       <select id="petSpecies">
-        <option value="">Seleccioná…</option>
+        <option value="">Selecciona…</option>
         <option value="perro">🐶 Perro</option>
         <option value="gato">🐱 Gato</option>
         <option value="conejo">🐰 Conejo</option>
@@ -217,14 +217,14 @@ input:focus,select:focus,textarea:focus{border-color:var(--mid);}
 
       <label>Tu celular (WhatsApp) *</label>
       <input type="tel" id="ownerPhone" placeholder="Ej: 3001234567">
-      <p class="sub" style="margin-top:6px;">En el carnet se muestra parcialmente oculto. Solo se usa para que te contacten si tu peludo se pierde.</p>
+      <p class="sub" style="margin-top:6px;">Tu número no se muestra en el carnet. Sirve para que puedas recuperar tus carnets y como respaldo de contacto.</p>
 
       <label>Ciudad</label>
       <input type="text" id="ownerCity" placeholder="Ej: Medellín">
 
       <label>Tu correo *</label>
       <input type="email" id="ownerEmail" placeholder="Ej: tucorreo@gmail.com">
-      <p class="sub" style="margin-top:6px;">Acá te llegan los recordatorios de vacunas y los avisos si alguien encuentra a tu peludo 🔒</p>
+      <p class="sub" style="margin-top:6px;">Aquí te llegan los recordatorios de vacunas y los avisos si alguien encuentra a tu peludo 🔒</p>
 
       <label style="display:flex;align-items:flex-start;gap:10px;margin-top:20px;text-transform:none;letter-spacing:0;font-size:12px;font-weight:600;color:var(--ink);cursor:pointer;">
         <input type="checkbox" id="acceptData" style="width:18px;height:18px;margin-top:1px;flex:none;">
@@ -242,7 +242,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--mid);}
   <div class="success" id="successScreen">
     <div class="big">🎉</div>
     <h2>¡Carnet creado!</h2>
-    <p>Este es el enlace único de tu peludo.<br>Guardalo, compartilo o ponelo en QR en su collar.</p>
+    <p>Este es el enlace único de tu peludo.<br>Guárdalo, compártelo o ponlo en QR en su collar.</p>
     <div class="url-box" id="successUrl"></div>
     <button class="btn btn-wa" id="viewBtn">Ver el carnet 🐾</button>
     <button class="btn btn-ghost" onclick="copyLink()">📋 Copiar enlace</button>
@@ -258,12 +258,15 @@ input:focus,select:focus,textarea:focus{border-color:var(--mid);}
 
 <script>
 // ═══════════════════════════════════════════════
-// KOLITA · REGISTRO — misma lógica probada, nueva piel
+// KOLITA · REGISTRO
 // ═══════════════════════════════════════════════
 var SUPABASE_URL = 'https://fdwbstqxqdailyeedmuo.supabase.co';
 var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZkd2JzdHF4cWRhaWx5ZWVkbXVvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM5MDEwMDEsImV4cCI6MjA5OTQ3NzAwMX0.GG6O9z1Exu5z0DsM8Fzk-fx1h2BIII0I9flMVZiPwIw';
-// ⚠️ LINA: reemplazá el texto de arriba (entre las comillas) por tu
-// anon key nueva de Supabase → Settings → API Keys → Legacy → anon public
+// LINA: si algún día cambias la llave, reemplaza el texto de arriba
+// (entre comillas) por la nueva → Supabase → Settings → API Keys → Legacy → anon public
+
+// Dominio oficial de Kolita. Si algún día cambia, se cambia SOLO aquí.
+var KOLITA_BASE = 'https://kolita.co/perfil.html?id=';
 
 // ── Convertir cualquier foto (HEIC de iPhone incluido) a JPG ──
 async function fotoAJpg(file){
@@ -318,20 +321,27 @@ function goStep(step) {
 
 function validateStep(step) {
   if (step === 1) {
-    if (!v('petName')) { toast('⚠️ Escribí el nombre de tu peludo', true); return false; }
-    if (!document.getElementById('petSpecies').value) { toast('⚠️ Seleccioná la especie', true); return false; }
-    if (!selectedSex) { toast('⚠️ Seleccioná el sexo', true); return false; }
+    if (!v('petName')) { toast('⚠️ Escribe el nombre de tu peludo', true); return false; }
+    if (!document.getElementById('petSpecies').value) { toast('⚠️ Selecciona la especie', true); return false; }
+    if (!selectedSex) { toast('⚠️ Selecciona el sexo', true); return false; }
   }
   if (step === 3) {
-    if (!v('ownerName')) { toast('⚠️ Escribí tu nombre', true); return false; }
-    if (!v('ownerPhone')) { toast('⚠️ Escribí tu celular', true); return false; }
-    if (!v('ownerEmail') || v('ownerEmail').indexOf('@') === -1) { toast('⚠️ Escribí un correo válido', true); return false; }
-    if (!document.getElementById('acceptData').checked) { toast('⚠️ Debés autorizar el tratamiento de datos', true); return false; }
+    if (!v('ownerName')) { toast('⚠️ Escribe tu nombre', true); return false; }
+    if (soloDigitos(v('ownerPhone')).length < 10) { toast('⚠️ Escribe tu celular completo (10 dígitos)', true); return false; }
+    if (!v('ownerEmail') || v('ownerEmail').indexOf('@') === -1) { toast('⚠️ Escribe un correo válido', true); return false; }
+    if (!document.getElementById('acceptData').checked) { toast('⚠️ Debes autorizar el tratamiento de datos', true); return false; }
   }
   return true;
 }
 
 function v(id) { return document.getElementById(id).value.trim(); }
+
+// Deja el celular en puros números, para que "Mis carnets" siempre lo encuentre
+function soloDigitos(t){
+  var d = String(t).replace(/\D/g, '');
+  if (d.length === 12 && d.indexOf('57') === 0) d = d.substring(2);
+  return d;
+}
 
 // ── SEXO ─────────────────────────────────────────
 function setSex(val, btn) {
@@ -357,11 +367,11 @@ function previewPhoto(input) {
   reader.readAsDataURL(photoFile);
 }
 
-// ── VACUNAS (ahora con campo propio, sin prompt) ──
+// ── VACUNAS ──────────────────────────────────────
 function addVaccine() {
   var input = document.getElementById('vacInput');
   var name = input.value.trim();
-  if (!name) { toast('⚠️ Escribí el nombre de la vacuna', true); return; }
+  if (!name) { toast('⚠️ Escribe el nombre de la vacuna', true); return; }
   vaccines.push(name);
   input.value = '';
   input.focus();
@@ -448,9 +458,9 @@ async function submitForm() {
       vet_sex: document.getElementById('vetSex').value || null,
       vet_phone: v('vetPhone') || null,
       owner_name: v('ownerName'),
-      emergency_phone: v('ownerPhone'),
+      emergency_phone: soloDigitos(v('ownerPhone')),
       vet_city: v('ownerCity') || null,
-      owner_email: v('ownerEmail') || null,
+      owner_email: v('ownerEmail').toLowerCase() || null,
       next_vaccine_date: document.getElementById('nextVaccine').value || null,
       next_deworming_date: document.getElementById('nextDeworming').value || null,
       is_lost: false,
@@ -474,7 +484,7 @@ async function submitForm() {
     }
 
     // ÉXITO
-    createdPetUrl = 'https://mipet-app.github.io/perfil.html?id=' + petId;
+    createdPetUrl = KOLITA_BASE + petId;
     document.getElementById('loadingOv').classList.remove('show');
     document.getElementById('formContent').style.display = 'none';
     var s = document.getElementById('successScreen');
@@ -513,6 +523,7 @@ function resetForm() {
   document.getElementById('successScreen').classList.remove('show');
   document.getElementById('formContent').style.display = 'block';
   document.querySelectorAll('input, select, textarea').forEach(function(el){ el.value = ''; });
+  document.getElementById('acceptData').checked = false;
   selectedSex = ''; vaccines = []; photoFile = null; createdPetUrl = '';
   document.querySelectorAll('.sex-btn').forEach(function(b){ b.classList.remove('active'); });
   document.getElementById('phPlaceholder').style.display = 'flex';
