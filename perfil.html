@@ -133,13 +133,13 @@ body{font-family:'Nunito Sans',sans-serif;background:#F1F3EF;min-height:100vh;di
 <div class="state" id="error">
   <div style="font-size:40px;">🐾</div>
   <h2>No encontramos este carnet</h2>
-  <p id="errorMsg">El enlace puede estar incompleto o el carnet ya no existe.<br>¿Querés crear uno nuevo? Es gratis y toma 2 minutos.</p>
+  <p id="errorMsg">El enlace puede estar incompleto o el carnet ya no existe.<br>¿Quieres crear uno nuevo? Es gratis y toma 2 minutos.</p>
   <a href="registro.html">Crear carnet gratis →</a>
 </div>
 
 <!-- CARNET -->
 <div class="card" id="card">
-  <div class="lost-banner" id="lostBanner">🚨 ¡Este peludo está perdido! Ayudalo a volver a casa 🙏</div>
+  <div class="lost-banner" id="lostBanner">🚨 ¡Este peludo está perdido! Ayúdalo a volver a casa 🙏</div>
 
   <div class="hdr">
     <div class="brand">
@@ -202,19 +202,18 @@ body{font-family:'Nunito Sans',sans-serif;background:#F1F3EF;min-height:100vh;di
         <div class="owner-lbl">Familia</div>
         <div class="owner-name" id="ownerName">—</div>
         <div class="owner-line" id="ownerCity" style="display:none;">📍 —</div>
-        <div class="owner-line" id="ownerPhoneMasked" style="display:none;">📱 —</div>
       </div>
     </div>
 
     <div class="actions">
-      <button class="btn btn-wa" id="reportBtn" onclick="openReport()" style="border:none;cursor:pointer;">🐾 ¿Encontraste a este peludo? Avisá a su familia</button>
+      <button class="btn btn-wa" id="reportBtn" onclick="openReport()" style="border:none;cursor:pointer;">🐾 ¿Encontraste a este peludo? Avísale a su familia</button>
       <a class="btn btn-wa" id="waBtn" href="#" style="display:none;">💬 Escribir por WhatsApp</a>
       <a class="btn btn-tel" id="telBtn" href="#" style="display:none;">📞 Llamar a la familia</a>
     </div>
   </div>
 
   <div class="foot">
-    <a href="index.html">Carnet creado con <strong>kolita</strong> 🐾 · Creá el de tu peludo gratis</a>
+    <a href="index.html">Carnet creado con <strong>kolita</strong> 🐾 · Crea el de tu peludo gratis</a>
   </div>
 </div>
 
@@ -222,8 +221,8 @@ body{font-family:'Nunito Sans',sans-serif;background:#F1F3EF;min-height:100vh;di
 <div class="rep-modal" id="repModal">
   <div class="rep-box">
     <div id="repForm">
-      <h3>🐾 Avisale a su familia</h3>
-      <p class="rep-sub">Por seguridad de todos, contanos primero quién sos y dónde viste al peludo. Tu mensaje le llega a la familia y ahí se abre el contacto directo.</p>
+      <h3>🐾 Avísale a su familia</h3>
+      <p class="rep-sub">Por seguridad de todos, cuéntanos primero quién eres y dónde viste al peludo. Tu mensaje le llega a la familia y ahí se abre el contacto directo.</p>
 
       <label>Tu nombre *</label>
       <input type="text" id="repName" placeholder="Ej: Carolina" maxlength="60">
@@ -268,8 +267,13 @@ body{font-family:'Nunito Sans',sans-serif;background:#F1F3EF;min-height:100vh;di
 // ═══════════════════════════════════════════════
 var SUPABASE_URL = 'https://fdwbstqxqdailyeedmuo.supabase.co';
 var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZkd2JzdHF4cWRhaWx5ZWVkbXVvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM5MDEwMDEsImV4cCI6MjA5OTQ3NzAwMX0.GG6O9z1Exu5z0DsM8Fzk-fx1h2BIII0I9flMVZiPwIw';
-// ⚠️ LINA: reemplazá el texto de arriba (entre las comillas) por tu
-// anon key nueva de Supabase → Settings → API Keys → Legacy → anon public
+// LINA: si algún día cambias la llave, reemplaza el texto de arriba
+// (entre comillas) por la nueva → Supabase → Settings → API Keys → Legacy → anon public
+
+// Dominio oficial de Kolita. El QR SIEMPRE se arma con esto, nunca con
+// la dirección que tenga abierta el navegador. Si el dominio cambiara,
+// se cambia SOLO aquí.
+var KOLITA_BASE = 'https://kolita.co/perfil.html?id=';
 
 var SPECIES_EMOJI = { perro:'🐶', gato:'🐱', conejo:'🐰', ave:'🐦', otro:'🐾' };
 
@@ -295,10 +299,10 @@ async function loadPet(){
     var rows = await res.json();
     if(!rows || rows.length === 0){ return showError(); }
     renderPet(rows[0]);
-    logScan(petId); // registra el escaneo (silencioso)
+    logScan(petId); // registra el escaneo
   }catch(e){
     console.error(e);
-    showError('No pudimos conectar. Revisá tu internet e intentá de nuevo.');
+    showError('No pudimos conectar. Revisa tu internet e intenta de nuevo.');
   }
 }
 
@@ -307,6 +311,12 @@ function showError(msg){
   if(msg) qs('errorMsg').innerHTML = msg;
   show('error');
 }
+
+// 🔒 El número de la familia se guarda SOLO en memoria mientras la página
+// está abierta. Nunca se escribe en el HTML, así no aparece en el código
+// fuente. Solo se usa si la familia no tiene correo para el aviso protegido.
+var ownerDigits = null;
+var petNameForWa = 'tu peludo';
 
 // ── Pintar el carnet ─────────────────────────────
 function renderPet(p){
@@ -326,13 +336,15 @@ function renderPet(p){
 
   // Nombre y raza
   qs('petName').textContent = p.name || 'Sin nombre';
+  petNameForWa = p.name || 'tu peludo';
   var breedBits = [];
   if(p.breed) breedBits.push(p.breed);
   if(p.sex) breedBits.push(p.sex === 'macho' ? 'Macho' : (p.sex === 'hembra' ? 'Hembra' : p.sex));
   qs('petBreed').textContent = breedBits.join(' · ') || (p.species || '');
 
-  // Stats
-  qs('stAge').textContent = p.age ? String(p.age).replace(' años','').replace(' año','') : '—';
+  // Stats — la edad se calcula HOY, no se queda congelada en la del registro
+  var edadViva = calcEdad(p.birth_date);
+  qs('stAge').textContent = edadViva || (p.age ? String(p.age).replace(' años','').replace(' año','') : '—');
   qs('stWeight').textContent = p.weight ? p.weight + 'kg' : '—';
 
   // Vacunas (soporta formato {name,status} y texto plano)
@@ -379,21 +391,17 @@ function renderPet(p){
     }
   }
 
-  // Dueño (modo protegido: nunca mostrar el número, ni enmascarado)
+  // Familia (modo protegido: el número NO se muestra ni se escribe en la página)
   qs('ownerName').textContent = p.owner_name || '—';
   if(p.vet_city){ qs('ownerCity').textContent = '📍 ' + p.vet_city; qs('ownerCity').style.display = 'block'; }
   if(p.emergency_phone){
     var digits = String(p.emergency_phone).replace(/\D/g,'');
     if(digits.length === 10) digits = '57' + digits; // celular colombiano
-    var waText = encodeURIComponent('¡Hola! Encontré a ' + (p.name||'tu peludo') + ' 🐾 Vi su carnet Kolita y quiero ayudarle a volver a casa.');
-    qs('waBtn').href = 'https://wa.me/' + digits + '?text=' + waText;
-    qs('telBtn').href = 'tel:+' + digits;
-    // 🔒 Botones directos: SOLO se usan como plan B si la familia
-    // no tiene correo registrado para recibir el aviso protegido
+    ownerDigits = digits;
   }
 
-  // QR del propio carnet
-  var url = window.location.href.split('#')[0];
+  // QR del propio carnet — siempre apuntando a kolita.co
+  var url = KOLITA_BASE + getPetId();
   qs('qrImg').src = 'https://api.qrserver.com/v1/create-qr-code/?size=128x128&data=' + encodeURIComponent(url) + '&color=556F51&bgcolor=FFFFFF';
 
   hide('loading');
@@ -439,7 +447,7 @@ async function submitReport(){
   var phone = qs('repPhone').value.trim();
   var msg = qs('repMsg').value.trim();
   if(!name || !phone || !msg){
-    alert('Por favor completá tu nombre, tu WhatsApp y el mensaje 🐾');
+    alert('Por favor completa tu nombre, tu WhatsApp y el mensaje 🐾');
     return;
   }
   var btn = qs('repSend');
@@ -503,10 +511,14 @@ async function submitReport(){
 
     if(notificado){
       // La familia fue avisada: el contacto del dueño NUNCA se muestra
-      qs('repSuccessMsg').innerHTML = 'La familia de este peludo ya recibió tu aviso 💚<br>Te contactarán al WhatsApp que dejaste.<br><br>Si podés, quedate cerca del peludo 🙏';
-    } else if(qs('waBtn').href && qs('waBtn').href.indexOf('wa.me') !== -1){
-      // Plan B: la familia no tiene correo registrado → contacto directo
-      qs('repSuccessMsg').innerHTML = 'Tu aviso quedó registrado.<br>Podés escribirle a la familia directamente:';
+      qs('repSuccessMsg').innerHTML = 'La familia de este peludo ya recibió tu aviso 💚<br>Te contactarán al WhatsApp que dejaste.<br><br>Si puedes, quédate cerca del peludo 🙏';
+    } else if(ownerDigits){
+      // Plan B: la familia no tiene correo registrado → contacto directo.
+      // Solo AQUÍ se arma el enlace con el número.
+      var waText = encodeURIComponent('¡Hola! Encontré a ' + petNameForWa + ' 🐾 Vi su carnet Kolita y quiero ayudarle a volver a casa.');
+      qs('waBtn').href = 'https://wa.me/' + ownerDigits + '?text=' + waText;
+      qs('telBtn').href = 'tel:+' + ownerDigits;
+      qs('repSuccessMsg').innerHTML = 'Tu aviso quedó registrado.<br>Puedes escribirle a la familia directamente:';
       qs('waBtn').style.display = 'flex';
       qs('telBtn').style.display = 'flex';
     } else {
@@ -520,7 +532,7 @@ async function submitReport(){
   }catch(e){
     console.error(e);
     btn.disabled = false; btn.textContent = 'Enviar aviso 💚';
-    alert('No pudimos enviar el aviso. Revisá tu internet e intentá de nuevo 🙏');
+    alert('No pudimos enviar el aviso. Revisa tu internet e intenta de nuevo 🙏');
   }
 }
 
@@ -543,10 +555,14 @@ function logScan(petId){
 }
 
 // ── Utilidades ───────────────────────────────────
-function maskPhone(ph){
-  var d = String(ph).replace(/\D/g,'');
-  if(d.length < 7) return ph;
-  return d.slice(0,3) + ' *** ' + d.slice(-2);
+function calcEdad(birth){
+  if(!birth) return null;
+  try{
+    var años = Math.floor((Date.now() - new Date(birth + 'T12:00:00').getTime()) / (1000*60*60*24*365.25));
+    if(isNaN(años)) return null;
+    if(años < 1) return '<1';
+    return String(años);
+  }catch(e){ return null; }
 }
 function formatDate(iso){
   try{
