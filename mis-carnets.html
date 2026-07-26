@@ -89,8 +89,8 @@ input:focus{border-color:var(--mid);}
 </div>
 
 <div class="wrap">
-  <h1>🔎 Recuperá tus carnets</h1>
-  <p class="sub">¿Perdiste el enlace o el QR de tu peludo? Escribe tu correo o tu número de celular con el que registraste sus carnets y te los mostramos todos aquí.</p>
+  <h1>🔎 Recupera tus carnets</h1>
+  <p class="sub">¿Perdiste el enlace o el QR de tu peludo? Escribe el correo o el celular con el que registraste sus carnets y te los mostramos todos aquí.</p>
 
   <div id="searchForm">
    <label>Tu correo o tu celular</label>
@@ -101,12 +101,12 @@ input:focus{border-color:var(--mid);}
   <div class="spinner" id="spinner"></div>
 
   <div class="msg" id="msgEmpty">
-    😿 No encontramos carnets con ese correo.<br>
-    Revisá que esté bien escrito, o <a href="registro.html">creá el carnet de tu peludo</a>.
+    😿 No encontramos carnets con ese correo ni con ese celular.<br>
+    Revisa que estén bien escritos, o <a href="registro.html">crea el carnet de tu peludo</a>.
   </div>
 
   <div class="msg" id="msgError">
-    ⚠️ No pudimos conectar en este momento.<br>Revisá tu internet e intentá de nuevo.
+    ⚠️ No pudimos conectar en este momento.<br>Revisa tu internet e intenta de nuevo.
   </div>
 
   <div class="results" id="results">
@@ -119,7 +119,7 @@ input:focus{border-color:var(--mid);}
 <div class="modal" id="qrModal">
   <div class="modal-box">
     <h3 id="qrPetName">—</h3>
-    <p>Escaneá o descargá este código para el collar</p>
+    <p>Escanea o descarga este código para el collar</p>
     <img id="qrImage" src="" alt="Código QR">
     <div class="modal-btns">
       <a class="dl" id="qrDownload" href="#" download>⬇️ Descargar QR</a>
@@ -132,15 +132,19 @@ input:focus{border-color:var(--mid);}
 
 <script>
 // ═══════════════════════════════════════════════
-// KOLITA · MIS CARNETS — recuperar por correo
+// KOLITA · MIS CARNETS — recuperar por correo o celular
 // ═══════════════════════════════════════════════
 var SUPABASE_URL = 'https://fdwbstqxqdailyeedmuo.supabase.co';
 var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZkd2JzdHF4cWRhaWx5ZWVkbXVvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM5MDEwMDEsImV4cCI6MjA5OTQ3NzAwMX0.GG6O9z1Exu5z0DsM8Fzk-fx1h2BIII0I9flMVZiPwIw';
-// ⚠️ LINA: reemplazá el texto de arriba (entre comillas) por tu
-// anon key nueva → Supabase → Settings → API Keys → Legacy → anon public
+// LINA: si algún día cambias la llave, reemplaza el texto de arriba
+// (entre comillas) por la nueva → Supabase → Settings → API Keys → Legacy → anon public
 
 var SPECIES_EMOJI = { perro:'🐶', gato:'🐱', conejo:'🐰', ave:'🐦', otro:'🐾' };
 var BASE_PERFIL = 'https://kolita.co/perfil.html?id=';
+
+// 🔒 Solo pedimos los campos que la página dibuja. Así, aunque una búsqueda
+// traiga de más, nunca viajan correos ni datos de otras familias.
+var CAMPOS = 'id,name,species,breed,sex,photo_url,emergency_phone,created_at';
 
 function qs(id){ return document.getElementById(id); }
 
@@ -152,13 +156,15 @@ function soloDigitos(t){
 
 async function buscar(){
   var dato = qs('email').value.trim();
-  if(!dato){ toast('⚠️ Escribí tu correo o tu celular'); return; }
+  if(!dato){ toast('⚠️ Escribe tu correo o tu celular'); return; }
 
   var esCorreo = dato.indexOf('@') !== -1;
   var digitos = soloDigitos(dato);
 
-  if(!esCorreo && digitos.length < 7){
-    toast('⚠️ Escribí un correo o un celular válido');
+  // 🔒 Exigimos el celular COMPLETO. Con 4 dígitos la búsqueda devolvía
+  // carnets de otras familias.
+  if(!esCorreo && digitos.length < 10){
+    toast('⚠️ Escribe tu celular completo (10 dígitos)');
     return;
   }
 
@@ -171,10 +177,9 @@ async function buscar(){
   try{
     var url;
     if(esCorreo){
-      url = SUPABASE_URL + '/rest/v1/pets?owner_email=eq.' + encodeURIComponent(dato.toLowerCase()) + '&select=*&order=created_at.asc';
+      url = SUPABASE_URL + '/rest/v1/pets?owner_email=eq.' + encodeURIComponent(dato.toLowerCase()) + '&select=' + CAMPOS + '&order=created_at.asc';
     }else{
-      var cola = digitos.slice(-4);
-      url = SUPABASE_URL + '/rest/v1/pets?emergency_phone=like.*' + encodeURIComponent(cola) + '&select=*&order=created_at.asc';
+      url = SUPABASE_URL + '/rest/v1/pets?emergency_phone=like.*' + encodeURIComponent(digitos) + '*&select=' + CAMPOS + '&order=created_at.asc';
     }
 
     var res = await fetch(url, {
