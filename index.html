@@ -13,7 +13,7 @@
 
   gtag('config', 'G-381DD74KP3');
 </script>
-<meta name="description" content="Carnet digital gratis para perros y gatos. Vacunas al día, modo perdido con un clic y contacto inmediato por QR. Hecho en Colombia 🐾">
+<meta name="description" content="Carnet digital gratis para perros y gatos. Vacunas, recordatorios y modo perdido. Si se pierde, quien lo encuentre avisa a tu familia sin que tu número quede expuesto. Hecho en Colombia 🐾">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Quicksand:wght@600;700&family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style> .nav-link{margin-left:auto;font-size:13px;font-weight:800;color:var(--deep);text-decoration:none;margin-right:14px;}
 :root{
@@ -101,6 +101,16 @@ section{padding:52px 0;}
 .cta-box .btn-main{margin-top:24px;background:var(--mid);}
 .cta-box .btn-main:hover{background:#8BA886;}
 
+/* bloque gratis */
+.hero p strong{color:var(--deep);}
+.free-box{background:#fff;border:2px solid var(--mid);border-radius:28px;padding:38px 26px;max-width:620px;margin:0 auto;box-shadow:0 14px 40px rgba(70,85,66,.08);}
+.free-tag{display:inline-block;background:var(--soft);color:var(--deep);font-size:10.5px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;padding:6px 14px;border-radius:20px;}
+.free-title{font-family:'Fraunces',serif;font-size:clamp(22px,3.5vw,29px);font-weight:700;margin-top:14px;line-height:1.25;}
+.free-list{list-style:none;margin-top:24px;display:flex;flex-direction:column;gap:13px;}
+.free-list li{position:relative;padding-left:31px;font-size:13.5px;font-weight:600;line-height:1.55;}
+.free-list li::before{content:'✓';position:absolute;left:0;top:0;width:21px;height:21px;background:var(--mid);color:#fff;border-radius:50%;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;}
+.free-list li strong{color:var(--deep);}
+.free-foot{margin-top:24px;padding-top:18px;border-top:1px solid var(--line);font-size:12.5px;font-weight:700;color:var(--mut);line-height:1.6;}
 footer{border-top:1px solid var(--line);padding:26px 0 34px;text-align:center;}
 footer .f-brand{display:flex;align-items:center;justify-content:center;gap:8px;}
 footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:8px;}
@@ -119,8 +129,8 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:8px;}
 
 <header class="hero container">
   <span class="hero-badge">🐾 Gratis · Hecho en Colombia</span>
-  <h1>El carnet digital<br>de tu <em>peludo</em></h1>
-  <p>Sus vacunas, su historial y tu contacto en un solo enlace con QR. Si se pierde, quien lo encuentre te escribe por WhatsApp en segundos.</p>
+  <h1>Si se pierde,<br>vuelve a <em>casa</em></h1>
+  <p>El carnet digital de tu peludo: sus vacunas, su historial y un QR para su collar. Si alguien lo encuentra, avisa a tu familia <strong>sin que tu número quede expuesto</strong>.</p>
   <div class="hero-btns">
     <a class="btn btn-main" href="registro.html">Crear su carnet 🐾</a>
     <a class="btn btn-ghost" href="perfil.html?id=pet_1783916734681_olda0f">Ver un ejemplo</a>
@@ -140,7 +150,7 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:8px;}
     </div>
     <div class="d-row"><span>💉 Rabia</span><span class="d-ok">Al día ✓</span></div>
     <div class="d-row"><span>💉 Parvovirus</span><span class="d-ok">Al día ✓</span></div>
-    <div class="d-btn">💬 Escribir por WhatsApp</div>
+    <div class="d-btn">🐾 Avisar a su familia</div>
   </div>
 </div>
 
@@ -151,12 +161,12 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:8px;}
     <div class="why-card">
       <div class="w-emoji">🚪</div>
       <h3>"Se me voló por la puerta"</h3>
-      <p>Un descuido de 3 segundos y tu peludo está solo en una ciudad de millones. Sin identificación, dependés de la suerte y de grupos de Facebook. <strong>Con Kolita, quien lo encuentre escanea su QR y te escribe por WhatsApp al instante.</strong></p>
+      <p>Un descuido de 3 segundos y tu peludo está solo en una ciudad de millones. Sin identificación, dependes de la suerte y de los grupos de Facebook. <strong>Con Kolita, quien lo encuentre escanea su QR, se identifica, y a tu correo llega el aviso con dónde está.</strong></p>
     </div>
     <div class="why-card">
       <div class="w-emoji">🎆</div>
       <h3>La pólvora y los sustos</h3>
-      <p>Diciembre es la época en que más peludos se pierden en Antioquia: se asustan, corren y no miran atrás. <strong>El collar con QR es su boleto de regreso a casa, funcione donde funcione el susto.</strong></p>
+      <p>La Feria de las Flores y diciembre son las épocas en que más peludos se pierden en Antioquia: la pólvora los asusta, corren y no miran atrás. <strong>El collar con QR es su boleto de regreso a casa, funcione donde funcione el susto.</strong></p>
     </div>
     <div class="why-card">
       <div class="w-emoji">📋</div>
@@ -173,20 +183,20 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:8px;}
     <div class="step-card">
       <div class="step-num">1</div>
       <div class="step-emoji">📝</div>
-      <h3>Creá su carnet</h3>
+      <h3>Crea su carnet</h3>
       <p>Nombre, foto, vacunas y tu contacto. Todo gratis, desde el celular, en 2 minutos.</p>
     </div>
     <div class="step-card">
       <div class="step-num">2</div>
       <div class="step-emoji">🏷️</div>
-      <h3>Poné el QR en su collar</h3>
-      <p>Recibís un enlace único con código QR. Lo imprimís o lo mandás grabar en su placa.</p>
+      <h3>Pon el QR en su collar</h3>
+      <p>Recibes un enlace único con su código QR. Lo imprimes o lo mandas grabar en una placa.</p>
     </div>
     <div class="step-card">
       <div class="step-num">3</div>
       <div class="step-emoji">💬</div>
-      <h3>Quien lo encuentre, te escribe</h3>
-      <p>Al escanear, ve el carnet y te contacta por WhatsApp o llamada con un solo toque.</p>
+      <h3>Te avisan sin exponerte</h3>
+      <p>Quien lo encuentre se identifica primero. A tu correo llega quién es, dónde está y su ubicación.</p>
     </div>
   </div>
 </section>
@@ -198,8 +208,8 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:8px;}
     <div class="feat-grid">
       <div class="feat">
         <div class="feat-ico">💉</div>
-        <h3>Vacunas al día</h3>
-        <p>Su historial de vacunas y desparasitación siempre a la mano, hasta en la veterinaria.</p>
+        <h3>Vacunas y recordatorios</h3>
+        <p>Su historial de vacunas y desparasitación a la mano — y un correo de aviso antes de cada fecha. Sin costo.</p>
       </div>
       <div class="feat">
         <div class="feat-ico">🚨</div>
@@ -214,9 +224,28 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:8px;}
       <div class="feat">
         <div class="feat-ico">🔒</div>
         <h3>Tu número, protegido</h3>
-        <p>Tu celular se muestra parcialmente oculto: te pueden contactar sin verlo completo.</p>
+        <p>Tu celular nunca se muestra en el carnet. Quien encuentra a tu peludo se identifica primero y tú decides si respondes.</p>
       </div>
     </div>
+  </div>
+</section>
+
+<section class="container" id="gratis">
+  <div class="free-box">
+    <span class="free-tag">Sin letra menuda</span>
+    <h2 class="free-title">Esto es gratis. Y va a seguir siendo gratis.</h2>
+    <ul class="free-list">
+      <li>Carnet digital con QR — sin apps, sin cuenta, sin tarjeta</li>
+      <li>Enlace único para el collar de tu peludo</li>
+      <li>Sus vacunas, desparasitación, alergias y veterinario de confianza</li>
+      <li><strong>Recordatorios automáticos por correo</strong> antes de cada vacuna y desparasitación</li>
+      <li>Modo perdido con alerta visible en su carnet</li>
+      <li><strong>Aviso protegido:</strong> quien lo encuentra se identifica primero — tu número nunca se muestra</li>
+      <li>Registro de cada escaneo con su zona aproximada</li>
+      <li>Recupera los carnets de tu familia con tu correo o tu celular</li>
+      <li>Edita sus datos cuando quieras</li>
+    </ul>
+    <p class="free-foot">Sin prueba de 3 días. Sin pedirte la tarjeta. Kolita es gratis de verdad.</p>
   </div>
 </section>
 
@@ -226,19 +255,19 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:8px;}
   <div class="faq-list">
     <details>
       <summary>¿De verdad es gratis? ¿Dónde está la trampa?</summary>
-      <p>Sí, crear el carnet es 100% gratis y lo seguirá siendo. No hay trampa: más adelante ofreceremos funciones adicionales opcionales de pago (como recordatorios automáticos de vacunas), pero el carnet básico con QR y contacto de emergencia es gratis para siempre.</p>
+      <p>Sí. El carnet, el QR, los recordatorios de vacunas y el aviso protegido son gratis y van a seguir siéndolo. No te pedimos tarjeta ni tienes que crear una cuenta. Más adelante venderemos cosas opcionales, pero nada de lo que hoy es gratis va a dejar de serlo.</p>
     </details>
     <details>
       <summary>¿Tengo que descargar una app?</summary>
-      <p>No. Kolita funciona en el navegador de cualquier celular. Ni vos ni la persona que encuentre a tu peludo necesitan instalar nada — con escanear el QR desde la cámara es suficiente.</p>
+      <p>No. Kolita funciona en el navegador de cualquier celular. Ni tú ni la persona que encuentre a tu peludo necesitan instalar nada — con escanear el QR desde la cámara es suficiente.</p>
     </details>
     <details>
       <summary>¿Cómo pongo el QR en el collar?</summary>
-      <p>Al crear el carnet recibís su enlace único. Podés generar el QR e imprimirlo para llevarlo a grabar en una placa metálica (cualquier taller de grabado o veterinaria lo hace), o pedirla en tiendas de placas con tu código. Mientras tanto, guardá el enlace: también sirve compartido por WhatsApp.</p>
+      <p>Al crear el carnet recibes su enlace único con el código QR. Lo puedes imprimir y llevarlo a grabar en una placa metálica en cualquier taller de grabado. Mientras tanto, guarda el enlace: también funciona compartido por WhatsApp.</p>
     </details>
     <details>
       <summary>¿Quién puede ver mis datos?</summary>
-      <p>El carnet muestra los datos de tu peludo, tu nombre y tu celular parcialmente oculto (ej: 312 *** 45) — nunca tu número completo. Nadie puede modificar ni borrar la información desde la página. Todos los detalles están en nuestra <a href="privacidad.html">Política de Privacidad</a>.</p>
+      <p>El carnet muestra los datos de tu peludo y tu nombre. Tu número de celular no se muestra nunca. Si alguien lo encuentra, primero tiene que decir quién es y dónde lo vio; ese aviso te llega a tu correo y tú decides si respondes. Todos los detalles están en nuestra <a href="privacidad.html">Política de Privacidad</a>.</p>
     </details>
     <details>
       <summary>¿Sirve para gatos y otros peludos?</summary>
@@ -246,7 +275,7 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:8px;}
     </details>
     <details>
       <summary>¿Qué pasa si mi peludo se pierde?</summary>
-      <p>Quien lo encuentre escanea el QR de su collar, ve su carnet y te contacta por WhatsApp o llamada con un solo toque. Además el carnet registra la zona aproximada donde fue escaneado, una pista valiosa para la búsqueda.</p>
+      <p>Puedes activar el modo perdido y su carnet muestra una alerta. Quien lo encuentre escanea el QR, ve su carnet y llena un aviso corto: quién es, su WhatsApp, dónde lo vio y una foto. Ese aviso te llega a tu correo con la ubicación aproximada, y tú decides si lo contactas. Tu número nunca queda expuesto.</p>
     </details>
   </div>
 </section>
@@ -254,7 +283,7 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:8px;}
 <section class="container cta-end">
   <div class="cta-box">
     <h2>Su carnet lo protege.<br>Crearlo toma 2 minutos.</h2>
-    <p>Gratis para perros, gatos y todos los peludos de la casa 🐾</p>
+    <p>Gratis para perros, gatos y todos los peludos de la casa. Sin cuenta, sin tarjeta 🐾</p>
     <a class="btn btn-main" href="registro.html">Crear carnet gratis →</a>
   </div>
 </section>
