@@ -89,6 +89,9 @@ body{font-family:'Nunito Sans',sans-serif;background:#F1F3EF;min-height:100vh;di
 .btn-wa{background:var(--mid);color:#fff;}
 .btn-tel{background:#fff;border:1.5px solid var(--mid);color:var(--deep);}
 
+.kcode{text-align:center;font-size:10.5px;font-weight:700;color:var(--mut);letter-spacing:.5px;margin-top:4px;}
+.kcode strong{color:var(--deep);letter-spacing:2.5px;font-size:12.5px;}
+
 .foot{padding:14px 22px 18px;text-align:center;border-top:1px solid var(--line);}
 .foot a{font-size:11px;color:var(--mut);font-weight:700;text-decoration:none;}
 .foot a strong{color:var(--deep);}
@@ -205,6 +208,8 @@ body{font-family:'Nunito Sans',sans-serif;background:#F1F3EF;min-height:100vh;di
       </div>
     </div>
 
+    <div class="kcode" id="kcode" style="display:none;">Código Kolita · <strong id="kcodeVal">—</strong></div>
+
     <div class="actions">
       <button class="btn btn-wa" id="reportBtn" onclick="openReport()" style="border:none;cursor:pointer;">🐾 ¿Encontraste a este peludo? Avísale a su familia</button>
       <a class="btn btn-wa" id="waBtn" href="#" style="display:none;">💬 Escribir por WhatsApp</a>
@@ -273,7 +278,8 @@ var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSI
 // Dominio oficial de Kolita. El QR SIEMPRE se arma con esto, nunca con
 // la dirección que tenga abierta el navegador. Si el dominio cambiara,
 // se cambia SOLO aquí.
-var KOLITA_BASE = 'https://kolita.co/perfil.html?id=';
+var KOLITA_BASE  = 'https://kolita.co/perfil.html?id=';
+var KOLITA_CORTO = 'https://kolita.co/p/?c=';
 
 var SPECIES_EMOJI = { perro:'🐶', gato:'🐱', conejo:'🐰', ave:'🐦', otro:'🐾' };
 
@@ -317,6 +323,7 @@ function showError(msg){
 // fuente. Solo se usa si la familia no tiene correo para el aviso protegido.
 var ownerDigits = null;
 var petNameForWa = 'tu peludo';
+var petShortCode = null;
 
 // ── Pintar el carnet ─────────────────────────────
 function renderPet(p){
@@ -337,6 +344,13 @@ function renderPet(p){
   // Nombre y raza
   qs('petName').textContent = p.name || 'Sin nombre';
   petNameForWa = p.name || 'tu peludo';
+
+  // Código Kolita: se muestra para que se pueda leer a ojo si el QR falla
+  petShortCode = p.short_code || null;
+  if(petShortCode){
+    qs('kcodeVal').textContent = petShortCode;
+    qs('kcode').style.display = 'block';
+  }
   var breedBits = [];
   if(p.breed) breedBits.push(p.breed);
   if(p.sex) breedBits.push(p.sex === 'macho' ? 'Macho' : (p.sex === 'hembra' ? 'Hembra' : p.sex));
@@ -400,9 +414,10 @@ function renderPet(p){
     ownerDigits = digits;
   }
 
-  // QR del propio carnet — siempre apuntando a kolita.co
-  var url = KOLITA_BASE + getPetId();
-  qs('qrImg').src = 'https://api.qrserver.com/v1/create-qr-code/?size=128x128&data=' + encodeURIComponent(url) + '&color=556F51&bgcolor=FFFFFF';
+  // QR del propio carnet. Usa la dirección corta (menos caracteres = QR
+  // más grande y más fácil de leer). ecc=M aguanta rayones sin inflarlo.
+  var url = petShortCode ? (KOLITA_CORTO + petShortCode) : (KOLITA_BASE + getPetId());
+  qs('qrImg').src = 'https://api.qrserver.com/v1/create-qr-code/?size=128x128&ecc=M&data=' + encodeURIComponent(url) + '&color=556F51&bgcolor=FFFFFF';
 
   hide('loading');
   show('card');
