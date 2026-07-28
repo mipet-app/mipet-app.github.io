@@ -58,6 +58,8 @@ input:focus{border-color:var(--mid);}
 .pet-info{flex:1;min-width:0;}
 .pet-name{font-family:'Fraunces',serif;font-size:19px;font-weight:700;line-height:1.1;}
 .pet-breed{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:2px;}
+.pet-code{font-size:10px;color:var(--mut);font-weight:700;margin-top:4px;text-transform:uppercase;letter-spacing:.5px;}
+.pet-code strong{color:var(--deep);letter-spacing:2px;font-size:11.5px;}
 .pet-actions{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap;}
 .chip{font-size:11px;font-weight:800;padding:7px 12px;border-radius:20px;text-decoration:none;display:inline-flex;align-items:center;gap:4px;cursor:pointer;border:none;font-family:'Nunito Sans',sans-serif;}
 .chip-view{background:var(--soft);color:var(--deep);}
@@ -120,6 +122,7 @@ input:focus{border-color:var(--mid);}
   <div class="modal-box">
     <h3 id="qrPetName">—</h3>
     <p>Escanea o descarga este código para el collar</p>
+    <p id="qrCodeTxt" style="font-weight:800;color:var(--deep);letter-spacing:1.5px;margin-top:-10px;margin-bottom:14px;"></p>
     <img id="qrImage" src="" alt="Código QR">
     <div class="modal-btns">
       <a class="dl" id="qrDownload" href="#" download>⬇️ Descargar QR</a>
@@ -141,10 +144,11 @@ var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSI
 
 var SPECIES_EMOJI = { perro:'🐶', gato:'🐱', conejo:'🐰', ave:'🐦', otro:'🐾' };
 var BASE_PERFIL = 'https://kolita.co/perfil.html?id=';
+var BASE_CORTO  = 'https://kolita.co/p/?c=';
 
 // 🔒 Solo pedimos los campos que la página dibuja. Así, aunque una búsqueda
 // traiga de más, nunca viajan correos ni datos de otras familias.
-var CAMPOS = 'id,name,species,breed,sex,photo_url,emergency_phone,created_at';
+var CAMPOS = 'id,name,species,breed,sex,photo_url,emergency_phone,short_code,created_at';
 
 function qs(id){ return document.getElementById(id); }
 
@@ -216,7 +220,7 @@ function renderPets(pets){
   qs('resultsTitle').textContent = pets.length === 1 ? '1 carnet encontrado' : pets.length + ' carnets encontrados';
 
   pets.forEach(function(p){
-    var url = BASE_PERFIL + p.id;
+    var url = p.short_code ? (BASE_CORTO + p.short_code) : (BASE_PERFIL + p.id);
     var emoji = SPECIES_EMOJI[(p.species||'').toLowerCase()] || '🐾';
     var breed = [p.breed, p.sex === 'macho' ? 'Macho' : (p.sex === 'hembra' ? 'Hembra' : '')].filter(Boolean).join(' · ') || (p.species||'');
 
@@ -232,9 +236,10 @@ function renderPets(pets){
       '<div class="pet-info">' +
         '<div class="pet-name">' + escapeHtml(p.name || 'Sin nombre') + '</div>' +
         '<div class="pet-breed">' + escapeHtml(breed) + '</div>' +
+        (p.short_code ? '<div class="pet-code">Código Kolita · <strong>' + escapeHtml(p.short_code) + '</strong></div>' : '') +
         '<div class="pet-actions">' +
           '<a class="chip chip-view" href="' + url + '" target="_blank">👁️ Ver</a>' +
-          '<button class="chip chip-qr" onclick="showQR(\'' + p.id + '\',\'' + escapeAttr(p.name||'peludo') + '\')">📱 Ver QR</button>' +
+          '<button class="chip chip-qr" onclick="showQR(\'' + (p.short_code || '') + '\',\'' + p.id + '\',\'' + escapeAttr(p.name||'peludo') + '\')">📱 Ver QR</button>' +
           '<button class="chip chip-copy" onclick="copyLink(\'' + url + '\')">🔗 Copiar enlace</button>' +
           '<a class="chip chip-view" href="editar.html?id=' + p.id + '">✏️ Editar</a>' +
         '</div>' +
@@ -246,10 +251,13 @@ function renderPets(pets){
 }
 
 // ── Modal QR ──
-function showQR(petId, petName){
-  var url = BASE_PERFIL + petId;
-  var qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=' + encodeURIComponent(url) + '&color=556F51&bgcolor=FFFFFF';
+function showQR(shortCode, petId, petName){
+  // Dirección corta = QR con menos casillas = se lee mejor grabado en metal.
+  // ecc=M aguanta rayones sin inflar el código.
+  var url = shortCode ? (BASE_CORTO + shortCode) : (BASE_PERFIL + petId);
+  var qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=600x600&ecc=M&data=' + encodeURIComponent(url) + '&color=556F51&bgcolor=FFFFFF';
   qs('qrPetName').textContent = petName;
+  qs('qrCodeTxt').textContent = shortCode ? ('Código Kolita: ' + shortCode) : '';
   qs('qrImage').src = qrUrl;
   qs('qrDownload').href = qrUrl + '&download=1';
   qs('qrDownload').setAttribute('download', 'QR-' + petName + '.png');
