@@ -257,7 +257,7 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:8px;}
 
 <section class="container" id="gratis">
   <div class="free-box">
-    
+    <span class="free-tag">Sin letra menuda</span>
     <h2 class="free-title">Esto es gratis. Y va a seguir siendo gratis.</h2>
     <ul class="free-list">
       <li>Carnet digital con QR — sin apps, sin cuenta, sin tarjeta</li>
@@ -284,7 +284,7 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:8px;}
     <!-- PLACA ESTANDAR -->
     <div class="modelo">
       <div class="modelo-img">
-        <img id="imgStd" src="img/placa-negra.jpg" alt="Placa Kolita estándar">
+        <img id="imgStd" alt="Placa Kolita estándar">
         <svg id="svgStd" viewBox="0 0 96 60" width="146" height="91">
           <rect id="stdBody" x="2" y="2" width="92" height="56" rx="22" fill="#2B2B2B" stroke="#3C4A3A" stroke-width="1.6"/>
           <circle cx="15" cy="30" r="4.5" fill="none" stroke="#93A28F" stroke-width="1.6"/>
@@ -331,7 +331,7 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:8px;}
     <!-- HUESITO -->
     <div class="modelo">
       <div class="modelo-img">
-        <img id="imgHue" src="img/placa-huesito.jpg" alt="Placa Kolita huesito">
+        <img id="imgHue" alt="Placa Kolita huesito">
         <svg id="svgHue" viewBox="0 0 100 62" width="146" height="91">
           <path id="hueBody" d="M23 13a11.5 11.5 0 1 0-8.5 18.5A11.5 11.5 0 1 0 23 50h54a11.5 11.5 0 1 0 8.5-18.5A11.5 11.5 0 1 0 77 13z" fill="#3FA34D" stroke="#3C4A3A" stroke-width="1.6"/>
           <circle cx="50" cy="17" r="3.4" fill="none" stroke="#3C4A3A" stroke-width="1.4"/>
@@ -477,21 +477,39 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:8px;}
   // Si la foto existe en la carpeta img/, se muestra la foto.
   // Si todavía no la has subido, se sigue viendo el dibujo.
   // Archivos que busca:
-  //   img/placa-negra.jpg     · img/placa-plateada.jpg
-  //   img/placa-foto.jpg      · img/placa-huesito.jpg
-  function pintaFoto(img, svg, src){
-    var prueba = new Image();
-    prueba.onload  = function(){ img.src = src; img.style.display='block'; svg.style.display='none'; };
-    prueba.onerror = function(){ img.style.display='none';  svg.style.display=''; };
-    prueba.src = src;
+  //   img/placa-negra   · img/placa-plateada
+  //   img/placa-foto    · img/placa-huesito
+  // (con cualquier terminación: .jpg, .png, .jpg.png, .jpeg)
+  // Prueba varias terminaciones hasta encontrar el archivo que sí existe,
+  // así no importa si la foto quedó como .jpg, .png o .jpg.png
+  var TERMINACIONES = ['.jpg', '.png', '.jpg.png', '.jpeg', '.JPG', '.PNG'];
+  function pintaFoto(img, svg, base){
+    var i = 0;
+    function intenta(){
+      if(i >= TERMINACIONES.length){          // no se encontró ninguna
+        img.style.display = 'none';
+        svg.style.display = '';
+        return;
+      }
+      var src = base + TERMINACIONES[i++];
+      var prueba = new Image();
+      prueba.onload  = function(){
+        img.src = src;
+        img.style.display = 'block';
+        svg.style.display = 'none';
+      };
+      prueba.onerror = intenta;              // esa no existe, prueba la siguiente
+      prueba.src = src;
+    }
+    intenta();
   }
   function fotoStd(){
-    var src = std.foto ? 'img/placa-foto.jpg'
-            : (std.color === 'plateada' ? 'img/placa-plateada.jpg' : 'img/placa-negra.jpg');
+    var src = std.foto ? 'img/placa-foto'
+            : (std.color === 'plateada' ? 'img/placa-plateada' : 'img/placa-negra');
     pintaFoto(document.getElementById('imgStd'), document.getElementById('svgStd'), src);
   }
   function fotoHue(){
-    pintaFoto(document.getElementById('imgHue'), document.getElementById('svgHue'), 'img/placa-huesito.jpg');
+    pintaFoto(document.getElementById('imgHue'), document.getElementById('svgHue'), 'img/placa-huesito');
   }
 
   refrescaStd(); refrescaHue(); fotoStd(); fotoHue();
