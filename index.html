@@ -116,8 +116,12 @@ section{padding:52px 0;}
 /* placas */
 .modelos{max-width:760px;margin:32px auto 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;}
 .modelo{background:#fff;border:1.5px solid var(--line);border-radius:22px;padding:24px 22px;text-align:center;}
-.modelo-img{height:150px;display:flex;align-items:center;justify-content:center;position:relative;}
-.modelo-img img{max-height:150px;max-width:100%;object-fit:contain;border-radius:10px;display:none;}
+.modelo-img{height:230px;display:flex;align-items:center;justify-content:center;position:relative;border-radius:16px;overflow:hidden;background:var(--bg);}
+.modelo-img img{max-height:230px;max-width:100%;object-fit:contain;display:none;}
+.modelo-foto{display:block;text-decoration:none;position:relative;}
+.modelo-foto::after{content:'🔍 Ver en grande';position:absolute;left:50%;bottom:9px;transform:translateX(-50%);background:rgba(60,74,58,.86);color:#fff;font-size:10.5px;font-weight:800;padding:6px 12px;border-radius:20px;white-space:nowrap;opacity:0;transition:.2s;pointer-events:none;}
+.modelo-foto:hover::after{opacity:1;}
+@media(max-width:700px){.modelo-foto::after{opacity:1;}}
 .modelo h3{font-family:'Fraunces',serif;font-size:19px;margin-top:6px;}
 .modelo>p{font-size:12.5px;color:var(--mut);font-weight:600;line-height:1.55;margin-top:6px;}
 .opt-lbl{font-size:10px;font-weight:800;color:var(--mut);text-transform:uppercase;letter-spacing:1.2px;margin-top:18px;}
@@ -257,19 +261,20 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:8px;}
 
 <section class="container" id="gratis">
   <div class="free-box">
-    
-    <h2 class="free-title">Recuerda es gratis para ti y tu mascota.</h2>
+    <span class="free-tag">Sin letra menuda</span>
+    <h2 class="free-title">Esto es gratis. Y va a seguir siendo gratis.</h2>
     <ul class="free-list">
-      <li>Carnet digital con QR </li>
+      <li>Carnet digital con QR — sin apps, sin cuenta, sin tarjeta</li>
       <li>Enlace único para el collar de tu peludo</li>
       <li>Sus vacunas, desparasitación, alergias y veterinario de confianza</li>
       <li><strong>Recordatorios automáticos por correo</strong> antes de cada vacuna y desparasitación</li>
       <li>Modo perdido con alerta visible en su carnet</li>
-      <li><strong>Aviso protegido:</strong> quien lo encuentra se identifica primero — tus datos están protegidos</li>
+      <li><strong>Aviso protegido:</strong> quien lo encuentra se identifica primero — tu número nunca se muestra</li>
       <li>Registro de cada escaneo con su zona aproximada</li>
+      <li>Recupera los carnets de tu familia con tu correo o tu celular</li>
       <li>Edita sus datos cuando quieras</li>
     </ul>
-    <p class="free-foot"> Kolita es gratis.</p>
+    <p class="free-foot">Sin prueba de 3 días. Sin pedirte la tarjeta. Kolita es gratis de verdad.</p>
   </div>
 </section>
 
@@ -282,6 +287,7 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:8px;}
 
     <!-- PLACA ESTANDAR -->
     <div class="modelo">
+      <a class="modelo-foto" href="placas.html#estandar">
       <div class="modelo-img">
         <img id="imgStd" alt="Placa Kolita estándar">
         <svg id="svgStd" viewBox="0 0 96 60" width="146" height="91">
@@ -308,6 +314,7 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:8px;}
           <text id="stdT2" x="77" y="36" font-family="Nunito Sans, Helvetica" font-size="5.4" font-weight="bold" fill="#EEEEEE" text-anchor="middle" class="g-fg">A7K2M9</text>
         </svg>
       </div>
+      </a>
       <h3>Placa estándar</h3>
       <p>Metal resistente, con el QR grabado a láser. La más legible y la que mejor aguanta.</p>
 
@@ -329,6 +336,7 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:8px;}
 
     <!-- HUESITO -->
     <div class="modelo">
+      <a class="modelo-foto" href="placas.html#huesito">
       <div class="modelo-img">
         <img id="imgHue" alt="Placa Kolita huesito">
         <svg id="svgHue" viewBox="0 0 100 62" width="146" height="91">
@@ -342,6 +350,7 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:8px;}
           <rect x="48" y="43" width="2.5" height="2.5" fill="#2B2B2B"/><rect x="56" y="43" width="2.5" height="2.5" fill="#2B2B2B"/>
         </svg>
       </div>
+      </a>
       <h3>Placa huesito</h3>
       <p>Más pequeña y liviana, en varios colores. Ideal para peludos chiquitos.</p>
 
@@ -364,7 +373,7 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:8px;}
 
   </div>
 
-  <p class="modelos-nota">Pago único · Entrega en persona sin costo en Medellín · A otras ciudades cotizamos el envío<br>Escríbenos con el Código Kolita de tu peludo y te decimos los pasos.</p>
+  <p class="modelos-nota"><a href="placas.html" style="color:var(--deep);font-weight:800;">Ver las placas en grande y con detalle →</a><br><br>Pago único · Entrega en persona sin costo en Medellín · A otras ciudades cotizamos el envío<br>Escríbenos con el Código Kolita de tu peludo y te decimos los pasos.</p>
 </section>
 
 <section class="container" id="preguntas">
