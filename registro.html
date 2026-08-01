@@ -100,6 +100,19 @@ input:focus,select:focus,textarea:focus{border-color:var(--mid);}
 .btn-ghost{background:#fff;border:1.5px solid var(--mid);color:var(--deep);}
 .btn-plain{background:none;border:none;color:var(--mut);font-size:12px;font-weight:800;margin-top:14px;cursor:pointer;font-family:'Nunito Sans',sans-serif;}
 
+/* oferta de la placa al terminar */
+.placa-of{margin-top:22px;padding-top:20px;border-top:1px solid var(--line);text-align:left;}
+.placa-of-tag{font-size:9.5px;font-weight:800;color:var(--mut);text-transform:uppercase;letter-spacing:1.3px;}
+.placa-of h3{font-family:'Fraunces',serif;font-size:17px;font-weight:700;margin-top:7px;line-height:1.35;}
+.placa-of p{font-size:12.5px;color:var(--mut);font-weight:600;line-height:1.6;margin-top:7px;}
+.placa-of-row{display:flex;gap:10px;align-items:center;background:#fff;border:1.5px solid var(--line);border-radius:15px;padding:12px;margin-top:13px;}
+.placa-of-row svg{flex:none;}
+.placa-of-row div{flex:1;}
+.placa-of-row b{display:block;font-size:13px;color:var(--ink);}
+.placa-of-row span{font-size:11.5px;color:var(--mut);font-weight:700;}
+.placa-of .btn-ver{display:block;text-align:center;margin-top:13px;background:var(--soft);color:var(--deep);text-decoration:none;font-size:13px;font-weight:800;padding:13px;border-radius:13px;}
+.placa-of .btn-ver:hover{background:var(--mid);color:#fff;}
+
 .toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--deep);color:#fff;padding:12px 22px;border-radius:14px;font-size:13px;font-weight:700;opacity:0;transition:.3s;z-index:60;white-space:nowrap;}
 .toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
 .toast.error{background:var(--alert);}
@@ -250,6 +263,29 @@ input:focus,select:focus,textarea:focus{border-color:var(--mid);}
     <button class="btn btn-wa" id="viewBtn">Ver el carnet 🐾</button>
     <button class="btn btn-ghost" onclick="copyLink()">📋 Copiar enlace</button>
     <button class="btn-plain" onclick="resetForm()">+ Crear otro carnet</button>
+
+    <div class="placa-of">
+      <div class="placa-of-tag">Si quieres, opcional</div>
+      <h3>¿Le pones su placa?</h3>
+      <p>El QR impreso funciona igual y no cuesta nada. La placa es de metal con el código grabado a láser: aguanta el agua, el barro y los años sin borrarse.</p>
+
+      <div class="placa-of-row">
+        <svg viewBox="0 0 96 60" width="62" height="39">
+          <rect x="2" y="2" width="92" height="56" rx="22" fill="#2B2B2B"/>
+          <circle cx="15" cy="30" r="4.5" fill="none" stroke="#93A28F" stroke-width="1.8"/>
+          <rect x="26" y="12" width="36" height="36" rx="2" fill="#EEEEEE"/>
+          <rect x="29" y="15" width="8" height="8" fill="#2B2B2B"/><rect x="51" y="15" width="8" height="8" fill="#2B2B2B"/>
+          <rect x="29" y="37" width="8" height="8" fill="#2B2B2B"/>
+          <rect x="41" y="27" width="3" height="3" fill="#2B2B2B"/><rect x="47" y="31" width="3" height="3" fill="#2B2B2B"/>
+        </svg>
+        <div>
+          <b>Desde $34.900</b>
+          <span>Pago único · No es suscripción</span>
+        </div>
+      </div>
+
+      <a class="btn-ver" href="placas.html" target="_blank">Ver las placas 🐾</a>
+    </div>
   </div>
 </div>
 
