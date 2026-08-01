@@ -33,23 +33,32 @@ nav{position:sticky;top:0;background:rgba(251,252,250,.92);backdrop-filter:blur(
 .nav-cta{background:var(--mid);color:#fff;text-decoration:none;font-size:13px;font-weight:800;padding:10px 18px;border-radius:12px;transition:.2s;}
 .nav-cta:hover{background:var(--deep);}
 
-/* hero */
-.hero{padding:56px 0 30px;text-align:center;}
+/* hero en dos columnas */
+.hero{padding:52px 0 46px;}
+.hero-in{display:grid;grid-template-columns:1fr 340px;gap:44px;align-items:center;}
+.hero-txt{text-align:left;}
 .hero-badge{display:inline-flex;align-items:center;gap:6px;background:var(--soft);color:var(--deep);font-size:11.5px;font-weight:800;padding:7px 15px;border-radius:20px;letter-spacing:.3px;}
-.hero h1{font-family:'Fraunces',serif;font-size:clamp(32px,6vw,52px);font-weight:700;line-height:1.12;margin-top:18px;}
+.hero h1{font-family:'Fraunces',serif;font-size:clamp(30px,5vw,46px);font-weight:700;line-height:1.12;margin-top:16px;}
 .hero h1 em{font-style:normal;color:var(--mid);}
-.hero p{font-size:clamp(14px,2.5vw,17px);color:var(--mut);font-weight:600;max-width:520px;margin:16px auto 0;line-height:1.65;}
+.hero p{font-size:clamp(14px,2.5vw,16.5px);color:var(--mut);font-weight:600;margin:15px 0 0;line-height:1.65;max-width:460px;}
 .hero p strong{color:var(--deep);}
-.hero-btns{display:flex;gap:12px;justify-content:center;margin-top:28px;flex-wrap:wrap;}
-.btn{display:inline-flex;align-items:center;gap:8px;padding:15px 28px;border-radius:15px;font-size:15px;font-weight:800;text-decoration:none;transition:.2s;}
+.hero-btns{display:flex;gap:12px;margin-top:26px;flex-wrap:wrap;}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:15px 26px;border-radius:15px;font-size:15px;font-weight:800;text-decoration:none;transition:.2s;}
 .btn-main{background:var(--mid);color:#fff;box-shadow:0 8px 22px rgba(124,152,119,.35);}
 .btn-main:hover{background:var(--deep);transform:translateY(-2px);}
 .btn-ghost{background:#fff;border:1.5px solid var(--line);color:var(--deep);}
 .btn-ghost:hover{border-color:var(--mid);}
 .hero-note{font-size:11.5px;color:var(--mut);margin-top:14px;font-weight:700;}
+@media(max-width:860px){
+  .hero{padding:44px 0 34px;}
+  .hero-in{grid-template-columns:1fr;gap:30px;}
+  .hero-txt{text-align:center;}
+  .hero p{margin-left:auto;margin-right:auto;}
+  .hero-btns{justify-content:center;}
+  .demo-card{margin:0 auto;}
+}
 
 /* tarjeta demo */
-.demo{display:flex;justify-content:center;padding:26px 0 10px;}
 .demo-card{width:100%;max-width:340px;background:#fff;border:1px solid var(--line);border-radius:24px;padding:20px;box-shadow:0 18px 50px rgba(70,85,66,.13);}
 .d-top{display:flex;align-items:center;gap:12px;}
 .d-photo{width:54px;height:54px;border-radius:15px;background:var(--soft);display:flex;align-items:center;justify-content:center;font-size:26px;}
@@ -157,31 +166,35 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:8px;}
 </nav>
 
 <header class="hero container">
-  <span class="hero-badge">🐾 Gratis · Hecho en Colombia</span>
-  <h1>Si se pierde,<br>vuelve a <em>casa</em></h1>
-  <p>El carnet digital de tu peludo: sus vacunas, su historial y un QR para su collar. Si alguien lo encuentra, avisa a tu familia <strong>sin que tu número quede expuesto</strong>.</p>
-  <div class="hero-btns">
-    <a class="btn btn-main" href="registro.html">Crear su carnet 🐾</a>
-    <a class="btn btn-ghost" href="perfil.html?id=pet_1783916734681_olda0f">Ver un ejemplo</a>
-  </div>
-  <div class="hero-note">Sin descargar apps · Sin costo · Listo en 2 minutos</div>
-</header>
+  <div class="hero-in">
 
-<div class="demo container">
-  <div class="demo-card">
-    <div class="d-top">
-      <div class="d-photo">🐶</div>
-      <div>
-        <div class="d-name">Ibiza</div>
-        <div class="d-sub">Criolla · Hembra · 2 años</div>
+    <div class="hero-txt">
+      <span class="hero-badge">🐾 Gratis · Hecho en Colombia</span>
+      <h1>Si se pierde,<br>vuelve a <em>casa</em></h1>
+      <p>El carnet digital de tu peludo: sus vacunas, su historial y un QR para su collar. Si alguien lo encuentra, avisa a tu familia <strong>sin que tu número quede expuesto</strong>.</p>
+      <div class="hero-btns">
+        <a class="btn btn-main" href="registro.html">Crear su carnet 🐾</a>
+        <a class="btn btn-ghost" href="perfil.html?id=pet_1783916734681_olda0f">Ver un ejemplo</a>
       </div>
-      <span class="d-badge">✓ Carnet activo</span>
+      <div class="hero-note">Sin descargar apps · Sin costo · Listo en 2 minutos</div>
     </div>
-    <div class="d-row"><span>💉 Rabia</span><span class="d-ok">Al día ✓</span></div>
-    <div class="d-row"><span>💉 Parvovirus</span><span class="d-ok">Al día ✓</span></div>
-    <div class="d-btn">🐾 Avisar a su familia</div>
+
+    <div class="demo-card">
+      <div class="d-top">
+        <div class="d-photo">🐶</div>
+        <div>
+          <div class="d-name">Ibiza</div>
+          <div class="d-sub">Criolla · Hembra · 2 años</div>
+        </div>
+        <span class="d-badge">✓ Carnet activo</span>
+      </div>
+      <div class="d-row"><span>💉 Rabia</span><span class="d-ok">Al día ✓</span></div>
+      <div class="d-row"><span>💉 Parvovirus</span><span class="d-ok">Al día ✓</span></div>
+      <div class="d-btn">🐾 Avisar a su familia</div>
+    </div>
+
   </div>
-</div>
+</header>
 
 <section class="why container" id="porque">
   <div class="sec-kicker">¿Por qué importa?</div>
@@ -269,7 +282,7 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:8px;}
       <li>Sus vacunas, desparasitación, alergias y veterinario de confianza</li>
       <li><strong>Recordatorios automáticos por correo</strong> antes de cada vacuna y desparasitación</li>
       <li>Modo perdido con alerta visible en su carnet</li>
-      <li><strong>Aviso protegido:</strong> quien lo encuentra se identifica primero — tu datos estan seguros</li>
+      <li><strong>Aviso protegido:</strong> quien lo encuentra se identifica primero — tus datos están seguros</li>
       <li>Registro de cada escaneo con su zona aproximada</li>
     </ul>
     <p class="free-foot">Crea su carnet sin ningún costo ahora mismo.</p>
@@ -475,47 +488,56 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:8px;}
       hue.color = b.getAttribute('data-n').toLowerCase();
       document.getElementById('hueBody').setAttribute('fill', b.getAttribute('data-c'));
       document.getElementById('nomHue').textContent = b.getAttribute('data-n');
-      refrescaHue();
+      refrescaHue(); fotoHue();
     });
   });
 
   // ── FOTOS REALES ──────────────────────────────────────────
   // Si la foto existe en la carpeta img/, se muestra la foto.
   // Si todavía no la has subido, se sigue viendo el dibujo.
-  // Archivos que busca:
-  //   img/placa-negra   · img/placa-plateada
-  //   img/placa-foto    · img/placa-huesito
-  // (con cualquier terminación: .jpg, .png, .jpg.png, .jpeg)
-  // Prueba varias terminaciones hasta encontrar el archivo que sí existe,
-  // así no importa si la foto quedó como .jpg, .png o .jpg.png
+  //
+  // Archivos que busca (cualquier terminación: .jpg .png .jpg.png .jpeg):
+  //   Placa estándar : img/placa-negra · img/placa-plateada · img/placa-foto
+  //   Huesito        : img/huesito-verde · img/huesito-azul · img/huesito-morada
+  //                    img/huesito-fucsia · img/huesito-rosada · img/huesito-naranja
+  //                    img/huesito-plateada · img/huesito-negra
+  //                    Si falta la de un color, muestra img/placa-huesito
   var TERMINACIONES = ['.jpg', '.png', '.jpg.png', '.jpeg', '.JPG', '.PNG'];
-  function pintaFoto(img, svg, base){
-    var i = 0;
+
+  function pintaFoto(img, svg, bases){
+    if(typeof bases === 'string') bases = [bases];
+    var b = 0, i = 0;
     function intenta(){
-      if(i >= TERMINACIONES.length){          // no se encontró ninguna
-        img.style.display = 'none';
-        svg.style.display = '';
-        return;
+      if(i >= TERMINACIONES.length){   // se acabaron las terminaciones
+        i = 0; b++;                    // probamos con el siguiente nombre
+        if(b >= bases.length){         // no se encontró ninguna: dibujo
+          img.style.display = 'none';
+          svg.style.display = '';
+          return;
+        }
       }
-      var src = base + TERMINACIONES[i++];
+      var src = bases[b] + TERMINACIONES[i++];
       var prueba = new Image();
       prueba.onload  = function(){
         img.src = src;
         img.style.display = 'block';
         svg.style.display = 'none';
       };
-      prueba.onerror = intenta;              // esa no existe, prueba la siguiente
+      prueba.onerror = intenta;
       prueba.src = src;
     }
     intenta();
   }
+
   function fotoStd(){
     var src = std.foto ? 'img/placa-foto'
             : (std.color === 'plateada' ? 'img/placa-plateada' : 'img/placa-negra');
     pintaFoto(document.getElementById('imgStd'), document.getElementById('svgStd'), src);
   }
   function fotoHue(){
-    pintaFoto(document.getElementById('imgHue'), document.getElementById('svgHue'), 'img/placa-huesito');
+    // primero busca la foto de ese color; si no está, usa la general
+    pintaFoto(document.getElementById('imgHue'), document.getElementById('svgHue'),
+              ['img/huesito-' + hue.color, 'img/placa-huesito']);
   }
 
   refrescaStd(); refrescaHue(); fotoStd(); fotoHue();
