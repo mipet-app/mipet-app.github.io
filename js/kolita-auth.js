@@ -106,11 +106,17 @@
     }
   }
 
+  // El largo del código lo decide Supabase (se puede configurar entre 6 y 10),
+  // así que aquí NO se da por hecho. Al principio esta función exigía 6 justos
+  // y rechazaba los códigos de 8 antes siquiera de preguntarle al servidor.
+  var CODIGO_MIN = 6;
+  var CODIGO_MAX = 10;
+
   async function confirmarCodigo(correo, codigo) {
     var email = limpiarCorreo(correo);
     var token = String(codigo || '').replace(/\D/g, '');
-    if (token.length !== 6) {
-      return { ok: false, error: 'El código son 6 números.' };
+    if (token.length < CODIGO_MIN || token.length > CODIGO_MAX) {
+      return { ok: false, error: 'Escribe el código completo tal como llegó al correo.' };
     }
     try {
       var r = await client.auth.verifyOtp({ email: email, token: token, type: 'email' });
@@ -142,6 +148,8 @@
     SUPABASE_KEY: SUPABASE_KEY,
     correoValido: correoValido,
     limpiarCorreo: limpiarCorreo,
+    CODIGO_MIN: CODIGO_MIN,
+    CODIGO_MAX: CODIGO_MAX,
     sesionActual: sesionActual,
     correoDeSesion: correoDeSesion,
     salir: salir,

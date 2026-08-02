@@ -8,7 +8,7 @@
 // Uso:
 //   KolitaLogin.montar(document.getElementById('caja'), {
 //     titulo: 'Entra a tus carnets',
-//     subtitulo: 'Te enviamos un código de 6 números.',
+//     subtitulo: 'Te enviamos un código a tu correo.',
 //     crearSiNoExiste: false,
 //     correoFijo: null,              // si se pasa, no deja cambiarlo
 //     alEntrar: function(sesion){ ... }
@@ -25,7 +25,7 @@
     '.kl-lbl{display:block;font-size:11px;font-weight:800;color:var(--deep);text-transform:uppercase;letter-spacing:.8px;margin:18px 0 6px;}',
     '.kl-in{width:100%;padding:14px;border:1.5px solid var(--line);border-radius:13px;background:#fff;font-family:"Nunito Sans",sans-serif;font-size:15px;color:var(--ink);outline:none;transition:.2s;}',
     '.kl-in:focus{border-color:var(--mid);}',
-    '.kl-code{text-align:center;font-size:26px;font-weight:800;letter-spacing:9px;font-family:Fraunces,serif;}',
+    '.kl-code{text-align:center;font-size:24px;font-weight:800;letter-spacing:6px;font-family:Fraunces,serif;}',
     '.kl-btn{width:100%;padding:15px;border:none;border-radius:14px;font-family:"Nunito Sans",sans-serif;font-size:14.5px;font-weight:800;cursor:pointer;margin-top:16px;background:var(--mid);color:#fff;transition:.2s;}',
     '.kl-btn:hover{background:var(--deep);}',
     '.kl-btn:disabled{opacity:.55;cursor:default;}',
@@ -62,7 +62,7 @@
 
     wrap.appendChild(el('div', 'kl-ico', opts.icono || '🔒'));
     wrap.appendChild(el('h1', 'kl-h', opts.titulo || 'Confirma que eres tú'));
-    var sub = el('p', 'kl-sub', opts.subtitulo || 'Te enviamos un código de 6 números a tu correo.');
+    var sub = el('p', 'kl-sub', opts.subtitulo || 'Te enviamos un código a tu correo.');
     wrap.appendChild(sub);
 
     var err = el('div', 'kl-err');
@@ -93,12 +93,13 @@
 
     // ── Paso 2: código ──
     var avisoEnviado = el('div', 'kl-sent');
-    var lblK = el('label', 'kl-lbl', 'Código de 6 números');
+    var lblK = el('label', 'kl-lbl', 'Código del correo');
     var inK = el('input', 'kl-in kl-code');
     inK.type = 'text';
     inK.inputMode = 'numeric';
     inK.autocomplete = 'one-time-code';
-    inK.maxLength = 6;
+    // El largo lo decide Supabase (6 a 10). No lo damos por hecho.
+    inK.maxLength = global.KolitaAuth.CODIGO_MAX;
     inK.placeholder = '••••••';
     var btnK = el('button', 'kl-btn', 'Entrar 🐾');
     var btnOtro = el('button', 'kl-link', '← Usar otro correo / reenviar');
@@ -139,6 +140,8 @@
     }
 
     async function confirmar() {
+      clearTimeout(temporizador);   // si le diste al botón, no lo mandes dos veces
+      if (btnK.disabled) return;
       limpiarError();
       btnK.disabled = true;
       btnK.textContent = 'Comprobando…';
@@ -155,14 +158,21 @@
       limpiarError();
       pasoCodigo.style.display = 'none';
       pasoCorreo.style.display = 'block';
-      sub.textContent = opts.subtitulo || 'Te enviamos un código de 6 números a tu correo.';
+      sub.textContent = opts.subtitulo || 'Te enviamos un código a tu correo.';
       if (!opts.correoFijo) { correoEnCurso = null; inC.focus(); }
     };
     inC.onkeydown = function (e) { if (e.key === 'Enter') enviar(); };
     inK.onkeydown = function (e) { if (e.key === 'Enter') confirmar(); };
+    // Se envía solo cuando dejas de escribir, no al llegar a un largo fijo:
+    // así funciona igual con códigos de 6 o de 8. Escribir un dígito más
+    // cancela el envío anterior, de modo que no se manda a medias.
+    var temporizador = null;
     inK.oninput = function () {
-      this.value = this.value.replace(/\D/g, '').slice(0, 6);
-      if (this.value.length === 6) confirmar();
+      this.value = this.value.replace(/\D/g, '').slice(0, global.KolitaAuth.CODIGO_MAX);
+      clearTimeout(temporizador);
+      if (this.value.length >= global.KolitaAuth.CODIGO_MIN) {
+        temporizador = setTimeout(confirmar, 700);
+      }
     };
 
     setTimeout(function () { (correoEnCurso ? btnC : inC).focus(); }, 60);
