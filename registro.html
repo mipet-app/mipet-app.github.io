@@ -15,6 +15,9 @@
 
 <title>Crear carnet — Kolita</title>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Quicksand:wght@600;700&family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.111.0/dist/umd/supabase.js" integrity="sha384-faMlYZUtkJj+Sh6Bmu/L0GzPcraRWN6CW+9RH3GUrK/Z0WS9tgaNNt0tHiLxsbdb" crossorigin="anonymous"></script>
+<script src="js/kolita-auth.js"></script>
+<script src="js/kolita-login.js"></script>
 <style>
 :root{
   --bg:#FBFCFA; --soft:#EDF2EA; --mid:#7C9877; --deep:#556F51; --ink:#3C4A3A; --mut:#93A28F;
@@ -253,6 +256,9 @@ input:focus,select:focus,textarea:focus{border-color:var(--mid);}
     </div>
   </div>
 
+  <!-- CONFIRMAR EL CORREO (paso nuevo, antes de guardar nada) -->
+  <div id="otpScreen" style="display:none;"></div>
+
   <!-- ÉXITO -->
   <div class="success" id="successScreen">
     <div class="big">🎉</div>
@@ -309,31 +315,15 @@ var KOLITA_BASE  = 'https://kolita.co/perfil.html?id=';
 var KOLITA_CORTO = 'https://kolita.co/p/?c=';
 
 // ── CÓDIGO KOLITA ────────────────────────────────
-// 7 caracteres al azar. Sin O, 0, I, 1 ni L para que nadie los confunda
-// al leerlos de la placa. Al azar (no consecutivo) a propósito: un código
-// tipo 00014 le contaría al mundo cuántos carnets llevamos.
-function generarCodigo(){
-  var chars = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
-  var code = '';
-  for(var i=0;i<7;i++){ code += chars.charAt(Math.floor(Math.random()*chars.length)); }
-  return code;
-}
-
-// Comprueba que no esté ocupado. La probabilidad de repetirse es ínfima
-// (27 mil millones de combinaciones), pero si pasara, el carnet no se
-// guardaría. Mejor comprobar.
+// Ahora lo genera la base de datos (generar_short_code). Antes lo sorteaba
+// esta página y comprobaba aquí mismo que estuviera libre; eso dejó de servir
+// cuando cada quien pasó a ver solo sus propios carnets, porque la
+// comprobación solo miraba los tuyos y podía repetir el código de otra
+// familia. La base sí los ve todos, y no muestra ninguno.
 async function codigoLibre(){
-  for(var intento=0; intento<5; intento++){
-    var code = generarCodigo();
-    try{
-      var res = await fetch(SUPABASE_URL + '/rest/v1/pets?short_code=eq.' + code + '&select=short_code', {
-        headers:{ 'apikey':SUPABASE_KEY, 'Authorization':'Bearer '+SUPABASE_KEY }
-      });
-      var filas = await res.json();
-      if(!filas || filas.length === 0) return code;
-    }catch(e){ return code; } // si no hay red para comprobar, seguimos igual
-  }
-  return generarCodigo();
+  var r = await KolitaAuth.client.rpc('generar_short_code');
+  if(r.error || !r.data) throw new Error('No pudimos generar el Código Kolita. Intenta de nuevo.');
+  return r.data;
 }
 
 // ── Convertir cualquier foto (HEIC de iPhone incluido) a JPG ──
@@ -468,32 +458,76 @@ async function uploadPhoto(petId) {
   if (!photoFile) return null;
   try {
     var fotoLista = await fotoAJpg(photoFile);
-    var ext = 'jpg';
-    var filename = petId + '.' + ext;
-    var res = await fetch(SUPABASE_URL + '/storage/v1/object/pet-photos/' + filename, {
-      method: 'POST',
-      headers: {
-        'Authorization': 'Bearer ' + SUPABASE_KEY,
-        'Content-Type': 'image/jpeg',
-        'x-upsert': 'true'
-      },
-      body: fotoLista
-    });
-    if (!res.ok) throw new Error('storage');
-    return SUPABASE_URL + '/storage/v1/object/public/pet-photos/' + filename;
+    var filename = petId + '.jpg';
+    var cli = KolitaAuth.client;
+    var up = await cli.storage.from('pet-photos')
+      .upload(filename, fotoLista, { contentType: 'image/jpeg', upsert: true });
+    if (up.error) throw up.error;
+    return cli.storage.from('pet-photos').getPublicUrl(filename).data.publicUrl;
   } catch(e) {
+    // Si la foto falla, el carnet se crea igual. Vale más tener el carnet.
     console.warn('Foto no subida:', e);
     return null;
   }
 }
 
-// ── GUARDAR EN SUPABASE ──────────────────────────
+// ── PASO NUEVO: CONFIRMAR EL CORREO ──────────────
+// Antes, el carnet se guardaba de una. El problema: nadie comprobaba nunca
+// que el correo estuviera bien escrito. Dos carnets llevaban meses con un
+// correo con un espacio de más, así que sus recordatorios de vacunas y su
+// aviso de "me perdí" no le llegaban a nadie.
+// Ahora primero confirmamos el correo con un código. De paso, ese mismo
+// código es lo que después te deja entrar a editar: sin contraseñas.
 async function submitForm() {
   if (!validateStep(3)) return;
-  document.getElementById('submitBtn').disabled = true;
+
+  // Si ya confirmaste este mismo correo hace un momento (por ejemplo, estás
+  // creando el carnet de tu segundo peludo), no te pedimos el código otra vez.
+  var yaEntro = await KolitaAuth.correoDeSesion();
+  if (yaEntro && yaEntro === KolitaAuth.limpiarCorreo(v('ownerEmail'))) {
+    document.getElementById('formContent').style.display = 'none';
+    return guardarCarnet();
+  }
+
+  document.getElementById('formContent').style.display = 'none';
+  var caja = document.getElementById('otpScreen');
+  caja.style.display = 'block';
+
+  KolitaLogin.montar(caja, {
+    icono: '📬',
+    titulo: 'Confirmemos tu correo',
+    subtitulo: 'Te enviamos un código de 6 números a ' + v('ownerEmail') + '.',
+    correoFijo: v('ownerEmail'),
+    crearSiNoExiste: true,
+    nota: 'Lo pedimos por dos razones: para estar seguros de que los avisos si tu peludo se pierde te llegan de verdad, y para que solo tú puedas cambiar su carnet más adelante. No necesitas contraseña.',
+    alEntrar: function () {
+      caja.style.display = 'none';
+      guardarCarnet();
+    }
+  });
+
+  // Por si se equivocó de correo: volver al formulario.
+  var volver = document.createElement('button');
+  volver.className = 'btn-plain';
+  volver.textContent = '← Corregir mi correo';
+  volver.onclick = function () {
+    caja.style.display = 'none';
+    caja.innerHTML = '';
+    document.getElementById('formContent').style.display = 'block';
+    document.getElementById('ownerEmail').focus();
+  };
+  caja.appendChild(volver);
+}
+
+// ── GUARDAR EN SUPABASE ──────────────────────────
+async function guardarCarnet() {
   document.getElementById('loadingOv').classList.add('show');
+  var cliente = KolitaAuth.client;
 
   try {
+    var sesion = await KolitaAuth.sesionActual();
+    if (!sesion) throw new Error('Se cerró la sesión. Vuelve a intentarlo.');
+
     var petId = 'pet_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
     var photoUrl = await uploadPhoto(petId);
 
@@ -535,24 +569,16 @@ async function submitForm() {
       next_vaccine_date: document.getElementById('nextVaccine').value || null,
       next_deworming_date: document.getElementById('nextDeworming').value || null,
       is_lost: false,
+      show_phone_when_lost: false,
+      // 🔒 El carnet queda a nombre de esta cuenta. La base de datos exige
+      // que coincida con la sesión: nadie puede crear un carnet a nombre
+      // de otra persona.
+      owner_id: sesion.user.id,
       created_at: new Date().toISOString()
     };
 
-    var res = await fetch(SUPABASE_URL + '/rest/v1/pets', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'apikey': SUPABASE_KEY,
-        'Authorization': 'Bearer ' + SUPABASE_KEY,
-        'Prefer': 'return=minimal'
-      },
-      body: JSON.stringify(petData)
-    });
-
-    if (!res.ok) {
-      var err = await res.json();
-      throw new Error(err.message || 'Error al guardar');
-    }
+    var ins = await cliente.from('pets').insert(petData);
+    if (ins.error) throw new Error(ins.error.message || 'Error al guardar');
 
     // ÉXITO
     createdPetUrl = KOLITA_CORTO + shortCode;
@@ -566,6 +592,7 @@ async function submitForm() {
 
   } catch(error) {
     document.getElementById('loadingOv').classList.remove('show');
+    document.getElementById('formContent').style.display = 'block';
     document.getElementById('submitBtn').disabled = false;
     console.error(error);
     toast('❌ Error: ' + error.message, true);
@@ -593,8 +620,13 @@ function toast(msg, isError) {
 // ── RESET ────────────────────────────────────────
 function resetForm() {
   document.getElementById('successScreen').classList.remove('show');
+  var ov = document.getElementById('otpScreen');
+  ov.style.display = 'none'; ov.innerHTML = '';
   document.getElementById('formContent').style.display = 'block';
+  var correoPrevio = document.getElementById('ownerEmail').value;
   document.querySelectorAll('input, select, textarea').forEach(function(el){ el.value = ''; });
+  // Casi siempre es la misma familia registrando otro peludo.
+  document.getElementById('ownerEmail').value = correoPrevio;
   document.getElementById('acceptData').checked = false;
   selectedSex = ''; vaccines = []; photoFile = null; createdPetUrl = '';
   document.querySelectorAll('.sex-btn').forEach(function(b){ b.classList.remove('active'); });

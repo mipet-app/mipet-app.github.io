@@ -77,17 +77,25 @@ async function abrir(){
   if(!codigo){ return fallo(''); }
 
   try{
-    var res = await fetch(
-      SUPABASE_URL + '/rest/v1/pets?short_code=eq.' + encodeURIComponent(codigo) + '&select=id',
-      { headers:{ 'apikey':SUPABASE_KEY, 'Authorization':'Bearer '+SUPABASE_KEY } }
-    );
+    // Se le pregunta a la base por el código, y responde con un solo carnet.
+    // Antes se consultaba la tabla directamente; ahora ni siquiera hace falta
+    // que esta página pueda ver la tabla.
+    var res = await fetch(SUPABASE_URL + '/rest/v1/rpc/resolve_short_code', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SUPABASE_KEY,
+        'Authorization': 'Bearer ' + SUPABASE_KEY
+      },
+      body: JSON.stringify({ p_code: codigo })
+    });
     if(!res.ok) throw new Error('net');
-    var filas = await res.json();
-    if(!filas || filas.length === 0){ return fallo(codigo); }
+    var id = await res.json();
+    if(!id){ return fallo(codigo); }
 
     // replace() en vez de href: así el botón "atrás" del celular no
     // devuelve a esta página en un ciclo infinito
-    location.replace('/perfil.html?id=' + encodeURIComponent(filas[0].id));
+    location.replace('/perfil.html?id=' + encodeURIComponent(id));
   }catch(e){
     console.error(e);
     fallo(codigo);
