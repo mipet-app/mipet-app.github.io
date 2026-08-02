@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
   <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-381DD74KP3"></script>
 <script>
@@ -11,7 +12,7 @@
   gtag('js', new Date());
 
   gtag('config', 'G-381DD74KP3');
-</script> 
+</script>
 
 <title>Editar carnet — Kolita</title>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Quicksand:wght@600;700&family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -21,60 +22,20 @@
   --line:#E4EAE1; --alert:#C87B5B;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-body{font-family:'Nunito Sans',sans-serif;background:#F1F3EF;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:22px 16px 60px;color:var(--ink);}
-.top{max-width:460px;width:100%;display:flex;align-items:center;gap:8px;margin-bottom:18px;}
+body{font-family:'Nunito Sans',sans-serif;background:#F1F3EF;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:22px 16px;color:var(--ink);}
+.top{max-width:420px;width:100%;display:flex;align-items:center;gap:8px;margin-bottom:18px;}
 .brand-k{width:32px;height:32px;flex-shrink:0;}
 .brand-name{font-family:'Quicksand',sans-serif;font-weight:700;font-size:18px;}
 .top a{margin-left:auto;font-size:12px;font-weight:800;color:var(--deep);text-decoration:none;}
-.wrap{max-width:460px;width:100%;background:var(--bg);border:1px solid var(--line);border-radius:26px;padding:26px 22px;box-shadow:0 14px 40px rgba(70,85,66,.08);}
-h1{font-family:'Fraunces',serif;font-size:22px;font-weight:700;}
-.sub{font-size:12.5px;color:var(--mut);margin-top:5px;line-height:1.55;}
-label{display:block;font-size:11px;font-weight:800;color:var(--deep);text-transform:uppercase;letter-spacing:.8px;margin:16px 0 6px;}
-input,select,textarea{width:100%;padding:13px 14px;border:1.5px solid var(--line);border-radius:13px;background:#fff;font-family:'Nunito Sans',sans-serif;font-size:14px;color:var(--ink);outline:none;transition:.2s;}
-input:focus,select:focus,textarea:focus{border-color:var(--mid);}
-::placeholder{color:#C3CCC0;}
-.sex-row{display:flex;gap:8px;}
-.sex-btn{flex:1;padding:12px;border:1.5px solid var(--line);border-radius:13px;background:#fff;font-family:'Nunito Sans',sans-serif;font-size:13px;font-weight:700;color:var(--mut);cursor:pointer;transition:.2s;}
-.sex-btn.active{border-color:var(--mid);background:var(--soft);color:var(--deep);}
-.photo-wrap{display:flex;justify-content:center;margin-top:8px;}
-#photoCircle{width:100px;height:100px;border-radius:26px;background:var(--soft);border:2px dashed var(--mid);display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;position:relative;}
-#photoCircle img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;}
-#phPlaceholder{font-size:22px;text-align:center;}
-.photo-hint{text-align:center;font-size:11px;color:var(--mut);font-weight:700;margin-top:6px;}
-.vac-item{display:flex;align-items:center;justify-content:space-between;padding:10px 13px;background:#fff;border:1px solid var(--line);border-radius:12px;margin-bottom:6px;font-size:13px;font-weight:600;}
-.vac-del{background:none;border:none;cursor:pointer;font-size:14px;opacity:.55;}
-.vac-add-row{display:flex;gap:8px;margin-top:6px;}
-.vac-add-row input{flex:1;}
-.vac-add-btn{padding:0 18px;background:var(--soft);border:1.5px solid var(--mid);border-radius:13px;color:var(--deep);font-weight:800;font-size:13px;cursor:pointer;font-family:'Nunito Sans',sans-serif;}
-/* puerta de verificación */
-.gate{display:none;}
-.gate.show{display:block;}
-.gate-ico{font-size:38px;text-align:center;}
-.gate h1{text-align:center;margin-top:8px;font-size:21px;}
-.gate .sub{text-align:center;}
-.gate-note{font-size:11.5px;color:var(--mut);font-weight:600;line-height:1.6;margin-top:16px;background:var(--soft);border-radius:14px;padding:13px 15px;}
-/* modo perdido */
-.lost-box{display:flex;align-items:center;justify-content:space-between;gap:12px;background:#FDF7F3;border:1.5px solid #EAD4C9;border-radius:15px;padding:14px 16px;margin-top:20px;}
-.lost-box .lb-title{font-size:13.5px;font-weight:800;color:var(--alert);}
-.lost-box .lb-sub{font-size:11px;color:#B08A75;font-weight:600;margin-top:2px;line-height:1.4;}
-.switch{position:relative;width:52px;height:30px;flex-shrink:0;}
-.switch input{opacity:0;width:0;height:0;}
-.slider{position:absolute;inset:0;background:#E8DCD4;border-radius:30px;cursor:pointer;transition:.25s;}
-.slider:before{content:'';position:absolute;width:24px;height:24px;border-radius:50%;background:#fff;top:3px;left:3px;transition:.25s;box-shadow:0 1px 4px rgba(0,0,0,.2);}
-.switch input:checked + .slider{background:var(--alert);}
-.switch input:checked + .slider:before{transform:translateX(22px);}
-.btn{width:100%;padding:15px;border:none;border-radius:14px;font-family:'Nunito Sans',sans-serif;font-size:14.5px;font-weight:800;cursor:pointer;margin-top:22px;background:var(--mid);color:#fff;transition:.2s;}
+.wrap{max-width:420px;width:100%;background:var(--bg);border:1px solid var(--line);border-radius:26px;padding:34px 26px;box-shadow:0 14px 40px rgba(70,85,66,.08);text-align:center;}
+.ico{font-size:42px;}
+h1{font-family:'Fraunces',serif;font-size:22px;font-weight:700;margin-top:10px;}
+p{font-size:13.5px;color:var(--mut);font-weight:600;line-height:1.7;margin-top:12px;}
+p strong{color:var(--deep);}
+.note{background:var(--soft);border-radius:15px;padding:15px 17px;margin-top:20px;font-size:12.5px;color:var(--deep);font-weight:600;line-height:1.65;text-align:left;}
+.btn{display:block;margin-top:18px;background:var(--mid);color:#fff;text-decoration:none;font-size:13.5px;font-weight:800;padding:14px;border-radius:14px;}
 .btn:hover{background:var(--deep);}
-.btn:disabled{opacity:.55;cursor:default;}
-.state{text-align:center;padding:40px 10px;display:none;}
-.state.show{display:block;}
-.spinner{width:38px;height:38px;border:4px solid var(--soft);border-top-color:var(--mid);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 14px;}
-@keyframes spin{to{transform:rotate(360deg)}}
-.state p{font-size:13px;color:var(--mut);line-height:1.6;}
-.state a{color:var(--deep);font-weight:800;}
-.toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--deep);color:#fff;padding:12px 22px;border-radius:14px;font-size:13px;font-weight:700;opacity:0;transition:.3s;z-index:60;white-space:nowrap;}
-.toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
-.toast.error{background:var(--alert);}
+.btn-ghost{background:#fff;border:1.5px solid var(--line);color:var(--deep);margin-top:9px;}
 </style>
 </head>
 <body>
@@ -86,388 +47,29 @@ input:focus,select:focus,textarea:focus{border-color:var(--mid);}
 </div>
 
 <div class="wrap">
-  <!-- cargando -->
-  <div class="state show" id="loading"><div class="spinner"></div><p>Un momento…</p></div>
+  <div class="ico">🔧</div>
+  <h1>Estamos mejorando esta parte</h1>
+  <p>
+    Editar el carnet está en mantenimiento por unos días mientras ponemos el
+    <strong>ingreso con tu correo</strong>.
+  </p>
 
-  <!-- error -->
-  <div class="state" id="errorState">
-    <div style="font-size:38px;">🐾</div>
-    <p style="margin-top:10px;">No encontramos este carnet.<br>¿Perdiste el enlace? Recupéralo en <a href="mis-carnets.html">Mis carnets</a>.</p>
+  <div class="note">
+    Antes, cualquiera que abriera el enlace de tu peludo podía cambiar sus
+    datos o apagarle el modo perdido. Estamos arreglando eso: pronto solo
+    entrarás tú, con un código que te llega a tu correo. 🔒
   </div>
 
-  <!-- PUERTA: verificar que es la familia -->
-  <div class="gate" id="gate">
-    <div class="gate-ico">🔒</div>
-    <h1>Confirma que eres tú</h1>
-    <p class="sub">Para proteger este carnet, escribe el correo o el celular con el que lo creaste.</p>
+  <p style="margin-top:18px;">
+    Mientras tanto, <strong>el carnet de tu peludo y su QR siguen funcionando
+    normal</strong>. Si se te perdió y necesitas activar el modo perdido ya
+    mismo, escríbenos a <strong>appmipet@gmail.com</strong> con su Código
+    Kolita y lo activamos nosotros.
+  </p>
 
-    <label>Tu correo o tu celular</label>
-    <input type="text" id="gateInput" placeholder="tucorreo@gmail.com  o  3001234567" onkeydown="if(event.key==='Enter')verificar()">
-    <button class="btn" id="gateBtn" onclick="verificar()">Abrir el carnet 🐾</button>
-
-    <p class="gate-note">Pedimos esto para que nadie que encuentre a tu peludo pueda cambiar sus datos ni apagarle el modo perdido. Si no recuerdas cuál usaste, búscalo en <a href="mis-carnets.html" style="color:var(--deep);font-weight:800;">Mis carnets</a>.</p>
-  </div>
-
-  <!-- formulario -->
-  <div id="form" style="display:none;">
-    <h1>✏️ Editar carnet</h1>
-    <p class="sub">Corrige o actualiza los datos de tu peludo. Los cambios se guardan al instante.</p>
-
-    <div class="photo-wrap" style="margin-top:16px;">
-      <div id="photoCircle" onclick="document.getElementById('photoInput').click()">
-        <div id="phPlaceholder">📸</div>
-      </div>
-      <input type="file" id="photoInput" accept="image/*" style="display:none;" onchange="previewPhoto(this)">
-    </div>
-    <div class="photo-hint">Toca la foto para cambiarla</div>
-
-    <label>Nombre *</label>
-    <input type="text" id="petName" maxlength="40">
-
-    <label>Especie *</label>
-    <select id="petSpecies">
-      <option value="perro">🐶 Perro</option>
-      <option value="gato">🐱 Gato</option>
-      <option value="conejo">🐰 Conejo</option>
-      <option value="ave">🐦 Ave</option>
-      <option value="otro">🐾 Otro</option>
-    </select>
-
-    <label>Raza</label>
-    <input type="text" id="petBreed" maxlength="40">
-
-    <label>Sexo *</label>
-    <div class="sex-row">
-      <button type="button" class="sex-btn" id="sexM" onclick="setSex('macho', this)">♂ Macho</button>
-      <button type="button" class="sex-btn" id="sexH" onclick="setSex('hembra', this)">♀ Hembra</button>
-    </div>
-
-    <label>Peso (kg)</label>
-    <input type="number" id="petWeight" step="0.1" min="0">
-
-    <label>Vacunas</label>
-    <div id="vacList"></div>
-    <div class="vac-add-row">
-      <input type="text" id="vacInput" placeholder="Ej: Rabia" maxlength="40" onkeydown="if(event.key==='Enter'){event.preventDefault();addVaccine();}">
-      <button type="button" class="vac-add-btn" onclick="addVaccine()">+ Agregar</button>
-    </div>
-
-    <label>Última desparasitación</label>
-    <input type="date" id="lastDeworming">
-
-    <label>Próxima vacuna (para recordatorios)</label>
-    <input type="date" id="nextVaccine">
-
-    <label>Próxima desparasitación (para recordatorios)</label>
-    <input type="date" id="nextDeworming">
-
-    <label>Alergias (separadas por coma)</label>
-    <textarea id="petAllergies" rows="2" placeholder="Ej: Pollo, penicilina"></textarea>
-
-    <label>Veterinario</label>
-    <input type="text" id="vetName" placeholder="Nombre de la veterinaria">
-    <label>¿Doctor o doctora?</label>
-    <select id="vetSex">
-      <option value="">No especificar 🩺</option>
-      <option value="f">Doctora 👩‍⚕️</option>
-      <option value="m">Doctor 👨‍⚕️</option>
-    </select>
-
-    <label>Teléfono del veterinario</label>
-    <input type="tel" id="vetPhone">
-
-    <label>Tu nombre *</label>
-    <input type="text" id="ownerName" maxlength="60">
-
-    <label>Tu celular (WhatsApp) *</label>
-    <input type="tel" id="ownerPhone">
-
-    <label>Ciudad</label>
-    <input type="text" id="ownerCity">
-
-    <label>Tu correo (para recordatorios y avisos)</label>
-    <input type="email" id="ownerEmail">
-
-    <!-- MODO PERDIDO -->
-    <div class="lost-box">
-      <div>
-        <div class="lb-title">🚨 Modo perdido</div>
-        <div class="lb-sub">Actívalo si tu peludo se perdió: su carnet mostrará la alerta a todo el que lo escanee.</div>
-      </div>
-      <label class="switch">
-        <input type="checkbox" id="isLost">
-        <span class="slider"></span>
-      </label>
-    </div>
-
-    <button class="btn" id="saveBtn" onclick="guardar()">Guardar cambios 💚</button>
-  </div>
+  <a class="btn" href="mis-carnets.html">Ver mis carnets 🐾</a>
+  <a class="btn btn-ghost" href="index.html">Ir al inicio</a>
 </div>
 
-<div class="toast" id="toast"></div>
-
-<script>
-// ═══════════════════════════════════════════════
-// KOLITA · EDITAR CARNET
-// ═══════════════════════════════════════════════
-var SUPABASE_URL = 'https://fdwbstqxqdailyeedmuo.supabase.co';
-var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZkd2JzdHF4cWRhaWx5ZWVkbXVvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM5MDEwMDEsImV4cCI6MjA5OTQ3NzAwMX0.GG6O9z1Exu5z0DsM8Fzk-fx1h2BIII0I9flMVZiPwIw';
-
-// 🔒 PUERTA DE ACCESO
-// Antes, con solo abrir editar.html?id=... se descargaban a la página el
-// correo y el celular completos de la familia, y cualquiera podía cambiar
-// los datos o apagar el modo perdido.
-// Ahora primero se comprueba que la persona conoce el correo o el celular,
-// y esa comprobación se hace PREGUNTÁNDOLE a la base (mandando el dato y
-// viendo si coincide), no descargando el carnet.
-// Nota honesta: la cerradura definitiva son las políticas RLS de Supabase.
-// Esto detiene al oportunista, que es el riesgo real del día a día.
-
-var petId = new URLSearchParams(location.search).get('id');
-var selectedSex = '';
-var vaccines = [];
-var photoFile = null;
-var currentPhotoUrl = null;
-var intentos = 0;
-
-function qs(id){ return document.getElementById(id); }
-
-function soloDigitos(t){
-  var d = String(t).replace(/\D/g, '');
-  if(d.length === 12 && d.indexOf('57') === 0) d = d.substring(2);
-  return d;
-}
-
-// ── Paso 1: existe el carnet? (sin traer ningún dato) ──
-async function iniciar(){
-  if(!petId){ return showError(); }
-  try{
-    var res = await fetch(SUPABASE_URL + '/rest/v1/pets?id=eq.' + encodeURIComponent(petId) + '&select=id', {
-      headers:{ 'apikey':SUPABASE_KEY, 'Authorization':'Bearer '+SUPABASE_KEY }
-    });
-    var rows = await res.json();
-    if(!rows || rows.length === 0) return showError();
-    qs('loading').classList.remove('show');
-    qs('gate').classList.add('show');
-    qs('gateInput').focus();
-  }catch(e){ console.error(e); showError(); }
-}
-
-// ── Paso 2: verificar que es la familia ──
-async function verificar(){
-  var dato = qs('gateInput').value.trim();
-  if(!dato){ toast('⚠️ Escribe tu correo o tu celular', true); return; }
-
-  var btn = qs('gateBtn');
-  btn.disabled = true; btn.textContent = 'Comprobando…';
-
-  var esCorreo = dato.indexOf('@') !== -1;
-  var filtro;
-  if(esCorreo){
-    filtro = '&owner_email=eq.' + encodeURIComponent(dato.toLowerCase());
-  }else{
-    var d = soloDigitos(dato);
-    if(d.length < 10){
-      btn.disabled = false; btn.textContent = 'Abrir el carnet 🐾';
-      toast('⚠️ Escribe tu celular completo (10 dígitos)', true);
-      return;
-    }
-    // like para tolerar registros viejos guardados con espacios o guiones
-    filtro = '&emergency_phone=like.*' + encodeURIComponent(d) + '*';
-  }
-
-  try{
-    var url = SUPABASE_URL + '/rest/v1/pets?id=eq.' + encodeURIComponent(petId) + filtro + '&select=*';
-    var res = await fetch(url, {
-      headers:{ 'apikey':SUPABASE_KEY, 'Authorization':'Bearer '+SUPABASE_KEY }
-    });
-    var rows = await res.json();
-
-    btn.disabled = false; btn.textContent = 'Abrir el carnet 🐾';
-
-    if(!rows || rows.length === 0){
-      intentos++;
-      if(intentos >= 4){
-        toast('⚠️ Muchos intentos. Busca tu carnet en Mis carnets', true);
-      }else{
-        toast('❌ Ese dato no coincide con este carnet', true);
-      }
-      qs('gateInput').select();
-      return;
-    }
-
-    qs('gate').classList.remove('show');
-    llenar(rows[0]);
-  }catch(e){
-    console.error(e);
-    btn.disabled = false; btn.textContent = 'Abrir el carnet 🐾';
-    toast('❌ No pudimos conectar. Intenta de nuevo', true);
-  }
-}
-
-function showError(){
-  qs('loading').classList.remove('show');
-  qs('gate').classList.remove('show');
-  qs('errorState').classList.add('show');
-}
-
-function llenar(p){
-  qs('petName').value = p.name || '';
-  qs('petSpecies').value = p.species || 'perro';
-  qs('petBreed').value = p.breed || '';
-  if(p.sex === 'macho') setSex('macho', qs('sexM'));
-  if(p.sex === 'hembra') setSex('hembra', qs('sexH'));
-  qs('petWeight').value = p.weight || '';
-  vaccines = Array.isArray(p.vaccines) ? p.vaccines.map(function(v){ return (typeof v==='string') ? v : (v.name||''); }).filter(Boolean) : [];
-  renderVaccines();
-  qs('lastDeworming').value = p.last_deworming || '';
-  qs('nextVaccine').value = p.next_vaccine_date || '';
-  qs('nextDeworming').value = p.next_deworming_date || '';
-  qs('petAllergies').value = Array.isArray(p.allergies) ? p.allergies.join(', ') : '';
-  qs('vetName').value = p.vet_name || '';
-  qs('vetSex').value = p.vet_sex || '';
-  qs('vetPhone').value = p.vet_phone || '';
-  qs('ownerName').value = p.owner_name || '';
-  qs('ownerPhone').value = p.emergency_phone || '';
-  qs('ownerCity').value = p.vet_city || '';
-  qs('ownerEmail').value = p.owner_email || '';
-  qs('isLost').checked = p.is_lost === true;
-  currentPhotoUrl = p.photo_url || null;
-  if(currentPhotoUrl){
-    qs('phPlaceholder').style.display='none';
-    var img = document.createElement('img'); img.src = currentPhotoUrl;
-    qs('photoCircle').appendChild(img);
-  }
-  document.title = 'Editar a ' + (p.name||'peludo') + ' — Kolita';
-  qs('loading').classList.remove('show');
-  qs('form').style.display = 'block';
-}
-
-// ── Convertir cualquier foto (HEIC de iPhone incluido) a JPG ──
-async function fotoAJpg(file){
-  try{
-    var bmp = await createImageBitmap(file);
-    var MAX = 1200; // tamaño máximo: suficiente y liviano
-    var scale = Math.min(1, MAX / Math.max(bmp.width, bmp.height));
-    var canvas = document.createElement('canvas');
-    canvas.width = Math.round(bmp.width * scale);
-    canvas.height = Math.round(bmp.height * scale);
-    canvas.getContext('2d').drawImage(bmp, 0, 0, canvas.width, canvas.height);
-    var blob = await new Promise(function(res){ canvas.toBlob(res, 'image/jpeg', 0.85); });
-    if(blob) return blob;
-  }catch(e){ console.warn('conversión falló, subo original', e); }
-  return file; // plan B: original
-}
-
-// ── Sexo / foto / vacunas ────────────────────────
-function setSex(val, btn){
-  selectedSex = val;
-  document.querySelectorAll('.sex-btn').forEach(function(b){b.classList.remove('active');});
-  btn.classList.add('active');
-}
-function previewPhoto(input){
-  if(!input.files || !input.files[0]) return;
-  photoFile = input.files[0];
-  var reader = new FileReader();
-  reader.onload = function(e){
-    qs('phPlaceholder').style.display='none';
-    var old = qs('photoCircle').querySelector('img'); if(old) old.remove();
-    var img = document.createElement('img'); img.src = e.target.result;
-    qs('photoCircle').appendChild(img);
-  };
-  reader.readAsDataURL(photoFile);
-}
-function addVaccine(){
-  var name = qs('vacInput').value.trim();
-  if(!name){ toast('⚠️ Escribe el nombre de la vacuna', true); return; }
-  vaccines.push(name); qs('vacInput').value=''; renderVaccines();
-}
-function removeVaccine(i){ vaccines.splice(i,1); renderVaccines(); }
-function renderVaccines(){
-  var list = qs('vacList'); list.innerHTML='';
-  vaccines.forEach(function(vac,i){
-    var d = document.createElement('div'); d.className='vac-item';
-    var s = document.createElement('span'); s.textContent = '💉 ' + vac;
-    var b = document.createElement('button'); b.className='vac-del'; b.textContent='🗑';
-    b.onclick = function(){ removeVaccine(i); };
-    d.appendChild(s); d.appendChild(b); list.appendChild(d);
-  });
-}
-
-// ── Guardar ──────────────────────────────────────
-async function guardar(){
-  if(!qs('petName').value.trim()){ toast('⚠️ El nombre es obligatorio', true); return; }
-  if(!qs('ownerName').value.trim()){ toast('⚠️ Tu nombre es obligatorio', true); return; }
-  if(soloDigitos(qs('ownerPhone').value).length < 10){ toast('⚠️ Escribe tu celular completo (10 dígitos)', true); return; }
-  var btn = qs('saveBtn'); btn.disabled = true; btn.textContent = 'Guardando…';
-
-  try{
-    // foto nueva (si cambió)
-    var photoUrl = currentPhotoUrl;
-    if(photoFile){
-      var fotoLista = await fotoAJpg(photoFile);
-      var ext = 'jpg';
-      var fname = petId + '_' + Date.now() + '.' + ext;
-      var up = await fetch(SUPABASE_URL + '/storage/v1/object/pet-photos/' + fname, {
-        method:'POST',
-        headers:{ 'Authorization':'Bearer '+SUPABASE_KEY, 'Content-Type': 'image/jpeg' },
-        body: fotoLista
-      });
-      if(up.ok) photoUrl = SUPABASE_URL + '/storage/v1/object/public/pet-photos/' + fname;
-    }
-
-    var allergyText = qs('petAllergies').value.trim();
-    var correo = qs('ownerEmail').value.trim().toLowerCase();
-    var cambios = {
-      name: qs('petName').value.trim(),
-      species: qs('petSpecies').value,
-      breed: qs('petBreed').value.trim() || null,
-      sex: selectedSex || null,
-      weight: parseFloat(qs('petWeight').value) || null,
-      photo_url: photoUrl,
-      vaccines: vaccines.map(function(v){ return {name:v, status:'al_dia'}; }),
-      last_deworming: qs('lastDeworming').value || null,
-      next_vaccine_date: qs('nextVaccine').value || null,
-      next_deworming_date: qs('nextDeworming').value || null,
-      allergies: allergyText ? allergyText.split(',').map(function(a){return a.trim();}).filter(Boolean) : [],
-      vet_name: qs('vetName').value.trim() || null,
-      vet_sex: qs('vetSex').value || null,
-      vet_phone: qs('vetPhone').value.trim() || null,
-      owner_name: qs('ownerName').value.trim(),
-      // se guardan normalizados para que "Mis carnets" siempre los encuentre
-      emergency_phone: soloDigitos(qs('ownerPhone').value),
-      vet_city: qs('ownerCity').value.trim() || null,
-      owner_email: correo || null,
-      is_lost: qs('isLost').checked
-    };
-
-    var res = await fetch(SUPABASE_URL + '/rest/v1/pets?id=eq.' + encodeURIComponent(petId), {
-      method:'PATCH',
-      headers:{ 'Content-Type':'application/json', 'apikey':SUPABASE_KEY, 'Authorization':'Bearer '+SUPABASE_KEY, 'Prefer':'return=minimal' },
-      body: JSON.stringify(cambios)
-    });
-    if(!res.ok) throw new Error('No se pudo guardar');
-
-    btn.textContent = '✅ ¡Guardado!';
-    toast('💚 Cambios guardados');
-    setTimeout(function(){
-      location.href = 'perfil.html?id=' + encodeURIComponent(petId);
-    }, 1200);
-  }catch(e){
-    console.error(e);
-    btn.disabled = false; btn.textContent = 'Guardar cambios 💚';
-    toast('❌ Error al guardar. Intenta de nuevo', true);
-  }
-}
-
-function toast(msg, isError){
-  var t = qs('toast'); t.textContent = msg;
-  t.className = 'toast' + (isError ? ' error' : '');
-  t.classList.add('show');
-  setTimeout(function(){ t.classList.remove('show'); }, 3000);
-}
-
-iniciar();
-</script>
 </body>
 </html>

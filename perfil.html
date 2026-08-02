@@ -281,6 +281,18 @@ var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSI
 var KOLITA_BASE  = 'https://kolita.co/perfil.html?id=';
 var KOLITA_CORTO = 'https://kolita.co/p/?c=';
 
+// 🔒 Pedimos SOLO las columnas que el carnet dibuja.
+// El correo y el celular de la familia NO están en esta lista y la base de
+// datos ya no se los entrega a nadie que no haya iniciado sesión.
+// Antes esto decía select=*, y eso mandaba al navegador de cualquier
+// desconocido el correo y el número completos de la familia.
+var CAMPOS_CARNET = [
+  'id','short_code','name','species','breed','sex','birth_date','age','weight',
+  'photo_url','vaccines','last_deworming','allergies',
+  'vet_name','vet_sex','vet_phone','vet_city',
+  'owner_name','is_lost'
+].join(',');
+
 var SPECIES_EMOJI = { perro:'🐶', gato:'🐱', conejo:'🐰', ave:'🐦', otro:'🐾' };
 
 function qs(id){ return document.getElementById(id); }
@@ -298,7 +310,7 @@ async function loadPet(){
   if(!petId){ return showError('Este enlace no tiene un carnet asociado.'); }
 
   try{
-    var res = await fetch(SUPABASE_URL + '/rest/v1/pets?id=eq.' + encodeURIComponent(petId) + '&select=*', {
+    var res = await fetch(SUPABASE_URL + '/rest/v1/pets?id=eq.' + encodeURIComponent(petId) + '&select=' + CAMPOS_CARNET, {
       headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
     });
     if(!res.ok) throw new Error('network');
@@ -318,10 +330,9 @@ function showError(msg){
   show('error');
 }
 
-// 🔒 El número de la familia se guarda SOLO en memoria mientras la página
-// está abierta. Nunca se escribe en el HTML, así no aparece en el código
-// fuente. Solo se usa si la familia no tiene correo para el aviso protegido.
-var ownerDigits = null;
+// 🔒 El número de la familia ya no llega nunca a esta página: la base de datos
+// no se lo entrega a quien no ha iniciado sesión. El aviso a la familia viaja
+// por correo (función nuevo-reporte).
 var petNameForWa = 'tu peludo';
 var petShortCode = null;
 
@@ -408,11 +419,6 @@ function renderPet(p){
   // Familia (modo protegido: el número NO se muestra ni se escribe en la página)
   qs('ownerName').textContent = p.owner_name || '—';
   if(p.vet_city){ qs('ownerCity').textContent = '📍 ' + p.vet_city; qs('ownerCity').style.display = 'block'; }
-  if(p.emergency_phone){
-    var digits = String(p.emergency_phone).replace(/\D/g,'');
-    if(digits.length === 10) digits = '57' + digits; // celular colombiano
-    ownerDigits = digits;
-  }
 
   // QR del propio carnet. Usa la dirección corta (menos caracteres = QR
   // más grande y más fácil de leer). ecc=M aguanta rayones sin inflarlo.
@@ -527,17 +533,11 @@ async function submitReport(){
     if(notificado){
       // La familia fue avisada: el contacto del dueño NUNCA se muestra
       qs('repSuccessMsg').innerHTML = 'La familia de este peludo ya recibió tu aviso 💚<br>Te contactarán al WhatsApp que dejaste.<br><br>Si puedes, quédate cerca del peludo 🙏';
-    } else if(ownerDigits){
-      // Plan B: la familia no tiene correo registrado → contacto directo.
-      // Solo AQUÍ se arma el enlace con el número.
-      var waText = encodeURIComponent('¡Hola! Encontré a ' + petNameForWa + ' 🐾 Vi su carnet Kolita y quiero ayudarle a volver a casa.');
-      qs('waBtn').href = 'https://wa.me/' + ownerDigits + '?text=' + waText;
-      qs('telBtn').href = 'tel:+' + ownerDigits;
-      qs('repSuccessMsg').innerHTML = 'Tu aviso quedó registrado.<br>Puedes escribirle a la familia directamente:';
-      qs('waBtn').style.display = 'flex';
-      qs('telBtn').style.display = 'flex';
     } else {
-      qs('repSuccessMsg').innerHTML = 'Tu aviso quedó registrado 💚<br>Kolita hará llegar tu mensaje a la familia.';
+      // El aviso quedó guardado aunque el correo no saliera en el momento.
+      // El número de la familia ya no se muestra aquí (antes sí, y eso lo
+      // dejaba a la vista de cualquiera que escaneara el QR).
+      qs('repSuccessMsg').innerHTML = 'Tu aviso quedó registrado 💚<br>Kolita hará llegar tu mensaje a la familia.<br><br>Si puedes, quédate cerca del peludo 🙏';
     }
 
     setTimeout(function(){
