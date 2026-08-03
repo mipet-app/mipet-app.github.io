@@ -354,6 +354,24 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:8px;}
   document.getElementById('lupa').addEventListener('click',function(e){ if(e.target===this) cerrarLupa(); });
   document.addEventListener('keydown',function(e){ if(e.key==='Escape') cerrarLupa(); });
 
+  // ── CONTEO: registra cada clic en "Solicitar aquí" ──
+  function contar(modelo, color, precio){
+    if(typeof gtag !== 'function') return;
+    gtag('event', 'clic_placa', {
+      modelo: modelo,
+      color: color,
+      precio: precio,
+      valor_pesos: precio,
+      pagina: 'detalle'
+    });
+  }
+  document.getElementById('btnStd').addEventListener('click', function(){
+    contar(std.foto ? 'con_foto' : 'estandar', std.color, std.foto ? 49900 : 39900);
+  });
+  document.getElementById('btnHue').addEventListener('click', function(){
+    contar('huesito', hue.color, 34900);
+  });
+
   refrescaStd(); refrescaHue(); fotoStd(); fotoHue();
 })();
 </script>
