@@ -30,8 +30,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Quicksand:wght@600;700&family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#FBFCFA; --soft:#EDF2EA; --mid:#7C9877; --deep:#556F51; --ink:#3C4A3A; --mut:#93A28F;
-  --line:#E4EAE1; --alert:#C87B5B;
+  --bg:#FBFCF8; --soft:#EEF2E8; --mid:#657A50; --deep:#34472D; --ink:#263125; --mut:#74806F;
+  --line:#E1E7DC; --alert:#C87B5B; --accent:#FF7D45; --cream:#F6F3EA;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 html{scroll-behavior:smooth;}
@@ -188,16 +188,40 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:8px;}
   .sticky-cta a{display:block;text-align:center;background:var(--mid);color:#fff;
     text-decoration:none;font-size:15px;font-weight:800;padding:15px;border-radius:14px;}
 }
+
+/* Refinamiento visual 2026 */
+nav{box-shadow:0 1px 0 rgba(52,71,45,.04);}
+.brand-k{object-fit:contain;border-radius:10px;}
+.hero{padding-top:72px;padding-bottom:70px;}
+.hero-badge{background:var(--cream);border:1px solid #ECE7DA;}
+.hero h1{letter-spacing:-1.6px;}
+.btn-main,.nav-cta,.free-cta,.modelo-btn{background:var(--deep);}
+.btn-main:hover,.nav-cta:hover,.free-cta:hover,.modelo-btn:hover{background:#263A21;}
+.demo-card{border:0;box-shadow:0 28px 70px rgba(45,58,41,.14);transform:rotate(1deg);}
+.why-card,.step-card,.feat,.modelo,.faq-list details{transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;}
+.why-card:hover,.feat:hover,.modelo:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(45,58,41,.08);border-color:#D5DED0;}
+.free-box{max-width:760px;border:1px solid var(--line);box-shadow:0 24px 70px rgba(45,58,41,.10);padding:50px 46px;}
+.carnet-price{text-align:center;margin:16px 0 6px;color:var(--deep);}
+.carnet-price span{font-family:'Fraunces',serif;font-size:42px;font-weight:700;}
+.carnet-price small{font-size:13px;color:var(--mut);font-weight:700;}
+.modelo.destacada{position:relative;}
+.modelo.destacada:before{content:'Favorita';position:absolute;right:16px;top:16px;background:var(--accent);color:white;border-radius:999px;padding:5px 10px;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.7px;}
+.cta-box{background:linear-gradient(135deg,#34472D,#435C3B);}
+@media(max-width:860px){
+ .hero{padding-top:44px;}
+ .free-box{padding:36px 22px;}
+ .carnet-price span{font-size:36px;}
+}
 </style>
 </head>
 <body>
 
 <nav> 
   <div class="container nav-in">
-    <svg class="brand-k" viewBox="0 0 92 92"><rect x="2" y="2" width="88" height="88" rx="24" fill="#7C9877"/><path d="M32 24 L32 68" stroke="#FBFCFA" stroke-width="9" stroke-linecap="round"/><path d="M34 48 C 48 46, 58 36, 56 24" fill="none" stroke="#FBFCFA" stroke-width="9" stroke-linecap="round"/><path d="M34 48 C 48 52, 58 60, 62 70" fill="none" stroke="#DCE8D8" stroke-width="9" stroke-linecap="round"/></svg>
+    <img class="brand-k" src="img/logo-kolita.png" alt="Kolita">
     <span class="brand-name">kolita</span>
     <a href="mis-carnets.html" class="nav-link">Mis carnets</a>
-      <a class="nav-cta" href="registro.html">Crear carnet gratis</a>
+      <a class="nav-cta" href="registro.html">Crear carnet</a>
   </div>
 </nav>
 
@@ -206,14 +230,14 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:8px;}
   <div class="hero-in">
 
     <div class="hero-txt">
-      <span class="hero-badge">🐾 Gratis · Hecho en Colombia</span>
-      <h1>Si se pierde,<br>vuelve a <em>casa</em></h1>
-      <p>El carnet digital de tu peludo: sus vacunas, su historial y un QR para su collar. Si alguien lo encuentra, avisa a tu familia <strong>sin que tu número quede expuesto</strong>.</p>
+      <span class="hero-badge">🐾 Identificación inteligente · Hecho en Colombia</span>
+      <h1>Su identidad,<br>siempre con <em>él</em></h1>
+      <p>Un documento digital personalizado con su información, vacunas y Código Kolita. Si alguien lo encuentra, puede avisarte <strong>sin que tu número quede expuesto</strong>.</p>
       <div class="hero-btns">
-        <a class="btn btn-main" href="registro.html">Crear su carnet 🐾</a>
+        <a class="btn btn-main" href="registro.html">Crear su carnet · $24.900</a>
         <a class="btn btn-ghost" href="perfil.html?id=pet_1783916734681_olda0f">Ver un ejemplo</a>
       </div>
-      <div class="hero-note">Sin descargar apps · Sin contraseñas · Listo en 2 minutos</div>
+      <div class="hero-note">Pago único · Sin descargar apps · Acceso desde cualquier celular</div>
     </div>
 
     <div class="demo-card">
@@ -320,18 +344,18 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:8px;}
 <section class="band-soft" id="gratis">
   <div class="container">
     <div class="free-box">
-      <h2 class="free-title">Ventajas de crear su carnet gratis</h2>
+      <div class="sec-kicker">Su documento Kolita</div><h2 class="free-title">Todo lo importante de tu peludo, en un solo lugar</h2><div class="carnet-price"><span>$24.900</span><small> pago único</small></div>
       <ul class="free-list">
-        <li>Carnet digital con QR para escanear y usar en su collar</li>
-        <li>Enlace único para el collar de tu peludo</li>
-        <li>Sus vacunas, desparasitación, alergias y veterinario de confianza</li>
-        <li><strong>Recordatorios automáticos por correo</strong> antes de cada vacuna y desparasitación</li>
-        <li>Modo perdido con alerta visible en su carnet</li>
-        <li><strong>Aviso protegido:</strong> quien lo encuentra se identifica primero — tus datos están seguros</li>
+        <li><strong>Carnet digital personalizado</strong> con foto e identificación</li>
+        <li><strong>Código Kolita y QR único</strong> para identificarlo</li>
+        <li>Vacunas, desparasitación, alergias y veterinario de confianza</li>
+        <li><strong>Recordatorios automáticos</strong> de vacunas y desparasitación</li>
+        <li><strong>Modo perdido</strong> con alerta visible en su perfil</li>
+        <li><strong>Aviso protegido:</strong> quien lo encuentra se identifica primero; tu número no queda expuesto</li>
         <li>Registro de cada escaneo con su zona aproximada</li>
       </ul>
-      <a class="free-cta" href="registro.html">Crear su carnet gratis 🐾</a>
-      <p class="free-foot">Sin contraseñas · Sin tarjeta · Listo en 2 minutos</p>
+      <a class="free-cta" href="registro.html">Crear su carnet · $24.900 🐾</a>
+      <p class="free-foot">Pago único · Sin suscripciones · Tu información sigue siendo tuya</p>
     </div>
   </div>
 </section>
@@ -339,9 +363,9 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:8px;}
 <!-- ══ 6. ASCENSO: la placa, después de que ya se comprometió ══ -->
 <section id="placa">
   <div class="container">
-    <div class="sec-kicker">Si quieres, opcional</div>
-    <h2 class="sec-title">La placa con su QR grabado</h2>
-    <p class="sec-sub">El QR impreso funciona igual y no cuesta nada. La placa es para quien quiere algo que aguante el agua, el barro y los años. <strong>Tu número nunca va grabado.</strong></p>
+    <div class="sec-kicker">Completa su identificación</div>
+    <h2 class="sec-title">Lleva su Código Kolita siempre en el collar</h2>
+    <p class="sec-sub">El carnet es el corazón de su identificación. La placa lo complementa llevando su QR siempre con él, en un formato resistente para el día a día. <strong>Tu número nunca va grabado.</strong></p>
 
     <div class="modelos">
 
@@ -455,7 +479,7 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:8px;}
 
     <p class="modelos-nota">
       <a href="placas.html">Ver las placas en grande y con detalle →</a><br><br>
-      Todas llevan el Código Kolita de tu peludo, así que primero necesitas su carnet — es gratis y toma 2 minutos.<br>
+      Todas llevan el Código Kolita de tu peludo, así que primero necesitas crear su carnet.<br>
       Pago único · Entrega en persona sin costo en Medellín · A otras ciudades cotizamos el envío
     </p>
   </div>
@@ -468,8 +492,8 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:8px;}
     <h2 class="sec-title">Lo que todos preguntan</h2>
     <div class="faq-list">
       <details>
-        <summary>¿De verdad es gratis? ¿Dónde está la trampa?</summary>
-        <p>Sí. El carnet, el QR, los recordatorios de vacunas y el aviso protegido son gratis y van a seguir siéndolo. No te pedimos tarjeta. Lo único que se paga es la placa física, y es completamente opcional.</p>
+        <summary>¿Cuánto cuesta el carnet?</summary>
+        <p>El carnet Kolita cuesta $24.900, en un único pago. Incluye el documento digital personalizado, su Código Kolita, QR, información de salud, recordatorios, modo perdido y aviso protegido. La placa física se compra por separado.</p>
       </details>
       <details>
         <summary>¿Necesito una contraseña?</summary>
@@ -477,11 +501,11 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:8px;}
       </details>
       <details>
         <summary>¿Tengo que comprar la placa?</summary>
-        <p>No. El carnet funciona igual de bien con el QR impreso, y eso no cuesta nada. La placa es para quien quiere algo que aguante el agua, el barro y los años sin borrarse. Tú decides.</p>
+        <p>No. La placa es un complemento opcional del carnet. Sirve para llevar el Código Kolita y su QR siempre en el collar, en un formato resistente. Tú decides.</p>
       </details>
       <details>
         <summary>¿Cómo pido la placa y cómo pago?</summary>
-        <p>Primero crea el carnet de tu peludo, que es gratis. Al terminar recibes su Código Kolita. Escríbenos por WhatsApp con ese código y el modelo que quieres, y ahí mismo coordinamos el pago y la entrega.</p>
+        <p>Primero crea el carnet de tu peludo. Al terminar recibes su Código Kolita. Escríbenos por WhatsApp con ese código y el modelo que quieres, y ahí mismo coordinamos el pago y la entrega.</p>
       </details>
       <details>
         <summary>¿Tengo que descargar una app?</summary>
@@ -505,21 +529,21 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:8px;}
 
 <section class="container cta-end">
   <div class="cta-box">
-    <h2>Su carnet lo protege.<br>Crearlo toma 2 minutos.</h2>
-    <p>Gratis para perros, gatos y todos los peludos de la casa. Sin contraseñas, sin tarjeta 🐾</p>
-    <a class="btn btn-main" href="registro.html">Crear carnet gratis →</a>
+    <h2>Una identidad para toda su historia.<br>Su carnet Kolita por $24.900.</h2>
+    <p>Documento digital, Código Kolita, QR y herramientas de protección en un solo lugar 🐾</p>
+    <a class="btn btn-main" href="registro.html">Crear su carnet →</a>
   </div>
 </section>
 
 <footer>
   <div class="f-brand">
-    <svg class="brand-k" style="width:26px;height:26px;" viewBox="0 0 92 92"><rect x="2" y="2" width="88" height="88" rx="24" fill="#7C9877"/><path d="M32 24 L32 68" stroke="#FBFCFA" stroke-width="9" stroke-linecap="round"/><path d="M34 48 C 48 46, 58 36, 56 24" fill="none" stroke="#FBFCFA" stroke-width="9" stroke-linecap="round"/><path d="M34 48 C 48 52, 58 60, 62 70" fill="none" stroke="#DCE8D8" stroke-width="9" stroke-linecap="round"/></svg>
+    <img class="brand-k" style="width:26px;height:26px;" src="img/logo-kolita.png" alt="Kolita">
     <span class="brand-name" style="font-size:16px;">kolita</span>
   </div>
   <p>El carnet digital de tu peludo · Medellín, Colombia 🇨🇴 · <a href="privacidad.html" style="color:var(--mut);">Política de Privacidad</a></p>
 </footer>
 
-<div class="sticky-cta"><a href="registro.html">Crear su carnet gratis 🐾</a></div>
+<div class="sticky-cta"><a href="registro.html">Crear su carnet · $24.900 🐾</a></div>
 
 <script>
 (function(){
