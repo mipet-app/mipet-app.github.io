@@ -218,14 +218,63 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:8px;}
   .carnet-preview{gap:7px;}
 }
 
+
+/* Corrección de recursos alojados en la raíz de kolita.co */
+.brand-logo-full{
+  width:118px;height:42px;object-fit:contain;object-position:center;
+  transform:scale(1.7);transform-origin:left center;margin-right:42px;
+}
+.brand-logo-footer{
+  width:92px;height:34px;object-fit:contain;transform:scale(1.55);
+}
+.carnet-preview img{
+  display:block!important;opacity:1!important;
+  width:100%;height:100%;object-fit:contain;
+}
+@media(max-width:560px){
+  .brand-logo-full{width:94px;height:36px;transform:scale(1.55);margin-right:26px;}
+}
+
+
+/* Ajustes V4: más identidad, menos saturación visual */
+:root{
+  --mid:#718B61;
+  --deep:#3F5737;
+  --ink:#293827;
+  --soft:#EEF3E9;
+}
+.shop-fold{margin-top:34px;}
+.shop-fold>summary{
+  list-style:none;cursor:pointer;max-width:760px;margin:0 auto;
+  display:flex;align-items:center;justify-content:space-between;gap:18px;
+  padding:18px 20px;background:#fff;border:1px solid var(--line);
+  border-radius:18px;box-shadow:0 10px 28px rgba(63,87,55,.06);
+}
+.shop-fold>summary::-webkit-details-marker{display:none;}
+.shop-fold>summary span:first-child{display:flex;flex-direction:column;gap:3px;}
+.shop-fold>summary strong{font-size:14px;color:var(--ink);}
+.shop-fold>summary small{font-size:11.5px;color:var(--mut);font-weight:700;}
+.fold-action{background:var(--deep);color:#fff;border-radius:12px;padding:10px 14px;font-size:11.5px;font-weight:800;white-space:nowrap;}
+.shop-fold[open] .fold-action{font-size:0;}
+.shop-fold[open] .fold-action::after{content:'Ocultar productos';font-size:11.5px;}
+.shop-fold[open]>summary{margin-bottom:4px;}
+.tag-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;}
+.tag-row .product-tag{margin-bottom:0;}
+.favorite-tag{background:#FF7A45;color:#fff;font-size:9px;font-weight:900;letter-spacing:.8px;text-transform:uppercase;padding:6px 10px;border-radius:999px;}
+.detail-link{display:inline-block;margin-top:6px;color:var(--deep);font-size:11.5px;font-weight:800;text-decoration:none;}
+.detail-link:hover{text-decoration:underline;}
+@media(max-width:560px){
+  .shop-fold>summary{padding:15px;}
+  .fold-action{padding:9px 11px;}
+}
+
 </style>
 </head>
 <body>
 
 <nav> 
   <div class="container nav-in">
-    <img class="brand-k" src="./logo-kolita.png" alt="Kolita" onerror="this.style.display='none'">
-    <span class="brand-name">kolita</span>
+    <img class="brand-logo-full" src="/logo-kolita.png" alt="Kolita">
     <a href="mis-carnets.html" class="nav-link">Mis carnets</a>
       <a class="nav-cta" href="registro.html">Crear carnet gratis</a>
   </div>
@@ -236,7 +285,7 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:8px;}
   <div class="hero-in">
 
     <div class="hero-txt">
-      <span class="hero-badge">🐾 Carnet digital gratis · Hecho en Colombia</span>
+      <span class="hero-badge">🐾 Identificación inteligente · Hecho en Colombia</span>
       <h1>Si se pierde,<br>vuelve a <em>casa</em></h1>
       <p>El carnet digital de tu peludo: sus vacunas, su historial y un QR para su collar. Si alguien lo encuentra, avisa a tu familia <strong>sin que tu número quede expuesto</strong>.</p>
       <div class="hero-btns">
@@ -381,14 +430,19 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:8px;}
       <p class="sec-sub">El carnet digital de Kolita sigue siendo <strong>gratis</strong>. Si te gusta tener algo físico, puedes pedir su carnet impreso o una placa con el Código Kolita y su QR.</p>
     </div>
 
+    <details class="shop-fold">
+      <summary>
+        <span><strong>Ver carnet físico y placas</strong><small>4 opciones · productos físicos opcionales</small></span>
+        <span class="fold-action">Ver productos</span>
+      </summary>
     <div class="product-grid">
       <!-- CARNET FÍSICO -->
       <article class="product-card featured">
-        <span class="product-tag">Nuevo · Carnet físico</span>
+        <span class="product-tag">Carnet físico</span>
         <div class="product-visual">
           <div class="carnet-preview">
-            <img src="./carnet-ibiza-frente.png" alt="Frente del carnet físico Kolita" onerror="this.style.display='none'">
-            <img src="./carnet-ibiza-reverso.png" alt="Reverso del carnet físico Kolita" onerror="this.style.display='none'">
+            <img src="/carnet-ibiza-frente.png" alt="Frente del carnet físico Kolita">
+            <img src="/carnet-ibiza-reverso.png" alt="Reverso del carnet físico Kolita">
           </div>
         </div>
         <h3>Carnet físico personalizado</h3>
@@ -411,6 +465,7 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:8px;}
           </svg>
         </div>
         <h3>Placa estándar</h3>
+        <a class="detail-link" href="placas.html#estandar">Ver en grande y detalles →</a>
         <p>Metal resistente con el QR grabado a láser. Una opción sencilla, legible y durable para el collar.</p>
         <div class="opt-lbl">Color</div>
         <div class="colores" id="colStd">
@@ -423,8 +478,8 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:8px;}
       </article>
 
       <!-- FOTO -->
-      <article class="product-card">
-        <span class="product-tag">Con su carita 🐶</span>
+      <article class="product-card photo-favorite">
+        <div class="tag-row"><span class="product-tag">Con su carita 🐶</span><span class="favorite-tag">Favorita</span></div>
         <div class="product-visual">
           <img id="imgFoto" src="img/placa-foto-negra.png" alt="Placa Kolita con foto" onerror="this.removeAttribute('src');this.style.display='none'">
           <svg id="svgFoto" viewBox="0 0 96 60" width="180" height="112">
@@ -436,6 +491,7 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:8px;}
           </svg>
         </div>
         <h3>Placa con su foto</h3>
+        <a class="detail-link" href="placas.html#estandar">Ver en grande y detalles →</a>
         <p>Su carita grabada a láser por un lado y su Código Kolita con QR por el otro.</p>
         <div class="opt-lbl">Color</div>
         <div class="colores" id="colFoto">
@@ -459,6 +515,7 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:8px;}
           </svg>
         </div>
         <h3>Placa huesito</h3>
+        <a class="detail-link" href="placas.html#huesito">Ver en grande y detalles →</a>
         <p>Más pequeña y liviana, disponible en varios colores. Ideal para peludos chiquitos.</p>
         <div class="opt-lbl">Color</div>
         <div class="colores" id="colHue">
@@ -480,6 +537,7 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:8px;}
     <div class="optional-note">
       El carnet digital es gratis y funciona sin comprar ningún producto físico. El carnet impreso y las placas son complementos opcionales para quienes quieran llevar la identificación de su peludo también fuera del celular.
     </div>
+    </details>
   </div>
 </section>
 
@@ -539,8 +597,7 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:8px;}
 
 <footer>
   <div class="f-brand">
-    <img class="brand-k" style="width:26px;height:26px;" src="./logo-kolita.png" alt="Kolita" onerror="this.style.display='none'">
-    <span class="brand-name" style="font-size:16px;">kolita</span>
+    <img class="brand-logo-footer" src="/logo-kolita.png" alt="Kolita">
   </div>
   <p>El carnet digital de tu peludo · Medellín, Colombia 🇨🇴 · <a href="privacidad.html" style="color:var(--mut);">Política de Privacidad</a></p>
 </footer>
