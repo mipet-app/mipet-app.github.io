@@ -30,8 +30,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Quicksand:wght@600;700&family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#FBFCF8; --soft:#EEF2E8; --mid:#657A50; --deep:#34472D; --ink:#263125; --mut:#74806F;
-  --line:#E1E7DC; --alert:#C87B5B; --accent:#FF7D45; --cream:#F6F3EA;
+  --bg:#FBFCFA; --soft:#EDF2EA; --mid:#6F8A64; --deep:#40563A; --ink:#2F3B2D; --mut:#7F8D7B;
+  --line:#E1E8DE; --alert:#C87B5B; --orange:#FF7A45;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 html{scroll-behavior:smooth;}
@@ -189,39 +189,45 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:8px;}
     text-decoration:none;font-size:15px;font-weight:800;padding:15px;border-radius:14px;}
 }
 
-/* Refinamiento visual 2026 */
-nav{box-shadow:0 1px 0 rgba(52,71,45,.04);}
-.brand-k{object-fit:contain;border-radius:10px;}
-.hero{padding-top:72px;padding-bottom:70px;}
-.hero-badge{background:var(--cream);border:1px solid #ECE7DA;}
-.hero h1{letter-spacing:-1.6px;}
-.btn-main,.nav-cta,.free-cta,.modelo-btn{background:var(--deep);}
-.btn-main:hover,.nav-cta:hover,.free-cta:hover,.modelo-btn:hover{background:#263A21;}
-.demo-card{border:0;box-shadow:0 28px 70px rgba(45,58,41,.14);transform:rotate(1deg);}
-.why-card,.step-card,.feat,.modelo,.faq-list details{transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;}
-.why-card:hover,.feat:hover,.modelo:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(45,58,41,.08);border-color:#D5DED0;}
-.free-box{max-width:760px;border:1px solid var(--line);box-shadow:0 24px 70px rgba(45,58,41,.10);padding:50px 46px;}
-.carnet-price{text-align:center;margin:16px 0 6px;color:var(--deep);}
-.carnet-price span{font-family:'Fraunces',serif;font-size:42px;font-weight:700;}
-.carnet-price small{font-size:13px;color:var(--mut);font-weight:700;}
-.modelo.destacada{position:relative;}
-.modelo.destacada:before{content:'Favorita';position:absolute;right:16px;top:16px;background:var(--accent);color:white;border-radius:999px;padding:5px 10px;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.7px;}
-.cta-box{background:linear-gradient(135deg,#34472D,#435C3B);}
-@media(max-width:860px){
- .hero{padding-top:44px;}
- .free-box{padding:36px 22px;}
- .carnet-price span{font-size:36px;}
+/* --- Rediseño UX: registro gratis + productos físicos opcionales --- */
+.brand-k{object-fit:contain;border-radius:9px;}
+.trust-strip{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:18px;}
+.trust-pill{background:#fff;border:1px solid var(--line);border-radius:999px;padding:7px 11px;font-size:11px;font-weight:800;color:var(--deep);}
+.hero h1{letter-spacing:-1.2px;}
+.hero-product-note{font-size:12px!important;margin-top:10px!important;color:var(--mut)!important;}
+.products-head{max-width:650px;margin:0 auto;text-align:center;}
+.product-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;margin-top:38px;}
+.product-card{background:#fff;border:1.5px solid var(--line);border-radius:24px;padding:22px;display:flex;flex-direction:column;transition:.2s;}
+.product-card:hover{transform:translateY(-3px);box-shadow:0 16px 42px rgba(70,85,66,.09);}
+.product-card.featured{border-color:var(--mid);box-shadow:0 14px 36px rgba(70,85,66,.08);}
+.product-visual{height:245px;border-radius:18px;background:#F7F8F4;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:12px;}
+.product-visual img{width:100%;height:100%;object-fit:contain;}
+.carnet-preview{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;height:100%;}
+.carnet-preview img{border-radius:10px;background:#fff;box-shadow:0 8px 22px rgba(60,74,58,.10);}
+.product-tag{align-self:flex-start;background:var(--soft);color:var(--deep);font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:1px;padding:6px 10px;border-radius:999px;margin-bottom:12px;}
+.product-card h3{font-family:'Fraunces',serif;font-size:21px;margin-top:16px;}
+.product-card p{font-size:13px;color:var(--mut);font-weight:600;line-height:1.65;margin-top:7px;}
+.product-price{font-family:'Fraunces',serif;font-size:29px;font-weight:700;color:var(--deep);margin-top:auto;padding-top:18px;}
+.product-price small{font-family:'Nunito Sans',sans-serif;font-size:11px;color:var(--mut);}
+.product-btn{display:block;text-align:center;margin-top:12px;background:var(--deep);color:#fff;text-decoration:none;font-size:13.5px;font-weight:800;padding:14px;border-radius:14px;}
+.product-btn:hover{background:#30442B;}
+.optional-note{max-width:760px;margin:24px auto 0;text-align:center;background:var(--soft);border-radius:16px;padding:15px 18px;font-size:12.5px;font-weight:700;color:var(--deep);line-height:1.6;}
+@media(max-width:760px){
+  .product-grid{grid-template-columns:1fr;}
+  .product-visual{height:225px;}
+  .carnet-preview{gap:7px;}
 }
+
 </style>
 </head>
 <body>
 
 <nav> 
   <div class="container nav-in">
-    <img class="brand-k" src="img/logo-kolita.png" alt="Kolita">
+    <img class="brand-k" src="./logo-kolita.png" alt="Kolita" onerror="this.style.display='none'">
     <span class="brand-name">kolita</span>
     <a href="mis-carnets.html" class="nav-link">Mis carnets</a>
-      <a class="nav-cta" href="registro.html">Crear carnet</a>
+      <a class="nav-cta" href="registro.html">Crear carnet gratis</a>
   </div>
 </nav>
 
@@ -230,14 +236,20 @@ nav{box-shadow:0 1px 0 rgba(52,71,45,.04);}
   <div class="hero-in">
 
     <div class="hero-txt">
-      <span class="hero-badge">🐾 Identificación inteligente · Hecho en Colombia</span>
-      <h1>Su identidad,<br>siempre con <em>él</em></h1>
-      <p>Un documento digital personalizado con su información, vacunas y Código Kolita. Si alguien lo encuentra, puede avisarte <strong>sin que tu número quede expuesto</strong>.</p>
+      <span class="hero-badge">🐾 Carnet digital gratis · Hecho en Colombia</span>
+      <h1>Si se pierde,<br>vuelve a <em>casa</em></h1>
+      <p>El carnet digital de tu peludo: sus vacunas, su historial y un QR para su collar. Si alguien lo encuentra, avisa a tu familia <strong>sin que tu número quede expuesto</strong>.</p>
       <div class="hero-btns">
-        <a class="btn btn-main" href="registro.html">Crear su carnet · $24.900</a>
+        <a class="btn btn-main" href="registro.html">Crear su carnet 🐾</a>
         <a class="btn btn-ghost" href="perfil.html?id=pet_1783916734681_olda0f">Ver un ejemplo</a>
       </div>
-      <div class="hero-note">Pago único · Sin descargar apps · Acceso desde cualquier celular</div>
+      <div class="hero-note">Sin descargar apps · Sin tarjeta · Listo en 2 minutos</div>
+<div class="trust-strip">
+  <span class="trust-pill">✓ Carnet digital gratis</span>
+  <span class="trust-pill">🔒 Tu número protegido</span>
+  <span class="trust-pill">📱 Funciona desde el navegador</span>
+</div>
+<p class="hero-product-note">¿Quieres llevarlo también en físico? Más abajo puedes pedir el carnet impreso o una placa con su QR. Son opcionales.</p>
     </div>
 
     <div class="demo-card">
@@ -271,7 +283,7 @@ nav{box-shadow:0 1px 0 rgba(52,71,45,.04);}
       <div class="why-card">
         <div class="w-emoji">🎆</div>
         <h3>La pólvora y los sustos</h3>
-        <p>La Feria de las Flores y diciembre son las épocas en que más peludos se pierden en Antioquia: la pólvora los asusta, corren y no miran atrás. <strong>El collar con QR es su boleto de regreso a casa, funcione donde funcione el susto.</strong></p>
+        <p>En celebraciones con pólvora, muchos peludos se asustan, corren y pueden desorientarse. <strong>El collar con QR es su boleto de regreso a casa, funcione donde funcione el susto.</strong></p>
       </div>
       <div class="why-card">
         <div class="w-emoji">📋</div>
@@ -344,123 +356,113 @@ nav{box-shadow:0 1px 0 rgba(52,71,45,.04);}
 <section class="band-soft" id="gratis">
   <div class="container">
     <div class="free-box">
-      <div class="sec-kicker">Su documento Kolita</div><h2 class="free-title">Todo lo importante de tu peludo, en un solo lugar</h2><div class="carnet-price"><span>$24.900</span><small> pago único</small></div>
+      <h2 class="free-title">Primero crea su carnet digital. Es gratis.</h2>
       <ul class="free-list">
-        <li><strong>Carnet digital personalizado</strong> con foto e identificación</li>
-        <li><strong>Código Kolita y QR único</strong> para identificarlo</li>
-        <li>Vacunas, desparasitación, alergias y veterinario de confianza</li>
-        <li><strong>Recordatorios automáticos</strong> de vacunas y desparasitación</li>
-        <li><strong>Modo perdido</strong> con alerta visible en su perfil</li>
-        <li><strong>Aviso protegido:</strong> quien lo encuentra se identifica primero; tu número no queda expuesto</li>
+        <li>Carnet digital con QR para escanear y usar en su collar</li>
+        <li>Enlace único para el collar de tu peludo</li>
+        <li>Sus vacunas, desparasitación, alergias y veterinario de confianza</li>
+        <li><strong>Recordatorios automáticos por correo</strong> antes de cada vacuna y desparasitación</li>
+        <li>Modo perdido con alerta visible en su carnet</li>
+        <li><strong>Aviso protegido:</strong> quien lo encuentra se identifica primero — tus datos están seguros</li>
         <li>Registro de cada escaneo con su zona aproximada</li>
       </ul>
-      <a class="free-cta" href="registro.html">Crear su carnet · $24.900 🐾</a>
-      <p class="free-foot">Pago único · Sin suscripciones · Tu información sigue siendo tuya</p>
+      <a class="free-cta" href="registro.html">Crear su carnet gratis 🐾</a>
+      <p class="free-foot">Sin contraseñas · Sin tarjeta · Listo en 2 minutos</p>
     </div>
   </div>
 </section>
 
-<!-- ══ 6. ASCENSO: la placa, después de que ya se comprometió ══ -->
-<section id="placa">
+<!-- ══ 6. PRODUCTOS FÍSICOS OPCIONALES ══ -->
+<section id="placa" class="band-white">
   <div class="container">
-    <div class="sec-kicker">Completa su identificación</div>
-    <h2 class="sec-title">Lleva su Código Kolita siempre en el collar</h2>
-    <p class="sec-sub">El carnet es el corazón de su identificación. La placa lo complementa llevando su QR siempre con él, en un formato resistente para el día a día. <strong>Tu número nunca va grabado.</strong></p>
+    <div class="products-head">
+      <div class="sec-kicker">Opcional · Para tenerlo siempre contigo</div>
+      <h2 class="sec-title">Su identificación también puede ser física</h2>
+      <p class="sec-sub">El carnet digital de Kolita sigue siendo <strong>gratis</strong>. Si te gusta tener algo físico, puedes pedir su carnet impreso o una placa con el Código Kolita y su QR.</p>
+    </div>
 
-    <div class="modelos">
+    <div class="product-grid">
+      <!-- CARNET FÍSICO -->
+      <article class="product-card featured">
+        <span class="product-tag">Nuevo · Carnet físico</span>
+        <div class="product-visual">
+          <div class="carnet-preview">
+            <img src="./carnet-ibiza-frente.png" alt="Frente del carnet físico Kolita" onerror="this.style.display='none'">
+            <img src="./carnet-ibiza-reverso.png" alt="Reverso del carnet físico Kolita" onerror="this.style.display='none'">
+          </div>
+        </div>
+        <h3>Carnet físico personalizado</h3>
+        <p>La identificación de tu peludo en formato físico, con su foto, datos y Código Kolita. Ideal para llevarlo contigo y conservar su información a la mano.</p>
+        <div class="product-price">$24.900 <small>pago único</small></div>
+        <a class="product-btn" id="btnCarnetFisico" href="#" target="_blank" rel="noopener">Pedir por WhatsApp 🐾</a>
+      </article>
 
       <!-- ESTÁNDAR -->
-      <div class="modelo">
-        <span class="modelo-tag hueco">.</span>
-        <a class="modelo-foto" href="placas.html#estandar">
-        <div class="modelo-img">
-          <img id="imgStd" alt="Placa Kolita estándar">
-          <svg id="svgStd" viewBox="0 0 96 60" width="150" height="94">
+      <article class="product-card">
+        <span class="product-tag">QR grabado</span>
+        <div class="product-visual">
+          <img id="imgStd" src="img/placa-negra.png" alt="Placa Kolita estándar" onerror="this.removeAttribute('src');this.style.display='none'">
+          <svg id="svgStd" viewBox="0 0 96 60" width="180" height="112">
             <rect id="stdBody" x="2" y="2" width="92" height="56" rx="22" fill="#2B2B2B" stroke="#3C4A3A" stroke-width="1.6"/>
             <circle cx="15" cy="30" r="4.5" fill="none" stroke="#93A28F" stroke-width="1.6"/>
             <rect x="26" y="12" width="36" height="36" rx="2" fill="#EEEEEE" class="s-fg"/>
-            <rect x="29" y="15" width="8" height="8" fill="#2B2B2B" class="s-bg"/><rect x="51" y="15" width="8" height="8" fill="#2B2B2B" class="s-bg"/>
-            <rect x="29" y="37" width="8" height="8" fill="#2B2B2B" class="s-bg"/>
-            <rect x="41" y="15" width="3" height="3" fill="#2B2B2B" class="s-bg"/><rect x="45" y="19" width="3" height="3" fill="#2B2B2B" class="s-bg"/>
-            <rect x="41" y="27" width="3" height="3" fill="#2B2B2B" class="s-bg"/><rect x="47" y="31" width="3" height="3" fill="#2B2B2B" class="s-bg"/>
-            <rect x="41" y="41" width="3" height="3" fill="#2B2B2B" class="s-bg"/><rect x="51" y="41" width="3" height="3" fill="#2B2B2B" class="s-bg"/>
-            <rect x="55" y="35" width="3" height="3" fill="#2B2B2B" class="s-bg"/>
-            <text x="77" y="28" font-family="Nunito Sans, Helvetica" font-size="4.4" fill="#EEEEEE" text-anchor="middle" class="s-fg">kolita.co/p</text>
-            <text x="77" y="36" font-family="Nunito Sans, Helvetica" font-size="5.4" font-weight="bold" fill="#EEEEEE" text-anchor="middle" class="s-fg">A7K2M9</text>
+            <text x="77" y="28" font-family="Nunito Sans" font-size="4.4" fill="#EEEEEE" text-anchor="middle" class="s-fg">kolita.co/p</text>
+            <text x="77" y="36" font-family="Nunito Sans" font-size="5.4" font-weight="bold" fill="#EEEEEE" text-anchor="middle" class="s-fg">A7K2M9</text>
           </svg>
         </div>
-        </a>
         <h3>Placa estándar</h3>
-        <p class="modelo-desc">Metal resistente, con el QR grabado a láser. La más legible y la que mejor aguanta.</p>
-
+        <p>Metal resistente con el QR grabado a láser. Una opción sencilla, legible y durable para el collar.</p>
         <div class="opt-lbl">Color</div>
         <div class="colores" id="colStd">
-          <button aria-pressed="true"  style="background:#2B2B2B" data-c="#2B2B2B" data-g="#EEEEEE" data-n="Negra"></button>
+          <button aria-pressed="true" style="background:#2B2B2B" data-c="#2B2B2B" data-g="#EEEEEE" data-n="Negra"></button>
           <button aria-pressed="false" style="background:#C9CCC7" data-c="#C9CCC7" data-g="#3C4A3A" data-n="Plateada"></button>
         </div>
         <div class="color-nom" id="nomStd">Negra</div>
+        <div class="product-price">$39.900</div>
+        <a class="product-btn" id="btnStd" href="#" target="_blank" rel="noopener">Pedir por WhatsApp 🐾</a>
+      </article>
 
-        <div class="modelo-precio">$39.900</div>
-        <a class="modelo-btn" id="btnStd" href="#" target="_blank" rel="noopener">Solicitar aquí 🐾</a>
-      </div>
-
-      <!-- CON SU FOTO -->
-      <div class="modelo destacada">
-        <span class="modelo-tag">Con su carita 🐶</span>
-        <a class="modelo-foto" href="placas.html#estandar">
-        <div class="modelo-img">
-          <img id="imgFoto" alt="Placa Kolita con la foto de tu peludo">
-          <svg id="svgFoto" viewBox="0 0 96 60" width="150" height="94">
+      <!-- FOTO -->
+      <article class="product-card">
+        <span class="product-tag">Con su carita 🐶</span>
+        <div class="product-visual">
+          <img id="imgFoto" src="img/placa-foto-negra.png" alt="Placa Kolita con foto" onerror="this.removeAttribute('src');this.style.display='none'">
+          <svg id="svgFoto" viewBox="0 0 96 60" width="180" height="112">
             <rect id="fotBody" x="2" y="2" width="92" height="56" rx="22" fill="#2B2B2B" stroke="#3C4A3A" stroke-width="1.6"/>
             <circle cx="15" cy="30" r="4.5" fill="none" stroke="#93A28F" stroke-width="1.6"/>
             <circle cx="52" cy="28" r="14" fill="#EEEEEE" class="f-fg"/>
-            <path d="M40 18 q-3 -9 3.5 -10 q3.5 3 4 7z" fill="#EEEEEE" class="f-fg"/>
-            <path d="M64 18 q3 -9 -3.5 -10 q-3.5 3 -4 7z" fill="#EEEEEE" class="f-fg"/>
             <circle cx="47" cy="26" r="2" fill="#2B2B2B" class="f-bg"/><circle cx="57" cy="26" r="2" fill="#2B2B2B" class="f-bg"/>
-            <ellipse cx="52" cy="32.5" rx="3" ry="2.2" fill="#2B2B2B" class="f-bg"/>
-            <path d="M47.5 36 q4.5 4.5 9 0" fill="none" stroke="#2B2B2B" stroke-width="1.3" class="f-st"/>
-            <text x="52" y="52" font-family="Nunito Sans, Helvetica" font-size="6" font-weight="bold" fill="#EEEEEE" text-anchor="middle" class="f-fg">IBIZA</text>
+            <text x="52" y="52" font-family="Nunito Sans" font-size="6" font-weight="bold" fill="#EEEEEE" text-anchor="middle" class="f-fg">IBIZA</text>
           </svg>
         </div>
-        </a>
         <h3>Placa con su foto</h3>
-        <p class="modelo-desc">La carita de tu peludo grabada a láser en el metal. Por un lado su foto, por el otro su QR.</p>
-
+        <p>Su carita grabada a láser por un lado y su Código Kolita con QR por el otro.</p>
         <div class="opt-lbl">Color</div>
         <div class="colores" id="colFoto">
-          <button aria-pressed="true"  style="background:#2B2B2B" data-c="#2B2B2B" data-g="#EEEEEE" data-n="Negra"></button>
+          <button aria-pressed="true" style="background:#2B2B2B" data-c="#2B2B2B" data-g="#EEEEEE" data-n="Negra"></button>
           <button aria-pressed="false" style="background:#C9CCC7" data-c="#C9CCC7" data-g="#3C4A3A" data-n="Plateada"></button>
         </div>
         <div class="color-nom" id="nomFoto">Negra</div>
-
-        <div class="modelo-precio">$49.900</div>
-        <a class="modelo-btn" id="btnFoto" href="#" target="_blank" rel="noopener">Solicitar aquí 🐾</a>
-      </div>
+        <div class="product-price">$49.900</div>
+        <a class="product-btn" id="btnFoto" href="#" target="_blank" rel="noopener">Pedir por WhatsApp 🐾</a>
+      </article>
 
       <!-- HUESITO -->
-      <div class="modelo">
-        <span class="modelo-tag hueco">.</span>
-        <a class="modelo-foto" href="placas.html#huesito">
-        <div class="modelo-img">
-          <img id="imgHue" alt="Placa Kolita huesito">
-          <svg id="svgHue" viewBox="0 0 100 62" width="150" height="93">
+      <article class="product-card">
+        <span class="product-tag">Pequeña y liviana</span>
+        <div class="product-visual">
+          <img id="imgHue" src="img/huesito-verde.png" alt="Placa Kolita huesito" onerror="this.removeAttribute('src');this.style.display='none'">
+          <svg id="svgHue" viewBox="0 0 100 62" width="180" height="112">
             <path id="hueBody" d="M23 13a11.5 11.5 0 1 0-8.5 18.5A11.5 11.5 0 1 0 23 50h54a11.5 11.5 0 1 0 8.5-18.5A11.5 11.5 0 1 0 77 13z" fill="#3FA34D" stroke="#3C4A3A" stroke-width="1.6"/>
             <circle cx="50" cy="17" r="3.4" fill="none" stroke="#3C4A3A" stroke-width="1.4"/>
             <rect x="36" y="24" width="28" height="24" rx="2" fill="#FFFFFF" opacity=".93"/>
-            <rect x="38" y="26" width="6" height="6" fill="#2B2B2B"/><rect x="56" y="26" width="6" height="6" fill="#2B2B2B"/>
-            <rect x="38" y="40" width="6" height="6" fill="#2B2B2B"/>
-            <rect x="48" y="26" width="2.5" height="2.5" fill="#2B2B2B"/><rect x="51" y="30" width="2.5" height="2.5" fill="#2B2B2B"/>
-            <rect x="48" y="35" width="2.5" height="2.5" fill="#2B2B2B"/><rect x="54" y="38" width="2.5" height="2.5" fill="#2B2B2B"/>
-            <rect x="48" y="43" width="2.5" height="2.5" fill="#2B2B2B"/><rect x="56" y="43" width="2.5" height="2.5" fill="#2B2B2B"/>
           </svg>
         </div>
-        </a>
         <h3>Placa huesito</h3>
-        <p class="modelo-desc">Más pequeña y liviana, en varios colores. Ideal para peludos chiquitos.</p>
-
+        <p>Más pequeña y liviana, disponible en varios colores. Ideal para peludos chiquitos.</p>
         <div class="opt-lbl">Color</div>
         <div class="colores" id="colHue">
-          <button aria-pressed="true"  style="background:#3FA34D" data-c="#3FA34D" data-n="Verde"></button>
+          <button aria-pressed="true" style="background:#3FA34D" data-c="#3FA34D" data-n="Verde"></button>
           <button aria-pressed="false" style="background:#2F6FD0" data-c="#2F6FD0" data-n="Azul"></button>
           <button aria-pressed="false" style="background:#8B4FC4" data-c="#8B4FC4" data-n="Morada"></button>
           <button aria-pressed="false" style="background:#E86AB0" data-c="#E86AB0" data-n="Fucsia"></button>
@@ -470,18 +472,14 @@ nav{box-shadow:0 1px 0 rgba(52,71,45,.04);}
           <button aria-pressed="false" style="background:#2B2B2B" data-c="#2B2B2B" data-n="Negra"></button>
         </div>
         <div class="color-nom" id="nomHue">Verde</div>
-
-        <div class="modelo-precio">$34.900</div>
-        <a class="modelo-btn" id="btnHue" href="#" target="_blank" rel="noopener">Solicitar aquí 🐾</a>
-      </div>
-
+        <div class="product-price">$34.900</div>
+        <a class="product-btn" id="btnHue" href="#" target="_blank" rel="noopener">Pedir por WhatsApp 🐾</a>
+      </article>
     </div>
 
-    <p class="modelos-nota">
-      <a href="placas.html">Ver las placas en grande y con detalle →</a><br><br>
-      Todas llevan el Código Kolita de tu peludo, así que primero necesitas crear su carnet.<br>
-      Pago único · Entrega en persona sin costo en Medellín · A otras ciudades cotizamos el envío
-    </p>
+    <div class="optional-note">
+      El carnet digital es gratis y funciona sin comprar ningún producto físico. El carnet impreso y las placas son complementos opcionales para quienes quieran llevar la identificación de su peludo también fuera del celular.
+    </div>
   </div>
 </section>
 
@@ -492,20 +490,24 @@ nav{box-shadow:0 1px 0 rgba(52,71,45,.04);}
     <h2 class="sec-title">Lo que todos preguntan</h2>
     <div class="faq-list">
       <details>
-        <summary>¿Cuánto cuesta el carnet?</summary>
-        <p>El carnet Kolita cuesta $24.900, en un único pago. Incluye el documento digital personalizado, su Código Kolita, QR, información de salud, recordatorios, modo perdido y aviso protegido. La placa física se compra por separado.</p>
+        <summary>¿De verdad es gratis? ¿Dónde está la trampa?</summary>
+        <p>Sí. El carnet, el QR, los recordatorios de vacunas y el aviso protegido son gratis y van a seguir siéndolo. No te pedimos tarjeta. Lo único que se paga es la placa física, y es completamente opcional.</p>
       </details>
       <details>
         <summary>¿Necesito una contraseña?</summary>
         <p>No, y nunca te vamos a pedir una. Para entrar escribes tu correo y te llega un código; lo escribes y listo. Así nadie más puede cambiar el carnet de tu peludo ni apagarle el modo perdido, y tú no tienes que recordar nada.</p>
       </details>
       <details>
+        <summary>¿El carnet digital y el carnet físico son lo mismo?</summary>
+        <p>No. El carnet digital de Kolita es gratis y puedes usarlo desde el celular. El carnet físico es un producto opcional de $24.900 para quienes quieren tener la identificación personalizada de su peludo también en formato impreso.</p>
+      </details>
+      <details>
         <summary>¿Tengo que comprar la placa?</summary>
-        <p>No. La placa es un complemento opcional del carnet. Sirve para llevar el Código Kolita y su QR siempre en el collar, en un formato resistente. Tú decides.</p>
+        <p>No. El carnet digital funciona sin comprar una placa. La placa es opcional y sirve para llevar el Código Kolita y su QR siempre en el collar, en un formato resistente. Tú decides.</p>
       </details>
       <details>
         <summary>¿Cómo pido la placa y cómo pago?</summary>
-        <p>Primero crea el carnet de tu peludo. Al terminar recibes su Código Kolita. Escríbenos por WhatsApp con ese código y el modelo que quieres, y ahí mismo coordinamos el pago y la entrega.</p>
+        <p>Primero crea el carnet de tu peludo, que es gratis. Al terminar recibes su Código Kolita. Escríbenos por WhatsApp con ese código y el modelo que quieres, y ahí mismo coordinamos el pago y la entrega.</p>
       </details>
       <details>
         <summary>¿Tengo que descargar una app?</summary>
@@ -529,21 +531,21 @@ nav{box-shadow:0 1px 0 rgba(52,71,45,.04);}
 
 <section class="container cta-end">
   <div class="cta-box">
-    <h2>Una identidad para toda su historia.<br>Su carnet Kolita por $24.900.</h2>
-    <p>Documento digital, Código Kolita, QR y herramientas de protección en un solo lugar 🐾</p>
-    <a class="btn btn-main" href="registro.html">Crear su carnet →</a>
+    <h2>Su carnet lo protege.<br>Crearlo toma 2 minutos.</h2>
+    <p>Gratis para perros, gatos y todos los peludos de la casa. Sin contraseñas, sin tarjeta 🐾</p>
+    <a class="btn btn-main" href="registro.html">Crear carnet gratis →</a>
   </div>
 </section>
 
 <footer>
   <div class="f-brand">
-    <img class="brand-k" style="width:26px;height:26px;" src="img/logo-kolita.png" alt="Kolita">
+    <img class="brand-k" style="width:26px;height:26px;" src="./logo-kolita.png" alt="Kolita" onerror="this.style.display='none'">
     <span class="brand-name" style="font-size:16px;">kolita</span>
   </div>
   <p>El carnet digital de tu peludo · Medellín, Colombia 🇨🇴 · <a href="privacidad.html" style="color:var(--mut);">Política de Privacidad</a></p>
 </footer>
 
-<div class="sticky-cta"><a href="registro.html">Crear su carnet · $24.900 🐾</a></div>
+<div class="sticky-cta"><a href="registro.html">Crear su carnet gratis 🐾</a></div>
 
 <script>
 (function(){
@@ -556,6 +558,10 @@ nav{box-shadow:0 1px 0 rgba(52,71,45,.04);}
   function refrescaStd(){  document.getElementById('btnStd').href  = pedir('estándar ' + std.color); }
   function refrescaFoto(){ document.getElementById('btnFoto').href = pedir('con la foto de mi peludo, ' + foto.color); }
   function refrescaHue(){  document.getElementById('btnHue').href  = pedir('huesito ' + hue.color); }
+  function refrescaCarnetFisico(){
+    var el = document.getElementById('btnCarnetFisico');
+    if(el) el.href = WA + encodeURIComponent('¡Hola! Quiero pedir el carnet físico Kolita de mi peludo por $24.900 🐾');
+  }
 
   // Cambia el color del dibujo de una placa metálica
   function pintaMetal(cuerpoId, cuerpo, grabado, claseFg, claseBg, claseSt){
@@ -652,10 +658,14 @@ nav{box-shadow:0 1px 0 rgba(52,71,45,.04);}
   document.getElementById('btnHue').addEventListener('click', function(){
     contar('huesito', hue.color, 34900);
   });
+  var btnCarnetFisico = document.getElementById('btnCarnetFisico');
+  if(btnCarnetFisico) btnCarnetFisico.addEventListener('click', function(){
+    contar('carnet_fisico', 'personalizado', 24900);
+  });
 
   // ── CONTEO: clics en "Crear carnet" ──
   // Así sabes cuántos empiezan el registro y desde qué botón
-  [['.nav-cta','menu'], ['.free-cta','ventajas'], ['.sticky-cta a','fijo_celular']]
+  [['.nav-cta','menu'], ['.hero .btn-main','hero'], ['.free-cta','ventajas'], ['.cta-end .btn-main','cierre'], ['.sticky-cta a','fijo_celular']]
     .forEach(function(par){
       var el = document.querySelector(par[0]);
       if(el) el.addEventListener('click', function(){
@@ -663,7 +673,7 @@ nav{box-shadow:0 1px 0 rgba(52,71,45,.04);}
       });
     });
 
-  refrescaStd(); refrescaFoto(); refrescaHue();
+  refrescaStd(); refrescaFoto(); refrescaHue(); refrescaCarnetFisico();
   fotoStd(); fotoFoto(); fotoHue();
 })();
 </script>
