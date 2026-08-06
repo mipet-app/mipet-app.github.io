@@ -44,7 +44,9 @@ body{font-family:'Nunito Sans',sans-serif;background:var(--bg);color:var(--ink);
 /* ── nav ── */
 nav{position:sticky;top:0;background:rgba(251,252,250,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:20;}
 .nav-in{display:flex;align-items:center;gap:10px;padding:12px 0;}
-.brand-logo-full{height:44px;width:auto;display:block;}
+.brand-box{display:flex;align-items:center;gap:9px;text-decoration:none;}
+.brand-logo-full{height:46px;width:auto;display:block;}
+.brand-word{font-family:'Quicksand',sans-serif;font-weight:700;font-size:26px;color:var(--deep);letter-spacing:-.3px;}
 .nav-link{margin-left:auto;font-size:13px;font-weight:800;color:var(--deep);text-decoration:none;margin-right:14px;}
 .nav-cta{background:var(--mid);color:#fff;text-decoration:none;font-size:13px;font-weight:800;padding:10px 18px;border-radius:12px;transition:.2s;}
 .nav-cta:hover{background:var(--deep);}
@@ -128,8 +130,25 @@ section{padding:64px 0;}
 .product-card.featured{border-color:var(--mid);box-shadow:0 14px 36px rgba(63,87,55,.08);}
 .product-visual{height:245px;border-radius:18px;background:#F7F8F4;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:12px;}
 .product-visual img{max-width:100%;max-height:100%;object-fit:contain;}
-.carnet-preview{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;height:100%;}
-.carnet-preview img{border-radius:10px;background:#fff;box-shadow:0 8px 22px rgba(41,56,39,.10);width:100%;height:100%;object-fit:contain;}
+.carnet-slider{position:relative;width:100%;height:100%;}
+.carnet-track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;
+  height:100%;gap:0;scrollbar-width:none;-ms-overflow-style:none;border-radius:12px;}
+.carnet-track::-webkit-scrollbar{display:none;}
+.carnet-slide{flex:0 0 100%;scroll-snap-align:center;display:flex;align-items:center;justify-content:center;padding:2px;}
+.carnet-slide img{max-width:100%;max-height:100%;object-fit:contain;border-radius:10px;background:#fff;box-shadow:0 8px 22px rgba(41,56,39,.12);}
+.slider-arrow{position:absolute;top:50%;transform:translateY(-50%);width:32px;height:32px;border-radius:50%;
+  background:rgba(255,255,255,.94);border:1px solid var(--line);color:var(--deep);
+  font-size:15px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 12px rgba(41,56,39,.14);z-index:2;transition:.15s;}
+.slider-arrow:hover{background:#fff;transform:translateY(-50%) scale(1.08);}
+.slider-arrow.prev{left:2px;}
+.slider-arrow.next{right:2px;}
+.slider-dots{display:flex;justify-content:center;gap:7px;margin-top:10px;}
+.slider-dots button{width:8px;height:8px;border-radius:50%;border:none;padding:0;cursor:pointer;
+  background:var(--line);transition:.2s;}
+.slider-dots button[aria-current="true"]{background:var(--mid);width:22px;border-radius:99px;}
+.slider-cap{text-align:center;font-size:10.5px;font-weight:800;color:var(--mut);margin-top:7px;
+  text-transform:uppercase;letter-spacing:.8px;}
 .product-tag{align-self:flex-start;background:var(--soft);color:var(--deep);font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:1px;padding:6px 10px;border-radius:999px;margin-bottom:12px;}
 .tag-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;}
 .tag-row .product-tag{margin-bottom:0;}
@@ -153,7 +172,19 @@ section{padding:64px 0;}
 .ver-placas:hover{text-decoration:underline;}
 
 /* ── FAQ: aquí sí van desplegables ── */
-.faq-list{max-width:680px;margin:32px auto 0;display:flex;flex-direction:column;gap:10px;}
+.faq-box{max-width:680px;margin:32px auto 0;}
+.faq-box>summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;
+  gap:16px;padding:18px 22px;background:#fff;border:1px solid var(--line);border-radius:18px;
+  box-shadow:0 8px 24px rgba(63,87,55,.06);transition:.2s;}
+.faq-box>summary::-webkit-details-marker{display:none;}
+.faq-box>summary:hover{border-color:var(--mid);}
+.faq-box>summary b{font-size:14.5px;color:var(--ink);}
+.faq-box>summary small{display:block;font-size:11.5px;color:var(--mut);font-weight:700;margin-top:3px;}
+.faq-open{background:var(--deep);color:#fff;border-radius:12px;padding:10px 15px;font-size:11.5px;font-weight:800;white-space:nowrap;flex:none;}
+.faq-box[open]>summary{margin-bottom:12px;}
+.faq-box[open] .faq-open{font-size:0;}
+.faq-box[open] .faq-open::after{content:'Ocultar';font-size:11.5px;}
+.faq-list{display:flex;flex-direction:column;gap:10px;}
 .faq-list details{background:#fff;border:1px solid var(--line);border-radius:16px;padding:0 20px;}
 .faq-list summary{font-size:14px;font-weight:800;padding:17px 0;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px;}
 .faq-list summary::-webkit-details-marker{display:none;}
@@ -172,7 +203,9 @@ section{padding:64px 0;}
 
 footer{border-top:1px solid var(--line);padding:28px 0 36px;text-align:center;}
 footer .f-brand{display:flex;align-items:center;justify-content:center;}
-.brand-logo-footer{height:36px;width:auto;display:block;}
+.brand-logo-footer{height:38px;width:auto;display:block;}
+footer .f-brand{gap:8px;}
+.brand-word-footer{font-family:'Quicksand',sans-serif;font-weight:700;font-size:21px;color:var(--deep);}
 footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:10px;}
 
 /* ── botón fijo en celular ── */
@@ -202,7 +235,8 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:10px;}
   .product-tag,.tag-row{align-self:center;}
 }
 @media(max-width:560px){
-  .brand-logo-full{height:36px;}
+  .brand-logo-full{height:38px;}
+  .brand-word{font-size:22px;}
 }
 </style>
 </head>
@@ -210,8 +244,9 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:10px;}
 
 <nav> 
   <div class="container nav-in">
-    <a href="index.html" style="display:block;line-height:0;">
-      <img class="brand-logo-full" src="/logo-kolita.png" alt="Kolita">
+    <a href="index.html" class="brand-box">
+      <img class="brand-logo-full" src="/logo-kolita.png" alt="">
+      <span class="brand-word">kolita</span>
     </a>
     <a href="mis-carnets.html" class="nav-link">Mis carnets</a>
     <a class="nav-cta" href="registro.html">Crear carnet gratis</a>
@@ -374,11 +409,20 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:10px;}
       <article class="product-card featured">
         <span class="product-tag">Carnet físico</span>
         <div class="product-visual">
-          <div class="carnet-preview">
-            <img src="/carnet-ibiza-frente.png" alt="Frente del carnet físico Kolita">
-            <img src="/carnet-ibiza-reverso.png" alt="Reverso del carnet físico Kolita">
+          <div class="carnet-slider">
+            <button class="slider-arrow prev" id="cPrev" aria-label="Anterior">‹</button>
+            <div class="carnet-track" id="carnetTrack">
+              <div class="carnet-slide"><img src="/carnet-ibiza-frente.png" alt="Frente del carnet físico Kolita"></div>
+              <div class="carnet-slide"><img src="/carnet-ibiza-reverso.png" alt="Reverso del carnet físico Kolita"></div>
+            </div>
+            <button class="slider-arrow next" id="cNext" aria-label="Siguiente">›</button>
           </div>
         </div>
+        <div class="slider-dots" id="carnetDots">
+          <button aria-current="true" aria-label="Frente"></button>
+          <button aria-current="false" aria-label="Reverso"></button>
+        </div>
+        <div class="slider-cap" id="carnetCap">Frente</div>
         <h3>Carnet físico personalizado</h3>
         <p>La identificación de tu peludo en formato físico, con su foto, datos y Código Kolita. Ideal para llevarlo contigo y conservar su información a la mano.</p>
         <div class="product-price">$24.900 <small>pago único</small></div>
@@ -491,6 +535,11 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:10px;}
   <div class="container">
     <div class="sec-kicker">Preguntas frecuentes</div>
     <h2 class="sec-title">Lo que todos preguntan</h2>
+    <details class="faq-box">
+      <summary>
+        <span><b>Ver las preguntas frecuentes</b><small>9 preguntas · gratis, placas, privacidad y más</small></span>
+        <span class="faq-open">Ver preguntas</span>
+      </summary>
     <div class="faq-list">
       <details>
         <summary>¿De verdad es gratis? ¿Dónde está la trampa?</summary>
@@ -529,6 +578,7 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:10px;}
         <p>Puedes activar el modo perdido y su carnet muestra una alerta. Quien lo encuentre escanea el QR, ve su carnet y llena un aviso corto: quién es, su WhatsApp, dónde lo vio y una foto. Ese aviso te llega a tu correo con la ubicación aproximada, y tú decides si lo contactas. Tu número nunca queda expuesto.</p>
       </details>
     </div>
+    </details>
   </div>
 </section>
 
@@ -542,7 +592,8 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:10px;}
 
 <footer>
   <div class="f-brand">
-    <img class="brand-logo-footer" src="/logo-kolita.png" alt="Kolita">
+    <img class="brand-logo-footer" src="/logo-kolita.png" alt="">
+    <span class="brand-word-footer">kolita</span>
   </div>
   <p>El carnet digital de tu peludo · Medellín, Colombia 🇨🇴 · <a href="privacidad.html" style="color:var(--mut);">Política de Privacidad</a></p>
 </footer>
@@ -660,6 +711,36 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:10px;}
         if(typeof gtag === 'function') gtag('event', 'clic_crear_carnet', { desde: par[1] });
       });
     });
+
+  // ── CARRUSEL del carnet físico ──
+  var track = document.getElementById('carnetTrack');
+  if(track){
+    var dots  = document.getElementById('carnetDots').querySelectorAll('button');
+    var cap   = document.getElementById('carnetCap');
+    var caras = ['Frente','Reverso'];
+
+    function irA(i){
+      track.scrollTo({ left: track.clientWidth * i, behavior:'smooth' });
+    }
+    function marcar(i){
+      dots.forEach(function(d,n){ d.setAttribute('aria-current', n===i ? 'true':'false'); });
+      cap.textContent = caras[i] || '';
+    }
+    dots.forEach(function(d,i){ d.addEventListener('click', function(){ irA(i); }); });
+    document.getElementById('cPrev').addEventListener('click', function(){
+      irA(Math.max(0, Math.round(track.scrollLeft / track.clientWidth) - 1));
+    });
+    document.getElementById('cNext').addEventListener('click', function(){
+      irA(Math.min(1, Math.round(track.scrollLeft / track.clientWidth) + 1));
+    });
+    var t0;
+    track.addEventListener('scroll', function(){
+      clearTimeout(t0);
+      t0 = setTimeout(function(){
+        marcar(Math.round(track.scrollLeft / track.clientWidth));
+      }, 90);
+    });
+  }
 
   refrescaStd(); refrescaFoto(); refrescaHue(); refrescaCarnetFisico();
   fotoStd(); fotoFoto(); fotoHue();
