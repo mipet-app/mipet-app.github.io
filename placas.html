@@ -12,49 +12,81 @@
   gtag('config', 'G-381DD74KP3');
 </script>
 
-<title>Las placas Kolita — Kolita</title>
-<meta name="description" content="Placa con el QR de tu peludo grabado a láser. Placa estándar en metal o placa huesito de colores. Pago único, sin suscripción.">
+<title>Carnet físico y placas — Kolita</title>
+<meta name="description" content="Carnet físico en PVC de 8,5 × 5,4 cm y placas con el QR de tu peludo grabado a láser. Pago único, sin suscripción.">
+<link rel="canonical" href="https://kolita.co/placas.html">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kolita.co/placas.html">
+<meta property="og:title" content="Kolita | Carnet físico y placas con QR">
+<meta property="og:description" content="El carnet de tu peludo en PVC, y placas con su QR grabado a láser. Pago único.">
+<meta property="og:image" content="https://kolita.co/og.jpg">
+<meta property="og:locale" content="es_CO">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Quicksand:wght@600;700&family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#FBFCFA; --soft:#EDF2EA; --mid:#7C9877; --deep:#556F51; --ink:#3C4A3A; --mut:#93A28F;
-  --line:#E4EAE1; --alert:#C87B5B;
+  --bg:#FBFCFA; --soft:#EEF3E9; --mid:#718B61; --deep:#3F5737; --ink:#293827; --mut:#7F8D7B;
+  --line:#E1E8DE; --alert:#C87B5B; --orange:#FF7A45;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 html{scroll-behavior:smooth;}
 body{font-family:'Nunito Sans',sans-serif;background:var(--bg);color:var(--ink);}
-.container{max-width:960px;margin:0 auto;padding:0 20px;}
+.container{max-width:1000px;margin:0 auto;padding:0 22px;}
 
+/* nav */
 nav{position:sticky;top:0;background:rgba(251,252,250,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:20;}
-.nav-in{display:flex;align-items:center;gap:9px;padding:13px 0;}
-.brand-k{width:34px;height:34px;flex-shrink:0;}
-.brand-name{font-family:'Quicksand',sans-serif;font-weight:700;font-size:20px;}
+.nav-in{display:flex;align-items:center;gap:10px;padding:12px 0;}
+.brand-box{display:flex;align-items:center;gap:9px;text-decoration:none;}
+.brand-logo-full{height:46px;width:auto;display:block;}
+.brand-word{font-family:'Quicksand',sans-serif;font-weight:700;font-size:26px;color:var(--deep);letter-spacing:-.3px;}
 .nav-link{margin-left:auto;font-size:13px;font-weight:800;color:var(--deep);text-decoration:none;margin-right:14px;}
 .nav-cta{background:var(--mid);color:#fff;text-decoration:none;font-size:13px;font-weight:800;padding:10px 18px;border-radius:12px;}
 .nav-cta:hover{background:var(--deep);}
 
-.top{text-align:center;padding:46px 0 8px;}
+.top{text-align:center;padding:48px 0 10px;}
 .top h1{font-family:'Fraunces',serif;font-size:clamp(27px,5vw,40px);font-weight:700;line-height:1.15;}
-.top p{font-size:14.5px;color:var(--mut);font-weight:600;line-height:1.65;max-width:540px;margin:14px auto 0;}
+.top p{font-size:14.5px;color:var(--mut);font-weight:600;line-height:1.65;max-width:560px;margin:14px auto 0;}
 .top p strong{color:var(--deep);}
 
-.prod{padding:40px 0;border-bottom:1px solid var(--line);}
+/* producto */
+.prod{padding:44px 0;border-bottom:1px solid var(--line);}
 .prod:last-of-type{border-bottom:none;}
-.prod-in{display:grid;grid-template-columns:1fr 1fr;gap:34px;align-items:start;}
-@media(max-width:760px){.prod-in{grid-template-columns:1fr;gap:22px;}}
+.prod-in{display:grid;grid-template-columns:1fr 1fr;gap:38px;align-items:start;}
+@media(max-width:780px){.prod-in{grid-template-columns:1fr;gap:24px;}}
 
-.visor{background:#fff;border:1px solid var(--line);border-radius:24px;padding:16px;position:sticky;top:76px;}
-@media(max-width:760px){.visor{position:static;}}
+.visor{background:#fff;border:1px solid var(--line);border-radius:24px;padding:16px;position:sticky;top:78px;}
+@media(max-width:780px){.visor{position:static;}}
 .visor-img{width:100%;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;border-radius:16px;overflow:hidden;background:var(--bg);cursor:zoom-in;}
 .visor-img img{width:100%;height:100%;object-fit:contain;display:none;}
 .visor-hint{text-align:center;font-size:11px;font-weight:800;color:var(--mut);margin-top:10px;letter-spacing:.4px;}
 
-.prod h2{font-family:'Fraunces',serif;font-size:26px;font-weight:700;}
+/* carrusel del carnet */
+.slider{position:relative;width:100%;aspect-ratio:1/1;background:var(--bg);border-radius:16px;overflow:hidden;}
+.track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;
+  height:100%;scrollbar-width:none;-ms-overflow-style:none;}
+.track::-webkit-scrollbar{display:none;}
+.slide{flex:0 0 100%;scroll-snap-align:center;display:flex;align-items:center;justify-content:center;padding:14px;cursor:zoom-in;}
+.slide img{max-width:100%;max-height:100%;object-fit:contain;border-radius:9px;
+  background:#fff;box-shadow:0 8px 24px rgba(41,56,39,.13);}
+.arrow{position:absolute;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;
+  background:rgba(255,255,255,.95);border:1px solid var(--line);color:var(--deep);
+  font-size:17px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 12px rgba(41,56,39,.14);z-index:2;transition:.15s;}
+.arrow:hover{background:#fff;transform:translateY(-50%) scale(1.08);}
+.arrow.prev{left:6px;} .arrow.next{right:6px;}
+.dots{display:flex;justify-content:center;gap:7px;margin-top:12px;}
+.dots button{width:8px;height:8px;border-radius:50%;border:none;padding:0;cursor:pointer;background:var(--line);transition:.2s;}
+.dots button[aria-current="true"]{background:var(--mid);width:22px;border-radius:99px;}
+
+.prod h2{font-family:'Fraunces',serif;font-size:27px;font-weight:700;}
 .prod .desc{font-size:14px;color:var(--mut);font-weight:600;line-height:1.7;margin-top:10px;}
 .ficha{list-style:none;margin-top:20px;display:flex;flex-direction:column;gap:11px;}
 .ficha li{position:relative;padding-left:27px;font-size:13.5px;font-weight:600;line-height:1.55;}
 .ficha li::before{content:'✓';position:absolute;left:0;top:0;color:var(--mid);font-weight:800;}
 .ficha li strong{color:var(--deep);}
+
+.tag{display:inline-block;background:var(--soft);color:var(--deep);font-size:9.5px;font-weight:800;
+  text-transform:uppercase;letter-spacing:1px;padding:6px 11px;border-radius:999px;margin-bottom:10px;}
+.tag.naranja{background:var(--orange);color:#fff;}
 
 .opt-lbl{font-size:10px;font-weight:800;color:var(--mut);text-transform:uppercase;letter-spacing:1.2px;margin-top:24px;}
 .colores{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;}
@@ -63,56 +95,59 @@ nav{position:sticky;top:0;background:rgba(251,252,250,.94);backdrop-filter:blur(
 .colores button[aria-pressed="true"]{border-color:var(--deep);box-shadow:0 0 0 3px var(--soft);}
 .color-nom{font-size:12.5px;font-weight:700;color:var(--deep);margin-top:9px;}
 
-.foto-opt{display:flex;align-items:center;gap:11px;background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:13px 15px;margin-top:16px;cursor:pointer;transition:.2s;}
-.foto-opt:hover{border-color:var(--mid);}
-.foto-opt input{width:19px;height:19px;flex:none;accent-color:var(--mid);cursor:pointer;}
-.foto-opt span{font-size:13px;font-weight:700;line-height:1.45;}
-.foto-opt b{color:var(--deep);}
-
-.precio{font-family:'Fraunces',serif;font-size:36px;font-weight:700;color:var(--deep);margin-top:22px;line-height:1;}
+.precio{font-family:'Fraunces',serif;font-size:37px;font-weight:700;color:var(--deep);margin-top:24px;line-height:1;}
 .precio small{display:block;font-family:'Nunito Sans',sans-serif;font-size:11.5px;font-weight:800;color:var(--mut);letter-spacing:1px;text-transform:uppercase;margin-top:8px;}
-.btn-comprar{display:block;text-align:center;margin-top:16px;background:var(--mid);color:#fff;text-decoration:none;font-size:15px;font-weight:800;padding:16px;border-radius:15px;transition:.2s;}
-.btn-comprar:hover{background:var(--deep);}
+.btn-comprar{display:block;text-align:center;margin-top:16px;background:var(--deep);color:#fff;text-decoration:none;font-size:15px;font-weight:800;padding:16px;border-radius:15px;transition:.2s;}
+.btn-comprar:hover{background:#30442B;}
 .aviso{font-size:12px;color:var(--mut);font-weight:700;line-height:1.6;margin-top:12px;}
 .aviso a{color:var(--deep);}
 
-.como{background:var(--soft);padding:44px 0;}
-.como h2{font-family:'Fraunces',serif;font-size:24px;font-weight:700;text-align:center;}
-.pasos{max-width:560px;margin:26px auto 0;display:flex;flex-direction:column;gap:14px;}
-.paso{display:flex;gap:14px;align-items:flex-start;background:var(--bg);border:1px solid var(--line);border-radius:16px;padding:16px 18px;}
+.como{background:var(--soft);padding:48px 0;}
+.como h2{font-family:'Fraunces',serif;font-size:25px;font-weight:700;text-align:center;}
+.pasos{max-width:580px;margin:28px auto 0;display:flex;flex-direction:column;gap:14px;}
+.paso{display:flex;gap:14px;align-items:flex-start;background:var(--bg);border:1px solid var(--line);border-radius:16px;padding:17px 19px;}
 .paso b{flex:none;width:27px;height:27px;border-radius:50%;background:var(--mid);color:#fff;font-size:13px;display:flex;align-items:center;justify-content:center;}
 .paso span{font-size:13.5px;font-weight:600;line-height:1.6;}
 .paso span i{display:block;font-style:normal;font-weight:800;color:var(--deep);margin-bottom:2px;}
 
-.faq{padding:44px 0;}
-.faq h2{font-family:'Fraunces',serif;font-size:24px;font-weight:700;text-align:center;}
-.faq-list{max-width:620px;margin:24px auto 0;display:flex;flex-direction:column;gap:10px;}
+.faq{padding:48px 0;}
+.faq h2{font-family:'Fraunces',serif;font-size:25px;font-weight:700;text-align:center;}
+.faq-list{max-width:640px;margin:26px auto 0;display:flex;flex-direction:column;gap:10px;}
 .faq-list details{background:#fff;border:1px solid var(--line);border-radius:16px;padding:0 20px;}
 .faq-list summary{font-size:14px;font-weight:800;padding:17px 0;cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:12px;}
+.faq-list summary::-webkit-details-marker{display:none;}
 .faq-list summary::after{content:'+';font-family:'Fraunces',serif;font-size:20px;color:var(--mid);}
 .faq-list details[open] summary::after{content:'–';}
 .faq-list details p{font-size:13px;color:var(--mut);font-weight:600;line-height:1.7;padding-bottom:17px;}
+.faq-list details p a{color:var(--deep);}
 
 /* lupa */
-.lupa{position:fixed;inset:0;background:rgba(38,46,36,.93);display:none;align-items:center;justify-content:center;z-index:60;}
+.lupa{position:fixed;inset:0;background:rgba(30,38,28,.94);display:none;align-items:center;justify-content:center;z-index:60;}
 .lupa.show{display:flex;}
-.lupa img{max-width:96%;max-height:88%;object-fit:contain;border-radius:10px;transition:transform .25s;cursor:zoom-in;}
+.lupa img{max-width:96%;max-height:88%;object-fit:contain;border-radius:10px;transition:transform .25s;cursor:zoom-in;background:#fff;}
 .lupa img.zoom{transform:scale(2.2);cursor:zoom-out;}
 .lupa-x{position:absolute;top:16px;right:18px;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.16);color:#fff;border:none;font-size:22px;cursor:pointer;}
 .lupa-txt{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);color:#C9DAC4;font-size:12px;font-weight:700;}
 
-footer{border-top:1px solid var(--line);padding:26px 0 34px;text-align:center;}
+footer{border-top:1px solid var(--line);padding:28px 0 36px;text-align:center;}
 footer .f-brand{display:flex;align-items:center;justify-content:center;gap:8px;}
-footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:8px;}
+.brand-logo-footer{height:38px;width:auto;display:block;}
+.brand-word-footer{font-family:'Quicksand',sans-serif;font-weight:700;font-size:21px;color:var(--deep);}
+footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:10px;}
+
+@media(max-width:560px){
+  .brand-logo-full{height:38px;}
+  .brand-word{font-size:22px;}
+}
 </style>
 </head>
 <body>
 
 <nav>
   <div class="container nav-in">
-    <a href="index.html" style="display:flex;align-items:center;gap:8px;text-decoration:none;color:inherit;">
-      <svg class="brand-k" viewBox="0 0 92 92"><rect x="2" y="2" width="88" height="88" rx="24" fill="#7C9877"/><path d="M32 24 L32 68" stroke="#FBFCFA" stroke-width="9" stroke-linecap="round"/><path d="M34 48 C 48 46, 58 36, 56 24" fill="none" stroke="#FBFCFA" stroke-width="9" stroke-linecap="round"/><path d="M34 48 C 48 52, 58 60, 62 70" fill="none" stroke="#DCE8D8" stroke-width="9" stroke-linecap="round"/></svg>
-      <span class="brand-name">kolita</span>
+    <a href="index.html" class="brand-box">
+      <img class="brand-logo-full" src="/logo-kolita.png" alt="">
+      <span class="brand-word">kolita</span>
     </a>
     <a href="index.html" class="nav-link">← Inicio</a>
     <a class="nav-cta" href="registro.html">Crear carnet gratis</a>
@@ -120,9 +155,50 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:8px;}
 </nav>
 
 <header class="container top">
-  <h1>Las placas Kolita</h1>
-  <p>Con el QR de tu peludo <strong>grabado a láser</strong>. No es una calcomanía ni un impreso: el código queda marcado en el material, así que no se borra, no se despinta y no se moja.</p>
+  <h1>Carnet físico y placas</h1>
+  <p>El carnet digital de Kolita es <strong>gratis</strong>. Esto es para quien quiere tenerlo también en la mano: el carnet en PVC y las placas con el QR <strong>grabado a láser</strong>, que no se borra ni se despinta.</p>
 </header>
+
+<!-- ══ CARNET FÍSICO ══ -->
+<section class="container prod" id="carnet">
+  <div class="prod-in">
+    <div class="visor">
+      <div class="slider">
+        <button class="arrow prev" id="cPrev" aria-label="Anterior">‹</button>
+        <div class="track" id="track">
+          <div class="slide"><img src="/carnet-ibiza-frente.png" alt="Frente del carnet físico Kolita"></div>
+          <div class="slide"><img src="/carnet-ibiza-reverso.png" alt="Reverso del carnet físico Kolita"></div>
+        </div>
+        <button class="arrow next" id="cNext" aria-label="Siguiente">›</button>
+      </div>
+      <div class="dots" id="dots">
+        <button aria-current="true" aria-label="Frente"></button>
+        <button aria-current="false" aria-label="Reverso"></button>
+      </div>
+      <div class="visor-hint" id="cap">Frente · tócalo para verlo más grande</div>
+    </div>
+
+    <div>
+      <span class="tag">Carnet físico</span>
+      <h2>Carnet físico personalizado</h2>
+      <p class="desc">La identificación de tu peludo en PVC, del mismo tamaño de una cédula. Con su foto, sus datos, su Código Kolita y el QR que abre su carnet digital.</p>
+
+      <ul class="ficha">
+        <li><strong>PVC rígido</strong>, del mismo material de una tarjeta débito</li>
+        <li>Tamaño cédula: <strong>8,5 × 5,4 cm</strong>, cabe en la billetera</li>
+        <li>Al frente: su foto, nombre, raza, especie, sexo, fecha de nacimiento y peso</li>
+        <li>Atrás: alergias, veterinario y responsable</li>
+        <li>Con el <strong>QR que abre su carnet digital</strong>, siempre actualizado</li>
+        <li>Útil en la veterinaria, la guardería o cuando viajas con él</li>
+        <li>Pago único · No es suscripción, no se vence</li>
+      </ul>
+
+      <div class="precio">$24.900<small>Pago único · Envío aparte</small></div>
+      <a class="btn-comprar" id="btnCarnet" href="#" target="_blank" rel="noopener">Solicitar aquí 🐾</a>
+      <p class="aviso">Necesitas el Código Kolita de tu peludo. Si todavía no lo tienes, <a href="registro.html">crea su carnet gratis</a> — toma 2 minutos.</p>
+    </div>
+  </div>
+</section>
 
 <!-- ══ PLACA ESTÁNDAR ══ -->
 <section class="container prod" id="estandar">
@@ -133,17 +209,18 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:8px;}
         <svg id="svgStd" viewBox="0 0 96 60" width="90%">
           <rect id="stdBody" x="2" y="2" width="92" height="56" rx="22" fill="#2B2B2B" stroke="#3C4A3A" stroke-width="1.6"/>
           <circle cx="15" cy="30" r="4.5" fill="none" stroke="#93A28F" stroke-width="1.6"/>
-          <rect x="26" y="12" width="36" height="36" rx="2" fill="#EEEEEE"/>
-          <rect x="29" y="15" width="8" height="8" fill="#2B2B2B"/><rect x="51" y="15" width="8" height="8" fill="#2B2B2B"/>
-          <rect x="29" y="37" width="8" height="8" fill="#2B2B2B"/>
-          <rect x="41" y="27" width="3" height="3" fill="#2B2B2B"/><rect x="47" y="31" width="3" height="3" fill="#2B2B2B"/>
-          <text x="77" y="32" font-family="Helvetica" font-size="5" fill="#EEEEEE" text-anchor="middle">kolita.co/p</text>
+          <rect x="26" y="12" width="36" height="36" rx="2" fill="#EEEEEE" class="s-fg"/>
+          <rect x="29" y="15" width="8" height="8" fill="#2B2B2B" class="s-bg"/><rect x="51" y="15" width="8" height="8" fill="#2B2B2B" class="s-bg"/>
+          <rect x="29" y="37" width="8" height="8" fill="#2B2B2B" class="s-bg"/>
+          <rect x="41" y="27" width="3" height="3" fill="#2B2B2B" class="s-bg"/><rect x="47" y="31" width="3" height="3" fill="#2B2B2B" class="s-bg"/>
+          <text x="77" y="32" font-family="Nunito Sans" font-size="5" fill="#EEEEEE" text-anchor="middle" class="s-fg">kolita.co/p</text>
         </svg>
       </div>
       <div class="visor-hint">🔍 Tócala para verla más grande</div>
     </div>
 
     <div>
+      <span class="tag">QR grabado</span>
       <h2>Placa estándar</h2>
       <p class="desc">Metal resistente, plana y del tamaño de una placa militar. Al ser plana y lisa, el QR se graba grande y es la que mejor y más rápido escanea.</p>
 
@@ -163,14 +240,57 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:8px;}
       </div>
       <div class="color-nom" id="nomStd">Negra</div>
 
-      <label class="foto-opt">
-        <input type="checkbox" id="chkFoto">
-        <span>Con la <b>foto de tu peludo</b> grabada en la otra cara <b>+$10.000</b></span>
-      </label>
-
-      <div class="precio" id="precioStd">$39.900<small>Pago único · Envío aparte</small></div>
+      <div class="precio">$39.900<small>Pago único · Envío aparte</small></div>
       <a class="btn-comprar" id="btnStd" href="#" target="_blank" rel="noopener">Solicitar aquí 🐾</a>
       <p class="aviso">Necesitas el Código Kolita de tu peludo. Si todavía no lo tienes, <a href="registro.html">crea su carnet gratis</a> — toma 2 minutos.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PLACA CON FOTO ══ -->
+<section class="container prod" id="confoto">
+  <div class="prod-in">
+    <div class="visor">
+      <div class="visor-img" id="visorFoto">
+        <img id="imgFoto" alt="Placa Kolita con la foto de tu peludo">
+        <svg id="svgFoto" viewBox="0 0 96 60" width="90%">
+          <rect id="fotBody" x="2" y="2" width="92" height="56" rx="22" fill="#2B2B2B" stroke="#3C4A3A" stroke-width="1.6"/>
+          <circle cx="15" cy="30" r="4.5" fill="none" stroke="#93A28F" stroke-width="1.6"/>
+          <circle cx="52" cy="28" r="14" fill="#EEEEEE" class="f-fg"/>
+          <path d="M40 18 q-3 -9 3.5 -10 q3.5 3 4 7z" fill="#EEEEEE" class="f-fg"/>
+          <path d="M64 18 q3 -9 -3.5 -10 q-3.5 3 -4 7z" fill="#EEEEEE" class="f-fg"/>
+          <circle cx="47" cy="26" r="2" fill="#2B2B2B" class="f-bg"/><circle cx="57" cy="26" r="2" fill="#2B2B2B" class="f-bg"/>
+          <ellipse cx="52" cy="32.5" rx="3" ry="2.2" fill="#2B2B2B" class="f-bg"/>
+          <path d="M47.5 36 q4.5 4.5 9 0" fill="none" stroke="#2B2B2B" stroke-width="1.3" class="f-st"/>
+          <text x="52" y="52" font-family="Nunito Sans" font-size="6" font-weight="bold" fill="#EEEEEE" text-anchor="middle" class="f-fg">IBIZA</text>
+        </svg>
+      </div>
+      <div class="visor-hint">🔍 Tócala para verla más grande</div>
+    </div>
+
+    <div>
+      <span class="tag naranja">Favorita 🐶</span>
+      <h2>Placa con su foto</h2>
+      <p class="desc">La misma placa estándar, pero con la carita de tu peludo grabada a láser en el metal. Por un lado su foto, por el otro su QR.</p>
+
+      <ul class="ficha">
+        <li>La <strong>foto de tu peludo</strong> grabada a láser, no impresa</li>
+        <li>Aluminio, aproximadamente <strong>5 × 2,8 cm</strong></li>
+        <li>Una cara con su foto, la otra con el QR y su Código Kolita</li>
+        <li><strong>Tu número de celular nunca va grabado</strong></li>
+        <li>Pago único · No es suscripción, no se vence</li>
+      </ul>
+
+      <div class="opt-lbl">Color</div>
+      <div class="colores" id="colFoto">
+        <button aria-pressed="true"  style="background:#2B2B2B" data-c="#2B2B2B" data-g="#EEEEEE" data-n="Negra"></button>
+        <button aria-pressed="false" style="background:#C9CCC7" data-c="#C9CCC7" data-g="#3C4A3A" data-n="Plateada"></button>
+      </div>
+      <div class="color-nom" id="nomFoto">Negra</div>
+
+      <div class="precio">$49.900<small>Pago único · Envío aparte</small></div>
+      <a class="btn-comprar" id="btnFoto" href="#" target="_blank" rel="noopener">Solicitar aquí 🐾</a>
+      <p class="aviso">Nos mandas la foto por WhatsApp y te enviamos una vista previa antes de grabarla.</p>
     </div>
   </div>
 </section>
@@ -194,6 +314,7 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:8px;}
     </div>
 
     <div>
+      <span class="tag">Pequeña y liviana</span>
       <h2>Placa huesito</h2>
       <p class="desc">Más pequeña y liviana, en varios colores. Pesa menos en el collar, así que es la que mejor le queda a los peludos chiquitos y a los gatos.</p>
 
@@ -227,24 +348,28 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:8px;}
 
 <section class="como">
   <div class="container">
-    <h2>¿Cómo la pido?</h2>
+    <h2>¿Cómo lo pido?</h2>
     <div class="pasos">
       <div class="paso"><b>1</b><span><i>Crea el carnet de tu peludo</i>Es gratis y toma 2 minutos. Al terminar recibes su Código Kolita.</span></div>
-      <div class="paso"><b>2</b><span><i>Escríbenos por WhatsApp</i>Con su código y el modelo y color que quieres. Ahí coordinamos el pago.</span></div>
-      <div class="paso"><b>3</b><span><i>La grabamos y te la entregamos</i>Te mandamos una foto antes de entregarla, para que confirmes que el nombre quedó bien.</span></div>
+      <div class="paso"><b>2</b><span><i>Escríbenos por WhatsApp</i>Con su código y lo que quieres pedir. Ahí coordinamos el pago.</span></div>
+      <div class="paso"><b>3</b><span><i>Lo hacemos y te lo entregamos</i>Te mandamos una foto antes de entregarlo, para que confirmes que todo quedó bien.</span></div>
     </div>
   </div>
 </section>
 
 <section class="container faq">
-  <h2>Preguntas sobre la placa</h2>
+  <h2>Preguntas frecuentes</h2>
   <div class="faq-list">
     <details>
-      <summary>¿Tengo que comprar la placa?</summary>
-      <p>No. El carnet funciona igual de bien con el QR impreso en papel, y eso no cuesta nada. La placa es para quien quiere algo que aguante el agua, el barro y los años sin borrarse.</p>
+      <summary>¿Tengo que comprar algo?</summary>
+      <p>No. El carnet digital es gratis y funciona con el QR impreso en papel, que tampoco cuesta nada. El carnet físico y las placas son para quien quiere algo que aguante el agua, el barro y los años.</p>
     </details>
     <details>
-      <summary>¿Cuál me conviene, la estándar o el huesito?</summary>
+      <summary>¿Cuál es la diferencia entre el carnet físico y la placa?</summary>
+      <p>El carnet físico es del tamaño de una cédula y va en tu billetera: sirve para mostrar los datos de tu peludo en la veterinaria o la guardería. La placa va colgada del collar: sirve para que quien lo encuentre pueda escanear su QR ahí mismo.</p>
+    </details>
+    <details>
+      <summary>¿Cuál placa me conviene, la estándar o el huesito?</summary>
       <p>La estándar es plana y más grande, así que el QR se graba más grande y escanea más rápido. El huesito es más pequeño y liviano, mejor para peludos chiquitos y gatos, a los que una placa pesada les incomoda.</p>
     </details>
     <details>
@@ -252,12 +377,12 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:8px;}
       <p>El código va grabado a láser, no impreso ni pintado: queda marcado en el material. Aguanta el agua, el barro y los baños.</p>
     </details>
     <details>
-      <summary>¿Puedo pedir la placa sin crear el carnet?</summary>
-      <p>No, porque la placa se graba con el Código Kolita de tu peludo, y ese código sale cuando creas su carnet. Pero el carnet es gratis y son 2 minutos.</p>
+      <summary>¿Puedo pedirlo sin crear el carnet?</summary>
+      <p>No, porque tanto el carnet físico como las placas llevan el Código Kolita de tu peludo, y ese código sale cuando creas su carnet. Pero el carnet es gratis y son 2 minutos.</p>
     </details>
     <details>
-      <summary>¿Y si mi peludo se cambia de casa o cambio de celular?</summary>
-      <p>No pasa nada. La placa apunta a su carnet, y el carnet lo editas cuando quieras desde la página. La placa no se vuelve a grabar nunca.</p>
+      <summary>¿Y si me cambio de casa o cambio de celular?</summary>
+      <p>No pasa nada. El QR apunta a su carnet, y el carnet lo editas cuando quieras desde la página. No hay que volver a grabar nada.</p>
     </details>
   </div>
 </section>
@@ -266,95 +391,151 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:8px;}
 <div class="lupa" id="lupa">
   <button class="lupa-x" onclick="cerrarLupa()">✕</button>
   <img id="lupaImg" alt="" onclick="this.classList.toggle('zoom')">
-  <div class="lupa-txt">Tócala para acercar · Toca la ✕ para cerrar</div>
+  <div class="lupa-txt">Tócalo para acercar · Toca la ✕ para cerrar</div>
 </div>
 
 <footer>
   <div class="f-brand">
-    <svg style="width:26px;height:26px;" viewBox="0 0 92 92"><rect x="2" y="2" width="88" height="88" rx="24" fill="#7C9877"/><path d="M32 24 L32 68" stroke="#FBFCFA" stroke-width="9" stroke-linecap="round"/><path d="M34 48 C 48 46, 58 36, 56 24" fill="none" stroke="#FBFCFA" stroke-width="9" stroke-linecap="round"/><path d="M34 48 C 48 52, 58 60, 62 70" fill="none" stroke="#DCE8D8" stroke-width="9" stroke-linecap="round"/></svg>
-    <span class="brand-name" style="font-size:16px;">kolita</span>
+    <img class="brand-logo-footer" src="/logo-kolita.png" alt="">
+    <span class="brand-word-footer">kolita</span>
   </div>
   <p>El carnet digital de tu peludo · Medellín, Colombia 🇨🇴 · <a href="privacidad.html" style="color:var(--mut);">Política de Privacidad</a></p>
 </footer>
 
 <script>
 (function(){
-  var WA='https://wa.me/573228471820?text=';
-  var std={color:'negra', foto:false}, hue={color:'verde'};
+  var WA = 'https://wa.me/573123223627?text=';
+  var std  = { color:'negra' };
+  var foto = { color:'negra' };
+  var hue  = { color:'verde' };
 
-  function refrescaStd(){
-    document.getElementById('btnStd').href = WA + encodeURIComponent(
-      '¡Hola! Quiero la placa Kolita estándar ' + std.color +
-      (std.foto ? ' CON la foto de mi peludo' : '') + ' 🐾');
-    document.getElementById('precioStd').innerHTML =
-      (std.foto ? '$49.900' : '$39.900') + '<small>Pago único · Envío aparte</small>';
-  }
-  function refrescaHue(){
-    document.getElementById('btnHue').href = WA + encodeURIComponent(
-      '¡Hola! Quiero la placa Kolita huesito ' + hue.color + ' 🐾');
+  function pedir(txt){ return WA + encodeURIComponent('¡Hola! Quiero ' + txt + ' 🐾'); }
+  function refrescaCarnet(){ document.getElementById('btnCarnet').href = pedir('el carnet físico Kolita de mi peludo por $24.900'); }
+  function refrescaStd(){    document.getElementById('btnStd').href    = pedir('la placa Kolita estándar ' + std.color); }
+  function refrescaFoto(){   document.getElementById('btnFoto').href   = pedir('la placa Kolita con la foto de mi peludo, ' + foto.color); }
+  function refrescaHue(){    document.getElementById('btnHue').href    = pedir('la placa Kolita huesito ' + hue.color); }
+
+  function pintaMetal(cuerpoId, cuerpo, grabado, fg, bg, st){
+    document.getElementById(cuerpoId).setAttribute('fill', cuerpo);
+    document.querySelectorAll(fg).forEach(function(el){ el.setAttribute('fill', grabado); });
+    document.querySelectorAll(bg).forEach(function(el){ el.setAttribute('fill', cuerpo); });
+    if(st) document.querySelectorAll(st).forEach(function(el){ el.setAttribute('stroke', cuerpo); });
   }
 
-  // busca la foto con cualquier terminación
-  var TERM=['.jpg','.png','.jpg.png','.jpeg','.JPG','.PNG'];
-  function pintaFoto(img, svg, base){
-    var i=0;
+  function conectarColores(grupoId, nomId, alElegir){
+    document.querySelectorAll('#' + grupoId + ' button').forEach(function(b){
+      b.addEventListener('click', function(){
+        document.querySelectorAll('#' + grupoId + ' button').forEach(function(o){ o.setAttribute('aria-pressed','false'); });
+        b.setAttribute('aria-pressed','true');
+        document.getElementById(nomId).textContent = b.getAttribute('data-n');
+        alElegir(b);
+      });
+    });
+  }
+
+  conectarColores('colStd','nomStd', function(b){
+    std.color = b.getAttribute('data-n').toLowerCase();
+    pintaMetal('stdBody', b.getAttribute('data-c'), b.getAttribute('data-g'), '.s-fg', '.s-bg', null);
+    refrescaStd(); fotoStd();
+  });
+  conectarColores('colFoto','nomFoto', function(b){
+    foto.color = b.getAttribute('data-n').toLowerCase();
+    pintaMetal('fotBody', b.getAttribute('data-c'), b.getAttribute('data-g'), '.f-fg', '.f-bg', '.f-st');
+    refrescaFoto(); fotoFoto();
+  });
+  conectarColores('colHue','nomHue', function(b){
+    hue.color = b.getAttribute('data-n').toLowerCase();
+    document.getElementById('hueBody').setAttribute('fill', b.getAttribute('data-c'));
+    refrescaHue(); fotoHue();
+  });
+
+  // ── FOTOS REALES: si existe en img/, se muestra; si no, el dibujo ──
+  var TERM = ['.jpg','.png','.jpg.png','.jpeg','.JPG','.PNG'];
+  function pintaFoto(img, svg, bases){
+    if(typeof bases === 'string') bases = [bases];
+    var b = 0, i = 0;
     (function intenta(){
-      if(i>=TERM.length){ img.style.display='none'; svg.style.display=''; return; }
-      var src=base+TERM[i++], p=new Image();
-      p.onload=function(){ img.src=src; img.style.display='block'; svg.style.display='none'; };
-      p.onerror=intenta;
-      p.src=src;
+      if(i >= TERM.length){ i = 0; b++;
+        if(b >= bases.length){ img.style.display='none'; svg.style.display=''; return; }
+      }
+      var src = bases[b] + TERM[i++], p = new Image();
+      p.onload  = function(){ img.src = src; img.style.display='block'; svg.style.display='none'; };
+      p.onerror = intenta;
+      p.src = src;
     })();
   }
   function fotoStd(){
     pintaFoto(document.getElementById('imgStd'), document.getElementById('svgStd'),
-      std.foto ? 'img/placa-foto' : (std.color==='plateada' ? 'img/placa-plateada' : 'img/placa-negra'));
+      std.color === 'plateada' ? ['img/placa-plateada'] : ['img/placa-negra']);
+  }
+  function fotoFoto(){
+    pintaFoto(document.getElementById('imgFoto'), document.getElementById('svgFoto'),
+      ['img/placa-foto-' + foto.color, 'img/placa-foto']);
   }
   function fotoHue(){
-    pintaFoto(document.getElementById('imgHue'), document.getElementById('svgHue'), 'img/placa-huesito');
+    pintaFoto(document.getElementById('imgHue'), document.getElementById('svgHue'),
+      ['img/huesito-' + hue.color, 'img/placa-huesito']);
   }
 
-  document.querySelectorAll('#colStd button').forEach(function(b){
-    b.addEventListener('click',function(){
-      document.querySelectorAll('#colStd button').forEach(function(o){o.setAttribute('aria-pressed','false');});
-      b.setAttribute('aria-pressed','true');
-      std.color=b.getAttribute('data-n').toLowerCase();
-      document.getElementById('stdBody').setAttribute('fill', b.getAttribute('data-c'));
-      document.getElementById('nomStd').textContent=b.getAttribute('data-n');
-      refrescaStd(); fotoStd();
-    });
+  // ── CARRUSEL del carnet físico ──
+  var track = document.getElementById('track');
+  var dots  = document.getElementById('dots').querySelectorAll('button');
+  var cap   = document.getElementById('cap');
+  var caras = ['Frente','Reverso'];
+
+  function irA(i){ track.scrollTo({ left: track.clientWidth * i, behavior:'smooth' }); }
+  function marcar(i){
+    dots.forEach(function(d,n){ d.setAttribute('aria-current', n===i ? 'true':'false'); });
+    cap.textContent = caras[i] + ' · tócalo para verlo más grande';
+  }
+  dots.forEach(function(d,i){ d.addEventListener('click', function(){ irA(i); }); });
+  document.getElementById('cPrev').addEventListener('click', function(){
+    irA(Math.max(0, Math.round(track.scrollLeft / track.clientWidth) - 1));
   });
-  document.getElementById('chkFoto').addEventListener('change',function(){
-    std.foto=this.checked; refrescaStd(); fotoStd();
+  document.getElementById('cNext').addEventListener('click', function(){
+    irA(Math.min(1, Math.round(track.scrollLeft / track.clientWidth) + 1));
   });
-  document.querySelectorAll('#colHue button').forEach(function(b){
-    b.addEventListener('click',function(){
-      document.querySelectorAll('#colHue button').forEach(function(o){o.setAttribute('aria-pressed','false');});
-      b.setAttribute('aria-pressed','true');
-      hue.color=b.getAttribute('data-n').toLowerCase();
-      document.getElementById('hueBody').setAttribute('fill', b.getAttribute('data-c'));
-      document.getElementById('nomHue').textContent=b.getAttribute('data-n');
-      refrescaHue(); fotoHue();
-    });
+  var tmr;
+  track.addEventListener('scroll', function(){
+    clearTimeout(tmr);
+    tmr = setTimeout(function(){ marcar(Math.round(track.scrollLeft / track.clientWidth)); }, 90);
   });
 
-  // lupa
-  function abrirLupa(img){
-    if(img.style.display==='none' || !img.src) return;
-    var l=document.getElementById('lupa'), li=document.getElementById('lupaImg');
-    li.src=img.src; li.classList.remove('zoom');
-    l.classList.add('show'); document.body.style.overflow='hidden';
+  // ── LUPA ──
+  function abrirLupa(src){
+    if(!src) return;
+    var l = document.getElementById('lupa'), li = document.getElementById('lupaImg');
+    li.src = src; li.classList.remove('zoom');
+    l.classList.add('show'); document.body.style.overflow = 'hidden';
   }
-  window.cerrarLupa=function(){
+  window.cerrarLupa = function(){
     document.getElementById('lupa').classList.remove('show');
-    document.body.style.overflow='';
+    document.body.style.overflow = '';
   };
-  document.getElementById('visorStd').addEventListener('click',function(){ abrirLupa(document.getElementById('imgStd')); });
-  document.getElementById('visorHue').addEventListener('click',function(){ abrirLupa(document.getElementById('imgHue')); });
-  document.getElementById('lupa').addEventListener('click',function(e){ if(e.target===this) cerrarLupa(); });
-  document.addEventListener('keydown',function(e){ if(e.key==='Escape') cerrarLupa(); });
+  document.querySelectorAll('#track .slide img').forEach(function(im){
+    im.addEventListener('click', function(){ abrirLupa(im.src); });
+  });
+  [['visorStd','imgStd'],['visorFoto','imgFoto'],['visorHue','imgHue']].forEach(function(par){
+    var cont = document.getElementById(par[0]), im = document.getElementById(par[1]);
+    cont.addEventListener('click', function(){
+      if(im.style.display !== 'none' && im.src) abrirLupa(im.src);
+    });
+  });
+  document.getElementById('lupa').addEventListener('click', function(e){ if(e.target === this) cerrarLupa(); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') cerrarLupa(); });
 
-  refrescaStd(); refrescaHue(); fotoStd(); fotoHue();
+  // ── CONTEO en Google Analytics ──
+  function contar(modelo, color, precio){
+    if(typeof gtag !== 'function') return;
+    gtag('event','clic_placa',{ modelo:modelo, color:color, precio:precio, valor_pesos:precio, pagina:'detalle' });
+  }
+  document.getElementById('btnCarnet').addEventListener('click', function(){ contar('carnet_fisico','personalizado',24900); });
+  document.getElementById('btnStd').addEventListener('click',    function(){ contar('estandar', std.color, 39900); });
+  document.getElementById('btnFoto').addEventListener('click',   function(){ contar('con_foto', foto.color, 49900); });
+  document.getElementById('btnHue').addEventListener('click',    function(){ contar('huesito', hue.color, 34900); });
+
+  refrescaCarnet(); refrescaStd(); refrescaFoto(); refrescaHue();
+  fotoStd(); fotoFoto(); fotoHue();
 })();
 </script>
 </body>
