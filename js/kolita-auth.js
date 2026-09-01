@@ -82,7 +82,16 @@
   // crearSiNoExiste: true en registro (la cuenta nace ahí),
   //                  false al entrar (no queremos crear cuentas fantasma
   //                  con correos mal escritos).
-  async function enviarCodigo(correo, crearSiNoExiste) {
+      // Responde si ya existe un carnet con ese correo. La función del servidor
+    // solo devuelve sí o no: no entrega ningún dato de nadie.
+    async function tieneCarnet(email) {
+      try {
+        var r = await client.rpc('existe_carnet_con_correo', { p_email: email });
+        return r.data === true;
+      } catch (e) { return false; }
+    }
+
+    async function enviarCodigo(correo, crearSiNoExiste) {
     var email = limpiarCorreo(correo);
     if (!correoValido(email)) {
       return { ok: false, error: 'Escribe un correo válido, por ejemplo tucorreo@gmail.com' };
@@ -90,7 +99,7 @@
     try {
       var r = await client.auth.signInWithOtp({
         email: email,
-        options: { shouldCreateUser: crearSiNoExiste !== false }
+        options: { shouldCreateUser: (crearSiNoExiste !== false) || (await tieneCarnet(email)) }
       });
       if (r.error) {
         var m = String(r.error.message || '').toLowerCase();
