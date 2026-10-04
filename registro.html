@@ -116,6 +116,12 @@ input:focus,select:focus,textarea:focus{border-color:var(--mid);}
 .placa-of .btn-ver{display:block;text-align:center;margin-top:13px;background:var(--soft);color:var(--deep);text-decoration:none;font-size:13px;font-weight:800;padding:13px;border-radius:13px;}
 .placa-of .btn-ver:hover{background:var(--mid);color:#fff;}
 
+.vet-box{display:none;background:var(--soft);border:1.5px solid var(--mid);border-radius:15px;padding:14px 15px;margin-top:16px;}
+.vet-box.show{display:block;}
+.vet-box .vb-t{font-size:13px;font-weight:800;color:var(--deep);}
+.vet-box label.vb-ok{display:flex;align-items:flex-start;gap:10px;margin:10px 0 0;text-transform:none;letter-spacing:0;font-size:12px;font-weight:600;color:var(--ink);cursor:pointer;line-height:1.5;}
+.vet-box label.vb-ok input{width:18px;height:18px;margin-top:1px;flex:none;accent-color:var(--mid);}
+.vet-cod-msg{font-size:11px;font-weight:700;color:var(--mut);margin-top:5px;min-height:15px;}
 .toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--deep);color:#fff;padding:12px 22px;border-radius:14px;font-size:13px;font-weight:700;opacity:0;transition:.3s;z-index:60;white-space:nowrap;}
 .toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
 .toast.error{background:var(--alert);}
@@ -210,6 +216,15 @@ input:focus,select:focus,textarea:focus{border-color:var(--mid);}
       <label>Alergias (separadas por coma)</label>
       <textarea id="petAllergies" rows="2" placeholder="Ej: Pollo, penicilina"></textarea>
 
+      <!-- Si llegó por el enlace de un veterinario Kolita, o escribe su código -->
+      <div class="vet-box" id="vetBox">
+        <div class="vb-t">🩺 Tu veterinario: <span id="vetBoxNombre">—</span></div>
+        <label class="vb-ok">
+          <input type="checkbox" id="vetAutoriza">
+          <span>Autorizo a <b id="vetBoxNombre2">mi veterinario</b> a ver los datos de salud de mi peludo y a agregar sus vacunas y desparasitaciones. Puedo quitarle el permiso cuando quiera.</span>
+        </label>
+      </div>
+
       <label>Veterinario de confianza</label>
       <input type="text" id="vetName" placeholder="Nombre de la veterinaria o del doctor">
       <label>¿Doctor o doctora?</label>
@@ -221,6 +236,10 @@ input:focus,select:focus,textarea:focus{border-color:var(--mid);}
 
       <label>Teléfono del veterinario</label>
       <input type="tel" id="vetPhone" placeholder="Ej: 3001234567">
+
+      <label>¿Tu veterinario usa Kolita? Su código (opcional)</label>
+      <input type="text" id="vetCodigo" placeholder="Ej: V7K2MP" maxlength="8" style="text-transform:uppercase;letter-spacing:2px;" oninput="vetCodigoEscrito()">
+      <div class="vet-cod-msg" id="vetCodMsg"></div>
 
       <div class="nav">
         <button class="btn btn-back" onclick="goStep(1)">← Atrás</button>
@@ -265,6 +284,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--mid);}
     <h2>¡Carnet creado!</h2>
     <p>Este es el enlace único de tu peludo.<br>Guárdalo, compártelo o ponlo en QR en su collar.</p>
     <div class="url-box" id="successUrl"></div>
+    <p id="successVet" style="display:none;background:var(--soft);border-radius:12px;padding:10px 12px;margin-top:12px;font-size:12.5px;font-weight:700;color:var(--deep);"></p>
     <div class="kcode-box">Código Kolita<strong id="successCode">—</strong>Anótalo. Si el QR llegara a fallar, con este código puedes abrir el carnet.</div>
     <button class="btn btn-wa" id="viewBtn">Ver el carnet 🐾</button>
     <button class="btn btn-ghost" onclick="copyLink()">📋 Copiar enlace</button>
@@ -341,6 +361,60 @@ async function fotoAJpg(file){
   }catch(e){ console.warn('conversión falló, subo original', e); }
   return file;
 }
+
+// ── VETERINARIO KOLITA ───────────────────────────
+// Si la familia llega por el enlace de su veterinario (registro.html?vet=V7K2MP)
+// o escribe su código, mostramos su nombre y le pedimos permiso explícito.
+// El permiso lo guarda el servidor (autorizar_veterinario), que además
+// comprueba que el carnet sea de quien autoriza.
+var vetEncontrado = null;   // { codigo, nombre, telefono }
+
+async function buscarVet(codigo){
+  codigo = String(codigo || '').trim().toUpperCase();
+  if (codigo.length < 6) return null;
+  try {
+    var r = await KolitaAuth.client.rpc('buscar_veterinario', { p_codigo: codigo });
+    if (r.error || !r.data || !r.data.length) return null;
+    return { codigo: codigo, nombre: r.data[0].nombre, telefono: r.data[0].telefono };
+  } catch (e) { return null; }
+}
+
+function mostrarVet(vet){
+  vetEncontrado = vet;
+  var caja = document.getElementById('vetBox');
+  if (!vet) { caja.classList.remove('show'); document.getElementById('vetAutoriza').checked = false; return; }
+  document.getElementById('vetBoxNombre').textContent = vet.nombre;
+  document.getElementById('vetBoxNombre2').textContent = vet.nombre;
+  if (!v('vetName'))  document.getElementById('vetName').value  = vet.nombre;
+  if (!v('vetPhone') && vet.telefono) document.getElementById('vetPhone').value = vet.telefono;
+  caja.classList.add('show');
+}
+
+var vetTemporizador = null;
+function vetCodigoEscrito(){
+  clearTimeout(vetTemporizador);
+  var cod = v('vetCodigo').toUpperCase();
+  var msg = document.getElementById('vetCodMsg');
+  if (cod.length < 6) { msg.textContent = ''; if (!cod) mostrarVet(null); return; }
+  msg.textContent = 'Buscando…';
+  vetTemporizador = setTimeout(async function(){
+    var vet = await buscarVet(cod);
+    msg.textContent = vet ? '✓ Lo encontramos' : 'No encontramos un veterinario con ese código.';
+    mostrarVet(vet);
+  }, 500);
+}
+
+// Al abrir la página con ?vet=CODIGO
+(async function(){
+  var cod = new URLSearchParams(location.search).get('vet');
+  if (!cod) return;
+  var vet = await buscarVet(cod);
+  if (vet) {
+    document.getElementById('vetCodigo').value = vet.codigo;
+    document.getElementById('vetCodMsg').textContent = '✓ Llegaste por el enlace de tu veterinario';
+    mostrarVet(vet);
+  }
+})();
 
 var currentStep = 1;
 var selectedSex = '';
@@ -580,6 +654,15 @@ async function guardarCarnet() {
     var ins = await cliente.from('pets').insert(petData);
     if (ins.error) throw new Error(ins.error.message || 'Error al guardar');
 
+    // Permiso para el veterinario: solo si la familia marcó la casilla.
+    // Si esto falla, el carnet ya quedó creado: no lo damos por perdido.
+    var vetOk = null;
+    if (vetEncontrado && document.getElementById('vetAutoriza').checked) {
+      var au = await cliente.rpc('autorizar_veterinario', { p_pet_id: petId, p_codigo: vetEncontrado.codigo });
+      if (au.error) console.warn('autorizar_veterinario:', au.error.message);
+      else vetOk = au.data;
+    }
+
     // ÉXITO
     createdPetUrl = KOLITA_CORTO + shortCode;
     document.getElementById('loadingOv').classList.remove('show');
@@ -588,6 +671,9 @@ async function guardarCarnet() {
     s.classList.add('show');
     document.getElementById('successUrl').textContent = createdPetUrl;
     document.getElementById('successCode').textContent = shortCode;
+    var sv = document.getElementById('successVet');
+    if (vetOk) { sv.textContent = '🩺 ' + vetOk + ' quedó como veterinario de confianza de ' + v('petName') + '. Ya puede registrar sus vacunas.'; sv.style.display = 'block'; }
+    else { sv.style.display = 'none'; }
     document.getElementById('viewBtn').onclick = function(){ window.open(createdPetUrl, '_blank'); };
 
   } catch(error) {
@@ -628,6 +714,8 @@ function resetForm() {
   // Casi siempre es la misma familia registrando otro peludo.
   document.getElementById('ownerEmail').value = correoPrevio;
   document.getElementById('acceptData').checked = false;
+  // Casi siempre es el mismo veterinario registrando otro peludo de la familia.
+  if (vetEncontrado) { document.getElementById('vetCodigo').value = vetEncontrado.codigo; mostrarVet(vetEncontrado); }
   selectedSex = ''; vaccines = []; photoFile = null; createdPetUrl = '';
   document.querySelectorAll('.sex-btn').forEach(function(b){ b.classList.remove('active'); });
   document.getElementById('phPlaceholder').style.display = 'flex';
