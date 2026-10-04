@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-381DD74KP3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-381DD74KP3');
+</script>
+
+<title>Veterinarios — Kolita</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Quicksand:wght@600;700&family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.111.0/dist/umd/supabase.js" integrity="sha384-faMlYZUtkJj+Sh6Bmu/L0GzPcraRWN6CW+9RH3GUrK/Z0WS9tgaNNt0tHiLxsbdb" crossorigin="anonymous"></script>
+<script src="js/kolita-auth.js"></script>
+<script src="js/kolita-login.js"></script>
+<style>
+:root{
+  --bg:#FBFCFA; --soft:#EDF2EA; --mid:#7C9877; --deep:#556F51; --ink:#3C4A3A; --mut:#93A28F;
+  --line:#E4EAE1; --alert:#C87B5B;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+body{font-family:'Nunito Sans',sans-serif;background:#F1F3EF;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:22px 16px 60px;color:var(--ink);}
+
+.top{max-width:520px;width:100%;display:flex;align-items:center;gap:8px;margin-bottom:18px;}
+.brand-k{width:32px;height:32px;flex-shrink:0;}
+.brand-name{font-family:'Quicksand',sans-serif;font-weight:700;font-size:18px;}
+.brand-tag{font-size:10px;font-weight:800;color:var(--mut);text-transform:uppercase;letter-spacing:1.3px;margin-left:2px;}
+.top a{margin-left:auto;font-size:12px;font-weight:800;color:var(--deep);text-decoration:none;}
+
+.wrap{max-width:520px;width:100%;background:var(--bg);border:1px solid var(--line);border-radius:26px;padding:26px 22px;box-shadow:0 14px 40px rgba(70,85,66,.08);}
+h1{font-family:'Fraunces',serif;font-size:23px;font-weight:700;}
+h2{font-family:'Fraunces',serif;font-size:18px;font-weight:700;margin-top:26px;}
+.sub{font-size:13px;color:var(--mut);margin-top:6px;line-height:1.6;}
+.sub b{color:var(--deep);}
+
+.spinner{width:34px;height:34px;border:4px solid var(--soft);border-top-color:var(--mid);border-radius:50%;animation:spin .8s linear infinite;margin:24px auto;}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+label{display:block;font-size:11px;font-weight:800;color:var(--deep);text-transform:uppercase;letter-spacing:.8px;margin:16px 0 6px;}
+input,select{width:100%;padding:13px 14px;border:1.5px solid var(--line);border-radius:13px;background:#fff;font-family:'Nunito Sans',sans-serif;font-size:14.5px;color:var(--ink);outline:none;transition:.2s;}
+input:focus,select:focus{border-color:var(--mid);}
+::placeholder{color:#C3CCC0;}
+.hint{font-size:11px;color:var(--mut);font-weight:600;margin-top:5px;line-height:1.5;}
+
+.btn{width:100%;padding:15px;border:none;border-radius:14px;font-family:'Nunito Sans',sans-serif;font-size:14.5px;font-weight:800;cursor:pointer;margin-top:18px;background:var(--mid);color:#fff;transition:.2s;}
+.btn:hover{background:var(--deep);}
+.btn:disabled{opacity:.55;cursor:default;}
+.btn-sec{background:#fff;border:1.5px solid var(--line);color:var(--mut);}
+.btn-sec:hover{background:var(--soft);color:var(--deep);}
+
+.note{font-size:12px;color:var(--mut);font-weight:600;line-height:1.65;margin-top:18px;background:var(--soft);border-radius:14px;padding:14px 16px;}
+.note b{color:var(--deep);}
+.estado{text-align:center;padding:10px 4px;}
+.estado .ico{font-size:42px;}
+
+.who{display:flex;align-items:center;gap:8px;background:var(--soft);border-radius:13px;padding:10px 13px;margin-bottom:18px;font-size:11.5px;font-weight:700;color:var(--deep);}
+.who span{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.who button{background:none;border:none;color:var(--mut);font-size:11.5px;font-weight:800;cursor:pointer;font-family:'Nunito Sans',sans-serif;text-decoration:underline;flex:none;}
+
+/* cifras */
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px;}
+.stat{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;text-align:center;}
+.stat b{display:block;font-family:'Fraunces',serif;font-size:28px;color:var(--deep);line-height:1.1;}
+.stat span{font-size:11px;font-weight:800;color:var(--mut);text-transform:uppercase;letter-spacing:.6px;}
+
+/* enlace del veterinario */
+.enlace{margin-top:14px;background:#fff;border:1.5px solid var(--line);border-radius:18px;padding:16px;display:flex;gap:14px;align-items:center;}
+.enlace img{width:96px;height:96px;flex:none;border-radius:10px;border:1px solid var(--line);background:#fff;}
+.enlace-info{flex:1;min-width:0;}
+.enlace-cod{font-size:10px;font-weight:800;color:var(--mut);text-transform:uppercase;letter-spacing:1px;}
+.enlace-cod strong{display:block;font-family:'Fraunces',serif;font-size:22px;color:var(--deep);letter-spacing:3px;margin-top:2px;}
+.enlace-url{font-size:11px;color:var(--mut);font-weight:700;margin-top:4px;word-break:break-all;}
+.acciones{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;}
+.chip{font-size:11px;font-weight:800;padding:8px 12px;border-radius:20px;text-decoration:none;display:inline-flex;align-items:center;gap:4px;cursor:pointer;border:none;font-family:'Nunito Sans',sans-serif;}
+.chip-a{background:var(--mid);color:#fff;}
+.chip-b{background:var(--soft);color:var(--deep);}
+
+/* pacientes */
+.buscar{margin-top:12px;}
+.pet{background:#fff;border:1px solid var(--line);border-radius:18px;padding:15px;margin-top:12px;}
+.pet-top{display:flex;gap:12px;align-items:center;}
+.pet-photo{width:54px;height:54px;border-radius:14px;object-fit:cover;background:var(--soft);flex-shrink:0;}
+.pet-photo-ph{width:54px;height:54px;border-radius:14px;background:var(--soft);display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;}
+.pet-name{font-family:'Fraunces',serif;font-size:18px;font-weight:700;line-height:1.1;}
+.pet-sub{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:2px;}
+.fechas{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px;}
+.fecha{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:9px 11px;}
+.fecha small{display:block;font-size:9.5px;font-weight:800;color:var(--mut);text-transform:uppercase;letter-spacing:.6px;}
+.fecha b{font-size:13px;color:var(--ink);}
+.fecha i{display:block;font-style:normal;font-size:10.5px;font-weight:800;margin-top:2px;color:var(--mut);}
+.fecha.pronto{border-color:#E8CDBE;background:#FDF7F3;}
+.fecha.pronto i{color:var(--alert);}
+.pet .acciones .chip{flex:1;justify-content:center;padding:10px 8px;}
+.vacio{text-align:center;padding:22px 8px;font-size:13px;color:var(--mut);line-height:1.65;}
+
+/* ventana para registrar */
+.modal{position:fixed;inset:0;background:rgba(60,74,58,.6);display:none;align-items:flex-end;justify-content:center;z-index:50;}
+.modal.show{display:flex;}
+.modal-box{background:var(--bg);border-radius:26px 26px 0 0;padding:24px 22px 30px;max-width:520px;width:100%;max-height:92vh;overflow-y:auto;}
+.modal-box h3{font-family:'Fraunces',serif;font-size:20px;}
+.err{background:#FDF7F3;border:1.5px solid #EAD4C9;color:#B0603F;border-radius:13px;padding:12px 14px;font-size:12.5px;font-weight:700;line-height:1.55;margin-top:14px;display:none;}
+.err.show{display:block;}
+
+.toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--deep);color:#fff;padding:12px 22px;border-radius:14px;font-size:13px;font-weight:700;opacity:0;transition:.3s;z-index:60;max-width:90%;text-align:center;}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <svg class="brand-k" viewBox="0 0 92 92"><rect x="2" y="2" width="88" height="88" rx="24" fill="#7C9877"/><path d="M32 24 L32 68" stroke="#FBFCFA" stroke-width="9" stroke-linecap="round"/><path d="M34 48 C 48 46, 58 36, 56 24" fill="none" stroke="#FBFCFA" stroke-width="9" stroke-linecap="round"/><path d="M34 48 C 48 52, 58 60, 62 70" fill="none" stroke="#DCE8D8" stroke-width="9" stroke-linecap="round"/></svg>
+  <span class="brand-name">kolita</span><span class="brand-tag">· veterinarios</span>
+  <a href="index.html">← Inicio</a>
+</div>
+
+<div class="wrap">
+  <div id="cargando"><div class="spinner"></div></div>
+
+  <!-- 1. Entrar -->
+  <div id="loginBox" style="display:none;"></div>
+
+  <!-- 2. Inscribirse -->
+  <div id="solicitud" style="display:none;">
+    <div class="who"><span class="whoEmail">—</span><button onclick="salir()">Salir</button></div>
+    <h1>🩺 Inscríbete como veterinario</h1>
+    <p class="sub">Con Kolita ves en un solo lugar a los peludos que atiendes, registras sus vacunas y desparasitaciones en segundos, y cada mes te llega la lista de quién necesita volver.</p>
+
+    <label>Tu nombre o el de tu veterinaria *</label>
+    <input type="text" id="vNombre" maxlength="80" placeholder="Ej: Mario Ruiz · Vacunación a domicilio">
+    <label>Teléfono del consultorio</label>
+    <input type="tel" id="vTel" maxlength="15" placeholder="Ej: 3001234567">
+    <p class="hint">Es el que verán las familias en el carnet de su peludo, como su veterinario de confianza.</p>
+    <label>Ciudad</label>
+    <input type="text" id="vCiudad" maxlength="60" placeholder="Ej: Medellín">
+
+    <button class="btn" id="btnSolicitar" onclick="solicitar()">Enviar solicitud 🐾</button>
+    <div class="err" id="errSolicitud"></div>
+    <p class="note">Revisamos cada solicitud a mano antes de activarla. Así protegemos a las familias: <b>solo un veterinario de verdad puede registrar en el carnet de un peludo</b>.</p>
+  </div>
+
+  <!-- 3. En revisión -->
+  <div id="pendiente" style="display:none;">
+    <div class="who"><span class="whoEmail">—</span><button onclick="salir()">Salir</button></div>
+    <div class="estado">
+      <div class="ico">⏳</div>
+      <h1 style="margin-top:8px;">Tu solicitud está en revisión</h1>
+      <p class="sub">Te avisamos apenas quede activa. Si es urgente, escríbenos a <b>appmipet@gmail.com</b>.</p>
+    </div>
+    <button class="btn btn-sec" onclick="mostrarSolicitud(true)">Corregir mis datos</button>
+  </div>
+
+  <!-- 4. Panel -->
+  <div id="panel" style="display:none;">
+    <div class="who"><span class="whoEmail">—</span><button onclick="salir()">Salir</button></div>
+    <h1 id="saludo">Hola</h1>
+    <p class="sub">Estos son los peludos cuyas familias te autorizaron como su veterinario de confianza.</p>
+
+    <div class="stats">
+      <div class="stat"><b id="nPacientes">0</b><span>Peludos a tu cargo</span></div>
+      <div class="stat"><b id="nMes">0</b><span>Con fecha en 31 días</span></div>
+    </div>
+
+    <h2>Tu enlace</h2>
+    <p class="sub">Cuando una familia crea el carnet de su peludo desde aquí, puede autorizarte con un clic.</p>
+    <div class="enlace">
+      <img id="qrVet" alt="QR de tu enlace">
+      <div class="enlace-info">
+        <div class="enlace-cod">Tu código<strong id="codVet">—</strong></div>
+        <div class="enlace-url" id="urlVet">—</div>
+        <div class="acciones">
+          <button class="chip chip-a" onclick="copiarEnlace()">🔗 Copiar</button>
+          <a class="chip chip-b" id="waVet" href="#" target="_blank" rel="noopener">💬 WhatsApp</a>
+          <a class="chip chip-b" id="dlQr" href="#" target="_blank" rel="noopener">⬇️ QR</a>
+        </div>
+      </div>
+    </div>
+
+    <h2>Tus pacientes</h2>
+    <input type="search" class="buscar" id="buscar" placeholder="Buscar por nombre del peludo o de la familia" oninput="pintarLista()" style="display:none;">
+    <div id="lista"></div>
+  </div>
+</div>
+
+<!-- Ventana para registrar -->
+<div class="modal" id="modal">
+  <div class="modal-box">
+    <h3 id="mTitulo">Registrar</h3>
+    <p class="sub" id="mSub"></p>
+
+    <div id="campoVacuna">
+      <label>Vacuna *</label>
+      <select id="mVacuna" onchange="cambioVacuna()"></select>
+      <input type="text" id="mVacunaOtra" maxlength="40" placeholder="Escribe el nombre de la vacuna" style="display:none;margin-top:8px;">
+    </div>
+    <div id="campoProducto">
+      <label>Producto (opcional)</label>
+      <input type="text" id="mProducto" maxlength="60" placeholder="Ej: Canex, NexGard, Drontal">
+    </div>
+
+    <label>Fecha en que la aplicaste *</label>
+    <input type="date" id="mFecha" onchange="sugerir()">
+
+    <label>Próxima fecha</label>
+    <input type="date" id="mProxima">
+    <p class="hint" id="mHint">La calculamos con el esquema de Kolita. Puedes cambiarla.</p>
+
+    <div class="err" id="errModal"></div>
+    <button class="btn" id="btnGuardar" onclick="guardar()">Guardar en su carnet 💚</button>
+    <button class="btn btn-sec" onclick="cerrarModal()" style="margin-top:8px;">Cancelar</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════
+// KOLITA · PANEL DE VETERINARIOS
+//
+// Qué ve y qué puede hacer el veterinario lo decide la base de datos,
+// no esta página. Aquí solo se muestra lo que el servidor devuelve:
+//   · solo los peludos cuyas familias lo autorizaron,
+//   · nunca el correo ni el celular de la familia,
+//   · solo puede AGREGAR vacunas y desparasitaciones.
+// ═══════════════════════════════════════════════════════════════════
+var KOLITA_WEB = 'https://kolita.co';
+var SPECIES_EMOJI = { perro:'🐶', gato:'🐱', conejo:'🐰', ave:'🐦', otro:'🐾' };
+var VACUNAS = {
+  perro: ['Puppy (primera)', 'Pentavalente', 'Rabia', 'Tos de perreras'],
+  gato:  ['Triple felina', 'Rabia', 'Leucemia felina'],
+  otro:  ['Rabia']
+};
+
+var cli = null;
+var pacientes = [];
+var actual = null;      // el peludo sobre el que se está registrando
+var modoModal = '';     // 'vacuna' o 'desparasitacion'
+
+function qs(id){ return document.getElementById(id); }
+function ocultarTodo(){
+  ['cargando','loginBox','solicitud','pendiente','panel'].forEach(function(id){ qs(id).style.display = 'none'; });
+}
+
+// ── Arranque ─────────────────────────────────────────────────────
+async function iniciar(){
+  cli = KolitaAuth.client;
+  var sesion = await KolitaAuth.sesionActual();
+  if(!sesion) return mostrarLogin();
+  abrir();
+}
+
+function mostrarLogin(){
+  ocultarTodo();
+  var caja = qs('loginBox');
+  caja.style.display = 'block';
+  KolitaLogin.montar(caja, {
+    icono: '🩺',
+    titulo: 'Kolita para veterinarios',
+    subtitulo: 'Entra con tu correo. Te enviamos un código: sin contraseñas.',
+    crearSiNoExiste: true,
+    nota: 'Si es tu primera vez, después de entrar te pedimos tus datos para inscribirte.',
+    alEntrar: function(){ abrir(); }
+  });
+}
+
+async function abrir(){
+  ocultarTodo();
+  qs('cargando').style.display = 'block';
+  var correo = await KolitaAuth.correoDeSesion();
+  document.querySelectorAll('.whoEmail').forEach(function(el){ el.textContent = '👤 ' + (correo || ''); });
+
+  var r = await cli.rpc('vet_mi_perfil');
+  qs('cargando').style.display = 'none';
+  if(r.error){ return aviso('⚠️ No pudimos conectar. Intenta de nuevo.'); }
+
+  var perfil = (r.data || [])[0];
+  if(!perfil) return mostrarSolicitud(false);
+  if(!perfil.aprobado){
+    rellenarSolicitud(perfil);
+    qs('pendiente').style.display = 'block';
+    return;
+  }
+  abrirPanel(perfil);
+}
+
+// ── Inscripción ──────────────────────────────────────────────────
+function rellenarSolicitud(p){
+  qs('vNombre').value = p.nombre || '';
+  qs('vTel').value = p.telefono || '';
+  qs('vCiudad').value = p.ciudad || '';
+}
+function mostrarSolicitud(){
+  ocultarTodo();
+  qs('solicitud').style.display = 'block';
+  qs('vNombre').focus();
+}
+
+async function solicitar(){
+  var err = qs('errSolicitud'); err.classList.remove('show');
+  var nombre = qs('vNombre').value.trim();
+  if(nombre.length < 3){ err.textContent = 'Escribe tu nombre o el de tu veterinaria.'; err.classList.add('show'); return; }
+  var b = qs('btnSolicitar'); b.disabled = true; b.textContent = 'Enviando…';
+  var r = await cli.rpc('vet_solicitar', {
+    p_nombre: nombre, p_telefono: qs('vTel').value.trim(), p_ciudad: qs('vCiudad').value.trim()
+  });
+  b.disabled = false; b.textContent = 'Enviar solicitud 🐾';
+  if(r.error){ err.textContent = limpiarError(r.error); err.classList.add('show'); return; }
+  abrir();
+}
+
+// ── Panel ────────────────────────────────────────────────────────
+async function abrirPanel(perfil){
+  ocultarTodo();
+  qs('panel').style.display = 'block';
+  qs('saludo').textContent = 'Hola, ' + perfil.nombre.split(/[\s·]/)[0] + ' 🩺';
+  qs('codVet').textContent = perfil.codigo;
+
+  var url = KOLITA_WEB + '/registro.html?vet=' + encodeURIComponent(perfil.codigo);
+  qs('urlVet').textContent = url.replace('https://', '');
+  var qr = 'https://api.qrserver.com/v1/create-qr-code/?size=600x600&ecc=M&data=' + encodeURIComponent(url) + '&color=3F5737&bgcolor=FFFFFF';
+  qs('qrVet').src = qr.replace('600x600', '200x200');
+  qs('dlQr').href = qr + '&download=1';
+  qs('waVet').href = 'https://wa.me/?text=' + encodeURIComponent(
+    '¡Hola! Te comparto el enlace para crear gratis el carnet digital de tu peludo en Kolita. ' +
+    'Así quedo como tu veterinario de confianza y te llegan los recordatorios de vacunas 🐾\n' + url);
+  window._urlVet = url;
+
+  await cargarPacientes();
+}
+
+async function cargarPacientes(){
+  var r = await cli.rpc('vet_mis_pacientes');
+  if(r.error){ return aviso('⚠️ No pudimos cargar tus pacientes.'); }
+  pacientes = r.data || [];
+
+  var en31 = pacientes.filter(function(p){
+    return dentroDe(p.proxima_vacuna, 31) || dentroDe(p.proxima_desparasitacion, 31);
+  }).length;
+  qs('nPacientes').textContent = pacientes.length;
+  qs('nMes').textContent = en31;
+  qs('buscar').style.display = pacientes.length > 5 ? 'block' : 'none';
+  pintarLista();
+}
+
+function pintarLista(){
+  var lista = qs('lista');
+  lista.innerHTML = '';
+  var filtro = qs('buscar').value.trim().toLowerCase();
+  var visibles = pacientes.filter(function(p){
+    return !filtro || (p.nombre || '').toLowerCase().indexOf(filtro) !== -1
+                   || (p.familia || '').toLowerCase().indexOf(filtro) !== -1;
+  });
+
+  if(pacientes.length === 0){
+    var v = document.createElement('div');
+    v.className = 'vacio';
+    v.textContent = 'Todavía no tienes peludos a tu cargo. Comparte tu enlace con las familias que atiendes: cuando creen el carnet desde ahí y te autoricen, aparecen aquí.';
+    lista.appendChild(v);
+    return;
+  }
+  if(visibles.length === 0){
+    var n = document.createElement('div');
+    n.className = 'vacio'; n.textContent = 'Ningún peludo coincide con esa búsqueda.';
+    lista.appendChild(n);
+    return;
+  }
+  visibles.forEach(function(p){ lista.appendChild(tarjeta(p)); });
+}
+
+// Todo con createElement + textContent: lo que escribió una familia nunca
+// se pega como HTML.
+function tarjeta(p){
+  var card = document.createElement('div');
+  card.className = 'pet';
+
+  var top = document.createElement('div');
+  top.className = 'pet-top';
+  if(p.foto && /^https:\/\//i.test(p.foto)){
+    var img = document.createElement('img');
+    img.className = 'pet-photo'; img.alt = ''; img.src = p.foto;
+    top.appendChild(img);
+  }else{
+    var ph = document.createElement('div');
+    ph.className = 'pet-photo-ph';
+    ph.textContent = SPECIES_EMOJI[(p.especie || '').toLowerCase()] || '🐾';
+    top.appendChild(ph);
+  }
+  var info = document.createElement('div');
+  var nm = document.createElement('div');
+  nm.className = 'pet-name'; nm.textContent = p.nombre || 'Sin nombre';
+  var sb = document.createElement('div');
+  sb.className = 'pet-sub';
+  sb.textContent = [cap(p.especie), p.raza, edad(p.nacimiento), p.familia ? 'Familia ' + p.familia : '']
+                     .filter(Boolean).join(' · ');
+  info.appendChild(nm); info.appendChild(sb);
+  top.appendChild(info);
+  card.appendChild(top);
+
+  var fechas = document.createElement('div');
+  fechas.className = 'fechas';
+  fechas.appendChild(cajaFecha('Próxima vacuna', p.proxima_vacuna));
+  fechas.appendChild(cajaFecha('Próx. desparasitación', p.proxima_desparasitacion));
+  card.appendChild(fechas);
+
+  var acts = document.createElement('div');
+  acts.className = 'acciones';
+  var bv = document.createElement('button');
+  bv.className = 'chip chip-a'; bv.textContent = '💉 Vacuna';
+  bv.onclick = function(){ abrirModal(p, 'vacuna'); };
+  var bd = document.createElement('button');
+  bd.className = 'chip chip-b'; bd.textContent = '🐛 Desparasitación';
+  bd.onclick = function(){ abrirModal(p, 'desparasitacion'); };
+  acts.appendChild(bv); acts.appendChild(bd);
+  card.appendChild(acts);
+  return card;
+}
+
+function cajaFecha(titulo, iso){
+  var d = document.createElement('div');
+  d.className = 'fecha';
+  var s = document.createElement('small'); s.textContent = titulo;
+  var b = document.createElement('b'); b.textContent = iso ? fechaCorta(iso) : 'Sin fecha';
+  d.appendChild(s); d.appendChild(b);
+  if(iso){
+    var dias = diasHasta(iso);
+    var i = document.createElement('i');
+    if(dias < 0)       { i.textContent = 'Vencida'; d.classList.add('pronto'); }
+    else if(dias === 0){ i.textContent = 'Hoy'; d.classList.add('pronto'); }
+    else if(dias <= 7) { i.textContent = 'En ' + dias + (dias === 1 ? ' día' : ' días'); d.classList.add('pronto'); }
+    else               { i.textContent = 'En ' + dias + ' días'; }
+    d.appendChild(i);
+  }
+  return d;
+}
+
+// ── Registrar vacuna o desparasitación ───────────────────────────
+function abrirModal(p, modo){
+  actual = p; modoModal = modo;
+  qs('errModal').classList.remove('show');
+  var esVac = modo === 'vacuna';
+  qs('mTitulo').textContent = (esVac ? '💉 Vacuna de ' : '🐛 Desparasitación de ') + (p.nombre || 'peludo');
+  qs('mSub').textContent = 'Queda guardado en su carnet y a la familia le llega el aviso por correo.';
+  qs('campoVacuna').style.display = esVac ? 'block' : 'none';
+  qs('campoProducto').style.display = esVac ? 'none' : 'block';
+
+  if(esVac){
+    var sel = qs('mVacuna'); sel.innerHTML = '';
+    var esp = (p.especie || '').toLowerCase();
+    var lista = VACUNAS[esp] || VACUNAS.otro;
+    lista.concat(['Otra…']).forEach(function(n){
+      var o = document.createElement('option'); o.value = n; o.textContent = n; sel.appendChild(o);
+    });
+    qs('mVacunaOtra').value = ''; qs('mVacunaOtra').style.display = 'none';
+  }else{
+    qs('mProducto').value = '';
+  }
+
+  var hoy = hoyISO();
+  qs('mFecha').value = hoy;
+  qs('mFecha').max = hoy;
+  qs('mProxima').value = '';
+  qs('modal').classList.add('show');
+  sugerir();
+}
+function cerrarModal(){ qs('modal').classList.remove('show'); actual = null; }
+qs('modal').addEventListener('click', function(e){ if(e.target === this) cerrarModal(); });
+
+function cambioVacuna(){
+  var otra = qs('mVacuna').value === 'Otra…';
+  qs('mVacunaOtra').style.display = otra ? 'block' : 'none';
+  if(otra) qs('mVacunaOtra').focus();
+}
+
+// Pide al servidor la próxima fecha según el esquema de Mario.
+async function sugerir(){
+  if(!actual || !qs('mFecha').value) return;
+  var fn = modoModal === 'vacuna' ? 'kolita_sugerir_proxima_vacuna' : 'kolita_sugerir_proxima_desparasitacion';
+  var r = await cli.rpc(fn, {
+    p_especie: actual.especie, p_nacimiento: actual.nacimiento, p_fecha: qs('mFecha').value
+  });
+  if(!r.error && r.data) qs('mProxima').value = r.data;
+}
+
+async function guardar(){
+  var err = qs('errModal'); err.classList.remove('show');
+  var fecha = qs('mFecha').value;
+  var prox = qs('mProxima').value || null;
+  if(!fecha){ err.textContent = 'Escribe la fecha en que la aplicaste.'; err.classList.add('show'); return; }
+
+  var b = qs('btnGuardar'); b.disabled = true; b.textContent = 'Guardando…';
+  var r;
+  if(modoModal === 'vacuna'){
+    var nombre = qs('mVacuna').value === 'Otra…' ? qs('mVacunaOtra').value.trim() : qs('mVacuna').value;
+    if(!nombre){
+      b.disabled = false; b.textContent = 'Guardar en su carnet 💚';
+      err.textContent = 'Escribe el nombre de la vacuna.'; err.classList.add('show'); return;
+    }
+    r = await cli.rpc('vet_registrar_vacuna', {
+      p_pet_id: actual.pet_id, p_vacuna: nombre, p_fecha: fecha, p_proxima: prox
+    });
+  }else{
+    r = await cli.rpc('vet_registrar_desparasitacion', {
+      p_pet_id: actual.pet_id, p_producto: qs('mProducto').value.trim(), p_fecha: fecha, p_proxima: prox
+    });
+  }
+  b.disabled = false; b.textContent = 'Guardar en su carnet 💚';
+  if(r.error){ err.textContent = limpiarError(r.error); err.classList.add('show'); return; }
+
+  if(typeof gtag === 'function') gtag('event', 'vet_registro', { tipo: modoModal });
+  var nombrePeludo = actual.nombre;
+  cerrarModal();
+  aviso('✅ Guardado. A la familia de ' + nombrePeludo + ' le llega el aviso.');
+  cargarPacientes();
+}
+
+// ── Utilidades ───────────────────────────────────────────────────
+function copiarEnlace(){
+  navigator.clipboard.writeText(window._urlVet).then(function(){ aviso('✅ Enlace copiado'); })
+    .catch(function(){ aviso('⚠️ No se pudo copiar'); });
+}
+async function salir(){
+  await KolitaAuth.salir();
+  mostrarLogin();
+}
+function limpiarError(e){
+  // Los mensajes de las funciones del servidor ya vienen en español claro.
+  var m = String((e && e.message) || '');
+  if(/permission denied|JWT|not authorized/i.test(m)) return 'Se cerró tu sesión. Sal y vuelve a entrar.';
+  return m || 'Algo salió mal. Intenta de nuevo.';
+}
+function hoyISO(){
+  var d = new Date(); d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+  return d.toISOString().slice(0, 10);
+}
+function diasHasta(iso){
+  var a = new Date(hoyISO() + 'T12:00:00'), b = new Date(iso + 'T12:00:00');
+  return Math.round((b - a) / 86400000);
+}
+function dentroDe(iso, dias){ if(!iso) return false; var d = diasHasta(iso); return d >= 0 && d <= dias; }
+function fechaCorta(iso){
+  var m = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+  var d = new Date(iso + 'T12:00:00');
+  return d.getDate() + ' ' + m[d.getMonth()] + ' ' + d.getFullYear();
+}
+function edad(iso){
+  if(!iso) return '';
+  var dias = diasHasta(iso) * -1;
+  if(dias < 0) return '';
+  if(dias < 60) return Math.floor(dias / 7) + ' semanas';
+  if(dias < 365) return Math.floor(dias / 30.4) + ' meses';
+  var a = Math.floor(dias / 365.25);
+  return a + (a === 1 ? ' año' : ' años');
+}
+function cap(s){ s = s || ''; return s.charAt(0).toUpperCase() + s.slice(1); }
+function aviso(msg){
+  var t = qs('toast'); t.textContent = msg; t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 3200);
+}
+
+iniciar();
+</script>
+</body>
+</html>
