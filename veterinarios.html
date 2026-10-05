@@ -53,6 +53,9 @@ input:focus,select:focus{border-color:var(--mid);}
 .btn-sec{background:#fff;border:1.5px solid var(--line);color:var(--mut);}
 .btn-sec:hover{background:var(--soft);color:var(--deep);}
 
+.tipo-row{display:flex;gap:8px;}
+.tipo-btn{flex:1;padding:12px 8px;border:1.5px solid var(--line);border-radius:13px;background:#fff;font-family:'Nunito Sans',sans-serif;font-size:13px;font-weight:700;color:var(--mut);cursor:pointer;transition:.2s;line-height:1.3;}
+.tipo-btn.active{border-color:var(--mid);background:var(--soft);color:var(--deep);}
 .note{font-size:12px;color:var(--mut);font-weight:600;line-height:1.65;margin-top:18px;background:var(--soft);border-radius:14px;padding:14px 16px;}
 .note b{color:var(--deep);}
 .estado{text-align:center;padding:10px 4px;}
@@ -130,6 +133,22 @@ input:focus,select:focus{border-color:var(--mid);}
     <h1>🩺 Inscríbete como veterinario</h1>
     <p class="sub">Con Kolita ves en un solo lugar a los peludos que atiendes, registras sus vacunas y desparasitaciones en segundos, y cada mes te llega la lista de quién necesita volver.</p>
 
+    <label>¿Qué eres? *</label>
+    <div class="tipo-row">
+      <button type="button" class="tipo-btn" data-tipo="medico" onclick="elegirTipo('medico')">🩺 Médico veterinario</button>
+      <button type="button" class="tipo-btn" data-tipo="auxiliar" onclick="elegirTipo('auxiliar')">💉 Auxiliar o técnico</button>
+    </div>
+
+    <div id="campoMatricula" style="display:none;">
+      <label>Número de matrícula profesional *</label>
+      <input type="text" id="vMatricula" maxlength="30" placeholder="Ej: 12345">
+      <p class="hint">La verificamos en la consulta pública del Consejo Profesional de Medicina Veterinaria.</p>
+    </div>
+    <div id="campoDonde" style="display:none;">
+      <label>¿Dónde trabajas o con qué veterinario? *</label>
+      <input type="text" id="vDonde" maxlength="120" placeholder="Ej: Clínica Patitas, con la Dra. Ríos">
+    </div>
+
     <label>Tu nombre o el de tu veterinaria *</label>
     <input type="text" id="vNombre" maxlength="80" placeholder="Ej: Mario Ruiz · Vacunación a domicilio">
     <label>Teléfono del consultorio</label>
@@ -149,7 +168,7 @@ input:focus,select:focus{border-color:var(--mid);}
     <div class="estado">
       <div class="ico">⏳</div>
       <h1 style="margin-top:8px;">Tu solicitud está en revisión</h1>
-      <p class="sub">Te avisamos apenas quede activa. Si es urgente, escríbenos a <b>appmipet@gmail.com</b>.</p>
+      <p class="sub">Revisamos tus datos y te avisamos <b>por correo</b> apenas quede activa. Si es urgente, escríbenos a <b>appmipet@gmail.com</b>.</p>
     </div>
     <button class="btn btn-sec" onclick="mostrarSolicitud(true)">Corregir mis datos</button>
   </div>
@@ -288,7 +307,18 @@ async function abrir(){
 }
 
 // ── Inscripción ──────────────────────────────────────────────────
+var tipoVet = '';
+function elegirTipo(t){
+  tipoVet = t;
+  document.querySelectorAll('.tipo-btn').forEach(function(b){ b.classList.toggle('active', b.getAttribute('data-tipo') === t); });
+  qs('campoMatricula').style.display = t === 'medico' ? 'block' : 'none';
+  qs('campoDonde').style.display = t === 'auxiliar' ? 'block' : 'none';
+}
+
 function rellenarSolicitud(p){
+  if(p.tipo) elegirTipo(p.tipo);
+  qs('vMatricula').value = p.matricula || '';
+  qs('vDonde').value = p.donde_trabaja || '';
   qs('vNombre').value = p.nombre || '';
   qs('vTel').value = p.telefono || '';
   qs('vCiudad').value = p.ciudad || '';
@@ -302,13 +332,30 @@ function mostrarSolicitud(){
 async function solicitar(){
   var err = qs('errSolicitud'); err.classList.remove('show');
   var nombre = qs('vNombre').value.trim();
-  if(nombre.length < 3){ err.textContent = 'Escribe tu nombre o el de tu veterinaria.'; err.classList.add('show'); return; }
+  function falla(m){ err.textContent = m; err.classList.add('show'); }
+  if(!tipoVet) return falla('Dinos si eres médico veterinario o auxiliar.');
+  if(tipoVet === 'medico' && qs('vMatricula').value.trim().length < 3) return falla('Escribe tu número de matrícula profesional.');
+  if(tipoVet === 'auxiliar' && qs('vDonde').value.trim().length < 3) return falla('Cuéntanos dónde trabajas o con qué veterinario.');
+  if(nombre.length < 3) return falla('Escribe tu nombre o el de tu veterinaria.');
   var b = qs('btnSolicitar'); b.disabled = true; b.textContent = 'Enviando…';
   var r = await cli.rpc('vet_solicitar', {
-    p_nombre: nombre, p_telefono: qs('vTel').value.trim(), p_ciudad: qs('vCiudad').value.trim()
+    p_nombre: nombre, p_telefono: qs('vTel').value.trim(), p_ciudad: qs('vCiudad').value.trim(),
+    p_tipo: tipoVet,
+    p_matricula: tipoVet === 'medico' ? qs('vMatricula').value.trim() : null,
+    p_donde: tipoVet === 'auxiliar' ? qs('vDonde').value.trim() : null
   });
   b.disabled = false; b.textContent = 'Enviar solicitud 🐾';
-  if(r.error){ err.textContent = limpiarError(r.error); err.classList.add('show'); return; }
+  if(r.error){ return falla(limpiarError(r.error)); }
+
+  // Avisarle a Kolita de una vez (si esto falla, el robot lo hace en la
+  // siguiente hora: la solicitud ya quedó guardada).
+  try{
+    fetch(KolitaAuth.SUPABASE_URL + '/functions/v1/veterinarios', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + KolitaAuth.SUPABASE_KEY },
+      body: JSON.stringify({ modo: 'solicitudes' })
+    }).catch(function(){});
+  }catch(e){}
   abrir();
 }
 
@@ -316,7 +363,10 @@ async function solicitar(){
 async function abrirPanel(perfil){
   ocultarTodo();
   qs('panel').style.display = 'block';
-  qs('saludo').textContent = 'Hola, ' + perfil.nombre.split(/[\s·]/)[0] + ' 🩺';
+  // "Dra. Paula Gómez" → "Hola, Dra. Paula"; "Mario Ruiz" → "Hola, Mario"
+  var partes = perfil.nombre.split(/[\s·]+/).filter(Boolean);
+  var corto = /^(dr|dra|doctor|doctora)\.?$/i.test(partes[0] || '') ? partes.slice(0, 2).join(' ') : partes[0];
+  qs('saludo').textContent = 'Hola, ' + corto + ' 🩺';
   qs('codVet').textContent = perfil.codigo;
 
   var url = KOLITA_WEB + '/registro.html?vet=' + encodeURIComponent(perfil.codigo);
