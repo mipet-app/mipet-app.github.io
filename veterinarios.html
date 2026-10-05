@@ -53,6 +53,13 @@ input:focus,select:focus{border-color:var(--mid);}
 .btn-sec{background:#fff;border:1.5px solid var(--line);color:var(--mut);}
 .btn-sec:hover{background:var(--soft);color:var(--deep);}
 
+.tabs{display:flex;gap:4px;background:var(--soft);border-radius:14px;padding:4px;margin-bottom:22px;}
+.tab{flex:1;padding:11px 6px;border:none;border-radius:11px;background:none;font-family:'Nunito Sans',sans-serif;font-size:12.5px;font-weight:800;color:var(--mut);cursor:pointer;line-height:1.3;}
+.tab.active{background:#fff;color:var(--deep);box-shadow:0 2px 8px rgba(70,85,66,.10);}
+.beneficios{list-style:none;margin:16px 0 4px;display:flex;flex-direction:column;gap:9px;}
+.beneficios li{position:relative;padding-left:27px;font-size:13px;font-weight:600;line-height:1.5;color:var(--ink);}
+.beneficios li::before{content:'✓';position:absolute;left:0;top:0;width:19px;height:19px;background:var(--mid);color:#fff;border-radius:50%;font-size:10.5px;font-weight:800;display:flex;align-items:center;justify-content:center;}
+.paso{font-size:10.5px;font-weight:800;color:var(--mid);text-transform:uppercase;letter-spacing:1.4px;}
 .tipo-row{display:flex;gap:8px;}
 .tipo-btn{flex:1;padding:12px 8px;border:1.5px solid var(--line);border-radius:13px;background:#fff;font-family:'Nunito Sans',sans-serif;font-size:13px;font-weight:700;color:var(--mut);cursor:pointer;transition:.2s;line-height:1.3;}
 .tipo-btn.active{border-color:var(--mid);background:var(--soft);color:var(--deep);}
@@ -130,7 +137,8 @@ input:focus,select:focus{border-color:var(--mid);}
   <!-- 2. Inscribirse -->
   <div id="solicitud" style="display:none;">
     <div class="who"><span class="whoEmail">—</span><button onclick="salir()">Salir</button></div>
-    <h1>🩺 Inscríbete como veterinario</h1>
+    <div class="paso">Paso 2 de 2 · Tus datos</div>
+    <h1 style="margin-top:6px;">🩺 Inscríbete como veterinario</h1>
     <p class="sub">Con Kolita ves en un solo lugar a los peludos que atiendes, registras sus vacunas y desparasitaciones en segundos, y cada mes te llega la lista de quién necesita volver.</p>
 
     <label>¿Qué eres? *</label>
@@ -272,18 +280,59 @@ async function iniciar(){
   abrir();
 }
 
-function mostrarLogin(){
+// Dos caminos visibles desde el primer momento: inscribirse o entrar.
+// Por dentro es el mismo ingreso con código; lo que cambia es lo que se le
+// dice a la persona, para que el veterinario nuevo sepa que aquí se inscribe.
+var modoEntrada = 'nuevo';
+function mostrarLogin(modo){
   ocultarTodo();
+  if(modo) modoEntrada = modo;
+  var nuevo = modoEntrada === 'nuevo';
   var caja = qs('loginBox');
   caja.style.display = 'block';
-  KolitaLogin.montar(caja, {
+  caja.innerHTML = '';
+
+  var tabs = document.createElement('div');
+  tabs.className = 'tabs';
+  [['nuevo', 'Soy nuevo · Inscribirme'], ['viejo', 'Ya estoy inscrito · Entrar']].forEach(function(t){
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'tab' + (modoEntrada === t[0] ? ' active' : '');
+    b.textContent = t[1];
+    b.onclick = function(){ mostrarLogin(t[0]); };
+    tabs.appendChild(b);
+  });
+  caja.appendChild(tabs);
+
+  var cont = document.createElement('div');
+  caja.appendChild(cont);
+  KolitaLogin.montar(cont, nuevo ? {
     icono: '🩺',
-    titulo: 'Kolita para veterinarios',
-    subtitulo: 'Entra con tu correo. Te enviamos un código: sin contraseñas.',
+    titulo: 'Únete a Kolita como veterinario',
+    subtitulo: 'Paso 1 de 2: confirma tu correo. Te enviamos un código, sin contraseñas. En el paso 2 llenas tus datos.',
     crearSiNoExiste: true,
-    nota: 'Si es tu primera vez, después de entrar te pedimos tus datos para inscribirte.',
+    nota: 'Es gratis. Revisamos cada inscripción a mano para proteger a las familias, y te avisamos por correo cuando quede activa.',
+    alEntrar: function(){ abrir(); }
+  } : {
+    icono: '🔑',
+    titulo: 'Entra a tu panel',
+    subtitulo: 'Escribe el correo con el que te inscribiste y te enviamos un código.',
+    crearSiNoExiste: true,
     alEntrar: function(){ abrir(); }
   });
+
+  if(nuevo){
+    var lista = document.createElement('ul');
+    lista.className = 'beneficios';
+    ['Todos los peludos que atiendes, en una sola lista',
+     'Registras vacunas y desparasitaciones en segundos',
+     'La familia recibe el aviso por correo, sin que tú hagas nada',
+     'Cada mes, la lista de quién necesita volver a consulta'
+    ].forEach(function(t){ var li = document.createElement('li'); li.textContent = t; lista.appendChild(li); });
+    // Va justo debajo del título, antes del campo del correo.
+    var sub = cont.querySelector('.kl-sub');
+    sub.parentNode.insertBefore(lista, sub.nextSibling);
+  }
 }
 
 async function abrir(){
