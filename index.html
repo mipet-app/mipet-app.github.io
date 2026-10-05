@@ -274,19 +274,273 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:10px;}
       <p class="hero-product-note">¿Quieres llevarlo también en físico? Más abajo puedes pedir el carnet impreso o una placa con su QR. Son opcionales.</p>
     </div>
 
-    <div class="demo-card">
-      <div class="d-top">
-        <div class="d-photo">🐶</div>
-        <div>
-          <div class="d-name">Ibiza</div>
-          <div class="d-sub">Criolla · Hembra · 2 años</div>
+<!-- ═══════════ KOLITA · HISTORIA ANIMADA (va en el hero, en lugar de .demo-card) ═══════════ -->
+<style>
+.historia{width:100%;max-width:330px;display:flex;flex-direction:column;align-items:center;}
+.h-tel{position:relative;width:272px;height:548px;background:#1E2A1D;border-radius:44px;padding:11px;box-shadow:0 26px 60px rgba(41,56,39,.28),inset 0 0 0 2px #344632;}
+.h-notch{position:absolute;top:19px;left:50%;transform:translateX(-50%);width:88px;height:24px;background:#1E2A1D;border-radius:14px;z-index:5;}
+.h-pantalla{position:relative;width:100%;height:100%;border-radius:34px;overflow:hidden;clip-path:inset(0 round 34px);background:var(--bg);}
+.h-esc{position:absolute;inset:0;opacity:0;transform:translateX(18px);transition:opacity .55s ease,transform .55s ease;pointer-events:none;display:flex;flex-direction:column;}
+.h-esc.on{opacity:1;transform:none;}
+.h-esc.fuera{transform:translateX(-18px);}
+
+/* 1 · cámara escaneando la placa */
+.h-cam{background:radial-gradient(circle at 50% 42%,#5C6E58 0%,#2E3B2C 70%);align-items:center;justify-content:center;}
+.h-cam-top{position:absolute;top:52px;left:0;right:0;text-align:center;color:#DCE8D8;font-size:11px;font-weight:800;letter-spacing:1px;}
+.h-placa{position:relative;width:150px;height:96px;background:#2B2B2B;border-radius:34px;display:flex;align-items:center;justify-content:center;gap:12px;box-shadow:0 10px 24px rgba(0,0,0,.35);transform:rotate(-6deg);}
+.h-placa::before{content:'';position:absolute;left:14px;top:50%;width:10px;height:10px;margin-top:-5px;border-radius:50%;background:#3E4C3B;}
+.h-qr{width:54px;height:54px;display:grid;grid-template-columns:repeat(7,1fr);gap:1px;}
+.h-qr i{background:#E9ECE6;border-radius:1px;}
+.h-qr i.v{background:transparent;}
+.h-placa-txt{color:#E9ECE6;font-size:8px;font-weight:800;line-height:1.5;}
+.h-mira{position:absolute;width:190px;height:150px;}
+.h-mira b{position:absolute;width:26px;height:26px;border:3px solid #FFFFFF;}
+.h-mira b:nth-child(1){top:0;left:0;border-right:0;border-bottom:0;border-radius:8px 0 0 0;}
+.h-mira b:nth-child(2){top:0;right:0;border-left:0;border-bottom:0;border-radius:0 8px 0 0;}
+.h-mira b:nth-child(3){bottom:0;left:0;border-right:0;border-top:0;border-radius:0 0 0 8px;}
+.h-mira b:nth-child(4){bottom:0;right:0;border-left:0;border-top:0;border-radius:0 0 8px 0;}
+.h-linea{position:absolute;left:8px;right:8px;height:2px;background:linear-gradient(90deg,transparent,#B9E3A8,transparent);box-shadow:0 0 12px #B9E3A8;animation:hBarrido 1.6s ease-in-out infinite;}
+@keyframes hBarrido{0%,100%{top:10px}50%{top:136px}}
+.h-link{position:absolute;bottom:58px;left:22px;right:22px;background:rgba(255,255,255,.95);border-radius:14px;padding:10px 12px;font-size:11px;font-weight:700;color:#293827;display:flex;align-items:center;gap:8px;opacity:0;transform:translateY(10px);transition:.4s;}
+.h-esc.on .h-link{opacity:1;transform:none;transition-delay:1.9s;}
+.h-link span{flex:1;}
+.h-link em{font-style:normal;color:#3F5737;font-weight:800;}
+
+/* 2 · el carnet en modo perdido */
+.h-alerta{background:var(--alert);color:#fff;text-align:center;font-size:11px;font-weight:800;padding:44px 10px 10px;}
+.h-carnet{padding:16px 16px 0;flex:1;display:flex;flex-direction:column;gap:9px;}
+.h-marca{display:flex;align-items:center;gap:6px;font-family:'Quicksand',sans-serif;font-weight:700;font-size:13px;color:var(--ink);}
+.h-marca img{width:22px;height:22px;object-fit:contain;border-radius:6px;}
+.h-quien{display:flex;align-items:center;gap:12px;margin-top:4px;}
+.h-foto{width:66px;height:66px;border-radius:18px;background:var(--soft);display:flex;align-items:center;justify-content:center;font-size:34px;}
+.h-nombre{font-family:'Fraunces',serif;font-size:24px;font-weight:700;line-height:1;color:var(--ink);}
+.h-sub{font-size:11px;color:var(--mut);font-weight:700;margin-top:3px;}
+.h-fila{display:flex;justify-content:space-between;align-items:center;background:#fff;border:1px solid var(--line);border-radius:11px;padding:8px 10px;font-size:11px;font-weight:700;color:var(--ink);}
+.h-fila i{font-style:normal;font-size:9.5px;background:var(--soft);color:var(--deep);padding:2px 8px;border-radius:12px;}
+.h-boton{margin-top:auto;margin-bottom:22px;background:var(--mid);color:#fff;border-radius:13px;padding:12px;text-align:center;font-size:12px;font-weight:800;}
+.h-esc.on .h-boton{animation:hLatido 1.2s ease-in-out .9s 2;}
+@keyframes hLatido{0%,100%{transform:scale(1)}50%{transform:scale(1.05);box-shadow:0 8px 20px rgba(113,139,97,.45)}}
+
+/* 3 · quien la encontró avisa */
+.h-form{padding:48px 18px 0;flex:1;display:flex;flex-direction:column;}
+.h-form h4{font-family:'Fraunces',serif;font-size:18px;color:var(--ink);}
+.h-form p{font-size:10.5px;color:var(--mut);font-weight:600;line-height:1.5;margin-top:4px;}
+.h-campo{margin-top:12px;}
+.h-campo small{display:block;font-size:8.5px;font-weight:800;color:var(--deep);text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px;}
+.h-campo div{min-height:34px;background:#fff;border:1.5px solid var(--line);border-radius:10px;padding:8px 10px;font-size:11.5px;font-weight:600;color:var(--ink);}
+.h-campo div.escribiendo{border-color:var(--mid);}
+.h-campo div.escribiendo::after{content:'|';color:var(--mid);animation:hCursor .8s steps(1) infinite;margin-left:1px;}
+@keyframes hCursor{50%{opacity:0}}
+.h-enviar{margin-top:auto;margin-bottom:22px;background:var(--mid);color:#fff;border-radius:13px;padding:12px;text-align:center;font-size:12px;font-weight:800;transition:.25s;}
+.h-enviar.listo{background:var(--deep);}
+
+/* 4 · el aviso le llega a la familia */
+.h-bloqueo{background:linear-gradient(170deg,#55704E 0%,#2E3B2C 100%);align-items:center;color:#fff;}
+.h-hora{margin-top:64px;font-size:54px;font-weight:300;letter-spacing:-1px;font-family:'Nunito Sans',sans-serif;}
+.h-fecha{font-size:12px;font-weight:700;opacity:.85;}
+.h-notif{margin-top:34px;width:calc(100% - 24px);background:rgba(251,252,250,.97);border-radius:18px;padding:12px 13px;color:#293827;opacity:0;transform:translateY(-30px);transition:.6s cubic-bezier(.2,.9,.3,1.2);}
+.h-esc.on .h-notif{opacity:1;transform:none;transition-delay:.6s;}
+.h-notif-top{display:flex;align-items:center;gap:6px;font-size:10px;color:#7F8D7B;font-weight:700;}
+.h-notif-top img{width:16px;height:16px;border-radius:4px;object-fit:contain;}
+.h-notif-top span:last-child{margin-left:auto;}
+.h-notif b{display:block;font-size:12.5px;margin-top:6px;}
+.h-notif p{font-size:11px;line-height:1.45;margin-top:3px;color:#3F5737;font-weight:600;}
+.h-candado{margin-top:14px;background:rgba(255,255,255,.14);border-radius:20px;padding:7px 13px;font-size:10.5px;font-weight:800;opacity:0;transition:.5s;}
+.h-esc.on .h-candado{opacity:1;transition-delay:1.6s;}
+
+/* 5 · vuelve a casa */
+.h-casa{align-items:center;justify-content:center;text-align:center;padding:0 22px;background:radial-gradient(circle at 50% 38%,#FFFFFF 0%,var(--soft) 75%);}
+.h-abrazo{position:relative;font-size:76px;line-height:1;}
+.h-corazon{position:absolute;font-size:20px;opacity:0;}
+.h-esc.on .h-corazon{animation:hFlota 2.4s ease-out infinite;}
+.h-corazon:nth-child(2){left:-18px;top:6px;animation-delay:.2s!important;}
+.h-corazon:nth-child(3){right:-16px;top:-6px;animation-delay:.9s!important;}
+.h-corazon:nth-child(4){left:28px;top:-26px;animation-delay:1.5s!important;}
+@keyframes hFlota{0%{opacity:0;transform:translateY(8px) scale(.6)}25%{opacity:1}100%{opacity:0;transform:translateY(-36px) scale(1.1)}}
+.h-casa h4{font-family:'Fraunces',serif;font-size:23px;color:var(--ink);margin-top:20px;line-height:1.2;}
+.h-casa p{font-size:12px;color:var(--deep);font-weight:700;margin-top:10px;line-height:1.55;}
+.h-casa a{margin-top:22px;background:var(--mid);color:#fff;text-decoration:none;border-radius:13px;padding:12px 18px;font-size:12.5px;font-weight:800;pointer-events:auto;}
+
+/* debajo del celular */
+.h-texto{min-height:46px;margin-top:20px;text-align:center;font-size:14px;font-weight:700;color:var(--ink);line-height:1.5;max-width:300px;transition:opacity .3s;}
+.h-puntos{display:flex;gap:8px;margin-top:10px;align-items:center;}
+.h-puntos button{width:8px;height:8px;border-radius:8px;border:none;padding:0;background:var(--line);cursor:pointer;transition:.3s;}
+.h-puntos button.on{width:24px;background:var(--mid);}
+.h-pausa{margin-left:6px;white-space:nowrap;background:none;border:none;font-size:11px;font-weight:800;color:var(--mut);cursor:pointer;font-family:'Nunito Sans',sans-serif;}
+
+@media (prefers-reduced-motion: reduce){
+  .h-esc,.h-notif,.h-link,.h-candado{transition:none!important;}
+  .h-linea,.h-corazon,.h-boton{animation:none!important;}
+}
+@media(max-width:860px){ .historia{margin:0 auto;} }
+</style>
+
+<div class="historia" id="historia" aria-label="Así funciona Kolita, en cinco pasos">
+  <div class="h-tel">
+    <div class="h-notch"></div>
+    <div class="h-pantalla">
+
+      <!-- 1 -->
+      <div class="h-esc h-cam">
+        <div class="h-cam-top">CÁMARA</div>
+        <div class="h-mira"><b></b><b></b><b></b><b></b><div class="h-linea"></div></div>
+        <div class="h-placa">
+          <div class="h-qr" id="hQr"></div>
+          <div class="h-placa-txt">kolita.co/p<br>G8TW358</div>
         </div>
-        <span class="d-badge">✓ Carnet activo</span>
+        <div class="h-link">🔗 <span>Abrir <em>kolita.co</em></span> →</div>
       </div>
-      <div class="d-row"><span>💉 Rabia</span><span class="d-ok">Al día ✓</span></div>
-      <div class="d-row"><span>💉 Parvovirus</span><span class="d-ok">Al día ✓</span></div>
-      <div class="d-btn">🐾 Avisar a su familia</div>
+
+      <!-- 2 -->
+      <div class="h-esc">
+        <div class="h-alerta">🚨 ¡Estoy perdida! Ayúdame a volver a casa</div>
+        <div class="h-carnet">
+          <div class="h-marca">kolita · carnet digital</div>
+          <div class="h-quien">
+            <div class="h-foto">🐶</div>
+            <div><div class="h-nombre">Ibiza</div><div class="h-sub">Criolla · Hembra · 2 años</div></div>
+          </div>
+          <div class="h-fila">💉 Rabia <i>Al día ✓</i></div>
+          <div class="h-fila">🐛 Desparasitación <i>Al día ✓</i></div>
+          <div class="h-fila">⚠️ Alergias <i>Ninguna</i></div>
+          <div class="h-boton">🐾 Avísale a su familia</div>
+        </div>
+      </div>
+
+      <!-- 3 -->
+      <div class="h-esc">
+        <div class="h-form">
+          <h4>🐾 Avísale a su familia</h4>
+          <p>Cuéntales quién eres y dónde la viste.</p>
+          <div class="h-campo"><small>Tu nombre</small><div data-txt="Carolina"></div></div>
+          <div class="h-campo"><small>Tu WhatsApp</small><div data-txt="300 512 4512"></div></div>
+          <div class="h-campo"><small>¿Dónde la viste?</small><div data-txt="Parque La Presidenta. Está bien, está conmigo 💚"></div></div>
+          <div class="h-enviar" id="hEnviar">Enviar aviso 💚</div>
+        </div>
+      </div>
+
+      <!-- 4 -->
+      <div class="h-esc h-bloqueo">
+        <div class="h-hora">7:42</div>
+        <div class="h-fecha">Tu celular</div>
+        <div class="h-notif">
+          <div class="h-notif-top"><span>🐾 Kolita · correo</span><span>ahora</span></div>
+          <b>🐾 Alguien encontró a Ibiza</b>
+          <p>Carolina la tiene en el Parque La Presidenta. Te dejó su WhatsApp y la ubicación.</p>
+        </div>
+        <div class="h-candado">🔒 Tu número nunca se mostró</div>
+      </div>
+
+      <!-- 5 -->
+      <div class="h-esc h-casa">
+        <div class="h-abrazo">🐶<span class="h-corazon">💚</span><span class="h-corazon">💚</span><span class="h-corazon">💚</span></div>
+        <h4>Ibiza volvió a casa</h4>
+        <p>Porque cada peludo merece<br>una forma de volver.</p>
+        <a href="registro.html">Crear su carnet gratis 🐾</a>
+      </div>
+
     </div>
+  </div>
+  <div class="h-texto" id="hTexto" aria-live="polite"></div>
+  <div class="h-puntos" id="hPuntos"></div>
+</div>
+
+<script>
+// Historia animada: cinco escenas que se pasan solas. Se puede tocar un punto
+// para ir a una escena. Se detiene cuando no está en pantalla (ahorra batería).
+(function(){
+  var raiz = document.getElementById('historia');
+  if(!raiz) return;
+  var escenas = raiz.querySelectorAll('.h-esc');
+  var textos = [
+    'Ibiza se escapó. Alguien la encuentra y escanea su placa.',
+    'Ve su carnet al instante, sin descargar nada.',
+    'Para avisar, primero dice quién es y dónde la vio.',
+    'Te llega el aviso a ti. Tu número nunca quedó expuesto.',
+    'Y vuelve a casa. 💚'
+  ];
+  var tiempos = [3800, 3600, 5600, 4200, 4600];
+  var actual = -1, reloj = null, enPantalla = true, pausado = false, escritura = [];
+
+  // QR de adorno (7×7): tres esquinas llenas y puntos sueltos en el resto
+  var qr = document.getElementById('hQr');
+  var resto = '0110100101101100101101001011010';
+  var r = 0;
+  for(var k = 0; k < 49; k++){
+    var f = Math.floor(k / 7), c = k % 7;
+    var esquina = (f < 3 && c < 3) || (f < 3 && c > 3) || (f > 3 && c < 3);
+    var on = esquina || resto[r++ % resto.length] === '1';
+    var celda = document.createElement('i');
+    if(!on) celda.className = 'v';
+    qr.appendChild(celda);
+  }
+
+  var puntos = document.getElementById('hPuntos');
+  textos.forEach(function(_, n){
+    var b = document.createElement('button');
+    b.setAttribute('aria-label', 'Paso ' + (n + 1));
+    b.onclick = function(){ ir(n); };
+    puntos.appendChild(b);
+  });
+  var bPausa = document.createElement('button');
+  bPausa.className = 'h-pausa'; bPausa.textContent = '❚❚ Pausar';
+  bPausa.onclick = function(){
+    pausado = !pausado;
+    bPausa.textContent = pausado ? '▶ Seguir' : '❚❚ Pausar';
+    if(pausado) clearTimeout(reloj); else programar();
+  };
+  puntos.appendChild(bPausa);
+
+  function limpiarEscritura(){ escritura.forEach(clearTimeout); escritura = []; }
+
+  function escribir(){
+    var campos = escenas[2].querySelectorAll('.h-campo div');
+    var enviar = document.getElementById('hEnviar');
+    campos.forEach(function(c){ c.textContent = ''; c.classList.remove('escribiendo'); });
+    enviar.classList.remove('listo'); enviar.textContent = 'Enviar aviso 💚';
+    var t = 350;
+    campos.forEach(function(c){
+      var txt = c.getAttribute('data-txt');
+      escritura.push(setTimeout(function(){ c.classList.add('escribiendo'); }, t));
+      for(var j = 1; j <= txt.length; j++){
+        (function(j){ escritura.push(setTimeout(function(){ c.textContent = txt.slice(0, j); }, t + j * 42)); })(j);
+      }
+      t += txt.length * 42 + 200;
+      escritura.push(setTimeout(function(){ c.classList.remove('escribiendo'); }, t));
+    });
+    escritura.push(setTimeout(function(){ enviar.classList.add('listo'); enviar.textContent = '✓ Aviso enviado'; }, t + 250));
+  }
+
+  function ir(n){
+    clearTimeout(reloj); limpiarEscritura();
+    escenas.forEach(function(e, j){
+      e.classList.toggle('on', j === n);
+      e.classList.toggle('fuera', j < n);
+    });
+    puntos.querySelectorAll('button:not(.h-pausa)').forEach(function(b, j){ b.classList.toggle('on', j === n); });
+    document.getElementById('hTexto').textContent = textos[n];
+    actual = n;
+    if(n === 2) escribir();
+    programar();
+  }
+
+  function programar(){
+    clearTimeout(reloj);
+    if(pausado || !enPantalla) return;
+    reloj = setTimeout(function(){ ir((actual + 1) % escenas.length); }, tiempos[actual]);
+  }
+
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(function(ent){
+      enPantalla = ent[0].isIntersecting;
+      if(enPantalla) programar(); else clearTimeout(reloj);
+    }, { threshold: .35 }).observe(raiz);
+  }
+  ir(0);
+})();
+</script>
+<!-- ═══════════ fin historia animada ═══════════ -->
+
 
   </div>
 </header>
