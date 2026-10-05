@@ -65,6 +65,20 @@ input[readonly]{background:var(--soft);color:var(--mut);}
 .switch input:checked + .slider{background:var(--alert);}
 .switch input:checked + .slider:before{transform:translateX(22px);}
 .phone-box .switch input:checked + .slider{background:var(--mid);}
+.vet-perm{background:#fff;border:1.5px solid var(--line);border-radius:15px;padding:14px 16px;margin-top:16px;}
+.vet-perm .vp-t{font-size:13px;font-weight:800;color:var(--ink);}
+.vet-perm .vp-s{font-size:11px;color:var(--mut);font-weight:600;margin-top:2px;line-height:1.45;}
+.vp-row{display:flex;align-items:center;gap:10px;background:var(--soft);border-radius:12px;padding:10px 12px;margin-top:10px;}
+.vp-row div{flex:1;min-width:0;}
+.vp-row b{display:block;font-size:13px;color:var(--deep);}
+.vp-row span{font-size:11px;color:var(--mut);font-weight:600;}
+.vp-row button{background:#fff;border:1.5px solid #EAD4C9;color:var(--alert);font-size:11.5px;font-weight:800;padding:7px 12px;border-radius:10px;cursor:pointer;font-family:'Nunito Sans',sans-serif;flex:none;}
+.vp-vacio{font-size:12px;color:var(--mut);font-weight:600;margin-top:10px;}
+.vp-add{display:flex;gap:8px;margin-top:12px;}
+.vp-add input{flex:1;min-width:0;text-transform:uppercase;letter-spacing:2px;}
+.vp-add input::placeholder{text-transform:none;letter-spacing:0;}
+.vp-add button{padding:0 16px;background:var(--soft);border:1.5px solid var(--mid);border-radius:13px;color:var(--deep);font-weight:800;font-size:13px;cursor:pointer;font-family:'Nunito Sans',sans-serif;}
+.vp-msg{font-size:11.5px;font-weight:700;color:var(--mut);margin-top:6px;min-height:15px;}
 .btn{width:100%;padding:15px;border:none;border-radius:14px;font-family:'Nunito Sans',sans-serif;font-size:14.5px;font-weight:800;cursor:pointer;margin-top:22px;background:var(--mid);color:#fff;transition:.2s;}
 .btn:hover{background:var(--deep);}
 .btn:disabled{opacity:.55;cursor:default;}
@@ -171,6 +185,18 @@ input[readonly]{background:var(--soft);color:var(--mut);}
 
     <label>Teléfono del veterinario</label>
     <input type="tel" id="vetPhone">
+
+    <!-- VETERINARIO CON PERMISO EN KOLITA -->
+    <div class="vet-perm">
+      <div class="vp-t">🩺 Veterinario con permiso en Kolita</div>
+      <div class="vp-s">Puede agregar vacunas y desparasitaciones a este carnet, y nada más. Lo que hagas aquí se aplica de una vez, sin darle Guardar.</div>
+      <div id="vetLista"></div>
+      <div class="vp-add">
+        <input type="text" id="vetCodNuevo" placeholder="Código del veterinario" maxlength="8">
+        <button type="button" id="btnAutVet" onclick="autorizarVet()">Autorizar</button>
+      </div>
+      <div class="vp-msg" id="vetMsg"></div>
+    </div>
 
     <label>Tu nombre *</label>
     <input type="text" id="ownerName" maxlength="60">
@@ -317,6 +343,65 @@ async function llenar(p){
   qs('whoEmail').textContent = '👤 ' + qs('ownerEmail').value;
   document.title = 'Editar a ' + (p.name||'peludo') + ' — Kolita';
   qs('form').style.display = 'block';
+  cargarVets();
+}
+
+// ── VETERINARIO CON PERMISO ──────────────────────
+// Quién puede ver y quitar el permiso lo decide el servidor: las funciones
+// comprueban adentro que el carnet sea de quien tiene la sesión.
+async function cargarVets(){
+  var lista = qs('vetLista');
+  lista.innerHTML = '';
+  var r = await KolitaAuth.client.rpc('mis_veterinarios', { p_pet_id: petId });
+  var vets = (r && r.data) || [];
+  if(vets.length === 0){
+    var v = document.createElement('div');
+    v.className = 'vp-vacio';
+    v.textContent = 'Ningún veterinario tiene permiso. Si el tuyo usa Kolita, pídele su código y escríbelo aquí.';
+    lista.appendChild(v);
+    return;
+  }
+  vets.forEach(function(vet){
+    var row = document.createElement('div'); row.className = 'vp-row';
+    var info = document.createElement('div');
+    var b = document.createElement('b'); b.textContent = vet.nombre;
+    var sp = document.createElement('span');
+    sp.textContent = 'Con permiso desde ' + new Date(vet.autorizado_en).toLocaleDateString('es-CO', { day:'numeric', month:'long', year:'numeric' });
+    info.appendChild(b); info.appendChild(sp);
+    var btn = document.createElement('button'); btn.type = 'button'; btn.textContent = 'Quitar permiso';
+    btn.onclick = function(){ quitarVet(vet); };
+    row.appendChild(info); row.appendChild(btn);
+    lista.appendChild(row);
+  });
+}
+
+async function quitarVet(vet){
+  if(!confirm('¿Quitarle el permiso a ' + vet.nombre + '? Dejará de ver a este peludo y no podrá registrarle nada. Puedes volver a autorizarlo cuando quieras.')) return;
+  var r = await KolitaAuth.client.rpc('quitar_veterinario', { p_pet_id: petId, p_vet_id: vet.vet_id });
+  if(r.error){ toast('❌ ' + r.error.message, true); return; }
+  toast('✅ ' + vet.nombre + ' ya no tiene permiso');
+  cargarVets();
+}
+
+async function autorizarVet(){
+  var cod = qs('vetCodNuevo').value.trim().toUpperCase();
+  var msg = qs('vetMsg');
+  if(cod.length < 6){ msg.textContent = 'Escribe el código completo del veterinario.'; return; }
+  var btn = qs('btnAutVet'); btn.disabled = true;
+  msg.textContent = 'Buscando…';
+  var b = await KolitaAuth.client.rpc('buscar_veterinario', { p_codigo: cod });
+  var vet = b && b.data && b.data[0];
+  if(!vet){ btn.disabled = false; msg.textContent = 'No encontramos un veterinario con ese código.'; return; }
+  msg.textContent = '';
+  if(!confirm('¿Autorizas a ' + vet.nombre + ' a ver los datos de salud de ' + (qs('petName').value || 'tu peludo') + ' y a agregar sus vacunas y desparasitaciones?')){ btn.disabled = false; return; }
+  var r = await KolitaAuth.client.rpc('autorizar_veterinario', { p_pet_id: petId, p_codigo: cod });
+  btn.disabled = false;
+  if(r.error){ msg.textContent = r.error.message; return; }
+  qs('vetCodNuevo').value = '';
+  if(!qs('vetName').value.trim()) qs('vetName').value = vet.nombre;
+  if(!qs('vetPhone').value.trim() && vet.telefono) qs('vetPhone').value = vet.telefono;
+  toast('✅ ' + vet.nombre + ' ya tiene permiso');
+  cargarVets();
 }
 
 // El interruptor del teléfono solo tiene efecto si está en modo perdido.
