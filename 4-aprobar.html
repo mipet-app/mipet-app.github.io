@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>Aprobar veterinario — Kolita</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Quicksand:wght@600;700&family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FBFCFA; --soft:#EDF2EA; --mid:#7C9877; --deep:#556F51; --ink:#3C4A3A; --mut:#93A28F;
+  --line:#E4EAE1; --alert:#C87B5B;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Nunito Sans',sans-serif;background:#F1F3EF;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:22px 16px;color:var(--ink);}
+.box{max-width:380px;width:100%;background:var(--bg);border:1px solid var(--line);border-radius:26px;padding:40px 28px;text-align:center;box-shadow:0 14px 40px rgba(70,85,66,.08);}
+.brand{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:24px;}
+.brand-k{width:34px;height:34px;}
+.brand-name{font-family:'Quicksand',sans-serif;font-weight:700;font-size:20px;}
+.ico{font-size:44px;}
+h1{font-family:'Fraunces',serif;font-size:21px;font-weight:700;margin-top:10px;}
+p{font-size:13.5px;color:var(--mut);font-weight:600;line-height:1.65;margin-top:8px;}
+p b{color:var(--deep);}
+.btn{display:block;width:100%;padding:15px;border:none;border-radius:14px;font-family:'Nunito Sans',sans-serif;font-size:15px;font-weight:800;cursor:pointer;margin-top:22px;background:var(--mid);color:#fff;}
+.btn:hover{background:var(--deep);}
+.btn:disabled{opacity:.55;cursor:default;}
+.hide{display:none;}
+</style>
+</head>
+<body>
+
+<div class="box">
+  <div class="brand">
+    <svg class="brand-k" viewBox="0 0 92 92"><rect x="2" y="2" width="88" height="88" rx="24" fill="#7C9877"/><path d="M32 24 L32 68" stroke="#FBFCFA" stroke-width="9" stroke-linecap="round"/><path d="M34 48 C 48 46, 58 36, 56 24" fill="none" stroke="#FBFCFA" stroke-width="9" stroke-linecap="round"/><path d="M34 48 C 48 52, 58 60, 62 70" fill="none" stroke="#DCE8D8" stroke-width="9" stroke-linecap="round"/></svg>
+    <span class="brand-name">kolita</span>
+  </div>
+
+  <div id="pregunta">
+    <div class="ico">🩺</div>
+    <h1>¿Aprobar a este veterinario?</h1>
+    <p>Al aprobarlo podrá ver los peludos de las familias que lo autoricen y registrarles vacunas y desparasitaciones. Le llega un correo avisándole.</p>
+    <button class="btn" id="btn" onclick="aprobar()">Sí, aprobarlo</button>
+  </div>
+
+  <div id="listo" class="hide">
+    <div class="ico">✅</div>
+    <h1 id="listoTitulo">Listo</h1>
+    <p>Ya le enviamos un correo para que entre a su panel.</p>
+  </div>
+
+  <div id="invalido" class="hide">
+    <div class="ico">🐾</div>
+    <h1>Este enlace ya no sirve</h1>
+    <p>O ya lo usaste para aprobarlo, o el enlace está incompleto. Cada botón de aprobar sirve <b>una sola vez</b>.</p>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════
+// KOLITA · APROBAR VETERINARIO
+// Llega desde el botón del correo que recibe appmipet@gmail.com.
+// No aprueba al abrir la página: pide un clic. Así, si un antivirus de
+// correo "visita" el enlace por su cuenta, no aprueba a nadie.
+// El enlace lleva un código secreto de un solo uso; el servidor lo comprueba.
+// ═══════════════════════════════════════════════════════════════════
+var FUNCION = 'https://fdwbstqxqdailyeedmuo.supabase.co/functions/v1/veterinarios';
+var LLAVE = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZkd2JzdHF4cWRhaWx5ZWVkbXVvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM5MDEwMDEsImV4cCI6MjA5OTQ3NzAwMX0.GG6O9z1Exu5z0DsM8Fzk-fx1h2BIII0I9flMVZiPwIw';
+
+var token = new URLSearchParams(location.search).get('t') || '';
+function ver(id){ ['pregunta','listo','invalido'].forEach(function(x){ document.getElementById(x).classList.toggle('hide', x !== id); }); }
+if(!/^[0-9a-f-]{36}$/i.test(token)) ver('invalido');
+
+async function aprobar(){
+  var b = document.getElementById('btn');
+  b.disabled = true; b.textContent = 'Aprobando…';
+  try{
+    var r = await fetch(FUNCION, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + LLAVE, 'apikey': LLAVE },
+      body: JSON.stringify({ modo: 'aprobar', token: token })
+    });
+    var d = await r.json();
+    if(d && d.aprobado){
+      document.getElementById('listoTitulo').textContent = 'Listo: ' + d.nombre + ' ya puede entrar a Kolita';
+      ver('listo');
+    }else{
+      ver('invalido');
+    }
+  }catch(e){
+    b.disabled = false; b.textContent = 'Sí, aprobarlo';
+    alert('No pudimos conectar. Revisa tu internet e intenta de nuevo.');
+  }
+}
+</script>
+</body>
+</html>
