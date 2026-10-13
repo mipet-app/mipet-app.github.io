@@ -116,6 +116,9 @@ input:focus,select:focus{border-color:var(--mid);}
 .err{background:#FDF7F3;border:1.5px solid #EAD4C9;color:#B0603F;border-radius:13px;padding:12px 14px;font-size:12.5px;font-weight:700;line-height:1.55;margin-top:14px;display:none;}
 .err.show{display:block;}
 
+.ver{display:flex;align-items:center;gap:8px;text-transform:none;letter-spacing:0;font-size:12.5px;font-weight:700;color:var(--mut);cursor:pointer;margin-top:12px;}
+.ver input{width:auto;margin:0;}
+.lnk{display:block;width:100%;background:none;border:none;color:var(--deep);font-size:12.5px;font-weight:800;margin-top:16px;cursor:pointer;font-family:'Nunito Sans',sans-serif;text-align:center;line-height:1.5;text-decoration:underline;}
 .toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--deep);color:#fff;padding:12px 22px;border-radius:14px;font-size:13px;font-weight:700;opacity:0;transition:.3s;z-index:60;max-width:90%;text-align:center;}
 .toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
 </style>
@@ -178,7 +181,8 @@ input:focus,select:focus{border-color:var(--mid);}
       <h1 style="margin-top:8px;">Tu solicitud está en revisión</h1>
       <p class="sub">Revisamos tus datos y te avisamos <b>por correo</b> apenas quede activa. Si es urgente, escríbenos a <b>appmipet@gmail.com</b>.</p>
     </div>
-    <button class="btn btn-sec" onclick="mostrarSolicitud(true)">Corregir mis datos</button>
+    <button class="btn" onclick="abrirClave()">🔑 Crear o cambiar mi contraseña</button>
+    <button class="btn btn-sec" onclick="mostrarSolicitud(true)" style="margin-top:8px;">Corregir mis datos</button>
   </div>
 
   <!-- 4. Panel -->
@@ -210,6 +214,27 @@ input:focus,select:focus{border-color:var(--mid);}
     <h2>Tus pacientes</h2>
     <input type="search" class="buscar" id="buscar" placeholder="Buscar por nombre del peludo o de la familia" oninput="pintarLista()" style="display:none;">
     <div id="lista"></div>
+
+    <h2>Tu contraseña</h2>
+    <p class="sub">Para entrar con tu correo y tu contraseña, sin esperar el código.</p>
+    <button class="btn btn-sec" onclick="abrirClave()" style="margin-top:12px;">🔑 Crear o cambiar mi contraseña</button>
+  </div>
+</div>
+
+<!-- Ventana para crear la contraseña -->
+<div class="modal" id="modalClave">
+  <div class="modal-box">
+    <h3>🔑 Tu contraseña</h3>
+    <p class="sub" id="cSub">Así entras con tu correo y tu contraseña, sin esperar el código.</p>
+    <label>Contraseña nueva *</label>
+    <input type="password" id="cClave" autocomplete="new-password" maxlength="72" placeholder="Mínimo 8 caracteres">
+    <label>Repítela *</label>
+    <input type="password" id="cClave2" autocomplete="new-password" maxlength="72" placeholder="Escríbela otra vez">
+    <label class="ver"><input type="checkbox" id="cVer" onchange="verClave(this.checked)"> Mostrar contraseña</label>
+    <p class="hint">Mínimo 8 caracteres. Mejor si mezclas letras y números. No uses tu cédula ni tu celular.</p>
+    <div class="err" id="errClave"></div>
+    <button class="btn" id="btnClave" onclick="guardarClave()">Guardar contraseña</button>
+    <button class="btn btn-sec" onclick="cerrarClave()" style="margin-top:8px;">Ahora no</button>
   </div>
 </div>
 
@@ -253,6 +278,11 @@ input:focus,select:focus{border-color:var(--mid);}
 //   · solo los peludos cuyas familias lo autorizaron,
 //   · nunca el correo ni el celular de la familia,
 //   · solo puede AGREGAR vacunas y desparasitaciones.
+//
+// INGRESO: los veterinarios entran con correo y contraseña. La cuenta nace
+// con un código al correo (así se comprueba que el correo es suyo) y luego
+// crea su contraseña. Si la olvida, entra con un código y la cambia.
+// Las familias siguen entrando solo con código (esto no las toca).
 // ═══════════════════════════════════════════════════════════════════
 var KOLITA_WEB = 'https://kolita.co';
 var SPECIES_EMOJI = { perro:'🐶', gato:'🐱', conejo:'🐰', ave:'🐦', otro:'🐾' };
@@ -281,9 +311,10 @@ async function iniciar(){
 }
 
 // Dos caminos visibles desde el primer momento: inscribirse o entrar.
-// Por dentro es el mismo ingreso con código; lo que cambia es lo que se le
-// dice a la persona, para que el veterinario nuevo sepa que aquí se inscribe.
+//   · Inscribirme: código al correo (comprueba que el correo es suyo).
+//   · Entrar: correo y contraseña. Si la olvidó o aún no tiene, código.
 var modoEntrada = 'nuevo';
+var entroConCodigo = false;   // si entró con código, le ofrecemos crear contraseña
 function mostrarLogin(modo){
   ocultarTodo();
   if(modo) modoEntrada = modo;
@@ -306,33 +337,88 @@ function mostrarLogin(modo){
 
   var cont = document.createElement('div');
   caja.appendChild(cont);
-  KolitaLogin.montar(cont, nuevo ? {
+  if(!nuevo) return montarClave(cont);
+
+  KolitaLogin.montar(cont, {
     icono: '🩺',
     titulo: 'Únete a Kolita como veterinario',
-    subtitulo: 'Paso 1 de 2: confirma tu correo. Te enviamos un código, sin contraseñas. En el paso 2 llenas tus datos.',
+    subtitulo: 'Paso 1 de 2: confirma tu correo con un código que te enviamos. En el paso 2 llenas tus datos y creas tu contraseña.',
     crearSiNoExiste: true,
     nota: 'Es gratis. Revisamos cada inscripción a mano para proteger a las familias, y te avisamos por correo cuando quede activa.',
-    alEntrar: function(){ abrir(); }
-  } : {
-    icono: '🔑',
-    titulo: 'Entra a tu panel',
-    subtitulo: 'Escribe el correo con el que te inscribiste y te enviamos un código.',
-    crearSiNoExiste: true,
-    alEntrar: function(){ abrir(); }
+    alEntrar: function(){ entroConCodigo = true; abrir(); }
   });
 
-  if(nuevo){
-    var lista = document.createElement('ul');
-    lista.className = 'beneficios';
-    ['Todos los peludos que atiendes, en una sola lista',
-     'Registras vacunas y desparasitaciones en segundos',
-     'La familia recibe el aviso por correo, sin que tú hagas nada',
-     'Cada mes, la lista de quién necesita volver a consulta'
-    ].forEach(function(t){ var li = document.createElement('li'); li.textContent = t; lista.appendChild(li); });
-    // Va justo debajo del título, antes del campo del correo.
-    var sub = cont.querySelector('.kl-sub');
-    sub.parentNode.insertBefore(lista, sub.nextSibling);
+  var lista = document.createElement('ul');
+  lista.className = 'beneficios';
+  ['Todos los peludos que atiendes, en una sola lista',
+   'Registras vacunas y desparasitaciones en segundos',
+   'La familia recibe el aviso por correo, sin que tú hagas nada',
+   'Cada mes, la lista de quién necesita volver a consulta'
+  ].forEach(function(t){ var li = document.createElement('li'); li.textContent = t; lista.appendChild(li); });
+  // Va justo debajo del título, antes del campo del correo.
+  var sub = cont.querySelector('.kl-sub');
+  sub.parentNode.insertBefore(lista, sub.nextSibling);
+}
+
+// Entrar con correo y contraseña.
+function montarClave(cont){
+  cont.innerHTML = '';
+  function el(tag, cls, txt){ var n = document.createElement(tag); if(cls) n.className = cls; if(txt != null) n.textContent = txt; return n; }
+
+  var ico = el('div', '', '🔑'); ico.style.cssText = 'font-size:38px;text-align:center;';
+  var h = el('h1', '', 'Entra a tu panel'); h.style.cssText = 'text-align:center;margin-top:8px;font-size:21px;';
+  var sub = el('p', 'sub', 'Con tu correo y tu contraseña.'); sub.style.textAlign = 'center';
+
+  var lC = el('label', '', 'Tu correo');
+  var inC = el('input'); inC.type = 'email'; inC.autocomplete = 'email'; inC.inputMode = 'email'; inC.placeholder = 'tucorreo@gmail.com';
+  var lK = el('label', '', 'Tu contraseña');
+  var inK = el('input'); inK.type = 'password'; inK.autocomplete = 'current-password'; inK.maxLength = 72; inK.placeholder = '••••••••';
+  var ver = el('label', 'ver'); var chk = el('input'); chk.type = 'checkbox';
+  chk.onchange = function(){ inK.type = chk.checked ? 'text' : 'password'; };
+  ver.appendChild(chk); ver.appendChild(document.createTextNode(' Mostrar contraseña'));
+  var btn = el('button', 'btn', 'Entrar 🐾');
+  var err = el('div', 'err');
+  var olvido = el('button', 'lnk', '¿Olvidaste tu contraseña o aún no la has creado? Entra con un código al correo →');
+
+  [ico, h, sub, lC, inC, lK, inK, ver, btn, err, olvido].forEach(function(n){ cont.appendChild(n); });
+
+  async function entrar(){
+    err.classList.remove('show');
+    function falla(m){ err.textContent = m; err.classList.add('show'); }
+    var correo = KolitaAuth.limpiarCorreo(inC.value);
+    if(!KolitaAuth.correoValido(correo)) return falla('Escribe un correo válido, por ejemplo tucorreo@gmail.com');
+    if(!inK.value) return falla('Escribe tu contraseña.');
+    btn.disabled = true; btn.textContent = 'Entrando…';
+    var r;
+    try{ r = await cli.auth.signInWithPassword({ email: correo, password: inK.value }); }
+    catch(e){ r = { error: e }; }
+    btn.disabled = false; btn.textContent = 'Entrar 🐾';
+    if(r.error){
+      var m = String(r.error.message || '').toLowerCase();
+      if(m.indexOf('invalid') !== -1) return falla('Correo o contraseña incorrectos. Si aún no has creado tu contraseña, entra con un código al correo (abajo).');
+      if(m.indexOf('rate') !== -1 || m.indexOf('too many') !== -1) return falla('Hiciste varios intentos muy seguido. Espera un minuto e intenta de nuevo.');
+      return falla(KolitaAuth.mensajeDeError(r.error));
+    }
+    entroConCodigo = false;
+    abrir();
   }
+  btn.onclick = entrar;
+  inK.onkeydown = function(e){ if(e.key === 'Enter') entrar(); };
+  inC.onkeydown = function(e){ if(e.key === 'Enter') inK.focus(); };
+
+  olvido.onclick = function(){
+    KolitaLogin.montar(cont, {
+      icono: '📬',
+      titulo: 'Entra con un código',
+      subtitulo: 'Te enviamos un código al correo. Al entrar, creas o cambias tu contraseña.',
+      crearSiNoExiste: false,
+      alEntrar: function(){ entroConCodigo = true; abrir(); }
+    });
+    var volver = el('button', 'lnk', '← Entrar con contraseña');
+    volver.onclick = function(){ montarClave(cont); };
+    cont.appendChild(volver);
+  };
+  setTimeout(function(){ inC.focus(); }, 60);
 }
 
 async function abrir(){
@@ -350,8 +436,10 @@ async function abrir(){
   if(!perfil.aprobado){
     rellenarSolicitud(perfil);
     qs('pendiente').style.display = 'block';
+    ofrecerClave();
     return;
   }
+  ofrecerClave();
   abrirPanel(perfil);
 }
 
@@ -614,6 +702,50 @@ async function guardar(){
   cerrarModal();
   aviso('✅ Guardado. A la familia de ' + nombrePeludo + ' le llega el aviso.');
   cargarPacientes();
+}
+
+// ── Contraseña ───────────────────────────────────────────────────
+// Si entró con código (inscripción nueva u "olvidé mi contraseña"), le
+// ofrecemos crearla de una vez. Puede decir "Ahora no".
+function ofrecerClave(){
+  if(!entroConCodigo) return;
+  entroConCodigo = false;
+  abrirClave('Crea tu contraseña y la próxima vez entras con tu correo y tu contraseña, sin esperar el código.');
+}
+function abrirClave(texto){
+  qs('cSub').textContent = typeof texto === 'string' ? texto : 'Así entras con tu correo y tu contraseña, sin esperar el código.';
+  qs('cClave').value = ''; qs('cClave2').value = '';
+  qs('cVer').checked = false; verClave(false);
+  qs('errClave').classList.remove('show');
+  qs('modalClave').classList.add('show');
+  setTimeout(function(){ qs('cClave').focus(); }, 60);
+}
+function cerrarClave(){ qs('modalClave').classList.remove('show'); }
+qs('modalClave').addEventListener('click', function(e){ if(e.target === this) cerrarClave(); });
+function verClave(si){ qs('cClave').type = qs('cClave2').type = si ? 'text' : 'password'; }
+
+async function guardarClave(){
+  var err = qs('errClave'); err.classList.remove('show');
+  function falla(m){ err.textContent = m; err.classList.add('show'); }
+  var c1 = qs('cClave').value, c2 = qs('cClave2').value;
+  if(c1.length < 8) return falla('Usa mínimo 8 caracteres.');
+  if(c1 !== c2) return falla('Las dos contraseñas no coinciden. Escríbelas otra vez.');
+  var b = qs('btnClave'); b.disabled = true; b.textContent = 'Guardando…';
+  var r;
+  try{ r = await cli.auth.updateUser({ password: c1 }); }
+  catch(e){ r = { error: e }; }
+  b.disabled = false; b.textContent = 'Guardar contraseña';
+  if(r.error){
+    var m = String(r.error.message || '').toLowerCase();
+    if(m.indexOf('different') !== -1) return falla('Esa ya es tu contraseña actual.');
+    if(m.indexOf('reauth') !== -1 || m.indexOf('recent') !== -1) return falla('Por seguridad, sal y vuelve a entrar con un código al correo. Luego cambias tu contraseña.');
+    if(m.indexOf('weak') !== -1 || m.indexOf('characters') !== -1 || m.indexOf('least') !== -1) return falla('Esa contraseña es muy débil. Usa mínimo 8 caracteres, con letras y números.');
+    if(m.indexOf('session') !== -1 || m.indexOf('jwt') !== -1) return falla('Se cerró tu sesión. Sal y vuelve a entrar.');
+    return falla('No pudimos guardarla. Intenta de nuevo.');
+  }
+  if(typeof gtag === 'function') gtag('event', 'vet_crear_clave');
+  cerrarClave();
+  aviso('✅ Listo. La próxima vez entra con tu correo y tu contraseña.');
 }
 
 // ── Utilidades ───────────────────────────────────────────────────
