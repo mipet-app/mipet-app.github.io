@@ -43,7 +43,7 @@ h1{font-family:'Fraunces',serif;font-size:22px;font-weight:700;}
 .step-line{flex:1;height:2px;background:var(--line);margin:0 6px;transition:.25s;}
 .step-line.done{background:var(--mid);}
 .step-labels{display:flex;justify-content:space-between;margin-bottom:18px;margin-top:6px;}
-.step-label{font-size:9.5px;font-weight:800;color:var(--mut);text-transform:uppercase;letter-spacing:.5px;width:33%;}
+.step-label{font-size:10.5px;font-weight:800;color:var(--mut);text-transform:uppercase;letter-spacing:.5px;width:33%;}
 .step-label:nth-child(2){text-align:center;}
 .step-label:nth-child(3){text-align:right;}
 .step-label.active{color:var(--deep);}
@@ -52,10 +52,36 @@ h1{font-family:'Fraunces',serif;font-size:22px;font-weight:700;}
 .page.active{display:block;animation:fade .35s ease;}
 @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
-label{display:block;font-size:11px;font-weight:800;color:var(--deep);text-transform:uppercase;letter-spacing:.8px;margin:16px 0 6px;}
-input,select,textarea{width:100%;padding:13px 14px;border:1.5px solid var(--line);border-radius:13px;background:#fff;font-family:'Nunito Sans',sans-serif;font-size:14px;color:var(--ink);outline:none;transition:.2s;}
+label{display:block;font-size:13.5px;font-weight:800;color:var(--deep);margin:18px 0 7px;}
+label .opc{font-weight:600;color:var(--mut);font-size:12px;}
+/* 16px: con menos, el iPhone hace zoom al tocar el campo y la página "salta" */
+input,select,textarea{width:100%;padding:13px 14px;border:1.5px solid var(--line);border-radius:13px;background:#fff;font-family:'Nunito Sans',sans-serif;font-size:16px;color:var(--ink);outline:none;transition:.2s;}
 input:focus,select:focus,textarea:focus{border-color:var(--mid);}
-::placeholder{color:#C3CCC0;}
+input.bad,select.bad,.sex-row.bad .sex-btn{border-color:var(--alert);background:#FDF7F3;}
+::placeholder{color:#B9C3B5;}
+.hint{font-size:12px;color:var(--mut);font-weight:600;line-height:1.5;margin-top:6px;}
+
+/* paso 2: secciones */
+.opt-note{background:var(--soft);border-radius:13px;padding:11px 13px;font-size:12.5px;font-weight:700;color:var(--deep);line-height:1.5;}
+.sec{border-top:1px solid var(--line);margin-top:22px;padding-top:4px;}
+.sec:first-of-type{border-top:none;margin-top:14px;}
+.sec-t{font-family:'Fraunces',serif;font-size:17px;font-weight:700;margin-top:14px;display:flex;align-items:center;gap:8px;}
+.chips{display:flex;flex-wrap:wrap;gap:8px;}
+.chip{padding:10px 14px;border:1.5px solid var(--line);border-radius:99px;background:#fff;font-family:'Nunito Sans',sans-serif;font-size:14px;font-weight:700;color:var(--ink);cursor:pointer;transition:.15s;}
+.chip.on{background:var(--mid);border-color:var(--mid);color:#fff;}
+.auto{display:none;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;background:var(--soft);border-radius:12px;padding:10px 12px;margin-top:8px;font-size:13px;font-weight:700;color:var(--deep);}
+.auto.show{display:flex;}
+.auto button{background:none;border:none;color:var(--deep);font-weight:800;font-size:12.5px;text-decoration:underline;cursor:pointer;font-family:inherit;}
+.auto-edit{display:none;margin-top:8px;}
+.auto-edit.show{display:block;}
+.check-line{display:flex;align-items:center;gap:9px;margin-top:9px;font-size:13px;font-weight:700;color:var(--ink);cursor:pointer;}
+.check-line input{width:19px;height:19px;flex:none;accent-color:var(--mid);}
+details.vet-det{margin-top:14px;border:1.5px solid var(--line);border-radius:15px;background:#fff;padding:0 15px;}
+details.vet-det summary{list-style:none;cursor:pointer;padding:14px 0;font-size:14px;font-weight:800;color:var(--deep);display:flex;justify-content:space-between;gap:10px;}
+details.vet-det summary::-webkit-details-marker{display:none;}
+details.vet-det summary::after{content:'＋';color:var(--mid);}
+details.vet-det[open] summary::after{content:'－';}
+details.vet-det .inner{padding-bottom:16px;}
 
 .sex-row{display:flex;gap:8px;}
 .sex-btn{flex:1;padding:12px;border:1.5px solid var(--line);border-radius:13px;background:#fff;font-family:'Nunito Sans',sans-serif;font-size:13px;font-weight:700;color:var(--mut);cursor:pointer;transition:.2s;}
@@ -117,6 +143,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--mid);}
 .placa-of .btn-ver:hover{background:var(--mid);color:#fff;}
 
 .vet-box{display:none;background:var(--soft);border:1.5px solid var(--mid);border-radius:15px;padding:14px 15px;margin-top:16px;}
+.vet-box label.vb-ok span{font-size:13px;}
 .vet-box.show{display:block;}
 .vet-box .vb-t{font-size:13px;font-weight:800;color:var(--deep);}
 .vet-box label.vb-ok{display:flex;align-items:flex-start;gap:10px;margin:10px 0 0;text-transform:none;letter-spacing:0;font-size:12px;font-weight:600;color:var(--ink);cursor:pointer;line-height:1.5;}
@@ -131,7 +158,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--mid);}
 .vet-ask-box p{font-size:13px;color:var(--mut);line-height:1.6;margin-top:8px;font-weight:600;}
 .vet-ask-box .btn{display:block;width:100%;margin-top:12px;flex:none;}
 .vet-cod-msg{font-size:11px;font-weight:700;color:var(--mut);margin-top:5px;min-height:15px;}
-.toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--deep);color:#fff;padding:12px 22px;border-radius:14px;font-size:13px;font-weight:700;opacity:0;transition:.3s;z-index:60;white-space:nowrap;}
+.toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--deep);color:#fff;padding:12px 22px;border-radius:14px;font-size:13px;font-weight:700;opacity:0;transition:.3s;z-index:60;width:max-content;max-width:calc(100% - 32px);text-align:center;line-height:1.45;}
 .toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
 .toast.error{background:var(--alert);}
 </style>
@@ -158,7 +185,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--mid);}
     </div>
     <div class="step-labels">
       <span class="step-label active" id="lbl1">Tu peludo</span>
-      <span class="step-label" id="lbl2">Salud</span>
+      <span class="step-label" id="lbl2">Salud y cuidados</span>
       <span class="step-label" id="lbl3">Tu contacto</span>
     </div>
 
@@ -171,11 +198,11 @@ input:focus,select:focus,textarea:focus{border-color:var(--mid);}
         <input type="file" id="photoInput" accept="image/*" style="display:none;" onchange="previewPhoto(this)">
       </div>
 
-      <label>Nombre *</label>
+      <label for="petName">Nombre *</label>
       <input type="text" id="petName" placeholder="Ej: Ibiza" maxlength="40">
 
-      <label>Especie *</label>
-      <select id="petSpecies">
+      <label for="petSpecies">Especie *</label>
+      <select id="petSpecies" onchange="pintarChipsVacunas()">
         <option value="">Selecciona…</option>
         <option value="perro">🐶 Perro</option>
         <option value="gato">🐱 Gato</option>
@@ -184,20 +211,34 @@ input:focus,select:focus,textarea:focus{border-color:var(--mid);}
         <option value="otro">🐾 Otro</option>
       </select>
 
-      <label>Raza</label>
-      <input type="text" id="petBreed" placeholder="Ej: Criolla" maxlength="40">
-
       <label>Sexo *</label>
-      <div class="sex-row">
+      <div class="sex-row" id="sexRow">
         <button type="button" class="sex-btn" onclick="setSex('macho', this)">♂ Macho</button>
         <button type="button" class="sex-btn" onclick="setSex('hembra', this)">♀ Hembra</button>
       </div>
 
-      <label>Fecha de nacimiento (aprox.)</label>
-      <input type="date" id="petBirth">
+      <label for="petBreed">Raza <span class="opc">(opcional)</span></label>
+      <input type="text" id="petBreed" placeholder="Ej: Criolla" maxlength="40">
 
-      <label>Peso (kg)</label>
-      <input type="number" id="petWeight" placeholder="Ej: 21" step="0.1" min="0">
+      <label for="petBirth">Fecha de nacimiento <span class="opc">(opcional)</span></label>
+      <input type="date" id="petBirth" onchange="recalcularTodo()">
+      <label class="check-line"><input type="checkbox" id="birthUnknown" onchange="toggleBirth()"> No sé la fecha exacta</label>
+      <div id="ageBox" style="display:none;">
+        <label for="petAgeApprox">Edad aproximada</label>
+        <select id="petAgeApprox" onchange="recalcularTodo()">
+          <option value="">Selecciona…</option>
+          <option value="0">Menos de 6 meses</option>
+          <option value="0.7">Entre 6 meses y 1 año</option>
+          <option value="1">1 año</option><option value="2">2 años</option><option value="3">3 años</option>
+          <option value="4">4 años</option><option value="5">5 años</option><option value="6">6 años</option>
+          <option value="7">7 años</option><option value="8">8 años</option><option value="9">9 años</option>
+          <option value="10">10 años</option><option value="12">Más de 10 años</option>
+        </select>
+      </div>
+      <p class="hint">Con su fecha le enviamos un saludo el día de su cumpleaños 🎂</p>
+
+      <label for="petWeight">Peso en kg <span class="opc">(opcional)</span></label>
+      <input type="number" id="petWeight" placeholder="Ej: 21" step="0.1" min="0" inputmode="decimal">
 
       <div class="nav">
         <button class="btn btn-next" onclick="goStep(2)">Siguiente →</button>
@@ -206,44 +247,78 @@ input:focus,select:focus,textarea:focus{border-color:var(--mid);}
 
     <!-- PASO 2 -->
     <div class="page" id="page2">
-      <label>Vacunas al día</label>
-      <div id="vacList"></div>
-      <div class="vac-add-row">
-        <input type="text" id="vacInput" placeholder="Ej: Rabia" maxlength="40" onkeydown="if(event.key==='Enter'){event.preventDefault();addVaccine();}">
-        <button type="button" class="vac-add-btn" onclick="addVaccine()">+ Agregar</button>
+      <div class="opt-note">Todo en este paso es opcional. Si no sabes algo, déjalo en blanco y sigue: lo puedes completar después.</div>
+
+      <!-- VACUNAS -->
+      <div class="sec">
+        <div class="sec-t">💉 Vacunas</div>
+        <label>¿Qué vacunas tiene? <span class="opc">(toca las que apliquen)</span></label>
+        <div class="chips" id="vacChips"></div>
+        <div id="vacList" style="margin-top:8px;"></div>
+        <div class="vac-add-row">
+          <input type="text" id="vacInput" placeholder="¿Otra? Escríbela aquí" maxlength="40" onkeydown="if(event.key==='Enter'){event.preventDefault();addVaccine();}">
+          <button type="button" class="vac-add-btn" onclick="addVaccine()">+ Agregar</button>
+        </div>
+
+        <label for="lastVaccine">¿Cuándo fue su última vacuna?</label>
+        <input type="date" id="lastVaccine" onchange="recalcular('vac')">
+        <div class="auto" id="vacAuto"><span id="vacAutoTxt"></span><button type="button" onclick="editarFecha('vac')">Cambiar</button></div>
+        <div class="auto-edit" id="vacEdit">
+          <label for="nextVaccine">Próxima vacuna</label>
+          <input type="date" id="nextVaccine" oninput="manual.vac=true">
+        </div>
       </div>
 
-      <label>Última desparasitación</label>
-      <input type="date" id="lastDeworming">
+      <!-- DESPARASITACIÓN -->
+      <div class="sec">
+        <div class="sec-t">🪱 Desparasitación</div>
+        <label for="lastDeworming">¿Cuándo lo desparasitaste por última vez?</label>
+        <input type="date" id="lastDeworming" onchange="recalcular('desp')">
+        <div class="auto" id="despAuto"><span id="despAutoTxt"></span><button type="button" onclick="editarFecha('desp')">Cambiar</button></div>
+        <div class="auto-edit" id="despEdit">
+          <label for="nextDeworming">Próxima desparasitación</label>
+          <input type="date" id="nextDeworming" oninput="manual.desp=true">
+        </div>
+      </div>
 
-      <label>Próxima vacuna (fecha aproximada)</label>
-      <input type="date" id="nextVaccine">
+      <!-- BAÑO -->
+      <div class="sec">
+        <div class="sec-t">🛁 Baño</div>
+        <label>¿Cada cuánto lo bañas?</label>
+        <div class="chips" id="bathChips">
+          <button type="button" class="chip" data-d="15" onclick="setBath(15,this)">Cada 15 días</button>
+          <button type="button" class="chip" data-d="30" onclick="setBath(30,this)">Cada mes</button>
+          <button type="button" class="chip" data-d="60" onclick="setBath(60,this)">Cada 2 meses</button>
+          <button type="button" class="chip" data-d="0" onclick="setBath(0,this)">No me lo recuerdes</button>
+        </div>
+        <div id="bathLastBox" style="display:none;">
+          <label for="lastBath">¿Cuándo fue su último baño?</label>
+          <input type="date" id="lastBath" onchange="recalcular('bano')">
+          <div class="auto" id="banoAuto"><span id="banoAutoTxt"></span></div>
+        </div>
+      </div>
 
-      <label>Próxima desparasitación (fecha aproximada)</label>
-      <input type="date" id="nextDeworming">
+      <!-- CITA VETERINARIA -->
+      <div class="sec">
+        <div class="sec-t">🩺 Veterinario</div>
+        <label for="nextVetVisit">¿Tiene una cita pendiente? <span class="opc">(si ya la tienes)</span></label>
+        <input type="date" id="nextVetVisit">
+        <p class="hint">Te la recordamos un día antes.</p>
 
-      <label>Alergias (separadas por coma)</label>
-      <textarea id="petAllergies" rows="2" placeholder="Ej: Pollo, penicilina"></textarea>
+        <!-- Veterinario: código; si no lo sabe, lo buscamos por su celular -->
+        <details class="vet-det" id="vetDet">
+          <summary>¿Quieres agregar a tu veterinario?</summary>
+          <div class="inner">
+            <label for="vetName">Nombre de la veterinaria o del doctor</label>
+            <input type="text" id="vetName" placeholder="Ej: Clínica Veterinaria Laureles">
 
-      <!-- Veterinario: código arriba; si no lo sabe, lo buscamos por su celular -->
-      <div class="vet-sec">
-        <div class="vet-sec-t">🩺 Tu veterinario</div>
-        <label>¿Tu veterinario está en Kolita? Escribe su código</label>
-        <input type="text" id="vetCodigo" placeholder="Ej: V7K2MP" maxlength="8" style="text-transform:uppercase;letter-spacing:2px;" oninput="vetCodigoEscrito()">
-        <div class="vet-cod-msg" id="vetCodMsg">¿No lo sabes? Escribe su celular abajo y lo buscamos.</div>
+            <label for="vetPhone">Celular del veterinario</label>
+            <input type="tel" id="vetPhone" placeholder="Ej: 3001234567" inputmode="tel" oninput="vetTelEscrito()">
+            <div class="vet-cod-msg" id="vetTelMsg"></div>
 
-        <label>Nombre del veterinario o la veterinaria</label>
-        <input type="text" id="vetName" placeholder="Nombre de la veterinaria o del doctor">
-        <label>¿Doctor o doctora?</label>
-        <select id="vetSex">
-          <option value="">No especificar 🩺</option>
-          <option value="f">Doctora 👩‍⚕️</option>
-          <option value="m">Doctor 👨‍⚕️</option>
-        </select>
-
-        <label>Celular del veterinario</label>
-        <input type="tel" id="vetPhone" placeholder="Ej: 3001234567" oninput="vetTelEscrito()">
-        <div class="vet-cod-msg" id="vetTelMsg"></div>
+            <label for="vetCodigo">Código Kolita del veterinario <span class="opc">(si te lo dio)</span></label>
+            <input type="text" id="vetCodigo" placeholder="Ej: V7K2MP" maxlength="8" style="text-transform:uppercase;letter-spacing:2px;" oninput="vetCodigoEscrito()">
+            <div class="vet-cod-msg" id="vetCodMsg">Si tu veterinario está en Kolita, podrá registrarle vacunas por ti.</div>
 
         <!-- Aparece cuando encontramos al veterinario (por enlace, código o celular) -->
         <div class="vet-box" id="vetBox">
@@ -253,6 +328,16 @@ input:focus,select:focus,textarea:focus{border-color:var(--mid);}
             <span>Autorizo a <b id="vetBoxNombre2">mi veterinario</b> a ver los datos de salud de mi peludo y a agregar sus vacunas y desparasitaciones. Puedo quitarle el permiso cuando quiera.</span>
           </label>
         </div>
+          </div>
+        </details>
+      </div>
+
+      <!-- ALERGIAS -->
+      <div class="sec">
+        <div class="sec-t">⚠️ Alergias</div>
+        <label for="petAllergies">¿Es alérgico a algo? <span class="opc">(separa con comas)</span></label>
+        <textarea id="petAllergies" rows="2" placeholder="Ej: Pollo, penicilina"></textarea>
+        <p class="hint">Se muestra en el carnet por si alguien lo encuentra y lo alimenta.</p>
       </div>
 
       <div class="nav">
@@ -263,19 +348,19 @@ input:focus,select:focus,textarea:focus{border-color:var(--mid);}
 
     <!-- PASO 3 -->
     <div class="page" id="page3">
-      <label>Tu nombre *</label>
-      <input type="text" id="ownerName" placeholder="Ej: Lina" maxlength="60">
+      <label for="ownerName">Tu nombre *</label>
+      <input type="text" id="ownerName" placeholder="Ej: Lina" maxlength="60" autocomplete="name">
 
-      <label>Tu celular (WhatsApp) *</label>
-      <input type="tel" id="ownerPhone" placeholder="Ej: 3001234567">
-      <p class="sub" style="margin-top:6px;">Tu número no se muestra en el carnet. Sirve para que puedas recuperar tus carnets y como respaldo de contacto.</p>
+      <label for="ownerEmail">Tu correo *</label>
+      <input type="email" id="ownerEmail" placeholder="Ej: tucorreo@gmail.com" inputmode="email" autocomplete="email">
+      <p class="hint">Aquí te llegan los recordatorios y el aviso cada vez que alguien escanea su QR 🔒</p>
 
-      <label>Ciudad</label>
+      <label for="ownerPhone">Tu celular (WhatsApp) *</label>
+      <input type="tel" id="ownerPhone" placeholder="Ej: 3001234567" inputmode="tel" autocomplete="tel">
+      <p class="hint">No se muestra en el carnet. Es tu respaldo para recuperar tus carnets.</p>
+
+      <label for="ownerCity">Ciudad <span class="opc">(opcional)</span></label>
       <input type="text" id="ownerCity" placeholder="Ej: Medellín">
-
-      <label>Tu correo *</label>
-      <input type="email" id="ownerEmail" placeholder="Ej: tucorreo@gmail.com">
-      <p class="sub" style="margin-top:6px;">Aquí te llegan los recordatorios de vacunas y los avisos si alguien encuentra a tu peludo 🔒</p>
 
       <label style="display:flex;align-items:flex-start;gap:10px;margin-top:20px;text-transform:none;letter-spacing:0;font-size:12px;font-weight:600;color:var(--ink);cursor:pointer;">
         <input type="checkbox" id="acceptData" style="width:18px;height:18px;margin-top:1px;flex:none;">
@@ -411,7 +496,7 @@ function vetCodigoEscrito(){
   clearTimeout(vetTemporizador);
   var cod = v('vetCodigo').toUpperCase();
   var msg = document.getElementById('vetCodMsg');
-  if (cod.length < 6) { msg.textContent = cod ? '' : '¿No lo sabes? Escribe su celular abajo y lo buscamos.'; if (!cod) mostrarVet(null); return; }
+  if (cod.length < 6) { msg.textContent = cod ? '' : 'Si tu veterinario está en Kolita, podrá registrarle vacunas por ti.'; if (!cod) mostrarVet(null); return; }
   msg.textContent = 'Buscando…';
   vetTemporizador = setTimeout(async function(){
     var vet = await buscarVet(cod);
@@ -458,6 +543,7 @@ function vetRespuesta(si){
   if (!cod) return;
   var vet = await buscarVet(cod);
   if (vet) {
+    document.getElementById('vetDet').open = true;
     document.getElementById('vetCodigo').value = vet.codigo;
     document.getElementById('vetCodMsg').textContent = '✓ Llegaste por el enlace de tu veterinario';
     mostrarVet(vet);
@@ -499,11 +585,29 @@ function goStep(step) {
   window.scrollTo({top:0, behavior:'smooth'});
 }
 
+// Marca en rojo el campo que falta, lo enfoca y explica qué hacer.
+function falta(id, mensaje) {
+  var el = document.getElementById(id);
+  if (el) {
+    el.classList.add('bad');
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    if (el.focus && el.tagName !== 'DIV') setTimeout(function(){ el.focus(); }, 300);
+    var quitar = function(){ el.classList.remove('bad'); };
+    el.addEventListener('input', quitar, { once: true });
+    el.addEventListener('change', quitar, { once: true });
+    el.addEventListener('click', quitar, { once: true });
+  }
+  toast('⚠️ ' + mensaje, true);
+  return false;
+}
+
 function validateStep(step) {
   if (step === 1) {
-    if (!v('petName')) { toast('⚠️ Escribe el nombre de tu peludo', true); return false; }
-    if (!document.getElementById('petSpecies').value) { toast('⚠️ Selecciona la especie', true); return false; }
-    if (!selectedSex) { toast('⚠️ Selecciona el sexo', true); return false; }
+    if (!v('petName')) return falta('petName', 'Escribe el nombre de tu peludo');
+    if (!document.getElementById('petSpecies').value) return falta('petSpecies', 'Elige si es perro, gato u otro');
+    if (!selectedSex) return falta('sexRow', 'Elige si es macho o hembra');
+    var nac = v('petBirth');
+    if (nac && nac > hoyISO()) return falta('petBirth', 'La fecha de nacimiento no puede ser en el futuro');
   }
   if (step === 2) {
     if (vetEncontrado && !document.getElementById('vetAutoriza').checked && !vetNoAutorizar) {
@@ -515,10 +619,10 @@ function validateStep(step) {
     }
   }
   if (step === 3) {
-    if (!v('ownerName')) { toast('⚠️ Escribe tu nombre', true); return false; }
-    if (soloDigitos(v('ownerPhone')).length < 10) { toast('⚠️ Escribe tu celular completo (10 dígitos)', true); return false; }
-    if (!v('ownerEmail') || v('ownerEmail').indexOf('@') === -1) { toast('⚠️ Escribe un correo válido', true); return false; }
-    if (!document.getElementById('acceptData').checked) { toast('⚠️ Debes autorizar el tratamiento de datos', true); return false; }
+    if (!v('ownerName')) return falta('ownerName', 'Escribe tu nombre');
+    if (!KolitaAuth.correoValido(v('ownerEmail'))) return falta('ownerEmail', 'Revisa tu correo, por ejemplo tucorreo@gmail.com');
+    if (soloDigitos(v('ownerPhone')).length !== 10) return falta('ownerPhone', 'Escribe tu celular de 10 dígitos, sin espacios');
+    if (!document.getElementById('acceptData').checked) return falta('acceptData', 'Marca la casilla de autorización de datos para continuar');
   }
   return true;
 }
@@ -556,21 +660,152 @@ function previewPhoto(input) {
   reader.readAsDataURL(photoFile);
 }
 
+// ── FECHAS (todas como texto AAAA-MM-DD, en hora local) ──
+function hoyISO() {
+  var d = new Date();
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+}
+function aFecha(iso) { var p = iso.split('-'); return new Date(+p[0], +p[1]-1, +p[2]); }
+function aISO(d) { return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); }
+function sumarDias(iso, n) { var d = aFecha(iso); d.setDate(d.getDate() + n); return aISO(d); }
+function sumarMeses(iso, n) {
+  var d = aFecha(iso), dia = d.getDate();
+  d.setDate(1); d.setMonth(d.getMonth() + n);
+  var ultimo = new Date(d.getFullYear(), d.getMonth()+1, 0).getDate();
+  d.setDate(Math.min(dia, ultimo));
+  return aISO(d);
+}
+function bonita(iso) {
+  return aFecha(iso).toLocaleDateString('es-CO', { day: 'numeric', month: 'long', year: 'numeric' });
+}
+
+// Edad en meses en una fecha dada (null si no la sabemos)
+function edadMesesEn(isoRef) {
+  var nac = v('petBirth');
+  if (nac) {
+    var a = aFecha(nac), b = aFecha(isoRef || hoyISO());
+    return (b.getFullYear()-a.getFullYear())*12 + (b.getMonth()-a.getMonth()) - (b.getDate() < a.getDate() ? 1 : 0);
+  }
+  var aprox = document.getElementById('petAgeApprox').value;
+  if (aprox !== '') return Math.round(parseFloat(aprox) * 12);
+  return null;
+}
+
+// ── PRÓXIMAS FECHAS AUTOMÁTICAS ──────────────────
+// Criterio de Mario (auxiliar veterinario, sept. 2026):
+//  · Cachorros: refuerzos cada 3 semanas hasta los 4 meses; después, anual.
+//  · Desparasitar cada 20 días hasta los 6 meses; después, cada 3 meses.
+var manual = { vac: false, desp: false };   // la familia cambió la fecha a mano
+var bathDays = null;                          // null = no eligió; 0 = no recordar
+
+function recalcular(tipo) {
+  if (tipo === 'vac') {
+    var ult = v('lastVaccine'), caja = document.getElementById('vacAuto');
+    if (!ult) { caja.classList.remove('show'); if (!manual.vac) document.getElementById('nextVaccine').value = ''; return; }
+    var m = edadMesesEn(ult);
+    var prox = (m !== null && m < 4) ? sumarDias(ult, 21) : sumarMeses(ult, 12);
+    if (!manual.vac) document.getElementById('nextVaccine').value = prox;
+    pintarAuto('vac', document.getElementById('nextVaccine').value, 'la próxima vacuna');
+  }
+  if (tipo === 'desp') {
+    var ud = v('lastDeworming'), cd = document.getElementById('despAuto');
+    if (!ud) { cd.classList.remove('show'); if (!manual.desp) document.getElementById('nextDeworming').value = ''; return; }
+    var md = edadMesesEn(ud);
+    var pd = (md !== null && md < 6) ? sumarDias(ud, 20) : sumarMeses(ud, 3);
+    if (!manual.desp) document.getElementById('nextDeworming').value = pd;
+    pintarAuto('desp', document.getElementById('nextDeworming').value, 'la próxima desparasitación');
+  }
+  if (tipo === 'bano') {
+    var cb = document.getElementById('banoAuto');
+    if (!bathDays) { cb.classList.remove('show'); return; }
+    var pb = proximoBano();
+    document.getElementById('banoAutoTxt').textContent = '🔔 Te recordaremos el próximo baño el ' + bonita(pb);
+    cb.classList.add('show');
+  }
+}
+
+function pintarAuto(tipo, iso, que) {
+  var caja = document.getElementById(tipo + 'Auto');
+  var txt = document.getElementById(tipo + 'AutoTxt');
+  if (!iso) { caja.classList.remove('show'); return; }
+  txt.textContent = iso < hoyISO()
+    ? '⏰ Según esa fecha, ' + que + ' ya está vencida (' + bonita(iso) + '). Te la recordaremos.'
+    : '🔔 Te recordaremos ' + que + ' el ' + bonita(iso);
+  caja.classList.add('show');
+}
+
+function editarFecha(tipo) {
+  document.getElementById(tipo + 'Edit').classList.add('show');
+  document.getElementById(tipo === 'vac' ? 'nextVaccine' : 'nextDeworming').focus();
+}
+
+function recalcularTodo() { recalcular('vac'); recalcular('desp'); recalcular('bano'); }
+
+function toggleBirth() {
+  var no = document.getElementById('birthUnknown').checked;
+  document.getElementById('ageBox').style.display = no ? 'block' : 'none';
+  document.getElementById('petBirth').disabled = no;
+  if (no) document.getElementById('petBirth').value = '';
+  else document.getElementById('petAgeApprox').value = '';
+  recalcularTodo();
+}
+
+// ── BAÑO ─────────────────────────────────────────
+function setBath(dias, btn) {
+  bathDays = dias;
+  document.querySelectorAll('#bathChips .chip').forEach(function(b){ b.classList.toggle('on', b === btn); });
+  document.getElementById('bathLastBox').style.display = dias ? 'block' : 'none';
+  recalcular('bano');
+}
+// Siguiente baño a partir del último (o de hoy), nunca en el pasado.
+function proximoBano() {
+  var base = v('lastBath') || hoyISO();
+  var p = sumarDias(base, bathDays);
+  while (p < hoyISO()) p = sumarDias(p, bathDays);
+  return p;
+}
+
 // ── VACUNAS ──────────────────────────────────────
+var VACUNAS_COMUNES = {
+  perro: ['Rabia', 'Pentavalente (polivalente)', 'Tos de las perreras'],
+  gato:  ['Rabia', 'Triple felina', 'Leucemia felina']
+};
+function chipsActuales() {
+  return VACUNAS_COMUNES[document.getElementById('petSpecies').value] || ['Rabia'];
+}
+function pintarChipsVacunas() {
+  var cont = document.getElementById('vacChips');
+  cont.innerHTML = '';
+  chipsActuales().forEach(function(nombre) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'chip' + (vaccines.indexOf(nombre) !== -1 ? ' on' : '');
+    b.textContent = nombre;
+    b.onclick = function() {
+      var i = vaccines.indexOf(nombre);
+      if (i === -1) vaccines.push(nombre); else vaccines.splice(i, 1);
+      renderVaccines();
+    };
+    cont.appendChild(b);
+  });
+}
 function addVaccine() {
   var input = document.getElementById('vacInput');
   var name = input.value.trim();
   if (!name) { toast('⚠️ Escribe el nombre de la vacuna', true); return; }
-  vaccines.push(name);
+  if (vaccines.indexOf(name) === -1) vaccines.push(name);
   input.value = '';
   input.focus();
   renderVaccines();
 }
 function removeVaccine(idx) { vaccines.splice(idx, 1); renderVaccines(); }
 function renderVaccines() {
+  pintarChipsVacunas();
+  var comunes = chipsActuales();
   var list = document.getElementById('vacList');
   list.innerHTML = '';
   vaccines.forEach(function(vac, i) {
+    if (comunes.indexOf(vac) !== -1) return;   // ya se ve como botón marcado
     var d = document.createElement('div');
     d.className = 'vac-item';
     var span = document.createElement('span');
@@ -664,9 +899,11 @@ async function guardarCarnet() {
 
     var birthDate = document.getElementById('petBirth').value;
     var age = null;
-    if (birthDate) {
-      var years = Math.floor((Date.now() - new Date(birthDate).getTime()) / (1000*60*60*24*365.25));
+    var meses = edadMesesEn(hoyISO());
+    if (meses !== null) {
+      var years = Math.floor(meses / 12);
       age = years > 0 ? years + (years === 1 ? ' año' : ' años') : 'Menos de 1 año';
+      if (!birthDate && document.getElementById('petAgeApprox').value === '12') age = 'Más de 10 años';
     }
 
     var allergyText = document.getElementById('petAllergies').value.trim();
@@ -691,8 +928,15 @@ async function guardarCarnet() {
       last_deworming: document.getElementById('lastDeworming').value || null,
       allergies: allergies,
       vet_name: v('vetName') || null,
-      vet_sex: document.getElementById('vetSex').value || null,
+      vet_sex: null,
       vet_phone: v('vetPhone') || null,
+      // Nuevos: los usa el robot de recordatorios
+      last_vaccine_date: v('lastVaccine') || null,
+      last_bath_date: bathDays ? (v('lastBath') || null) : null,
+      bath_every_days: bathDays || null,
+      next_bath_date: bathDays ? proximoBano() : null,
+      next_vet_visit: v('nextVetVisit') || null,
+      scan_alerts: true,
       owner_name: v('ownerName'),
       emergency_phone: soloDigitos(v('ownerPhone')),
       vet_city: v('ownerCity') || null,
@@ -738,7 +982,11 @@ async function guardarCarnet() {
     document.getElementById('formContent').style.display = 'block';
     document.getElementById('submitBtn').disabled = false;
     console.error(error);
-    toast('❌ Error: ' + error.message, true);
+    var m = String(error.message || '').toLowerCase();
+    var texto = (m.indexOf('fetch') !== -1 || m.indexOf('network') !== -1)
+      ? 'No pudimos conectar. Revisa tu internet e intenta de nuevo.'
+      : (m.indexOf('sesión') !== -1 ? error.message : 'No pudimos crear el carnet. Intenta de nuevo en un momento.');
+    toast('❌ ' + texto, true);
   }
 }
 
@@ -775,6 +1023,11 @@ function resetForm() {
   vetNoAutorizar = false;
   if (vetEncontrado) { document.getElementById('vetCodigo').value = vetEncontrado.codigo; mostrarVet(vetEncontrado); }
   selectedSex = ''; vaccines = []; photoFile = null; createdPetUrl = '';
+  manual = { vac: false, desp: false }; bathDays = null;
+  document.getElementById('birthUnknown').checked = false; toggleBirth();
+  document.querySelectorAll('#bathChips .chip').forEach(function(b){ b.classList.remove('on'); });
+  document.getElementById('bathLastBox').style.display = 'none';
+  ['vacAuto','despAuto','banoAuto','vacEdit','despEdit'].forEach(function(id){ document.getElementById(id).classList.remove('show'); });
   document.querySelectorAll('.sex-btn').forEach(function(b){ b.classList.remove('active'); });
   document.getElementById('phPlaceholder').style.display = 'flex';
   var img = document.querySelector('#photoCircle img');
@@ -792,6 +1045,8 @@ function resetForm() {
   document.getElementById('line2').className = 'step-line';
   document.getElementById('submitBtn').disabled = false;
 }
+
+pintarChipsVacunas();
 </script>
 <!-- Si encontró a su veterinario pero no marcó la casilla -->
 <div class="vet-ask" id="vetAsk">
