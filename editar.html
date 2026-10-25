@@ -34,7 +34,7 @@ body{font-family:'Nunito Sans',sans-serif;background:#F1F3EF;min-height:100vh;di
 h1{font-family:'Fraunces',serif;font-size:22px;font-weight:700;}
 .sub{font-size:12.5px;color:var(--mut);margin-top:5px;line-height:1.55;}
 label{display:block;font-size:11px;font-weight:800;color:var(--deep);text-transform:uppercase;letter-spacing:.8px;margin:16px 0 6px;}
-input,select,textarea{width:100%;padding:13px 14px;border:1.5px solid var(--line);border-radius:13px;background:#fff;font-family:'Nunito Sans',sans-serif;font-size:14px;color:var(--ink);outline:none;transition:.2s;}
+input,select,textarea{width:100%;padding:13px 14px;border:1.5px solid var(--line);border-radius:13px;background:#fff;font-family:'Nunito Sans',sans-serif;font-size:16px;color:var(--ink);outline:none;transition:.2s;}
 input:focus,select:focus,textarea:focus{border-color:var(--mid);}
 input[readonly]{background:var(--soft);color:var(--mut);}
 ::placeholder{color:#C3CCC0;}
@@ -91,7 +91,7 @@ input[readonly]{background:var(--soft);color:var(--mut);}
 .who{display:flex;align-items:center;gap:8px;background:var(--soft);border-radius:13px;padding:10px 13px;margin-bottom:6px;font-size:11.5px;font-weight:700;color:var(--deep);}
 .who span{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .who button{background:none;border:none;color:var(--mut);font-size:11.5px;font-weight:800;cursor:pointer;font-family:'Nunito Sans',sans-serif;text-decoration:underline;flex:none;}
-.toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--deep);color:#fff;padding:12px 22px;border-radius:14px;font-size:13px;font-weight:700;opacity:0;transition:.3s;z-index:60;white-space:nowrap;}
+.toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--deep);color:#fff;padding:12px 22px;border-radius:14px;font-size:13px;font-weight:700;opacity:0;transition:.3s;z-index:60;width:max-content;max-width:calc(100% - 32px);text-align:center;line-height:1.45;}
 .toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
 .toast.error{background:var(--alert);}
 </style>
@@ -152,6 +152,10 @@ input[readonly]{background:var(--soft);color:var(--mut);}
       <button type="button" class="sex-btn" id="sexH" onclick="setSex('hembra', this)">♀ Hembra</button>
     </div>
 
+    <label>Fecha de nacimiento</label>
+    <input type="date" id="petBirth">
+    <p class="hint">Con su fecha le enviamos un saludo el día de su cumpleaños 🎂</p>
+
     <label>Peso (kg)</label>
     <input type="number" id="petWeight" step="0.1" min="0">
 
@@ -162,14 +166,33 @@ input[readonly]{background:var(--soft);color:var(--mut);}
       <button type="button" class="vac-add-btn" onclick="addVaccine()">+ Agregar</button>
     </div>
 
-    <label>Última desparasitación</label>
-    <input type="date" id="lastDeworming">
+    <label>Última vacuna</label>
+    <input type="date" id="lastVaccine">
 
     <label>Próxima vacuna (para recordatorios)</label>
     <input type="date" id="nextVaccine">
 
+    <label>Última desparasitación</label>
+    <input type="date" id="lastDeworming">
+
     <label>Próxima desparasitación (para recordatorios)</label>
     <input type="date" id="nextDeworming">
+
+    <label>¿Cada cuánto lo bañas?</label>
+    <select id="bathEvery">
+      <option value="">No me lo recuerdes</option>
+      <option value="15">Cada 15 días</option>
+      <option value="30">Cada mes</option>
+      <option value="60">Cada 2 meses</option>
+    </select>
+
+    <label>Último baño</label>
+    <input type="date" id="lastBath">
+    <p class="hint">Te recordamos el siguiente baño según la frecuencia que elijas.</p>
+
+    <label>Próxima cita con el veterinario</label>
+    <input type="date" id="nextVetVisit">
+    <p class="hint">Te la recordamos un día antes.</p>
 
     <label>Alergias (separadas por coma)</label>
     <textarea id="petAllergies" rows="2" placeholder="Ej: Pollo, penicilina"></textarea>
@@ -232,6 +255,18 @@ input[readonly]{background:var(--soft);color:var(--mut);}
       </div>
       <label class="switch">
         <input type="checkbox" id="showPhone">
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <!-- AVISO DE ESCANEO -->
+    <div class="phone-box">
+      <div>
+        <div class="pb-title">📍 Avisarme cada vez que escaneen su QR</div>
+        <div class="pb-sub">Te llega un correo con la hora y, si la persona lo permite, el lugar aproximado donde lo escanearon.</div>
+      </div>
+      <label class="switch">
+        <input type="checkbox" id="scanAlerts">
         <span class="slider"></span>
       </label>
     </div>
@@ -318,6 +353,12 @@ async function llenar(p){
   if(p.sex === 'macho') setSex('macho', qs('sexM'));
   if(p.sex === 'hembra') setSex('hembra', qs('sexH'));
   qs('petWeight').value = p.weight || '';
+  qs('petBirth').value = p.birth_date || '';
+  qs('lastVaccine').value = p.last_vaccine_date || '';
+  qs('bathEvery').value = p.bath_every_days ? String(p.bath_every_days) : '';
+  qs('lastBath').value = p.last_bath_date || '';
+  qs('nextVetVisit').value = p.next_vet_visit || '';
+  qs('scanAlerts').checked = p.scan_alerts !== false;
   vaccines = Array.isArray(p.vaccines) ? p.vaccines.map(function(v){ return (typeof v==='string') ? v : (v.name||''); }).filter(Boolean) : [];
   renderVaccines();
   qs('lastDeworming').value = p.last_deworming || '';
@@ -479,6 +520,7 @@ async function guardar(){
     }
 
     var allergyText = qs('petAllergies').value.trim();
+    var bathDias = parseInt(qs('bathEvery').value, 10) || 0;
     var cambios = {
       name: qs('petName').value.trim(),
       species: qs('petSpecies').value,
@@ -499,8 +541,16 @@ async function guardar(){
       vet_city: qs('ownerCity').value.trim() || null,
       owner_email: KolitaAuth.limpiarCorreo(qs('ownerEmail').value) || null,
       is_lost: qs('isLost').checked,
-      show_phone_when_lost: qs('showPhone').checked
+      show_phone_when_lost: qs('showPhone').checked,
+      birth_date: qs('petBirth').value || null,
+      last_vaccine_date: qs('lastVaccine').value || null,
+      bath_every_days: bathDias || null,
+      last_bath_date: bathDias ? (qs('lastBath').value || null) : null,
+      next_bath_date: bathDias ? proximoBano(qs('lastBath').value, bathDias) : null,
+      next_vet_visit: qs('nextVetVisit').value || null,
+      scan_alerts: qs('scanAlerts').checked
     };
+    if (qs('petBirth').value) cambios.age = edadTexto(qs('petBirth').value);
 
     var r = await cli.from('pets').update(cambios).eq('id', petId);
     if(r.error) throw new Error(r.error.message);
@@ -515,6 +565,29 @@ async function guardar(){
     btn.disabled = false; btn.textContent = 'Guardar cambios 💚';
     toast('❌ Error al guardar. Intenta de nuevo', true);
   }
+}
+
+// ── Fechas para recordatorios (texto AAAA-MM-DD, hora local) ──
+function hoyISO(){
+  var d = new Date();
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+}
+function sumarDias(iso, n){
+  var p = iso.split('-'), d = new Date(+p[0], +p[1]-1, +p[2]);
+  d.setDate(d.getDate()+n);
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+}
+// Siguiente baño desde el último (o desde hoy), nunca en el pasado.
+function proximoBano(ultimo, dias){
+  var p = sumarDias(ultimo || hoyISO(), dias);
+  while (p < hoyISO()) p = sumarDias(p, dias);
+  return p;
+}
+function edadTexto(nac){
+  var a = nac.split('-'), hoy = new Date();
+  var anios = hoy.getFullYear() - (+a[0]);
+  if (hoy.getMonth()+1 < +a[1] || (hoy.getMonth()+1 === +a[1] && hoy.getDate() < +a[2])) anios--;
+  return anios > 0 ? anios + (anios === 1 ? ' año' : ' años') : 'Menos de 1 año';
 }
 
 async function cerrarSesion(){
