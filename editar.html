@@ -311,13 +311,19 @@ async function iniciar(){
   cargar();
 }
 
-function mostrarLogin(){
+async function mostrarLogin(){
   var caja = qs('loginBox');
   caja.style.display = 'block';
+  // Si llegó desde el botón de un correo de Kolita y el enlace ya venció,
+  // le dejamos su correo escrito: solo falta pedir el código.
+  var vencido = (await KolitaAuth.enlaceMagico) === 'vencido';
   KolitaLogin.montar(caja, {
-    icono: '🔒',
-    titulo: 'Entra para editar',
-    subtitulo: 'Escribe el correo con el que creaste este carnet y te enviamos un código.',
+    icono: vencido ? '⏰' : '🔒',
+    titulo: vencido ? 'Tu enlace ya venció' : 'Entra para editar',
+    subtitulo: vencido
+      ? 'Por seguridad, el botón del correo dura poco. Toca el botón y te enviamos un código para entrar.'
+      : 'Escribe el correo con el que creaste este carnet y te enviamos un código.',
+    correoSugerido: new URLSearchParams(location.search).get('correo') || '',
     crearSiNoExiste: false,
     nota: 'Pedimos esto para que nadie que encuentre a tu peludo pueda cambiar sus datos ni apagarle el modo perdido.',
     alEntrar: function(){ caja.style.display = 'none'; cargar(); }
