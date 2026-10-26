@@ -337,6 +337,7 @@ details.vet-det .inner{padding-bottom:16px;}
         <div class="sec-t">⚠️ Alergias</div>
         <label for="petAllergies">¿Es alérgico a algo? <span class="opc">(separa con comas)</span></label>
         <textarea id="petAllergies" rows="2" placeholder="Ej: Pollo, penicilina"></textarea>
+        <label class="check-line"><input type="checkbox" id="sinAlergias" onchange="var n=this.checked;var t=document.getElementById('petAllergies');t.disabled=n;if(n)t.value='';"> No tiene alergias conocidas</label>
         <p class="hint">Se muestra en el carnet por si alguien lo encuentra y lo alimenta.</p>
       </div>
 
@@ -906,7 +907,7 @@ async function guardarCarnet() {
       if (!birthDate && document.getElementById('petAgeApprox').value === '12') age = 'Más de 10 años';
     }
 
-    var allergyText = document.getElementById('petAllergies').value.trim();
+    var allergyText = document.getElementById('sinAlergias').checked ? 'Ninguna conocida' : document.getElementById('petAllergies').value.trim();
     var allergies = allergyText ? allergyText.split(',').map(function(a){return a.trim();}).filter(Boolean) : [];
 
     var vacData = vaccines.map(function(vac){ return {name: vac, status: 'al_dia'}; });
@@ -1019,6 +1020,7 @@ function resetForm() {
   // Casi siempre es la misma familia registrando otro peludo.
   document.getElementById('ownerEmail').value = correoPrevio;
   document.getElementById('acceptData').checked = false;
+  document.getElementById('sinAlergias').checked = false; document.getElementById('petAllergies').disabled = false;
   // Casi siempre es el mismo veterinario registrando otro peludo de la familia.
   vetNoAutorizar = false;
   if (vetEncontrado) { document.getElementById('vetCodigo').value = vetEncontrado.codigo; mostrarVet(vetEncontrado); }
