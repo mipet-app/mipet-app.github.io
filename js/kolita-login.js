@@ -84,6 +84,8 @@
     inC.autocomplete = 'email';
     inC.inputMode = 'email';
     if (correoEnCurso) { inC.value = correoEnCurso; inC.readOnly = true; }
+    // correoSugerido: lo deja escrito (viene del correo de Kolita) pero se puede cambiar.
+    else if (opts.correoSugerido) { inC.value = A.limpiarCorreo(opts.correoSugerido); }
     var btnC = el('button', 'kl-btn', 'Enviarme el código 🐾');
 
     pasoCorreo.appendChild(lblC);
@@ -175,7 +177,7 @@
       }
     };
 
-    setTimeout(function () { (correoEnCurso ? btnC : inC).focus(); }, 60);
+    setTimeout(function () { ((correoEnCurso || inC.value) ? btnC : inC).focus(); }, 60);
     return { enviar: enviar };
   }
 
