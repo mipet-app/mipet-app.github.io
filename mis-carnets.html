@@ -139,14 +139,20 @@ async function iniciar(){
   mostrarLogin();
 }
 
-function mostrarLogin(){
+async function mostrarLogin(){
   qs('panel').style.display = 'none';
   var caja = qs('loginBox');
   caja.style.display = 'block';
+  // Si llegó desde el botón de un correo de Kolita y el enlace ya venció,
+  // le dejamos su correo escrito: solo falta pedir el código.
+  var vencido = (await KolitaAuth.enlaceMagico) === 'vencido';
   KolitaLogin.montar(caja, {
-    icono: '🔎',
-    titulo: 'Entra a tus carnets',
-    subtitulo: 'Escribe el correo con el que creaste el carnet de tu peludo y te enviamos un código.',
+    icono: vencido ? '⏰' : '🔎',
+    titulo: vencido ? 'Tu enlace ya venció' : 'Entra a tus carnets',
+    subtitulo: vencido
+      ? 'Por seguridad, el botón del correo dura poco. Toca el botón y te enviamos un código para entrar.'
+      : 'Escribe el correo con el que creaste el carnet de tu peludo y te enviamos un código.',
+    correoSugerido: new URLSearchParams(location.search).get('correo') || '',
     // No creamos cuentas desde aquí: si el correo no existe, es más útil
     // decirlo que dejar una cuenta vacía por un correo mal escrito.
     crearSiNoExiste: false,
