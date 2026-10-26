@@ -18,6 +18,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.111.0/dist/umd/supabase.js" integrity="sha384-faMlYZUtkJj+Sh6Bmu/L0GzPcraRWN6CW+9RH3GUrK/Z0WS9tgaNNt0tHiLxsbdb" crossorigin="anonymous"></script>
 <script src="js/kolita-auth.js"></script>
 <script src="js/kolita-login.js"></script>
+<script src="js/kolita-carnet-pdf.js"></script>
 <style>
 :root{
   --bg:#FBFCFA; --soft:#EDF2EA; --mid:#7C9877; --deep:#556F51; --ink:#3C4A3A; --mut:#93A28F;
@@ -57,6 +58,11 @@ h1{font-family:'Fraunces',serif;font-size:23px;font-weight:700;}
 .chip-view{background:var(--soft);color:var(--deep);}
 .chip-qr{background:var(--mid);color:#fff;}
 .chip-copy{background:#fff;border:1.5px solid var(--line);color:var(--mut);}
+.chip-pdf{background:#E8813A;color:#fff;}
+.chip-pdf:disabled{opacity:.6;cursor:default;}
+.pdf-aviso{display:none;margin-top:10px;background:#FDF7F3;border:1.5px solid #EAD4C9;color:#8A5238;border-radius:12px;padding:10px 12px;font-size:12px;font-weight:700;line-height:1.5;}
+.pdf-aviso.show{display:block;}
+.pdf-aviso a{display:inline-block;margin-top:6px;color:var(--deep);font-weight:800;}
 
 .empty{text-align:center;padding:20px 6px;font-size:13px;color:var(--mut);line-height:1.65;}
 .empty a{color:var(--deep);font-weight:800;}
@@ -178,7 +184,7 @@ async function cargarPeludos(){
   lista.innerHTML = '';
   var r = await KolitaAuth.client
     .from('pets')
-    .select('id,name,species,breed,sex,photo_url,short_code,is_lost')
+    .select('id,name,species,breed,sex,photo_url,short_code,is_lost,birth_date,weight,allergies,owner_name,vet_name,vet_phone,vet_city')
     .order('created_at', { ascending: true });
 
   if(r.error){
@@ -267,9 +273,44 @@ function tarjeta(p){
   ed.textContent = '✏️ Editar';
   acts.appendChild(ed);
 
+  // Carnet plegable para imprimir: solo si los datos importantes están llenos
+  var aviso = document.createElement('div');
+  aviso.className = 'pdf-aviso';
+  var pdf = document.createElement('button');
+  pdf.className = 'chip chip-pdf'; pdf.textContent = '📄 Carnet para imprimir';
+  pdf.onclick = function(){ descargarCarnet(p, pdf, aviso); };
+  acts.appendChild(pdf);
+
   info.appendChild(acts);
+  info.appendChild(aviso);
   card.appendChild(info);
   return card;
+}
+
+// ── Carnet plegable en PDF ──
+async function descargarCarnet(p, btn, aviso){
+  aviso.innerHTML = ''; aviso.classList.remove('show');
+  var faltan = window.KolitaCarnetPDF ? KolitaCarnetPDF.faltantes(p) : [];
+  if(faltan.length){
+    var t = document.createElement('div');
+    t.textContent = 'Para descargar el carnet de ' + (p.name || 'tu peludo') + ' falta: ' + faltan.join(', ') + '.';
+    var a = document.createElement('a');
+    a.href = 'editar.html?id=' + encodeURIComponent(p.id) + '&completar=1';
+    a.textContent = 'Completar ahora →';
+    aviso.appendChild(t); aviso.appendChild(a); aviso.classList.add('show');
+    return;
+  }
+  var txt = btn.textContent;
+  btn.disabled = true; btn.textContent = '⏳ Armando el carnet…';
+  try{
+    await KolitaCarnetPDF.descargar(p);
+    toast('✅ Carnet descargado. Imprímelo a doble cara');
+    if(window.gtag) gtag('event', 'descargar_carnet_pdf');
+  }catch(e){
+    console.error(e);
+    toast('⚠️ No pudimos armar el carnet. Intenta de nuevo');
+  }
+  btn.disabled = false; btn.textContent = txt;
 }
 
 async function cerrarSesion(){
