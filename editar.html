@@ -19,6 +19,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.111.0/dist/umd/supabase.js" integrity="sha384-faMlYZUtkJj+Sh6Bmu/L0GzPcraRWN6CW+9RH3GUrK/Z0WS9tgaNNt0tHiLxsbdb" crossorigin="anonymous"></script>
 <script src="js/kolita-auth.js"></script>
 <script src="js/kolita-login.js"></script>
+<script src="js/kolita-carnet-pdf.js"></script>
 <style>
 :root{
   --bg:#FBFCFA; --soft:#EDF2EA; --mid:#7C9877; --deep:#556F51; --ink:#3C4A3A; --mut:#93A28F;
@@ -40,6 +41,13 @@ input[readonly]{background:var(--soft);color:var(--mut);}
 ::placeholder{color:#C3CCC0;}
 .hint{font-size:11px;color:var(--mut);font-weight:600;margin-top:5px;line-height:1.5;}
 .sex-row{display:flex;gap:8px;}
+.bad{border-color:#C87B5B !important;background:#FDF7F3 !important;}
+#photoCircle.bad{border:2px dashed #C87B5B !important;}
+.sex-row.bad .sex-btn{border-color:#C87B5B;background:#FDF7F3;}
+.completar{display:none;background:#FDF7F3;border:1.5px solid #EAD4C9;color:#8A5238;border-radius:14px;padding:12px 14px;font-size:12.5px;font-weight:700;line-height:1.55;margin-top:14px;}
+.completar.show{display:block;}
+.check-line{display:flex;align-items:center;gap:9px;margin-top:9px;font-size:13px;font-weight:700;color:var(--ink);cursor:pointer;text-transform:none;letter-spacing:0;}
+.check-line input{width:19px;height:19px;flex:none;accent-color:var(--mid);}
 .sex-btn{flex:1;padding:12px;border:1.5px solid var(--line);border-radius:13px;background:#fff;font-family:'Nunito Sans',sans-serif;font-size:13px;font-weight:700;color:var(--mut);cursor:pointer;transition:.2s;}
 .sex-btn.active{border-color:var(--mid);background:var(--soft);color:var(--deep);}
 .photo-wrap{display:flex;justify-content:center;margin-top:8px;}
@@ -122,6 +130,7 @@ input[readonly]{background:var(--soft);color:var(--mut);}
 
     <h1>✏️ Editar carnet</h1>
     <p class="sub">Corrige o actualiza los datos de tu peludo. Los cambios se guardan al instante.</p>
+    <div class="completar" id="completarBox"></div>
 
     <div class="photo-wrap" style="margin-top:16px;">
       <div id="photoCircle" onclick="document.getElementById('photoInput').click()">
@@ -147,7 +156,7 @@ input[readonly]{background:var(--soft);color:var(--mut);}
     <input type="text" id="petBreed" maxlength="40">
 
     <label>Sexo *</label>
-    <div class="sex-row">
+    <div class="sex-row" id="sexRow">
       <button type="button" class="sex-btn" id="sexM" onclick="setSex('macho', this)">♂ Macho</button>
       <button type="button" class="sex-btn" id="sexH" onclick="setSex('hembra', this)">♀ Hembra</button>
     </div>
@@ -196,6 +205,7 @@ input[readonly]{background:var(--soft);color:var(--mut);}
 
     <label>Alergias (separadas por coma)</label>
     <textarea id="petAllergies" rows="2" placeholder="Ej: Pollo, penicilina"></textarea>
+    <label class="check-line"><input type="checkbox" id="sinAlergias" onchange="toggleAlergias()"> No tiene alergias conocidas</label>
 
     <label>Veterinario</label>
     <input type="text" id="vetName" placeholder="Nombre de la veterinaria">
@@ -352,6 +362,34 @@ function showError(msg){
   qs('errorState').classList.add('show');
 }
 
+// ── Completar datos para el carnet en PDF ──
+var vieneACompletar = new URLSearchParams(location.search).get('completar') === '1';
+function toggleAlergias(){
+  var no = qs('sinAlergias').checked;
+  qs('petAllergies').disabled = no;
+  if(no) qs('petAllergies').value = '';
+}
+function marcarFaltantes(p){
+  if(!vieneACompletar || !window.KolitaCarnetPDF) return;
+  var faltan = KolitaCarnetPDF.faltantes(p);
+  var box = qs('completarBox');
+  if(!faltan.length){ box.textContent = '✅ Ya están todos los datos. Puedes descargar el carnet desde Mis carnets.'; box.classList.add('show'); return; }
+  box.textContent = '📄 Para descargar el carnet para imprimir, completa: ' + faltan.join(', ') + '. Los marcamos en rojo.';
+  box.classList.add('show');
+  var mapa = { photo_url:'photoCircle', name:'petName', species:'petSpecies', breed:'petBreed', sex:'sexRow',
+               birth_date:'petBirth', weight:'petWeight', allergies:'petAllergies', owner_name:'ownerName' };
+  Object.keys(mapa).forEach(function(k){
+    var v = p[k], vacio = Array.isArray(v) ? !v.filter(Boolean).length : (v === null || v === undefined || String(v).trim() === '');
+    if(vacio){
+      var el = qs(mapa[k]); el.classList.add('bad');
+      ['input','change','click'].forEach(function(ev){ el.addEventListener(ev, function(){ el.classList.remove('bad'); }, { once:true }); });
+    }
+  });
+  if(!(Array.isArray(p.allergies) && p.allergies.filter(Boolean).length)){
+    qs('sinAlergias').addEventListener('change', function(){ qs('petAllergies').classList.remove('bad'); }, { once:true });
+  }
+}
+
 async function llenar(p){
   qs('petName').value = p.name || '';
   qs('petSpecies').value = p.species || 'perro';
@@ -370,7 +408,12 @@ async function llenar(p){
   qs('lastDeworming').value = p.last_deworming || '';
   qs('nextVaccine').value = p.next_vaccine_date || '';
   qs('nextDeworming').value = p.next_deworming_date || '';
-  qs('petAllergies').value = Array.isArray(p.allergies) ? p.allergies.join(', ') : '';
+  var alls = Array.isArray(p.allergies) ? p.allergies.filter(Boolean) : [];
+  var ninguna = alls.length === 1 && /^ninguna/i.test(alls[0]);
+  qs('sinAlergias').checked = ninguna;
+  qs('petAllergies').value = ninguna ? '' : alls.join(', ');
+  toggleAlergias();
+  marcarFaltantes(p);
   qs('vetName').value = p.vet_name || '';
   qs('vetSex').value = p.vet_sex || '';
   qs('vetPhone').value = p.vet_phone || '';
@@ -525,7 +568,7 @@ async function guardar(){
       if(!up.error) photoUrl = cli.storage.from('pet-photos').getPublicUrl(fname).data.publicUrl;
     }
 
-    var allergyText = qs('petAllergies').value.trim();
+    var allergyText = qs('sinAlergias').checked ? 'Ninguna conocida' : qs('petAllergies').value.trim();
     var bathDias = parseInt(qs('bathEvery').value, 10) || 0;
     var cambios = {
       name: qs('petName').value.trim(),
@@ -564,7 +607,7 @@ async function guardar(){
     btn.textContent = '✅ ¡Guardado!';
     toast('💚 Cambios guardados');
     setTimeout(function(){
-      location.href = 'perfil.html?id=' + encodeURIComponent(petId);
+      location.href = vieneACompletar ? 'mis-carnets.html' : ('perfil.html?id=' + encodeURIComponent(petId));
     }, 1200);
   }catch(e){
     console.error(e);
