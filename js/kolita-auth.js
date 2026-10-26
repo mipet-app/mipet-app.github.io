@@ -59,8 +59,46 @@
     return 'Algo salió mal. Intenta de nuevo en un momento.';
   }
 
+  // ── Enlace mágico del correo ─────────────────────────────────────
+  // Los correos de Kolita traen un botón que abre la página con la sesión
+  // ya iniciada. El botón lleva una llave de un solo uso después del # (#k=…);
+  // lo que va después del # nunca sale del celular hacia ningún servidor.
+  // La llave se canjea aquí, con JavaScript, y no al abrir el enlace: así,
+  // si un antivirus de correo "visita" el enlace por su cuenta, no la gasta.
+  // Si el enlace venció, la página le pide el código normal, con el correo
+  // ya escrito.
+  // Resultado: 'ok', 'vencido' o null (no se llegó por un enlace mágico).
+  var enlaceMagico = (async function () {
+    var h = global.location.hash || '';
+    if (h.length < 2) return null;
+    var p = new URLSearchParams(h.slice(1));
+    var limpiar = function () {
+      try { global.history.replaceState(null, '', global.location.pathname + global.location.search); } catch (e) {}
+    };
+    if (p.get('k')) {
+      try {
+        var v = await client.auth.verifyOtp({ token_hash: p.get('k'), type: 'magiclink' });
+        limpiar();
+        return (v.error || !v.data || !v.data.session) ? 'vencido' : 'ok';
+      } catch (e) { limpiar(); return 'vencido'; }
+    }
+    if (p.get('access_token') && p.get('refresh_token')) {
+      try {
+        var r = await client.auth.setSession({
+          access_token: p.get('access_token'),
+          refresh_token: p.get('refresh_token')
+        });
+        limpiar();
+        return r.error ? 'vencido' : 'ok';
+      } catch (e) { limpiar(); return 'vencido'; }
+    }
+    if (p.get('error') || p.get('error_code')) { limpiar(); return 'vencido'; }
+    return null;
+  })();
+
   // ── Sesión ───────────────────────────────────────────────────────
   async function sesionActual() {
+    await enlaceMagico;
     try {
       var r = await client.auth.getSession();
       return (r && r.data && r.data.session) || null;
@@ -165,6 +203,7 @@
     enviarCodigo: enviarCodigo,
     confirmarCodigo: confirmarCodigo,
     reclamarCarnets: reclamarCarnets,
+    enlaceMagico: enlaceMagico,
     mensajeDeError: mensajeDeError
   };
 })(window);
