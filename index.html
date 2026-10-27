@@ -118,6 +118,13 @@ section{padding:64px 0;}
 .free-list li{position:relative;padding-left:31px;font-size:14px;font-weight:600;line-height:1.55;}
 .free-list li::before{content:'✓';position:absolute;left:0;top:0;width:21px;height:21px;background:var(--mid);color:#fff;border-radius:50%;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;}
 .free-list li strong{color:var(--deep);}
+.hero-count{margin-top:10px;font-size:13px;font-weight:700;color:var(--deep);}
+.hero-count strong{font-family:'Fraunces',serif;font-size:16px;}
+.vet-band{display:flex;align-items:center;gap:22px;flex-wrap:wrap;background:var(--soft);border:1px solid var(--line);border-radius:24px;padding:26px 28px;}
+.vet-band-ico{font-size:44px;flex:none;}
+.vet-band-txt{flex:1;min-width:240px;}
+.vet-band-txt h2{font-family:'Fraunces',serif;font-size:22px;font-weight:700;}
+.vet-band-txt p{font-size:14px;color:var(--mut);font-weight:600;line-height:1.6;margin-top:6px;}
 .free-cta{display:block;text-align:center;margin-top:28px;background:var(--mid);color:#fff;text-decoration:none;font-size:16px;font-weight:800;padding:17px;border-radius:15px;transition:.2s;box-shadow:0 8px 22px rgba(113,139,97,.3);}
 .free-cta:hover{background:var(--deep);transform:translateY(-2px);}
 .free-foot{margin-top:14px;font-size:12.5px;font-weight:700;color:var(--mut);line-height:1.6;text-align:center;}
@@ -266,6 +273,7 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:10px;}
         <a class="btn btn-ghost" href="perfil.html?id=pet_1783916734681_olda0f">Ver un ejemplo</a>
       </div>
       <div class="hero-note">Sin descargar apps · Sin tarjeta · Listo en 2 minutos</div>
+      <div class="hero-count" id="heroCount" hidden>🐾 Ya hay <strong id="heroCountN">—</strong> peludos con su carnet Kolita</div>
       <div class="trust-strip">
         <span class="trust-pill">✓ Carnet digital gratis</span>
         <span class="trust-pill">🔒 Tu número protegido</span>
@@ -606,8 +614,8 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:10px;}
     <div class="feat-grid">
       <div class="feat">
         <div class="feat-ico">💉</div>
-        <h3>Vacunas y recordatorios</h3>
-        <p>Su historial de vacunas y desparasitación a la mano — y un correo de aviso antes de cada fecha. Sin costo.</p>
+        <h3>Recordatorios que sí llegan</h3>
+        <p>Te avisamos por correo antes de cada vacuna y desparasitación, el día de su baño, un día antes de su cita con el veterinario y el día de su cumpleaños 🎂. Sin costo.</p>
       </div>
       <div class="feat">
         <div class="feat-ico">🚨</div>
@@ -616,13 +624,23 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:10px;}
       </div>
       <div class="feat">
         <div class="feat-ico">📍</div>
-        <h3>Escaneos con ubicación</h3>
-        <p>Cada vez que alguien escanea su QR queda un registro con la zona del escaneo.</p>
+        <h3>Te avisamos cada escaneo</h3>
+        <p>Cada vez que alguien escanea su QR te llega un correo con la hora y el barrio aproximado, y un botón para verlo en el mapa.</p>
       </div>
       <div class="feat">
         <div class="feat-ico">🔒</div>
         <h3>Tu número, protegido</h3>
         <p>Tu celular no se muestra en el carnet. Quien encuentra a tu peludo se identifica primero y tú decides si respondes. Si algún día se pierde y prefieres que te llamen de una, tú puedes activarlo.</p>
+      </div>
+      <div class="feat">
+        <div class="feat-ico">📄</div>
+        <h3>Carnet para imprimir</h3>
+        <p>Descarga gratis su carnet plegable, como el de la veterinaria: lo imprimes, lo doblas en tres y pegas ahí la etiqueta de cada vacuna.</p>
+      </div>
+      <div class="feat">
+        <div class="feat-ico">🩺</div>
+        <h3>Tu veterinario, conectado</h3>
+        <p>Si tu veterinario está en Kolita y le das permiso, él mismo registra sus vacunas y desparasitaciones en el carnet.</p>
       </div>
     </div>
   </div>
@@ -637,10 +655,11 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:10px;}
         <li>Carnet digital con QR para escanear y usar en su collar</li>
         <li>Enlace único para el collar de tu peludo</li>
         <li>Sus vacunas, desparasitación, alergias y veterinario de confianza</li>
-        <li><strong>Recordatorios automáticos por correo</strong> antes de cada vacuna y desparasitación</li>
+        <li><strong>Recordatorios por correo:</strong> vacunas, desparasitación, baño, citas con el veterinario y cumpleaños</li>
         <li>Modo perdido con alerta visible en su carnet</li>
         <li><strong>Aviso protegido:</strong> quien lo encuentra se identifica primero — tus datos están seguros</li>
-        <li>Registro de cada escaneo con su zona aproximada</li>
+        <li><strong>Aviso por correo cada vez que escanean su QR</strong>, con la hora y el barrio aproximado</li>
+        <li>Su carnet plegable en PDF, listo para imprimir cuando quieras</li>
       </ul>
       <a class="free-cta" href="registro.html">Crear su carnet gratis 🐾</a>
       <p class="free-foot">Sin contraseñas · Sin tarjeta · Listo en 2 minutos</p>
@@ -654,7 +673,7 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:10px;}
     <div class="products-head">
       <div class="sec-kicker">Opcional · Para tenerlo siempre contigo</div>
       <h2 class="sec-title">Su identificación también puede ser física</h2>
-      <p class="sec-sub">El carnet digital de Kolita sigue siendo <strong>gratis</strong>. Si te gusta tener algo físico, puedes pedir su carnet impreso o una placa con el Código Kolita y su QR.</p>
+      <p class="sec-sub">El carnet digital de Kolita sigue siendo <strong>gratis</strong>, y el carnet plegable para imprimir en casa también. Si quieres algo más resistente, puedes pedir su carnet en PVC tipo tarjeta o una placa con el Código Kolita y su QR.</p>
     </div>
 
     <div class="product-grid">
@@ -677,8 +696,8 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:10px;}
           <button aria-current="false" aria-label="Reverso"></button>
         </div>
         <div class="slider-cap" id="carnetCap">Frente</div>
-        <h3>Carnet físico personalizado</h3>
-        <p>La identificación de tu peludo en formato físico, con su foto, datos y Código Kolita. Ideal para llevarlo contigo y conservar su información a la mano.</p>
+        <h3>Carnet PVC tipo tarjeta</h3>
+        <p>Su identificación en PVC, del tamaño de una tarjeta de crédito, con su foto, datos y Código Kolita. Aguanta la billetera y no se moja. (El carnet plegable para imprimir en casa es gratis.)</p>
         <div class="product-price">$24.900 <small>pago único</small></div>
         <a class="product-btn" id="btnCarnetFisico" href="#" target="_blank" rel="noopener">Pedir por WhatsApp 🐾</a>
       </article>
@@ -785,6 +804,19 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:10px;}
 </section>
 
 <!-- ══ 7. OBJECIONES ══ -->
+<section class="band-white" id="veterinarios">
+  <div class="container">
+    <div class="vet-band">
+      <div class="vet-band-ico">🩺</div>
+      <div class="vet-band-txt">
+        <h2>¿Eres veterinario?</h2>
+        <p>Registra las vacunas y desparasitaciones de tus pacientes directamente en su carnet Kolita. Las familias reciben el recordatorio y vuelven a tu consulta. Es gratis.</p>
+      </div>
+      <a class="btn btn-main" href="veterinarios.html">Inscribirme →</a>
+    </div>
+  </div>
+</section>
+
 <section class="band-soft" id="preguntas">
   <div class="container">
     <div class="sec-kicker">Preguntas frecuentes</div>
@@ -797,7 +829,7 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:10px;}
     <div class="faq-list">
       <details>
         <summary>¿De verdad es gratis? ¿Dónde está la trampa?</summary>
-        <p>Sí. El carnet, el QR, los recordatorios de vacunas y el aviso protegido son gratis y van a seguir siéndolo. No te pedimos tarjeta. Lo único que se paga es la placa física, y es completamente opcional.</p>
+        <p>Sí. El carnet, el QR, los recordatorios, el aviso de cada escaneo, el aviso protegido y el carnet para imprimir son gratis y van a seguir siéndolo. No te pedimos tarjeta. Lo único que se paga son las placas y el carnet en PVC, y son completamente opcionales.</p>
       </details>
       <details>
         <summary>¿Necesito una contraseña?</summary>
@@ -805,7 +837,7 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:10px;}
       </details>
       <details>
         <summary>¿El carnet digital y el carnet físico son lo mismo?</summary>
-        <p>No. El carnet digital de Kolita es gratis y puedes usarlo desde el celular. El carnet físico es un producto opcional de $24.900 para quienes quieren tener la identificación personalizada de su peludo también en formato impreso.</p>
+        <p>No. El carnet digital es gratis y lo usas desde el celular. Desde "Mis carnets" también puedes descargar gratis su carnet plegable para imprimir en casa. El carnet en PVC tipo tarjeta es un producto opcional de $24.900 para quien lo quiere más resistente.</p>
       </details>
       <details>
         <summary>¿Tengo que comprar la placa?</summary>
@@ -854,6 +886,24 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:10px;}
 </footer>
 
 <div class="sticky-cta"><a href="registro.html">Crear su carnet gratis 🐾</a></div>
+
+<script>
+// Contador real de carnets. La base solo devuelve el número, ningún dato de nadie.
+(function(){
+  fetch('https://fdwbstqxqdailyeedmuo.supabase.co/rest/v1/rpc/contar_carnets', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json',
+      'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZkd2JzdHF4cWRhaWx5ZWVkbXVvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM5MDEwMDEsImV4cCI6MjA5OTQ3NzAwMX0.GG6O9z1Exu5z0DsM8Fzk-fx1h2BIII0I9flMVZiPwIw',
+      'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZkd2JzdHF4cWRhaWx5ZWVkbXVvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM5MDEwMDEsImV4cCI6MjA5OTQ3NzAwMX0.GG6O9z1Exu5z0DsM8Fzk-fx1h2BIII0I9flMVZiPwIw' },
+    body: '{}'
+  }).then(function(r){ return r.json(); }).then(function(n){
+    if (typeof n === 'number' && n >= 10) {
+      document.getElementById('heroCountN').textContent = n;
+      document.getElementById('heroCount').hidden = false;
+    }
+  }).catch(function(){});
+})();
+</script>
 
 <script>
 (function(){
