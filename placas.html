@@ -194,7 +194,7 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:10px;}
       </ul>
 
       <div class="precio">$24.900<small>Pago único · Envío aparte</small></div>
-      <a class="btn-comprar" id="btnCarnet" href="#" target="_blank" rel="noopener">Solicitar aquí 🐾</a>
+      <a class="btn-comprar" id="btnCarnet" href="pedido.html?producto=carnet">Pedir aquí 🐾</a>
       <p class="aviso">Necesitas el Código Kolita de tu peludo. Si todavía no lo tienes, <a href="registro.html">crea su carnet gratis</a> — toma 2 minutos.</p>
     </div>
   </div>
@@ -241,7 +241,7 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:10px;}
       <div class="color-nom" id="nomStd">Negra</div>
 
       <div class="precio">$39.900<small>Pago único · Envío aparte</small></div>
-      <a class="btn-comprar" id="btnStd" href="#" target="_blank" rel="noopener">Solicitar aquí 🐾</a>
+      <a class="btn-comprar" id="btnStd" href="pedido.html?producto=estandar">Pedir aquí 🐾</a>
       <p class="aviso">Necesitas el Código Kolita de tu peludo. Si todavía no lo tienes, <a href="registro.html">crea su carnet gratis</a> — toma 2 minutos.</p>
     </div>
   </div>
@@ -289,8 +289,8 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:10px;}
       <div class="color-nom" id="nomFoto">Negra</div>
 
       <div class="precio">$49.900<small>Pago único · Envío aparte</small></div>
-      <a class="btn-comprar" id="btnFoto" href="#" target="_blank" rel="noopener">Solicitar aquí 🐾</a>
-      <p class="aviso">Nos mandas la foto por WhatsApp y te enviamos una vista previa antes de grabarla.</p>
+      <a class="btn-comprar" id="btnFoto" href="pedido.html?producto=foto">Pedir aquí 🐾</a>
+      <p class="aviso">Usamos la foto de su carnet Kolita y te enviamos una vista previa antes de grabarla.</p>
     </div>
   </div>
 </section>
@@ -340,7 +340,7 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:10px;}
       <div class="color-nom" id="nomHue">Verde</div>
 
       <div class="precio">$34.900<small>Pago único · Envío aparte</small></div>
-      <a class="btn-comprar" id="btnHue" href="#" target="_blank" rel="noopener">Solicitar aquí 🐾</a>
+      <a class="btn-comprar" id="btnHue" href="pedido.html?producto=huesito">Pedir aquí 🐾</a>
       <p class="aviso">Necesitas el Código Kolita de tu peludo. Si todavía no lo tienes, <a href="registro.html">crea su carnet gratis</a> — toma 2 minutos.</p>
     </div>
   </div>
@@ -351,8 +351,9 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:10px;}
     <h2>¿Cómo lo pido?</h2>
     <div class="pasos">
       <div class="paso"><b>1</b><span><i>Crea el carnet de tu peludo</i>Es gratis y toma 2 minutos. Al terminar recibes su Código Kolita.</span></div>
-      <div class="paso"><b>2</b><span><i>Escríbenos por WhatsApp</i>Con su código y lo que quieres pedir. Ahí coordinamos el pago.</span></div>
-      <div class="paso"><b>3</b><span><i>Lo hacemos y te lo entregamos</i>Te mandamos una foto antes de entregarlo, para que confirmes que todo quedó bien.</span></div>
+      <div class="paso"><b>2</b><span><i>Llena el formulario de pedido</i>Con su Código Kolita traemos sus datos: solo eliges el producto y a dónde lo enviamos.</span></div>
+      <div class="paso"><b>3</b><span><i>Te escribimos por WhatsApp</i>Con el valor del envío y los datos para pagar. Todavía no pagas nada al pedir.</span></div>
+      <div class="paso"><b>4</b><span><i>Lo hacemos y te lo entregamos</i>Te mandamos una foto antes de entregarlo, para que confirmes que todo quedó bien.</span></div>
     </div>
   </div>
 </section>
@@ -375,6 +376,14 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:10px;}
     <details>
       <summary>¿Se borra o se despinta con el tiempo?</summary>
       <p>El código va grabado a láser, no impreso ni pintado: queda marcado en el material. Aguanta el agua, el barro y los baños.</p>
+    </details>
+    <details>
+      <summary>¿Cuánto cuesta el envío?</summary>
+      <p>El envío se paga aparte. En Medellín y el área metropolitana (Envigado, Itagüí, Sabaneta, Bello, La Estrella y demás), el valor depende de qué tan lejos estés. Fuera del área metropolitana depende de la transportadora y de sus condiciones del momento. Te confirmamos el valor exacto por WhatsApp antes de que pagues.</p>
+    </details>
+    <details>
+      <summary>¿Cómo pago?</summary>
+      <p>Después de enviar el formulario, te escribimos por WhatsApp con el total y los datos para pagar por transferencia. Por tu seguridad, Kolita solo te escribe desde el +57 312 322 3627 y nunca te pide pagar por un enlace ni a nombre de otra persona.</p>
     </details>
     <details>
       <summary>¿Puedo pedirlo sin crear el carnet?</summary>
@@ -409,11 +418,14 @@ footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:10px;}
   var foto = { color:'negra' };
   var hue  = { color:'verde' };
 
-  function pedir(txt){ return WA + encodeURIComponent('¡Hola! Quiero ' + txt + ' 🐾'); }
-  function refrescaCarnet(){ document.getElementById('btnCarnet').href = pedir('el carnet físico Kolita de mi peludo por $24.900'); }
-  function refrescaStd(){    document.getElementById('btnStd').href    = pedir('la placa Kolita estándar ' + std.color); }
-  function refrescaFoto(){   document.getElementById('btnFoto').href   = pedir('la placa Kolita con la foto de mi peludo, ' + foto.color); }
-  function refrescaHue(){    document.getElementById('btnHue').href    = pedir('la placa Kolita huesito ' + hue.color); }
+  // Los botones llevan al formulario de pedido con el producto y el color ya elegidos.
+  // Si llegaste desde un carnet (placas.html?codigo=XXXX), también va el Código Kolita.
+  var COD = (new URLSearchParams(location.search).get('codigo') || '').replace(/[^A-Za-z0-9]/g, '');
+  function pedir(producto, color){ return 'pedido.html?producto=' + producto + (color ? '&color=' + encodeURIComponent(color) : '') + (COD ? '&codigo=' + COD : ''); }
+  function refrescaCarnet(){ document.getElementById('btnCarnet').href = pedir('carnet'); }
+  function refrescaStd(){    document.getElementById('btnStd').href    = pedir('estandar', std.color); }
+  function refrescaFoto(){   document.getElementById('btnFoto').href   = pedir('foto', foto.color); }
+  function refrescaHue(){    document.getElementById('btnHue').href    = pedir('huesito', hue.color); }
 
   function pintaMetal(cuerpoId, cuerpo, grabado, fg, bg, st){
     document.getElementById(cuerpoId).setAttribute('fill', cuerpo);
