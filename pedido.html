@@ -73,6 +73,34 @@ textarea{resize:vertical;min-height:70px;}
 .seguro{background:#FDF7F3;border:1.5px solid #EAD4C9;border-radius:14px;padding:12px 14px;font-size:12.5px;color:#8A5238;font-weight:700;line-height:1.6;margin-top:16px;text-align:left;}
 .toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--alert);color:#fff;padding:12px 20px;border-radius:14px;font-size:13px;font-weight:700;opacity:0;transition:.3s;z-index:60;width:max-content;max-width:calc(100% - 32px);text-align:center;line-height:1.45;}
 .toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
+.prod{position:relative;}
+.prod .tick{position:absolute;top:8px;right:9px;width:20px;height:20px;border-radius:50%;border:1.5px solid var(--line);background:#fff;font-size:12px;display:flex;align-items:center;justify-content:center;color:#fff;}
+.prod.on .tick{background:var(--mid);border-color:var(--mid);}
+.lineas{display:flex;flex-direction:column;gap:10px;margin-top:12px;}
+.linea{background:#fff;border:1.5px solid var(--line);border-radius:16px;padding:12px 14px;}
+.linea-top{display:flex;justify-content:space-between;align-items:center;gap:10px;}
+.linea-top b{font-size:14px;}
+.linea-top span{font-size:13px;color:var(--deep);font-weight:800;white-space:nowrap;}
+.linea .chips{margin-top:10px;}
+.cant{display:flex;align-items:center;gap:10px;margin-top:10px;font-size:12.5px;font-weight:700;color:var(--mut);}
+.cant button{width:32px;height:32px;border-radius:10px;border:1.5px solid var(--line);background:#fff;font-size:17px;font-weight:800;color:var(--deep);cursor:pointer;font-family:inherit;}
+.cant output{min-width:18px;text-align:center;font-size:15px;font-weight:800;color:var(--ink);}
+.cant .quitar{margin-left:auto;width:auto;height:auto;background:none;border:none;color:var(--mut);font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;text-decoration:underline;padding:4px;}
+.fotos{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;}
+.fopt{border:1.5px solid var(--line);background:#fff;border-radius:16px;padding:12px;text-align:center;cursor:pointer;font-family:inherit;color:var(--ink);}
+.fopt.on{border-color:var(--mid);background:var(--soft);}
+.fopt:disabled{opacity:.5;cursor:not-allowed;}
+.fopt img,.fopt .ico{width:54px;height:54px;border-radius:14px;object-fit:cover;display:block;margin:0 auto 8px;}
+.fopt .ico{background:var(--soft);font-size:26px;line-height:54px;}
+.fopt b{display:block;font-size:13px;}
+.fopt small{display:block;font-size:11.5px;color:var(--mut);font-weight:600;margin-top:3px;line-height:1.4;}
+.pasos-ok{text-align:left;margin-top:16px;display:flex;flex-direction:column;gap:10px;}
+.pasos-ok div{display:flex;gap:10px;align-items:flex-start;font-size:13px;font-weight:600;color:var(--ink);line-height:1.5;}
+.pasos-ok i{font-style:normal;flex:none;width:24px;height:24px;border-radius:50%;background:var(--mid);color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;}
+.btn-wa{background:#25D366;}
+.pulso{animation:pulso 1.8s ease-in-out infinite;}
+@keyframes pulso{0%,100%{box-shadow:0 0 0 0 rgba(37,211,102,.45)}50%{box-shadow:0 0 0 10px rgba(37,211,102,0)}}
+@media (prefers-reduced-motion:reduce){.pulso{animation:none;}}
 </style>
 </head>
 <body>
@@ -88,19 +116,17 @@ textarea{resize:vertical;min-height:70px;}
   <p class="sub">Llena estos datos una sola vez. Te escribimos por WhatsApp con el valor del envío y cómo pagar.</p>
 
   <form id="f" novalidate>
-    <!-- 1. PRODUCTO -->
+    <!-- 1. PRODUCTOS -->
     <div class="sec" style="border-top:none;margin-top:12px;">
       <div class="sec-t">1. ¿Qué quieres pedir?</div>
+      <p class="hint">Puedes elegir varios: por ejemplo, el carnet PVC y una placa.</p>
       <div class="prods" id="prods" style="margin-top:12px;">
-        <button type="button" class="prod" data-p="estandar"><b>Placa estándar</b><span>$39.900</span></button>
-        <button type="button" class="prod" data-p="foto"><b>Placa con su foto</b><span>$49.900</span></button>
-        <button type="button" class="prod" data-p="huesito"><b>Placa huesito</b><span>$34.900</span></button>
-        <button type="button" class="prod" data-p="carnet"><b>Carnet PVC</b><span>$24.900</span></button>
+        <button type="button" class="prod" data-p="estandar"><span class="tick">✓</span><b>Placa estándar</b><span>$39.900</span></button>
+        <button type="button" class="prod" data-p="foto"><span class="tick">✓</span><b>Placa con su foto</b><span>$49.900</span></button>
+        <button type="button" class="prod" data-p="huesito"><span class="tick">✓</span><b>Placa huesito</b><span>$34.900</span></button>
+        <button type="button" class="prod" data-p="carnet"><span class="tick">✓</span><b>Carnet PVC</b><span>$24.900</span></button>
       </div>
-      <div id="colorBox" class="hide">
-        <span class="lbl">Color</span>
-        <div class="chips" id="colores"></div>
-      </div>
+      <div class="lineas" id="lineas"></div>
     </div>
 
     <!-- 2. EL PELUDO -->
@@ -113,6 +139,14 @@ textarea{resize:vertical;min-height:70px;}
       <div id="grabadoBox">
         <label for="grabado">Nombre que va grabado <span class="opc">(como quieres que aparezca)</span></label>
         <input id="grabado" maxlength="18" placeholder="Ej: Ibiza">
+      </div>
+      <div id="fotoBox" class="hide">
+        <span class="lbl">¿Qué foto usamos? <span class="opc">(para la placa con foto y el carnet PVC)</span></span>
+        <div class="fotos" id="fotos">
+          <button type="button" class="fopt" data-f="carnet" id="fCarnet"><span class="ico">🐾</span><b>La de su carnet</b><small id="fCarnetTxt">La que ya está en su carnet Kolita</small></button>
+          <button type="button" class="fopt" data-f="whatsapp"><span class="ico">📲</span><b>Otra foto</b><small>Me la piden por WhatsApp y la envío</small></button>
+        </div>
+        <p class="hint">Antes de grabar o imprimir, te mandamos una vista previa para que la apruebes.</p>
       </div>
     </div>
 
@@ -158,25 +192,30 @@ textarea{resize:vertical;min-height:70px;}
       <label class="check-line"><input type="checkbox" id="autoriza"><span>Autorizo a Kolita a usar estos datos para preparar y entregar mi pedido, conforme a la <a href="privacidad.html" target="_blank" style="color:var(--deep);font-weight:800;">Política de Privacidad</a> (Ley 1581 de 2012).</span></label>
     </div>
 
-    <div class="resumen">
-      <div class="r"><span id="rProd">Elige un producto</span><span id="rPrecio">—</span></div>
+    <div class="resumen" id="resumen">
+      <div id="rItems"><div class="r"><span>Elige al menos un producto</span><span>—</span></div></div>
       <div class="r"><span>Envío</span><span>Te lo confirmamos</span></div>
-      <div class="r t"><span>Pago</span><span>Después de confirmar el envío</span></div>
+      <div class="r t"><span>Total productos</span><span id="rTotal">—</span></div>
     </div>
 
     <button class="btn" type="submit" id="enviar">Enviar pedido 🐾</button>
-    <p class="hint" style="text-align:center;">Todavía no pagas nada. Primero te confirmamos el total por WhatsApp.</p>
+    <p class="hint" style="text-align:center;">Todavía no pagas nada. Un asesor de Kolita te escribe por WhatsApp para confirmar el envío y el pago.</p>
   </form>
 </div>
 
 <div class="wrap hide" id="okBox">
   <div class="ok-box">
     <div class="big">🎉</div>
-    <h2>¡Recibimos tu pedido!</h2>
+    <h2>¡Pedido recibido!</h2>
     <div class="ok-num" id="okNum">#—</div>
-    <p>Te escribimos por WhatsApp con el <strong>valor del envío</strong> y los <strong>datos para el pago</strong>. Cuando confirmemos el pago, lo hacemos y te mandamos una foto antes de entregarlo.</p>
+    <p><strong>Un asesor de Kolita te escribe por WhatsApp en los próximos minutos</strong> para confirmar el envío y darte los datos de pago. Si es de noche, te escribimos a primera hora del día siguiente.</p>
+    <a class="btn btn-wa pulso" id="okWa" href="#" target="_blank" rel="noopener">💬 ¿No quieres esperar? Escríbenos ya</a>
+    <div class="pasos-ok">
+      <div><i>1</i><span>Te confirmamos el valor del envío a tu dirección.</span></div>
+      <div><i>2</i><span>Pagas por transferencia con los datos que te enviamos por WhatsApp.</span></div>
+      <div><i>3</i><span>Lo hacemos, te mandamos una foto para que lo apruebes y te lo entregamos.</span></div>
+    </div>
     <div class="seguro">🔒 Por tu seguridad: Kolita solo te escribe desde el WhatsApp <strong>+57 312 322 3627</strong>. Nunca te pediremos pagar por un enlace ni a nombre de otra persona.</div>
-    <a class="btn" id="okWa" href="#" target="_blank" rel="noopener">Escribirnos por WhatsApp</a>
     <a class="btn btn-sec" href="index.html">Volver a Kolita</a>
   </div>
 </div>
@@ -192,46 +231,112 @@ textarea{resize:vertical;min-height:70px;}
   var HDR = { 'Content-Type':'application/json', 'apikey':SUPABASE_KEY, 'Authorization':'Bearer ' + SUPABASE_KEY };
 
   var PRODUCTOS = {
-    estandar: { nombre:'Placa estándar',       precio:39900, colores:[['Negra','#2B2B2B'],['Plateada','#C9CCC7']] },
-    foto:     { nombre:'Placa con su foto',    precio:49900, colores:[['Negra','#2B2B2B'],['Plateada','#C9CCC7']] },
-    huesito:  { nombre:'Placa huesito',        precio:34900, colores:[['Verde','#5BAA6B'],['Azul','#3E7CC9'],['Morada','#7B5BB5'],['Fucsia','#D6337E'],['Rosada','#F2A6C0'],['Naranja','#EE8A3C'],['Plateada','#C9CCC7'],['Negra','#2B2B2B']] },
+    estandar: { nombre:'Placa estándar',          precio:39900, colores:[['Negra','#2B2B2B'],['Plateada','#C9CCC7']] },
+    foto:     { nombre:'Placa con su foto',       precio:49900, colores:[['Negra','#2B2B2B'],['Plateada','#C9CCC7']] },
+    huesito:  { nombre:'Placa huesito',           precio:34900, colores:[['Verde','#5BAA6B'],['Azul','#3E7CC9'],['Morada','#7B5BB5'],['Fucsia','#D6337E'],['Rosada','#F2A6C0'],['Naranja','#EE8A3C'],['Plateada','#C9CCC7'],['Negra','#2B2B2B']] },
     carnet:   { nombre:'Carnet PVC tipo tarjeta', precio:24900, colores:[] }
   };
+  var ORDEN = ['estandar','foto','huesito','carnet'];
   var $ = function(id){ return document.getElementById(id); };
-  var estado = { producto:'', color:'', entrega:'', pet:null };
+  var carrito = {};               // { estandar: { color:'Negra', cantidad:1 }, ... }
+  var estado = { entrega:'', pet:null, foto:'' };
   var pesos = function(n){ return '$' + n.toLocaleString('es-CO'); };
 
   function toast(t){ var e = $('toast'); e.textContent = t; e.classList.add('show'); setTimeout(function(){ e.classList.remove('show'); }, 3500); }
   function falta(id, t){
-    var el = $(id); el.classList.add('bad'); el.scrollIntoView({ behavior:'smooth', block:'center' });
-    ['input','click','change'].forEach(function(ev){ el.addEventListener(ev, function(){ el.classList.remove('bad'); }, { once:true }); });
+    var el = $(id); if(el){ el.classList.add('bad'); el.scrollIntoView({ behavior:'smooth', block:'center' });
+    ['input','click','change'].forEach(function(ev){ el.addEventListener(ev, function(){ el.classList.remove('bad'); }, { once:true }); }); }
     toast('⚠️ ' + t); return false;
   }
 
-  // ── Producto y color ──
-  function elegirProducto(p, colorInicial){
+  // ── Productos (varios a la vez) ──
+  function alternar(p, color){
     if(!PRODUCTOS[p]) return;
-    estado.producto = p; estado.color = '';
-    document.querySelectorAll('#prods .prod').forEach(function(b){ b.classList.toggle('on', b.getAttribute('data-p') === p); });
-    var P = PRODUCTOS[p], box = $('colores');
-    box.innerHTML = '';
-    $('colorBox').classList.toggle('hide', !P.colores.length);
-    P.colores.forEach(function(c){
-      var b = document.createElement('button');
-      b.type = 'button'; b.className = 'chip'; b.innerHTML = '<i style="background:' + c[1] + '"></i>' + c[0];
-      b.onclick = function(){ estado.color = c[0]; box.querySelectorAll('.chip').forEach(function(x){ x.classList.toggle('on', x === b); }); resumen(); };
-      box.appendChild(b);
-      if(colorInicial && c[0].toLowerCase() === colorInicial.toLowerCase()) b.click();
-    });
-    $('grabadoBox').classList.toggle('hide', p === 'carnet');
-    pintarPet(); resumen();
+    if(carrito[p] && !color) delete carrito[p];
+    else carrito[p] = carrito[p] || { color:'', cantidad:1 };
+    if(color && carrito[p]){
+      var c = PRODUCTOS[p].colores.find(function(x){ return x[0].toLowerCase() === String(color).toLowerCase(); });
+      if(c) carrito[p].color = c[0];
+    }
+    pintar();
   }
-  document.querySelectorAll('#prods .prod').forEach(function(b){ b.onclick = function(){ elegirProducto(b.getAttribute('data-p')); }; });
+  document.querySelectorAll('#prods .prod').forEach(function(b){ b.onclick = function(){ alternar(b.getAttribute('data-p')); }; });
 
+  function pintar(){
+    document.querySelectorAll('#prods .prod').forEach(function(b){ b.classList.toggle('on', !!carrito[b.getAttribute('data-p')]); });
+    var cont = $('lineas'); cont.innerHTML = '';
+    ORDEN.filter(function(p){ return carrito[p]; }).forEach(function(p){
+      var P = PRODUCTOS[p], it = carrito[p];
+      var d = document.createElement('div'); d.className = 'linea'; d.id = 'linea-' + p;
+      var top = document.createElement('div'); top.className = 'linea-top';
+      var nb = document.createElement('b'); nb.textContent = P.nombre;
+      var pr = document.createElement('span'); pr.textContent = pesos(P.precio * it.cantidad);
+      top.appendChild(nb); top.appendChild(pr); d.appendChild(top);
+      if(P.colores.length){
+        var ch = document.createElement('div'); ch.className = 'chips'; ch.id = 'colores-' + p;
+        P.colores.forEach(function(c){
+          var b = document.createElement('button'); b.type = 'button'; b.className = 'chip' + (it.color === c[0] ? ' on' : '');
+          b.innerHTML = '<i style="background:' + c[1] + '"></i>' + c[0];
+          b.onclick = function(){ it.color = c[0]; pintar(); };
+          ch.appendChild(b);
+        });
+        d.appendChild(ch);
+      }
+      var cant = document.createElement('div'); cant.className = 'cant';
+      cant.appendChild(document.createTextNode('Cantidad'));
+      var menos = document.createElement('button'); menos.type = 'button'; menos.textContent = '−';
+      menos.onclick = function(){ if(it.cantidad > 1){ it.cantidad--; pintar(); } };
+      var out = document.createElement('output'); out.textContent = it.cantidad;
+      var mas = document.createElement('button'); mas.type = 'button'; mas.textContent = '+';
+      mas.onclick = function(){ if(it.cantidad < 5){ it.cantidad++; pintar(); } };
+      var q = document.createElement('button'); q.type = 'button'; q.className = 'quitar'; q.textContent = 'Quitar';
+      q.onclick = function(){ delete carrito[p]; pintar(); };
+      cant.appendChild(menos); cant.appendChild(out); cant.appendChild(mas); cant.appendChild(q);
+      d.appendChild(cant);
+      cont.appendChild(d);
+    });
+    var llevaPlaca = ['estandar','foto','huesito'].some(function(p){ return carrito[p]; });
+    $('grabadoBox').classList.toggle('hide', !llevaPlaca && Object.keys(carrito).length > 0);
+    $('fotoBox').classList.toggle('hide', !(carrito.foto || carrito.carnet));
+    pintarFoto(); pintarPet(); resumen();
+  }
+
+  function items(){
+    return ORDEN.filter(function(p){ return carrito[p]; }).map(function(p){
+      return { producto:p, color:carrito[p].color, cantidad:carrito[p].cantidad };
+    });
+  }
   function resumen(){
-    var P = PRODUCTOS[estado.producto];
-    $('rProd').textContent = P ? P.nombre + (estado.color ? ' · ' + estado.color : '') : 'Elige un producto';
-    $('rPrecio').textContent = P ? pesos(P.precio) : '—';
+    var lista = items(), cont = $('rItems'), total = 0;
+    cont.innerHTML = '';
+    if(!lista.length){ cont.innerHTML = '<div class="r"><span>Elige al menos un producto</span><span>—</span></div>'; $('rTotal').textContent = '—'; return; }
+    lista.forEach(function(i){
+      var P = PRODUCTOS[i.producto], sub = P.precio * i.cantidad; total += sub;
+      var r = document.createElement('div'); r.className = 'r';
+      var a = document.createElement('span'); a.textContent = i.cantidad + ' × ' + P.nombre + (i.color ? ' · ' + i.color : '');
+      var b = document.createElement('span'); b.textContent = pesos(sub);
+      r.appendChild(a); r.appendChild(b); cont.appendChild(r);
+    });
+    $('rTotal').textContent = pesos(total) + ' + envío';
+  }
+
+  // ── Foto: la del carnet u otra por WhatsApp ──
+  document.querySelectorAll('#fotos .fopt').forEach(function(b){
+    b.onclick = function(){ if(b.disabled) return; estado.foto = b.getAttribute('data-f'); pintarFoto(); };
+  });
+  function pintarFoto(){
+    var p = estado.pet, bc = $('fCarnet');
+    var tiene = !!(p && p.photo_url && /^https:\/\//.test(p.photo_url));
+    var ico = bc.querySelector('.ico, img');
+    if(tiene){
+      if(ico.tagName !== 'IMG'){ var im = document.createElement('img'); im.alt = ''; bc.replaceChild(im, ico); ico = im; }
+      ico.src = p.photo_url; bc.disabled = false; $('fCarnetTxt').textContent = 'La que ya está en su carnet Kolita';
+    } else {
+      bc.disabled = !!p; $('fCarnetTxt').textContent = p ? 'Su carnet no tiene foto todavía' : 'La que ya está en su carnet Kolita';
+      if(p && estado.foto === 'carnet') estado.foto = '';
+      if(p && !estado.foto) estado.foto = 'whatsapp';
+    }
+    document.querySelectorAll('#fotos .fopt').forEach(function(b){ b.classList.toggle('on', b.getAttribute('data-f') === estado.foto); });
   }
 
   // ── Zona de entrega ──
@@ -243,13 +348,13 @@ textarea{resize:vertical;min-height:70px;}
     };
   });
 
-  // ── Código Kolita: buscamos al peludo para no preguntarte sus datos ──
+  // ── Código Kolita: traemos al peludo para no preguntarte sus datos ──
   var temp = null;
   $('codigo').addEventListener('input', function(){
     clearTimeout(temp);
     var c = this.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
-    estado.pet = null; pintarPet();
-    if(c.length < 6){ return; }
+    estado.pet = null; pintarPet(); pintarFoto();
+    if(c.length < 6) return;
     $('codMsg').textContent = 'Buscando…'; $('codMsg').className = 'msg';
     temp = setTimeout(function(){ buscar(c); }, 450);
   });
@@ -261,34 +366,35 @@ textarea{resize:vertical;min-height:70px;}
       var r2 = await fetch(SUPABASE_URL + '/rest/v1/rpc/get_pet_public', { method:'POST', headers:HDR, body:JSON.stringify({ p_id:id }) });
       var p = (await r2.json())[0];
       if(!p){ $('codMsg').textContent = 'No encontramos ese código.'; $('codMsg').className = 'msg err'; return; }
-      estado.pet = p;
-      $('codMsg').textContent = '';
+      estado.pet = p; $('codMsg').textContent = '';
       if(!$('grabado').value.trim()) $('grabado').value = bonito(p.name);
-      pintarPet();
+      pintarPet(); pintarFoto();
     }catch(e){ $('codMsg').textContent = 'No pudimos buscar el código. Revisa tu internet.'; $('codMsg').className = 'msg err'; }
   }
   function bonito(n){ var s = String(n || '').trim(); return s === s.toUpperCase() ? s.toLowerCase().replace(/(^|\s)(\S)/g, function(_m,a,b){ return a + b.toUpperCase(); }) : s; }
   function pintarPet(){
     var box = $('petOk'), p = estado.pet;
     if(!p){ box.classList.remove('show'); box.innerHTML = ''; return; }
-    var nota = '✓ Encontramos su carnet';
-    if(estado.producto === 'foto') nota = p.photo_url ? '📸 Usaremos la foto de su carnet. Te mandamos una vista previa antes de grabar.' : '📸 Su carnet no tiene foto: te la pediremos por WhatsApp.';
-    if(estado.producto === 'carnet') nota = '🪪 Usaremos los datos y la foto de su carnet.';
     box.innerHTML = '';
     if(p.photo_url && /^https:\/\//.test(p.photo_url)){ var im = document.createElement('img'); im.src = p.photo_url; im.alt = ''; box.appendChild(im); }
     else { var ph = document.createElement('span'); ph.className = 'ph'; ph.textContent = '🐾'; box.appendChild(ph); }
     var d = document.createElement('div');
     var b = document.createElement('b'); b.textContent = bonito(p.name); d.appendChild(b);
-    d.appendChild(document.createElement('br')); d.appendChild(document.createTextNode(nota));
+    d.appendChild(document.createElement('br')); d.appendChild(document.createTextNode('✓ Encontramos su carnet'));
     box.appendChild(d); box.classList.add('show');
   }
 
   // ── Enviar ──
   $('f').addEventListener('submit', async function(e){
     e.preventDefault();
-    if(!estado.producto) return falta('prods', 'Elige qué quieres pedir');
-    if(PRODUCTOS[estado.producto].colores.length && !estado.color) return falta('colores', 'Elige un color');
+    var lista = items();
+    if(!lista.length) return falta('prods', 'Elige al menos un producto');
+    for(var i = 0; i < lista.length; i++){
+      if(PRODUCTOS[lista[i].producto].colores.length && !lista[i].color)
+        return falta('colores-' + lista[i].producto, 'Elige el color de la ' + PRODUCTOS[lista[i].producto].nombre.toLowerCase());
+    }
     if(!estado.pet) return falta('codigo', 'Escribe un Código Kolita válido');
+    if((carrito.foto || carrito.carnet) && !estado.foto) return falta('fotos', 'Elige qué foto usamos');
     if(!estado.entrega) return falta('entregas', 'Elige la zona de entrega');
     if(!$('ciudad').value.trim()) return falta('ciudad', 'Escribe la ciudad o municipio');
     if(!$('direccion').value.trim()) return falta('direccion', 'Escribe la dirección de entrega');
@@ -304,7 +410,7 @@ textarea{resize:vertical;min-height:70px;}
       var r = await fetch(SUPABASE_URL + '/functions/v1/nuevo-pedido', {
         method:'POST', headers:HDR,
         body: JSON.stringify({
-          producto: estado.producto, color: estado.color, codigo: estado.pet.short_code,
+          items: lista, foto_preferencia: estado.foto || null, codigo: estado.pet.short_code,
           nombre_grabado: $('grabado').value.trim(), cliente_nombre: $('nombre').value.trim(),
           whatsapp: wa, correo: correo, entrega: estado.entrega, ciudad: $('ciudad').value.trim(),
           direccion: $('direccion').value.trim(), barrio: $('barrio').value.trim(),
@@ -314,21 +420,22 @@ textarea{resize:vertical;min-height:70px;}
       });
       var d = await r.json();
       if(!d.ok) throw new Error(d.error || 'No pudimos enviar el pedido.');
-      var P = PRODUCTOS[estado.producto];
+      var resumenTxt = lista.map(function(i){ return i.cantidad + ' ' + PRODUCTOS[i.producto].nombre + (i.color ? ' ' + i.color : ''); }).join(', ');
       $('okNum').textContent = '#' + d.numero;
-      $('okWa').href = 'https://wa.me/' + WA_KOLITA + '?text=' + encodeURIComponent('¡Hola Kolita! 🐾 Acabo de hacer el pedido #' + d.numero + ': ' + P.nombre + (estado.color ? ' ' + estado.color : '') + ' para ' + bonito(estado.pet.name) + '.');
+      $('okWa').href = 'https://wa.me/' + WA_KOLITA + '?text=' + encodeURIComponent('¡Hola Kolita! 🐾 Acabo de hacer el pedido #' + d.numero + ' para ' + bonito(estado.pet.name) + ': ' + resumenTxt + '. Quedo atenta(o) al valor del envío y los datos de pago.');
       $('formBox').classList.add('hide'); $('okBox').classList.remove('hide');
       window.scrollTo({ top:0, behavior:'smooth' });
-      if(window.gtag) gtag('event', 'pedido_enviado', { producto: estado.producto });
+      if(window.gtag) gtag('event', 'pedido_enviado', { value: d.total, currency: 'COP' });
     }catch(err){
       toast('⚠️ ' + (err.message || 'No pudimos enviar el pedido. Intenta de nuevo.'));
       btn.disabled = false; btn.textContent = 'Enviar pedido 🐾';
     }
   });
 
-  // ── Llegó desde un botón de placas: ?producto=estandar&color=negra&codigo=G8TW358 ──
+  // ── Llegó desde un botón: ?producto=estandar&color=negra&codigo=G8TW358 ──
   var q = new URLSearchParams(location.search);
-  if(q.get('producto')) elegirProducto(q.get('producto'), q.get('color') || '');
+  if(q.get('producto')) alternar(q.get('producto'), q.get('color') || '');
+  else pintar();
   if(q.get('codigo')){ $('codigo').value = q.get('codigo').toUpperCase(); $('codigo').dispatchEvent(new Event('input')); }
 })();
 </script>
