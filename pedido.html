@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-381DD74KP3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-381DD74KP3');
+</script>
+<title>Pedir placa o carnet — Kolita</title>
+<meta name="description" content="Pide la placa con QR o el carnet PVC de tu peludo. Te confirmamos el envío por WhatsApp.">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Quicksand:wght@600;700&family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FBFCFA; --soft:#EDF2EA; --mid:#7C9877; --deep:#556F51; --ink:#3C4A3A; --mut:#93A28F;
+  --line:#E4EAE1; --alert:#C87B5B; --orange:#E8813A;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+body{font-family:'Nunito Sans',sans-serif;background:#F1F3EF;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:22px 16px 60px;color:var(--ink);}
+.top{max-width:460px;width:100%;display:flex;align-items:center;gap:8px;margin-bottom:18px;}
+.brand-k{width:32px;height:32px;flex-shrink:0;}
+.brand-name{font-family:'Quicksand',sans-serif;font-weight:700;font-size:18px;}
+.top a{margin-left:auto;font-size:12px;font-weight:800;color:var(--deep);text-decoration:none;}
+.wrap{max-width:460px;width:100%;background:var(--bg);border:1px solid var(--line);border-radius:26px;padding:24px 20px;box-shadow:0 14px 40px rgba(70,85,66,.08);}
+h1{font-family:'Fraunces',serif;font-size:23px;font-weight:700;line-height:1.2;}
+.sub{font-size:13px;color:var(--mut);font-weight:600;margin-top:6px;line-height:1.55;}
+.sec{border-top:1px solid var(--line);margin-top:22px;padding-top:4px;}
+.sec-t{font-family:'Fraunces',serif;font-size:17px;font-weight:700;margin-top:14px;}
+label,.lbl{display:block;font-size:13.5px;font-weight:800;color:var(--deep);margin:16px 0 7px;}
+.opc{font-weight:600;color:var(--mut);font-size:12px;}
+input,select,textarea{width:100%;padding:13px 14px;border:1.5px solid var(--line);border-radius:13px;background:#fff;font-family:inherit;font-size:16px;color:var(--ink);outline:none;}
+input:focus,textarea:focus,select:focus{border-color:var(--mid);}
+.bad{border-color:var(--alert) !important;background:#FDF7F3 !important;}
+textarea{resize:vertical;min-height:70px;}
+.hint{font-size:12px;color:var(--mut);font-weight:600;line-height:1.5;margin-top:6px;}
+.prods{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.prod{border:1.5px solid var(--line);background:#fff;border-radius:16px;padding:12px;text-align:left;cursor:pointer;font-family:inherit;color:var(--ink);}
+.prod b{display:block;font-size:13.5px;}
+.prod span{font-size:12.5px;color:var(--mut);font-weight:700;}
+.prod.on{border-color:var(--mid);background:var(--soft);}
+.prod.on span{color:var(--deep);}
+.chips{display:flex;flex-wrap:wrap;gap:8px;}
+.chip{padding:9px 13px;border:1.5px solid var(--line);border-radius:99px;background:#fff;font-family:inherit;font-size:13.5px;font-weight:700;color:var(--ink);cursor:pointer;display:inline-flex;align-items:center;gap:7px;}
+.chip i{width:14px;height:14px;border-radius:50%;display:inline-block;border:1px solid rgba(0,0,0,.15);}
+.chip.on{background:var(--mid);border-color:var(--mid);color:#fff;}
+.pet-ok{display:none;align-items:center;gap:12px;background:var(--soft);border-radius:14px;padding:10px 12px;margin-top:10px;}
+.pet-ok.show{display:flex;}
+.pet-ok img{width:46px;height:46px;border-radius:12px;object-fit:cover;flex:none;}
+.pet-ok .ph{width:46px;height:46px;border-radius:12px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;flex:none;}
+.pet-ok b{font-size:14px;}
+.pet-ok div{font-size:12.5px;color:var(--deep);font-weight:700;line-height:1.4;}
+.msg{font-size:12.5px;font-weight:700;margin-top:6px;min-height:16px;color:var(--mut);}
+.msg.err{color:var(--alert);}
+.envio{background:#FDF7F3;border:1.5px solid #EAD4C9;border-radius:14px;padding:12px 14px;font-size:12.5px;color:#8A5238;font-weight:700;line-height:1.6;margin-top:12px;}
+.check-line{display:flex;align-items:flex-start;gap:10px;margin-top:18px;font-size:12.5px;font-weight:600;color:var(--ink);line-height:1.5;cursor:pointer;}
+.check-line input{width:19px;height:19px;flex:none;margin-top:1px;accent-color:var(--mid);}
+.resumen{background:var(--soft);border-radius:16px;padding:14px 16px;margin-top:20px;}
+.resumen .r{display:flex;justify-content:space-between;gap:10px;font-size:13.5px;font-weight:700;padding:3px 0;}
+.resumen .r.t{border-top:1px solid var(--line);margin-top:6px;padding-top:9px;font-size:15px;color:var(--deep);}
+.btn{display:block;width:100%;padding:15px;border:none;border-radius:14px;font-family:inherit;font-size:15px;font-weight:800;cursor:pointer;background:var(--orange);color:#fff;margin-top:16px;text-align:center;text-decoration:none;}
+.btn:disabled{opacity:.6;cursor:default;}
+.btn-sec{background:#fff;border:1.5px solid var(--mid);color:var(--deep);}
+.oculto{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;}
+.hide{display:none !important;}
+.ok-box{text-align:center;}
+.ok-box .big{font-size:52px;}
+.ok-box h2{font-family:'Fraunces',serif;font-size:23px;margin-top:6px;}
+.ok-box p{font-size:13.5px;color:var(--mut);font-weight:600;line-height:1.65;margin-top:8px;}
+.ok-num{display:inline-block;margin-top:12px;background:var(--soft);border-radius:12px;padding:8px 16px;font-family:'Fraunces',serif;font-size:20px;color:var(--deep);letter-spacing:2px;}
+.seguro{background:#FDF7F3;border:1.5px solid #EAD4C9;border-radius:14px;padding:12px 14px;font-size:12.5px;color:#8A5238;font-weight:700;line-height:1.6;margin-top:16px;text-align:left;}
+.toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--alert);color:#fff;padding:12px 20px;border-radius:14px;font-size:13px;font-weight:700;opacity:0;transition:.3s;z-index:60;width:max-content;max-width:calc(100% - 32px);text-align:center;line-height:1.45;}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <svg class="brand-k" viewBox="0 0 92 92"><rect x="2" y="2" width="88" height="88" rx="24" fill="#7C9877"/><path d="M32 24 L32 68" stroke="#FBFCFA" stroke-width="9" stroke-linecap="round"/><path d="M34 48 C 48 46, 58 36, 56 24" fill="none" stroke="#FBFCFA" stroke-width="9" stroke-linecap="round"/><path d="M34 48 C 48 52, 58 60, 62 70" fill="none" stroke="#DCE8D8" stroke-width="9" stroke-linecap="round"/></svg>
+  <span class="brand-name">kolita</span>
+  <a href="placas.html">← Ver placas</a>
+</div>
+
+<div class="wrap" id="formBox">
+  <h1>Pide su placa o su carnet 🐾</h1>
+  <p class="sub">Llena estos datos una sola vez. Te escribimos por WhatsApp con el valor del envío y cómo pagar.</p>
+
+  <form id="f" novalidate>
+    <!-- 1. PRODUCTO -->
+    <div class="sec" style="border-top:none;margin-top:12px;">
+      <div class="sec-t">1. ¿Qué quieres pedir?</div>
+      <div class="prods" id="prods" style="margin-top:12px;">
+        <button type="button" class="prod" data-p="estandar"><b>Placa estándar</b><span>$39.900</span></button>
+        <button type="button" class="prod" data-p="foto"><b>Placa con su foto</b><span>$49.900</span></button>
+        <button type="button" class="prod" data-p="huesito"><b>Placa huesito</b><span>$34.900</span></button>
+        <button type="button" class="prod" data-p="carnet"><b>Carnet PVC</b><span>$24.900</span></button>
+      </div>
+      <div id="colorBox" class="hide">
+        <span class="lbl">Color</span>
+        <div class="chips" id="colores"></div>
+      </div>
+    </div>
+
+    <!-- 2. EL PELUDO -->
+    <div class="sec">
+      <div class="sec-t">2. Tu peludo</div>
+      <label for="codigo">Código Kolita</label>
+      <input id="codigo" placeholder="Ej: G8TW358" maxlength="10" style="text-transform:uppercase;letter-spacing:2px;" autocomplete="off">
+      <div class="msg" id="codMsg">Lo encuentras en <a href="mis-carnets.html" style="color:var(--deep);">Mis carnets</a>. ¿No tienes? <a href="registro.html" style="color:var(--deep);">Créalo gratis</a>.</div>
+      <div class="pet-ok" id="petOk"></div>
+      <div id="grabadoBox">
+        <label for="grabado">Nombre que va grabado <span class="opc">(como quieres que aparezca)</span></label>
+        <input id="grabado" maxlength="18" placeholder="Ej: Ibiza">
+      </div>
+    </div>
+
+    <!-- 3. ENTREGA -->
+    <div class="sec">
+      <div class="sec-t">3. ¿A dónde lo enviamos?</div>
+      <span class="lbl">Zona de entrega</span>
+      <div class="chips" id="entregas">
+        <button type="button" class="chip" data-e="medellin">Medellín</button>
+        <button type="button" class="chip" data-e="area_metro">Área metropolitana</button>
+        <button type="button" class="chip" data-e="fuera">Fuera del área metropolitana</button>
+      </div>
+      <p class="hint">Área metropolitana: Envigado, Itagüí, Sabaneta, Bello, La Estrella, Caldas, Copacabana, Girardota y Barbosa.</p>
+      <div class="envio">
+        🚚 <strong>El envío se paga aparte.</strong><br>
+        · En Medellín y el área metropolitana, el valor depende de qué tan lejos estés.<br>
+        · Fuera del área metropolitana, depende de la transportadora y de sus condiciones del momento.<br>
+        Te confirmamos el valor exacto por WhatsApp <strong>antes</strong> de pagar.
+      </div>
+      <label for="ciudad">Ciudad o municipio</label>
+      <input id="ciudad" maxlength="80" placeholder="Ej: Medellín">
+      <label for="direccion">Dirección</label>
+      <input id="direccion" maxlength="160" placeholder="Ej: Cra 43A # 10-20, apto 501">
+      <label for="barrio">Barrio <span class="opc">(opcional)</span></label>
+      <input id="barrio" maxlength="80" placeholder="Ej: El Poblado">
+      <label for="indicaciones">Indicaciones para el repartidor <span class="opc">(opcional)</span></label>
+      <input id="indicaciones" maxlength="200" placeholder="Ej: dejar en portería">
+    </div>
+
+    <!-- 4. CONTACTO -->
+    <div class="sec">
+      <div class="sec-t">4. Tus datos</div>
+      <label for="nombre">Tu nombre</label>
+      <input id="nombre" maxlength="80" autocomplete="name">
+      <label for="whatsapp">Tu WhatsApp</label>
+      <input id="whatsapp" type="tel" inputmode="tel" maxlength="16" placeholder="Ej: 3001234567" autocomplete="tel">
+      <p class="hint">Por aquí te confirmamos el envío y te enviamos los datos de pago.</p>
+      <label for="correo">Tu correo <span class="opc">(opcional, para enviarte la confirmación)</span></label>
+      <input id="correo" type="email" inputmode="email" maxlength="120" autocomplete="email">
+      <label for="notas">¿Algo más que debamos saber? <span class="opc">(opcional)</span></label>
+      <textarea id="notas" maxlength="500" placeholder="Ej: es para regalo, lo necesito antes del viernes…"></textarea>
+      <div class="oculto" aria-hidden="true"><label>Sitio web<input id="sitio" tabindex="-1" autocomplete="off"></label></div>
+      <label class="check-line"><input type="checkbox" id="autoriza"><span>Autorizo a Kolita a usar estos datos para preparar y entregar mi pedido, conforme a la <a href="privacidad.html" target="_blank" style="color:var(--deep);font-weight:800;">Política de Privacidad</a> (Ley 1581 de 2012).</span></label>
+    </div>
+
+    <div class="resumen">
+      <div class="r"><span id="rProd">Elige un producto</span><span id="rPrecio">—</span></div>
+      <div class="r"><span>Envío</span><span>Te lo confirmamos</span></div>
+      <div class="r t"><span>Pago</span><span>Después de confirmar el envío</span></div>
+    </div>
+
+    <button class="btn" type="submit" id="enviar">Enviar pedido 🐾</button>
+    <p class="hint" style="text-align:center;">Todavía no pagas nada. Primero te confirmamos el total por WhatsApp.</p>
+  </form>
+</div>
+
+<div class="wrap hide" id="okBox">
+  <div class="ok-box">
+    <div class="big">🎉</div>
+    <h2>¡Recibimos tu pedido!</h2>
+    <div class="ok-num" id="okNum">#—</div>
+    <p>Te escribimos por WhatsApp con el <strong>valor del envío</strong> y los <strong>datos para el pago</strong>. Cuando confirmemos el pago, lo hacemos y te mandamos una foto antes de entregarlo.</p>
+    <div class="seguro">🔒 Por tu seguridad: Kolita solo te escribe desde el WhatsApp <strong>+57 312 322 3627</strong>. Nunca te pediremos pagar por un enlace ni a nombre de otra persona.</div>
+    <a class="btn" id="okWa" href="#" target="_blank" rel="noopener">Escribirnos por WhatsApp</a>
+    <a class="btn btn-sec" href="index.html">Volver a Kolita</a>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  'use strict';
+  var SUPABASE_URL = 'https://fdwbstqxqdailyeedmuo.supabase.co';
+  var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZkd2JzdHF4cWRhaWx5ZWVkbXVvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM5MDEwMDEsImV4cCI6MjA5OTQ3NzAwMX0.GG6O9z1Exu5z0DsM8Fzk-fx1h2BIII0I9flMVZiPwIw';
+  var WA_KOLITA = '573123223627';
+  var HDR = { 'Content-Type':'application/json', 'apikey':SUPABASE_KEY, 'Authorization':'Bearer ' + SUPABASE_KEY };
+
+  var PRODUCTOS = {
+    estandar: { nombre:'Placa estándar',       precio:39900, colores:[['Negra','#2B2B2B'],['Plateada','#C9CCC7']] },
+    foto:     { nombre:'Placa con su foto',    precio:49900, colores:[['Negra','#2B2B2B'],['Plateada','#C9CCC7']] },
+    huesito:  { nombre:'Placa huesito',        precio:34900, colores:[['Verde','#5BAA6B'],['Azul','#3E7CC9'],['Morada','#7B5BB5'],['Fucsia','#D6337E'],['Rosada','#F2A6C0'],['Naranja','#EE8A3C'],['Plateada','#C9CCC7'],['Negra','#2B2B2B']] },
+    carnet:   { nombre:'Carnet PVC tipo tarjeta', precio:24900, colores:[] }
+  };
+  var $ = function(id){ return document.getElementById(id); };
+  var estado = { producto:'', color:'', entrega:'', pet:null };
+  var pesos = function(n){ return '$' + n.toLocaleString('es-CO'); };
+
+  function toast(t){ var e = $('toast'); e.textContent = t; e.classList.add('show'); setTimeout(function(){ e.classList.remove('show'); }, 3500); }
+  function falta(id, t){
+    var el = $(id); el.classList.add('bad'); el.scrollIntoView({ behavior:'smooth', block:'center' });
+    ['input','click','change'].forEach(function(ev){ el.addEventListener(ev, function(){ el.classList.remove('bad'); }, { once:true }); });
+    toast('⚠️ ' + t); return false;
+  }
+
+  // ── Producto y color ──
+  function elegirProducto(p, colorInicial){
+    if(!PRODUCTOS[p]) return;
+    estado.producto = p; estado.color = '';
+    document.querySelectorAll('#prods .prod').forEach(function(b){ b.classList.toggle('on', b.getAttribute('data-p') === p); });
+    var P = PRODUCTOS[p], box = $('colores');
+    box.innerHTML = '';
+    $('colorBox').classList.toggle('hide', !P.colores.length);
+    P.colores.forEach(function(c){
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'chip'; b.innerHTML = '<i style="background:' + c[1] + '"></i>' + c[0];
+      b.onclick = function(){ estado.color = c[0]; box.querySelectorAll('.chip').forEach(function(x){ x.classList.toggle('on', x === b); }); resumen(); };
+      box.appendChild(b);
+      if(colorInicial && c[0].toLowerCase() === colorInicial.toLowerCase()) b.click();
+    });
+    $('grabadoBox').classList.toggle('hide', p === 'carnet');
+    pintarPet(); resumen();
+  }
+  document.querySelectorAll('#prods .prod').forEach(function(b){ b.onclick = function(){ elegirProducto(b.getAttribute('data-p')); }; });
+
+  function resumen(){
+    var P = PRODUCTOS[estado.producto];
+    $('rProd').textContent = P ? P.nombre + (estado.color ? ' · ' + estado.color : '') : 'Elige un producto';
+    $('rPrecio').textContent = P ? pesos(P.precio) : '—';
+  }
+
+  // ── Zona de entrega ──
+  document.querySelectorAll('#entregas .chip').forEach(function(b){
+    b.onclick = function(){
+      estado.entrega = b.getAttribute('data-e');
+      document.querySelectorAll('#entregas .chip').forEach(function(x){ x.classList.toggle('on', x === b); });
+      if(estado.entrega === 'medellin' && !$('ciudad').value.trim()) $('ciudad').value = 'Medellín';
+    };
+  });
+
+  // ── Código Kolita: buscamos al peludo para no preguntarte sus datos ──
+  var temp = null;
+  $('codigo').addEventListener('input', function(){
+    clearTimeout(temp);
+    var c = this.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+    estado.pet = null; pintarPet();
+    if(c.length < 6){ return; }
+    $('codMsg').textContent = 'Buscando…'; $('codMsg').className = 'msg';
+    temp = setTimeout(function(){ buscar(c); }, 450);
+  });
+  async function buscar(c){
+    try{
+      var r = await fetch(SUPABASE_URL + '/rest/v1/rpc/resolve_short_code', { method:'POST', headers:HDR, body:JSON.stringify({ p_code:c }) });
+      var id = await r.json();
+      if(!id || typeof id !== 'string'){ $('codMsg').textContent = 'No encontramos ese código. Revísalo en Mis carnets.'; $('codMsg').className = 'msg err'; return; }
+      var r2 = await fetch(SUPABASE_URL + '/rest/v1/rpc/get_pet_public', { method:'POST', headers:HDR, body:JSON.stringify({ p_id:id }) });
+      var p = (await r2.json())[0];
+      if(!p){ $('codMsg').textContent = 'No encontramos ese código.'; $('codMsg').className = 'msg err'; return; }
+      estado.pet = p;
+      $('codMsg').textContent = '';
+      if(!$('grabado').value.trim()) $('grabado').value = bonito(p.name);
+      pintarPet();
+    }catch(e){ $('codMsg').textContent = 'No pudimos buscar el código. Revisa tu internet.'; $('codMsg').className = 'msg err'; }
+  }
+  function bonito(n){ var s = String(n || '').trim(); return s === s.toUpperCase() ? s.toLowerCase().replace(/(^|\s)(\S)/g, function(_m,a,b){ return a + b.toUpperCase(); }) : s; }
+  function pintarPet(){
+    var box = $('petOk'), p = estado.pet;
+    if(!p){ box.classList.remove('show'); box.innerHTML = ''; return; }
+    var nota = '✓ Encontramos su carnet';
+    if(estado.producto === 'foto') nota = p.photo_url ? '📸 Usaremos la foto de su carnet. Te mandamos una vista previa antes de grabar.' : '📸 Su carnet no tiene foto: te la pediremos por WhatsApp.';
+    if(estado.producto === 'carnet') nota = '🪪 Usaremos los datos y la foto de su carnet.';
+    box.innerHTML = '';
+    if(p.photo_url && /^https:\/\//.test(p.photo_url)){ var im = document.createElement('img'); im.src = p.photo_url; im.alt = ''; box.appendChild(im); }
+    else { var ph = document.createElement('span'); ph.className = 'ph'; ph.textContent = '🐾'; box.appendChild(ph); }
+    var d = document.createElement('div');
+    var b = document.createElement('b'); b.textContent = bonito(p.name); d.appendChild(b);
+    d.appendChild(document.createElement('br')); d.appendChild(document.createTextNode(nota));
+    box.appendChild(d); box.classList.add('show');
+  }
+
+  // ── Enviar ──
+  $('f').addEventListener('submit', async function(e){
+    e.preventDefault();
+    if(!estado.producto) return falta('prods', 'Elige qué quieres pedir');
+    if(PRODUCTOS[estado.producto].colores.length && !estado.color) return falta('colores', 'Elige un color');
+    if(!estado.pet) return falta('codigo', 'Escribe un Código Kolita válido');
+    if(!estado.entrega) return falta('entregas', 'Elige la zona de entrega');
+    if(!$('ciudad').value.trim()) return falta('ciudad', 'Escribe la ciudad o municipio');
+    if(!$('direccion').value.trim()) return falta('direccion', 'Escribe la dirección de entrega');
+    if(!$('nombre').value.trim()) return falta('nombre', 'Escribe tu nombre');
+    var wa = $('whatsapp').value.replace(/\D/g, ''); if(wa.length === 12 && wa.indexOf('57') === 0) wa = wa.slice(2);
+    if(wa.length !== 10) return falta('whatsapp', 'Escribe tu WhatsApp de 10 dígitos');
+    var correo = $('correo').value.trim();
+    if(correo && !/^[^@\s]+@[^@\s]+\.[A-Za-z]{2,}$/.test(correo)) return falta('correo', 'Revisa tu correo');
+    if(!$('autoriza').checked) return falta('autoriza', 'Marca la autorización de datos');
+
+    var btn = $('enviar'); btn.disabled = true; btn.textContent = 'Enviando…';
+    try{
+      var r = await fetch(SUPABASE_URL + '/functions/v1/nuevo-pedido', {
+        method:'POST', headers:HDR,
+        body: JSON.stringify({
+          producto: estado.producto, color: estado.color, codigo: estado.pet.short_code,
+          nombre_grabado: $('grabado').value.trim(), cliente_nombre: $('nombre').value.trim(),
+          whatsapp: wa, correo: correo, entrega: estado.entrega, ciudad: $('ciudad').value.trim(),
+          direccion: $('direccion').value.trim(), barrio: $('barrio').value.trim(),
+          indicaciones: $('indicaciones').value.trim(), notas: $('notas').value.trim(),
+          autoriza: true, sitio: $('sitio').value
+        })
+      });
+      var d = await r.json();
+      if(!d.ok) throw new Error(d.error || 'No pudimos enviar el pedido.');
+      var P = PRODUCTOS[estado.producto];
+      $('okNum').textContent = '#' + d.numero;
+      $('okWa').href = 'https://wa.me/' + WA_KOLITA + '?text=' + encodeURIComponent('¡Hola Kolita! 🐾 Acabo de hacer el pedido #' + d.numero + ': ' + P.nombre + (estado.color ? ' ' + estado.color : '') + ' para ' + bonito(estado.pet.name) + '.');
+      $('formBox').classList.add('hide'); $('okBox').classList.remove('hide');
+      window.scrollTo({ top:0, behavior:'smooth' });
+      if(window.gtag) gtag('event', 'pedido_enviado', { producto: estado.producto });
+    }catch(err){
+      toast('⚠️ ' + (err.message || 'No pudimos enviar el pedido. Intenta de nuevo.'));
+      btn.disabled = false; btn.textContent = 'Enviar pedido 🐾';
+    }
+  });
+
+  // ── Llegó desde un botón de placas: ?producto=estandar&color=negra&codigo=G8TW358 ──
+  var q = new URLSearchParams(location.search);
+  if(q.get('producto')) elegirProducto(q.get('producto'), q.get('color') || '');
+  if(q.get('codigo')){ $('codigo').value = q.get('codigo').toUpperCase(); $('codigo').dispatchEvent(new Event('input')); }
+})();
+</script>
+</body>
+</html>
