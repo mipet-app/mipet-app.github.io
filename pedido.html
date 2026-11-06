@@ -121,10 +121,10 @@ textarea{resize:vertical;min-height:70px;}
       <div class="sec-t">1. ¿Qué quieres pedir?</div>
       <p class="hint">Puedes elegir varios: por ejemplo, el carnet PVC y una placa.</p>
       <div class="prods" id="prods" style="margin-top:12px;">
-        <button type="button" class="prod" data-p="estandar"><span class="tick">✓</span><b>Placa estándar</b><span>$39.900</span></button>
-        <button type="button" class="prod" data-p="foto"><span class="tick">✓</span><b>Placa con su foto</b><span>$49.900</span></button>
-        <button type="button" class="prod" data-p="huesito"><span class="tick">✓</span><b>Placa huesito</b><span>$34.900</span></button>
-        <button type="button" class="prod" data-p="carnet"><span class="tick">✓</span><b>Carnet PVC</b><span>$24.900</span></button>
+        <button type="button" class="prod" data-p="estandar"><span class="tick">✓</span><b>Placa estándar</b><span>$69.900</span></button>
+        <button type="button" class="prod" data-p="foto"><span class="tick">✓</span><b>Placa con su foto</b><span>$79.900</span></button>
+        <button type="button" class="prod" data-p="huesito"><span class="tick">✓</span><b>Placa huesito</b><span>$49.900</span></button>
+        <button type="button" class="prod" data-p="carnet"><span class="tick">✓</span><b>Carnet PVC</b><span>$59.900</span></button>
       </div>
       <div class="lineas" id="lineas"></div>
     </div>
@@ -231,10 +231,10 @@ textarea{resize:vertical;min-height:70px;}
   var HDR = { 'Content-Type':'application/json', 'apikey':SUPABASE_KEY, 'Authorization':'Bearer ' + SUPABASE_KEY };
 
   var PRODUCTOS = {
-    estandar: { nombre:'Placa estándar',          precio:39900, colores:[['Negra','#2B2B2B'],['Plateada','#C9CCC7']] },
-    foto:     { nombre:'Placa con su foto',       precio:49900, colores:[['Negra','#2B2B2B'],['Plateada','#C9CCC7']] },
-    huesito:  { nombre:'Placa huesito',           precio:34900, colores:[['Verde','#5BAA6B'],['Azul','#3E7CC9'],['Morada','#7B5BB5'],['Fucsia','#D6337E'],['Rosada','#F2A6C0'],['Naranja','#EE8A3C'],['Plateada','#C9CCC7'],['Negra','#2B2B2B']] },
-    carnet:   { nombre:'Carnet PVC tipo tarjeta', precio:24900, colores:[] }
+    estandar: { nombre:'Placa estándar',          precio:69900, colores:[['Negra','#2B2B2B'],['Plateada','#C9CCC7']] },
+    foto:     { nombre:'Placa con su foto',       precio:79900, colores:[['Negra','#2B2B2B'],['Plateada','#C9CCC7']] },
+    huesito:  { nombre:'Placa huesito',           precio:49900, colores:[['Verde','#5BAA6B'],['Azul','#3E7CC9'],['Morada','#7B5BB5'],['Fucsia','#D6337E'],['Rosada','#F2A6C0'],['Naranja','#EE8A3C'],['Plateada','#C9CCC7'],['Negra','#2B2B2B']] },
+    carnet:   { nombre:'Carnet PVC tipo tarjeta', precio:59900, colores:[] }
   };
   var ORDEN = ['estandar','foto','huesito','carnet'];
   var $ = function(id){ return document.getElementById(id); };
