@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kolita | Free digital pet ID with QR code for dogs and cats — Colombia</title>
+<link rel="canonical" href="https://kolita.co/en/">
+<link rel="alternate" hreflang="es" href="https://kolita.co/">
+<link rel="alternate" hreflang="en" href="https://kolita.co/en/">
+
+<!-- Vista previa al compartir en WhatsApp, Instagram y Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kolita.co/en/">
+<meta property="og:title" content="Kolita | If they get lost, they come back home">
+<meta property="og:description" content="A free digital ID for your pet, with a QR code for the collar. If someone finds them, your family gets the alert and your phone number stays private.">
+<meta property="og:image" content="https://kolita.co/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Kolita">
+<meta name="twitter:card" content="summary_large_image">
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-381DD74KP3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-381DD74KP3');
+</script>
+<meta name="description" content="Free digital ID for dogs and cats in Colombia. Vaccines, reminders and lost mode. If your pet gets lost, whoever finds them alerts your family and your phone number stays private. Made in Colombia 🐾">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Quicksand:wght@600;700&family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FBFCFA; --soft:#EEF3E9; --mid:#718B61; --deep:#3F5737; --ink:#293827; --mut:#7F8D7B;
+  --line:#E1E8DE; --alert:#C87B5B; --orange:#FF7A45;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html{scroll-behavior:smooth;}
+body{font-family:'Nunito Sans',sans-serif;background:var(--bg);color:var(--ink);}
+
+/* Ancho: 1120 para aprovechar la pantalla, pero el TEXTO largo se limita
+   aparte porque una línea de más de ~75 caracteres hace perder el renglón. */
+.container{max-width:1120px;margin:0 auto;padding:0 24px;}
+
+/* ── nav ── */
+nav{position:sticky;top:0;background:rgba(251,252,250,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:20;}
+.nav-in{display:flex;align-items:center;gap:10px;padding:12px 0;}
+.brand-box{display:flex;align-items:center;gap:9px;text-decoration:none;}
+.brand-logo-full{height:46px;width:auto;display:block;}
+.brand-word{font-family:'Quicksand',sans-serif;font-weight:700;font-size:26px;color:var(--deep);letter-spacing:-.3px;}
+.nav-link{margin-left:auto;font-size:13px;font-weight:800;color:var(--deep);text-decoration:none;margin-right:14px;}
+.nav-cta{background:var(--mid);color:#fff;text-decoration:none;font-size:13px;font-weight:800;padding:10px 18px;border-radius:12px;transition:.2s;}
+.nav-cta:hover{background:var(--deep);}
+
+/* ── hero ── */
+.hero{padding:56px 0 52px;}
+.hero-in{display:grid;grid-template-columns:1fr 360px;gap:56px;align-items:center;}
+.hero-txt{text-align:left;}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:var(--soft);color:var(--deep);font-size:11.5px;font-weight:800;padding:7px 15px;border-radius:20px;letter-spacing:.3px;}
+.hero h1{font-family:'Fraunces',serif;font-size:clamp(32px,5.2vw,50px);font-weight:700;line-height:1.1;margin-top:16px;letter-spacing:-1.2px;}
+.hero h1 em{font-style:normal;color:var(--mid);}
+.hero p{font-size:clamp(14.5px,2.5vw,17px);color:var(--mut);font-weight:600;margin:16px 0 0;line-height:1.65;max-width:470px;}
+.hero p strong{color:var(--deep);}
+.hero-btns{display:flex;gap:12px;margin-top:28px;flex-wrap:wrap;}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:15px 26px;border-radius:15px;font-size:15px;font-weight:800;text-decoration:none;transition:.2s;border:none;cursor:pointer;font-family:'Nunito Sans',sans-serif;}
+.btn-main{background:var(--mid);color:#fff;box-shadow:0 8px 22px rgba(113,139,97,.35);}
+.btn-main:hover{background:var(--deep);transform:translateY(-2px);}
+.btn-ghost{background:#fff;border:1.5px solid var(--line);color:var(--deep);}
+.btn-ghost:hover{border-color:var(--mid);}
+.hero-note{font-size:11.5px;color:var(--mut);margin-top:14px;font-weight:700;}
+.trust-strip{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;}
+.trust-pill{background:#fff;border:1px solid var(--line);border-radius:999px;padding:7px 11px;font-size:11px;font-weight:800;color:var(--deep);}
+.hero-product-note{font-size:12px!important;margin-top:12px!important;color:var(--mut)!important;}
+
+/* ── tarjeta demo ── */
+.demo-card{width:100%;max-width:360px;background:#fff;border:1px solid var(--line);border-radius:24px;padding:22px;box-shadow:0 18px 50px rgba(63,87,55,.13);}
+.d-top{display:flex;align-items:center;gap:12px;}
+.d-photo{width:54px;height:54px;border-radius:15px;background:var(--soft);display:flex;align-items:center;justify-content:center;font-size:26px;}
+.d-name{font-family:'Fraunces',serif;font-size:21px;font-weight:700;}
+.d-sub{font-size:11.5px;color:var(--mut);font-weight:600;}
+.d-badge{margin-left:auto;font-size:9.5px;font-weight:800;background:var(--soft);color:var(--deep);padding:5px 10px;border-radius:20px;}
+.d-row{display:flex;align-items:center;justify-content:space-between;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:10px 13px;margin-top:9px;font-size:12.5px;font-weight:700;}
+.d-ok{font-size:10px;font-weight:800;background:var(--soft);color:var(--deep);padding:3px 9px;border-radius:20px;}
+.d-btn{margin-top:12px;background:var(--mid);color:#fff;border-radius:12px;padding:12px;text-align:center;font-size:12.5px;font-weight:800;}
+
+/* ── secciones ── */
+section{padding:64px 0;}
+.band-soft{background:var(--soft);}
+.band-white{background:#fff;}
+.sec-kicker{text-align:center;font-size:11px;font-weight:800;color:var(--mid);text-transform:uppercase;letter-spacing:2px;}
+.sec-title{text-align:center;font-family:'Fraunces',serif;font-size:clamp(25px,4vw,36px);font-weight:700;margin-top:8px;}
+.sec-sub{text-align:center;font-size:14px;color:var(--mut);font-weight:600;line-height:1.65;margin:12px auto 0;max-width:560px;}
+.sec-sub strong{color:var(--deep);}
+
+.why-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-top:38px;}
+.why-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:28px 24px;}
+.why-card .w-emoji{font-size:32px;}
+.why-card h3{font-family:'Fraunces',serif;font-size:18px;margin-top:12px;line-height:1.35;}
+.why-card p{font-size:13.5px;color:var(--mut);font-weight:600;line-height:1.7;margin-top:8px;}
+.why-card p strong{color:var(--deep);}
+
+.steps3{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-top:38px;}
+.step-card{background:var(--bg);border:1px solid var(--line);border-radius:20px;padding:28px 24px;text-align:center;}
+.step-num{width:38px;height:38px;border-radius:12px;background:var(--soft);color:var(--deep);font-family:'Fraunces',serif;font-size:18px;font-weight:700;display:flex;align-items:center;justify-content:center;margin:0 auto;}
+.step-emoji{font-size:36px;margin-top:14px;}
+.step-card h3{font-family:'Fraunces',serif;font-size:18px;margin-top:10px;}
+.step-card p{font-size:13.5px;color:var(--mut);font-weight:600;line-height:1.65;margin-top:6px;}
+
+.feat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px;margin-top:38px;}
+.feat{background:#fff;border:1px solid var(--line);border-radius:20px;padding:26px 22px;}
+.feat-ico{font-size:28px;}
+.feat h3{font-family:'Fraunces',serif;font-size:17px;margin-top:10px;}
+.feat p{font-size:13px;color:var(--mut);font-weight:600;line-height:1.65;margin-top:6px;}
+
+/* ── bloque gratis: punto de conversión principal ── */
+.free-box{background:#fff;border:2px solid var(--mid);border-radius:28px;padding:42px 30px;max-width:660px;margin:0 auto;box-shadow:0 14px 40px rgba(63,87,55,.08);}
+.free-title{font-family:'Fraunces',serif;font-size:clamp(23px,3.5vw,30px);font-weight:700;line-height:1.25;text-align:center;}
+.free-list{list-style:none;margin-top:26px;display:flex;flex-direction:column;gap:13px;}
+.free-list li{position:relative;padding-left:31px;font-size:14px;font-weight:600;line-height:1.55;}
+.free-list li::before{content:'✓';position:absolute;left:0;top:0;width:21px;height:21px;background:var(--mid);color:#fff;border-radius:50%;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;}
+.free-list li strong{color:var(--deep);}
+.hero-count{margin-top:10px;font-size:13px;font-weight:700;color:var(--deep);}
+.hero-count strong{font-family:'Fraunces',serif;font-size:16px;}
+.vet-band{display:flex;align-items:center;gap:22px;flex-wrap:wrap;background:var(--soft);border:1px solid var(--line);border-radius:24px;padding:26px 28px;}
+.vet-band-ico{font-size:44px;flex:none;}
+.vet-band-txt{flex:1;min-width:240px;}
+.vet-band-txt h2{font-family:'Fraunces',serif;font-size:22px;font-weight:700;}
+.vet-band-txt p{font-size:14px;color:var(--mut);font-weight:600;line-height:1.6;margin-top:6px;}
+.free-cta{display:block;text-align:center;margin-top:28px;background:var(--mid);color:#fff;text-decoration:none;font-size:16px;font-weight:800;padding:17px;border-radius:15px;transition:.2s;box-shadow:0 8px 22px rgba(113,139,97,.3);}
+.free-cta:hover{background:var(--deep);transform:translateY(-2px);}
+.free-foot{margin-top:14px;font-size:12.5px;font-weight:700;color:var(--mut);line-height:1.6;text-align:center;}
+
+/* ── productos ── */
+.products-head{max-width:650px;margin:0 auto;text-align:center;}
+.product-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;margin-top:38px;}
+.product-card{background:#fff;border:1.5px solid var(--line);border-radius:24px;padding:22px;display:flex;flex-direction:column;transition:.2s;}
+.product-card:hover{transform:translateY(-3px);box-shadow:0 16px 42px rgba(63,87,55,.09);}
+.product-card.featured{border-color:var(--mid);box-shadow:0 14px 36px rgba(63,87,55,.08);}
+.product-visual{height:245px;border-radius:18px;background:#F7F8F4;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:12px;}
+.product-visual img{max-width:100%;max-height:100%;object-fit:contain;}
+.carnet-slider{position:relative;width:100%;height:100%;}
+.carnet-track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;
+  height:100%;gap:0;scrollbar-width:none;-ms-overflow-style:none;border-radius:12px;}
+.carnet-track::-webkit-scrollbar{display:none;}
+.carnet-slide{flex:0 0 100%;scroll-snap-align:center;display:flex;align-items:center;justify-content:center;padding:2px;}
+.carnet-slide img{max-width:100%;max-height:100%;object-fit:contain;border-radius:10px;background:#fff;box-shadow:0 8px 22px rgba(41,56,39,.12);}
+.slider-arrow{position:absolute;top:50%;transform:translateY(-50%);width:32px;height:32px;border-radius:50%;
+  background:rgba(255,255,255,.94);border:1px solid var(--line);color:var(--deep);
+  font-size:15px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 12px rgba(41,56,39,.14);z-index:2;transition:.15s;}
+.slider-arrow:hover{background:#fff;transform:translateY(-50%) scale(1.08);}
+.slider-arrow.prev{left:2px;}
+.slider-arrow.next{right:2px;}
+.slider-dots{display:flex;justify-content:center;gap:7px;margin-top:10px;}
+.slider-dots button{width:8px;height:8px;border-radius:50%;border:none;padding:0;cursor:pointer;
+  background:var(--line);transition:.2s;}
+.slider-dots button[aria-current="true"]{background:var(--mid);width:22px;border-radius:99px;}
+.slider-cap{text-align:center;font-size:10.5px;font-weight:800;color:var(--mut);margin-top:7px;
+  text-transform:uppercase;letter-spacing:.8px;}
+.product-tag{align-self:flex-start;background:var(--soft);color:var(--deep);font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:1px;padding:6px 10px;border-radius:999px;margin-bottom:12px;}
+.tag-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;}
+.tag-row .product-tag{margin-bottom:0;}
+.favorite-tag{background:var(--orange);color:#fff;font-size:9px;font-weight:900;letter-spacing:.8px;text-transform:uppercase;padding:6px 10px;border-radius:999px;}
+.product-card h3{font-family:'Fraunces',serif;font-size:21px;margin-top:16px;}
+.product-card p{font-size:13px;color:var(--mut);font-weight:600;line-height:1.65;margin-top:7px;}
+.detail-link{display:inline-block;margin-top:6px;color:var(--deep);font-size:11.5px;font-weight:800;text-decoration:none;}
+.detail-link:hover{text-decoration:underline;}
+.opt-lbl{font-size:10px;font-weight:800;color:var(--mut);text-transform:uppercase;letter-spacing:1.2px;margin-top:14px;}
+.colores{display:flex;gap:9px;margin-top:9px;flex-wrap:wrap;}
+.colores button{width:30px;height:30px;border-radius:50%;border:2px solid var(--line);cursor:pointer;padding:0;transition:.15s;}
+.colores button:hover{transform:scale(1.1);}
+.colores button[aria-pressed="true"]{border-color:var(--deep);box-shadow:0 0 0 3px var(--soft);}
+.color-nom{font-size:11.5px;font-weight:700;color:var(--deep);margin-top:8px;min-height:15px;}
+.product-price{font-family:'Fraunces',serif;font-size:29px;font-weight:700;color:var(--deep);margin-top:auto;padding-top:18px;}
+.product-price small{font-family:'Nunito Sans',sans-serif;font-size:11px;color:var(--mut);}
+.product-btn{display:block;text-align:center;margin-top:12px;background:var(--deep);color:#fff;text-decoration:none;font-size:13.5px;font-weight:800;padding:14px;border-radius:14px;transition:.2s;}
+.product-btn:hover{background:#30442B;}
+.optional-note{max-width:760px;margin:24px auto 0;text-align:center;background:var(--soft);border-radius:16px;padding:15px 18px;font-size:12.5px;font-weight:700;color:var(--deep);line-height:1.6;}
+.ver-placas{display:block;text-align:center;margin-top:20px;color:var(--deep);font-size:14px;font-weight:800;text-decoration:none;}
+.ver-placas:hover{text-decoration:underline;}
+
+/* ── FAQ: aquí sí van desplegables ── */
+.faq-box{max-width:680px;margin:32px auto 0;}
+.faq-box>summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;
+  gap:16px;padding:18px 22px;background:#fff;border:1px solid var(--line);border-radius:18px;
+  box-shadow:0 8px 24px rgba(63,87,55,.06);transition:.2s;}
+.faq-box>summary::-webkit-details-marker{display:none;}
+.faq-box>summary:hover{border-color:var(--mid);}
+.faq-box>summary b{font-size:14.5px;color:var(--ink);}
+.faq-box>summary small{display:block;font-size:11.5px;color:var(--mut);font-weight:700;margin-top:3px;}
+.faq-open{background:var(--deep);color:#fff;border-radius:12px;padding:10px 15px;font-size:11.5px;font-weight:800;white-space:nowrap;flex:none;}
+.faq-box[open]>summary{margin-bottom:12px;}
+.faq-box[open] .faq-open{font-size:0;}
+.faq-box[open] .faq-open::after{content:'Hide';font-size:11.5px;}
+.faq-list{display:flex;flex-direction:column;gap:10px;}
+.faq-list details{background:#fff;border:1px solid var(--line);border-radius:16px;padding:0 20px;}
+.faq-list summary{font-size:14px;font-weight:800;padding:17px 0;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px;}
+.faq-list summary::-webkit-details-marker{display:none;}
+.faq-list summary::after{content:'+';font-family:'Fraunces',serif;font-size:20px;color:var(--mid);flex-shrink:0;}
+.faq-list details[open] summary::after{content:'–';}
+.faq-list details p{font-size:13px;color:var(--mut);font-weight:600;line-height:1.7;padding-bottom:17px;}
+.faq-list details p a{color:var(--deep);}
+
+/* ── cierre ── */
+.cta-end{text-align:center;}
+.cta-box{background:var(--deep);border-radius:28px;padding:52px 28px;}
+.cta-box h2{font-family:'Fraunces',serif;font-size:clamp(25px,4vw,34px);color:#fff;font-weight:700;}
+.cta-box p{color:#C9DAC4;font-size:14px;font-weight:600;margin-top:10px;}
+.cta-box .btn-main{margin-top:26px;background:var(--mid);}
+.cta-box .btn-main:hover{background:#8BA886;}
+
+footer{border-top:1px solid var(--line);padding:28px 0 36px;text-align:center;}
+footer .f-brand{display:flex;align-items:center;justify-content:center;}
+.brand-logo-footer{height:38px;width:auto;display:block;}
+footer .f-brand{gap:8px;}
+.brand-word-footer{font-family:'Quicksand',sans-serif;font-weight:700;font-size:21px;color:var(--deep);}
+footer p{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:10px;}
+
+/* ── botón fijo en celular ── */
+.sticky-cta{display:none;}
+@media(max-width:860px){
+  .hero{padding:40px 0 34px;}
+  .hero-in{grid-template-columns:1fr;gap:32px;}
+  .hero-txt{text-align:center;}
+  .hero p{margin-left:auto;margin-right:auto;}
+  .hero-btns{justify-content:center;}
+  .trust-strip{justify-content:center;}
+  .demo-card{margin:0 auto;}
+  section{padding:48px 0;}
+  body{padding-bottom:74px;}
+  .sticky-cta{display:block;position:fixed;left:0;right:0;bottom:0;z-index:30;
+    background:rgba(251,252,250,.96);backdrop-filter:blur(8px);
+    border-top:1px solid var(--line);padding:11px 16px;}
+  .sticky-cta a{display:block;text-align:center;background:var(--mid);color:#fff;
+    text-decoration:none;font-size:15px;font-weight:800;padding:15px;border-radius:14px;}
+}
+@media(max-width:760px){
+  .product-grid{grid-template-columns:1fr;}
+  .product-visual{height:225px;}
+  .carnet-preview{gap:7px;}
+  .colores{justify-content:center;}
+  .product-card{text-align:center;}
+  .product-tag,.tag-row{align-self:center;}
+}
+@media(max-width:560px){
+  .brand-logo-full{height:38px;}
+  .brand-word{font-size:22px;}
+}
+</style>
+</head>
+<body>
+
+<nav> 
+  <div class="container nav-in">
+    <a href="/en/" class="brand-box">
+      <img class="brand-logo-full" src="/logo-kolita.png" alt="">
+      <span class="brand-word">kolita</span>
+    </a>
+    <a href="/mis-carnets.html" class="nav-link">My pet IDs</a>
+    <a class="nav-cta" href="/registro.html">Create free ID</a>
+  </div>
+</nav>
+
+<!-- ══ 1. ATENCIÓN ══ -->
+<header class="hero container">
+  <div class="hero-in">
+
+    <div class="hero-txt">
+      <span class="hero-badge">🐾 Smart pet ID · Made in Colombia</span>
+      <h1>If they get lost,<br>they come back <em>home</em></h1>
+      <p>Your pet's digital ID: vaccines, health history and a QR code for the collar. If someone finds them, your family gets the alert <strong>and your phone number stays private</strong>.</p>
+      <div class="hero-btns">
+        <a class="btn btn-main" href="/registro.html">Create their ID 🐾</a>
+        <a class="btn btn-ghost" href="/perfil.html?id=pet_1783916734681_olda0f">See an example</a>
+      </div>
+      <div class="hero-note">No app to download · No credit card · Ready in 2 minutes</div>
+      <div class="hero-note">🌎 The sign-up form and the pet ID are in Spanish for now · <a href="/" style="color:var(--deep);">Ver en español</a></div>
+      <div class="hero-count" id="heroCount" hidden>🐾 <strong id="heroCountN">—</strong> pets already have their Kolita ID</div>
+      <div class="trust-strip">
+        <span class="trust-pill">✓ Free digital ID</span>
+        <span class="trust-pill">🔒 Your number stays private</span>
+        <span class="trust-pill">📱 Works in your browser</span>
+      </div>
+      <p class="hero-product-note">Want a physical version too? Further down you can order a printed ID card or a tag with their QR code. Both are optional.</p>
+    </div>
+
+<!-- ═══════════ KOLITA · HISTORIA ANIMADA (va en el hero, en lugar de .demo-card) ═══════════ -->
+<style>
+.historia{width:100%;max-width:330px;display:flex;flex-direction:column;align-items:center;}
+.h-tel{position:relative;width:272px;height:548px;background:#1E2A1D;border-radius:44px;padding:11px;box-shadow:0 26px 60px rgba(41,56,39,.28),inset 0 0 0 2px #344632;}
+.h-notch{position:absolute;top:19px;left:50%;transform:translateX(-50%);width:88px;height:24px;background:#1E2A1D;border-radius:14px;z-index:5;}
+.h-pantalla{position:relative;width:100%;height:100%;border-radius:34px;overflow:hidden;clip-path:inset(0 round 34px);background:var(--bg);}
+.h-esc{position:absolute;inset:0;opacity:0;transform:translateX(18px);transition:opacity .55s ease,transform .55s ease;pointer-events:none;display:flex;flex-direction:column;}
+.h-esc.on{opacity:1;transform:none;}
+.h-esc.fuera{transform:translateX(-18px);}
+
+/* 1 · cámara escaneando la placa */
+.h-cam{background:radial-gradient(circle at 50% 42%,#5C6E58 0%,#2E3B2C 70%);align-items:center;justify-content:center;}
+.h-cam-top{position:absolute;top:52px;left:0;right:0;text-align:center;color:#DCE8D8;font-size:11px;font-weight:800;letter-spacing:1px;}
+.h-placa{position:relative;width:150px;height:96px;background:#2B2B2B;border-radius:34px;display:flex;align-items:center;justify-content:center;gap:12px;box-shadow:0 10px 24px rgba(0,0,0,.35);transform:rotate(-6deg);}
+.h-placa::before{content:'';position:absolute;left:14px;top:50%;width:10px;height:10px;margin-top:-5px;border-radius:50%;background:#3E4C3B;}
+.h-qr{width:54px;height:54px;display:grid;grid-template-columns:repeat(7,1fr);gap:1px;}
+.h-qr i{background:#E9ECE6;border-radius:1px;}
+.h-qr i.v{background:transparent;}
+.h-placa-txt{color:#E9ECE6;font-size:8px;font-weight:800;line-height:1.5;}
+.h-mira{position:absolute;width:190px;height:150px;}
+.h-mira b{position:absolute;width:26px;height:26px;border:3px solid #FFFFFF;}
+.h-mira b:nth-child(1){top:0;left:0;border-right:0;border-bottom:0;border-radius:8px 0 0 0;}
+.h-mira b:nth-child(2){top:0;right:0;border-left:0;border-bottom:0;border-radius:0 8px 0 0;}
+.h-mira b:nth-child(3){bottom:0;left:0;border-right:0;border-top:0;border-radius:0 0 0 8px;}
+.h-mira b:nth-child(4){bottom:0;right:0;border-left:0;border-top:0;border-radius:0 0 8px 0;}
+.h-linea{position:absolute;left:8px;right:8px;height:2px;background:linear-gradient(90deg,transparent,#B9E3A8,transparent);box-shadow:0 0 12px #B9E3A8;animation:hBarrido 1.6s ease-in-out infinite;}
+@keyframes hBarrido{0%,100%{top:10px}50%{top:136px}}
+.h-link{position:absolute;bottom:58px;left:22px;right:22px;background:rgba(255,255,255,.95);border-radius:14px;padding:10px 12px;font-size:11px;font-weight:700;color:#293827;display:flex;align-items:center;gap:8px;opacity:0;transform:translateY(10px);transition:.4s;}
+.h-esc.on .h-link{opacity:1;transform:none;transition-delay:1.9s;}
+.h-link span{flex:1;}
+.h-link em{font-style:normal;color:#3F5737;font-weight:800;}
+
+/* 2 · el carnet en modo perdido */
+.h-alerta{background:var(--alert);color:#fff;text-align:center;font-size:11px;font-weight:800;padding:44px 10px 10px;}
+.h-carnet{padding:16px 16px 0;flex:1;display:flex;flex-direction:column;gap:9px;}
+.h-marca{display:flex;align-items:center;gap:6px;font-family:'Quicksand',sans-serif;font-weight:700;font-size:13px;color:var(--ink);}
+.h-marca img{width:22px;height:22px;object-fit:contain;border-radius:6px;}
+.h-quien{display:flex;align-items:center;gap:12px;margin-top:4px;}
+.h-foto{width:66px;height:66px;border-radius:18px;background:var(--soft);display:flex;align-items:center;justify-content:center;font-size:34px;}
+.h-nombre{font-family:'Fraunces',serif;font-size:24px;font-weight:700;line-height:1;color:var(--ink);}
+.h-sub{font-size:11px;color:var(--mut);font-weight:700;margin-top:3px;}
+.h-fila{display:flex;justify-content:space-between;align-items:center;background:#fff;border:1px solid var(--line);border-radius:11px;padding:8px 10px;font-size:11px;font-weight:700;color:var(--ink);}
+.h-fila i{font-style:normal;font-size:9.5px;background:var(--soft);color:var(--deep);padding:2px 8px;border-radius:12px;}
+.h-boton{margin-top:auto;margin-bottom:22px;background:var(--mid);color:#fff;border-radius:13px;padding:12px;text-align:center;font-size:12px;font-weight:800;}
+.h-esc.on .h-boton{animation:hLatido 1.2s ease-in-out .9s 2;}
+@keyframes hLatido{0%,100%{transform:scale(1)}50%{transform:scale(1.05);box-shadow:0 8px 20px rgba(113,139,97,.45)}}
+
+/* 3 · quien la encontró avisa */
+.h-form{padding:48px 18px 0;flex:1;display:flex;flex-direction:column;}
+.h-form h4{font-family:'Fraunces',serif;font-size:18px;color:var(--ink);}
+.h-form p{font-size:10.5px;color:var(--mut);font-weight:600;line-height:1.5;margin-top:4px;}
+.h-campo{margin-top:12px;}
+.h-campo small{display:block;font-size:8.5px;font-weight:800;color:var(--deep);text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px;}
+.h-campo div{min-height:34px;background:#fff;border:1.5px solid var(--line);border-radius:10px;padding:8px 10px;font-size:11.5px;font-weight:600;color:var(--ink);}
+.h-campo div.escribiendo{border-color:var(--mid);}
+.h-campo div.escribiendo::after{content:'|';color:var(--mid);animation:hCursor .8s steps(1) infinite;margin-left:1px;}
+@keyframes hCursor{50%{opacity:0}}
+.h-enviar{margin-top:auto;margin-bottom:22px;background:var(--mid);color:#fff;border-radius:13px;padding:12px;text-align:center;font-size:12px;font-weight:800;transition:.25s;}
+.h-enviar.listo{background:var(--deep);}
+
+/* 4 · el aviso le llega a la familia */
+.h-bloqueo{background:linear-gradient(170deg,#55704E 0%,#2E3B2C 100%);align-items:center;color:#fff;}
+.h-hora{margin-top:64px;font-size:54px;font-weight:300;letter-spacing:-1px;font-family:'Nunito Sans',sans-serif;}
+.h-fecha{font-size:12px;font-weight:700;opacity:.85;}
+.h-notif{margin-top:34px;width:calc(100% - 24px);background:rgba(251,252,250,.97);border-radius:18px;padding:12px 13px;color:#293827;opacity:0;transform:translateY(-30px);transition:.6s cubic-bezier(.2,.9,.3,1.2);}
+.h-esc.on .h-notif{opacity:1;transform:none;transition-delay:.6s;}
+.h-notif-top{display:flex;align-items:center;gap:6px;font-size:10px;color:#7F8D7B;font-weight:700;}
+.h-notif-top img{width:16px;height:16px;border-radius:4px;object-fit:contain;}
+.h-notif-top span:last-child{margin-left:auto;}
+.h-notif b{display:block;font-size:12.5px;margin-top:6px;}
+.h-notif p{font-size:11px;line-height:1.45;margin-top:3px;color:#3F5737;font-weight:600;}
+.h-candado{margin-top:14px;background:rgba(255,255,255,.14);border-radius:20px;padding:7px 13px;font-size:10.5px;font-weight:800;opacity:0;transition:.5s;}
+.h-esc.on .h-candado{opacity:1;transition-delay:1.6s;}
+
+/* 5 · vuelve a casa */
+.h-casa{align-items:center;justify-content:center;text-align:center;padding:0 22px;background:radial-gradient(circle at 50% 38%,#FFFFFF 0%,var(--soft) 75%);}
+.h-abrazo{position:relative;font-size:76px;line-height:1;}
+.h-corazon{position:absolute;font-size:20px;opacity:0;}
+.h-esc.on .h-corazon{animation:hFlota 2.4s ease-out infinite;}
+.h-corazon:nth-child(2){left:-18px;top:6px;animation-delay:.2s!important;}
+.h-corazon:nth-child(3){right:-16px;top:-6px;animation-delay:.9s!important;}
+.h-corazon:nth-child(4){left:28px;top:-26px;animation-delay:1.5s!important;}
+@keyframes hFlota{0%{opacity:0;transform:translateY(8px) scale(.6)}25%{opacity:1}100%{opacity:0;transform:translateY(-36px) scale(1.1)}}
+.h-casa h4{font-family:'Fraunces',serif;font-size:23px;color:var(--ink);margin-top:20px;line-height:1.2;}
+.h-casa p{font-size:12px;color:var(--deep);font-weight:700;margin-top:10px;line-height:1.55;}
+.h-casa a{margin-top:22px;background:var(--mid);color:#fff;text-decoration:none;border-radius:13px;padding:12px 18px;font-size:12.5px;font-weight:800;pointer-events:auto;}
+
+/* debajo del celular */
+.h-texto{min-height:46px;margin-top:20px;text-align:center;font-size:14px;font-weight:700;color:var(--ink);line-height:1.5;max-width:300px;transition:opacity .3s;}
+.h-puntos{display:flex;gap:8px;margin-top:10px;align-items:center;}
+.h-puntos button{width:8px;height:8px;border-radius:8px;border:none;padding:0;background:var(--line);cursor:pointer;transition:.3s;}
+.h-puntos button.on{width:24px;background:var(--mid);}
+.h-pausa{margin-left:6px;white-space:nowrap;background:none;border:none;font-size:11px;font-weight:800;color:var(--mut);cursor:pointer;font-family:'Nunito Sans',sans-serif;}
+
+@media (prefers-reduced-motion: reduce){
+  .h-esc,.h-notif,.h-link,.h-candado{transition:none!important;}
+  .h-linea,.h-corazon,.h-boton{animation:none!important;}
+}
+@media(max-width:860px){ .historia{margin:0 auto;} }
+</style>
+
+<div class="historia" id="historia" aria-label="How Kolita works, in five steps">
+  <div class="h-tel">
+    <div class="h-notch"></div>
+    <div class="h-pantalla">
+
+      <!-- 1 -->
+      <div class="h-esc h-cam">
+        <div class="h-cam-top">CAMERA</div>
+        <div class="h-mira"><b></b><b></b><b></b><b></b><div class="h-linea"></div></div>
+        <div class="h-placa">
+          <div class="h-qr" id="hQr"></div>
+          <div class="h-placa-txt">kolita.co/p<br>G8TW358</div>
+        </div>
+        <div class="h-link">🔗 <span>Open <em>kolita.co</em></span> →</div>
+      </div>
+
+      <!-- 2 -->
+      <div class="h-esc">
+        <div class="h-alerta">🚨 I'm lost! Help me get back home</div>
+        <div class="h-carnet">
+          <div class="h-marca">kolita · digital pet ID</div>
+          <div class="h-quien">
+            <div class="h-foto">🐶</div>
+            <div><div class="h-nombre">Ibiza</div><div class="h-sub">Mixed breed · Female · 2 years</div></div>
+          </div>
+          <div class="h-fila">💉 Rabies <i>Up to date ✓</i></div>
+          <div class="h-fila">🐛 Deworming <i>Up to date ✓</i></div>
+          <div class="h-fila">⚠️ Allergies <i>None</i></div>
+          <div class="h-boton">🐾 Alert her family</div>
+        </div>
+      </div>
+
+      <!-- 3 -->
+      <div class="h-esc">
+        <div class="h-form">
+          <h4>🐾 Alert her family</h4>
+          <p>Tell them who you are and where you saw her.</p>
+          <div class="h-campo"><small>Your name</small><div data-txt="Carolina"></div></div>
+          <div class="h-campo"><small>Your WhatsApp</small><div data-txt="300 512 4512"></div></div>
+          <div class="h-campo"><small>Where did you see her?</small><div data-txt="Parque La Presidenta. She's fine, she's with me 💚"></div></div>
+          <div class="h-enviar" id="hEnviar">Send alert 💚</div>
+        </div>
+      </div>
+
+      <!-- 4 -->
+      <div class="h-esc h-bloqueo">
+        <div class="h-hora">7:42</div>
+        <div class="h-fecha">Your phone</div>
+        <div class="h-notif">
+          <div class="h-notif-top"><span>🐾 Kolita · email</span><span>now</span></div>
+          <b>🐾 Someone found Ibiza</b>
+          <p>Carolina has her at Parque La Presidenta. She left you her WhatsApp and the location.</p>
+        </div>
+        <div class="h-candado">🔒 Your number was never shown</div>
+      </div>
+
+      <!-- 5 -->
+      <div class="h-esc h-casa">
+        <div class="h-abrazo">🐶<span class="h-corazon">💚</span><span class="h-corazon">💚</span><span class="h-corazon">💚</span></div>
+        <h4>Ibiza came back home</h4>
+        <p>Because every pet deserves<br>a way back.</p>
+        <a href="/registro.html">Create their free ID 🐾</a>
+      </div>
+
+    </div>
+  </div>
+  <div class="h-texto" id="hTexto" aria-live="polite"></div>
+  <div class="h-puntos" id="hPuntos"></div>
+</div>
+
+<script>
+// Historia animada: cinco escenas que se pasan solas. Se puede tocar un punto
+// para ir a una escena. Se detiene cuando no está en pantalla (ahorra batería).
+(function(){
+  var raiz = document.getElementById('historia');
+  if(!raiz) return;
+  var escenas = raiz.querySelectorAll('.h-esc');
+  var textos = [
+    'Ibiza got out. Someone finds her and scans her tag.',
+    'They see her ID right away, with nothing to download.',
+    'To send the alert, they first say who they are and where they saw her.',
+    'The alert reaches you. Your number was never exposed.',
+    'And she comes back home. 💚'
+  ];
+  var tiempos = [3800, 3600, 5600, 4200, 4600];
+  var actual = -1, reloj = null, enPantalla = true, pausado = false, escritura = [];
+
+  // QR de adorno (7×7): tres esquinas llenas y puntos sueltos en el resto
+  var qr = document.getElementById('hQr');
+  var resto = '0110100101101100101101001011010';
+  var r = 0;
+  for(var k = 0; k < 49; k++){
+    var f = Math.floor(k / 7), c = k % 7;
+    var esquina = (f < 3 && c < 3) || (f < 3 && c > 3) || (f > 3 && c < 3);
+    var on = esquina || resto[r++ % resto.length] === '1';
+    var celda = document.createElement('i');
+    if(!on) celda.className = 'v';
+    qr.appendChild(celda);
+  }
+
+  var puntos = document.getElementById('hPuntos');
+  textos.forEach(function(_, n){
+    var b = document.createElement('button');
+    b.setAttribute('aria-label', 'Step ' + (n + 1));
+    b.onclick = function(){ ir(n); };
+    puntos.appendChild(b);
+  });
+  var bPausa = document.createElement('button');
+  bPausa.className = 'h-pausa'; bPausa.textContent = '❚❚ Pause';
+  bPausa.onclick = function(){
+    pausado = !pausado;
+    bPausa.textContent = pausado ? '▶ Play' : '❚❚ Pause';
+    if(pausado) clearTimeout(reloj); else programar();
+  };
+  puntos.appendChild(bPausa);
+
+  function limpiarEscritura(){ escritura.forEach(clearTimeout); escritura = []; }
+
+  function escribir(){
+    var campos = escenas[2].querySelectorAll('.h-campo div');
+    var enviar = document.getElementById('hEnviar');
+    campos.forEach(function(c){ c.textContent = ''; c.classList.remove('escribiendo'); });
+    enviar.classList.remove('listo'); enviar.textContent = 'Send alert 💚';
+    var t = 350;
+    campos.forEach(function(c){
+      var txt = c.getAttribute('data-txt');
+      escritura.push(setTimeout(function(){ c.classList.add('escribiendo'); }, t));
+      for(var j = 1; j <= txt.length; j++){
+        (function(j){ escritura.push(setTimeout(function(){ c.textContent = txt.slice(0, j); }, t + j * 42)); })(j);
+      }
+      t += txt.length * 42 + 200;
+      escritura.push(setTimeout(function(){ c.classList.remove('escribiendo'); }, t));
+    });
+    escritura.push(setTimeout(function(){ enviar.classList.add('listo'); enviar.textContent = '✓ Alert sent'; }, t + 250));
+  }
+
+  function ir(n){
+    clearTimeout(reloj); limpiarEscritura();
+    escenas.forEach(function(e, j){
+      e.classList.toggle('on', j === n);
+      e.classList.toggle('fuera', j < n);
+    });
+    puntos.querySelectorAll('button:not(.h-pausa)').forEach(function(b, j){ b.classList.toggle('on', j === n); });
+    document.getElementById('hTexto').textContent = textos[n];
+    actual = n;
+    if(n === 2) escribir();
+    programar();
+  }
+
+  function programar(){
+    clearTimeout(reloj);
+    if(pausado || !enPantalla) return;
+    reloj = setTimeout(function(){ ir((actual + 1) % escenas.length); }, tiempos[actual]);
+  }
+
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(function(ent){
+      enPantalla = ent[0].isIntersecting;
+      if(enPantalla) programar(); else clearTimeout(reloj);
+    }, { threshold: .35 }).observe(raiz);
+  }
+  ir(0);
+})();
+</script>
+<!-- ═══════════ fin historia animada ═══════════ -->
+
+
+  </div>
+</header>
+
+<!-- ══ 2. DESEO ══ -->
+<section class="band-white" id="porque">
+  <div class="container">
+    <div class="sec-kicker">Why it matters</div>
+    <h2 class="sec-title">Because these moments come without warning</h2>
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="w-emoji">🚪</div>
+        <h3>"He slipped out the door"</h3>
+        <p>Three seconds of distraction and your pet is alone in a city of millions. Without ID, you depend on luck and Facebook groups. <strong>With Kolita, whoever finds them scans the QR code, says who they are, and you get an email telling you where your pet is.</strong></p>
+      </div>
+      <div class="why-card">
+        <div class="w-emoji">🎆</div>
+        <h3>Fireworks and scares</h3>
+        <p>During celebrations with fireworks, many pets panic, run and can lose their way. <strong>A collar with a QR code is their ticket back home, wherever the scare takes them.</strong></p>
+      </div>
+      <div class="why-card">
+        <div class="w-emoji">📋</div>
+        <h3>"When was their last vaccine?"</h3>
+        <p>The paper vaccine card lives lost in a drawer, and at the vet you end up answering from memory. <strong>With Kolita their full history lives in a link that never gets lost or wet.</strong></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 3. COMPRENSIÓN ══ -->
+<section class="band-soft" id="como">
+  <div class="container">
+    <div class="sec-kicker">As simple as this</div>
+    <h2 class="sec-title">Protected in 3 steps</h2>
+    <div class="steps3">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <div class="step-emoji">📝</div>
+        <h3>Create their ID</h3>
+        <p>Name, photo, vaccines and your contact details. All free, from your phone, in 2 minutes.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <div class="step-emoji">🏷️</div>
+        <h3>Put the QR code on their collar</h3>
+        <p>You get a unique link with their QR code. You can print it, or order the Kolita tag engraved in metal.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <div class="step-emoji">💬</div>
+        <h3>You get the alert, privately</h3>
+        <p>Whoever finds your pet identifies themselves first. You get an email with who they are, where your pet is and the location.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 4. VALOR ══ -->
+<section id="funciones">
+  <div class="container">
+    <div class="sec-kicker">More than a tag</div>
+    <h2 class="sec-title">Everything about your pet, in one link</h2>
+    <div class="feat-grid">
+      <div class="feat">
+        <div class="feat-ico">💉</div>
+        <h3>Reminders that actually arrive</h3>
+        <p>We email you before each vaccine and deworming, on bath day, one day before a vet appointment and on their birthday 🎂. At no cost. Reminder emails are in Spanish.</p>
+      </div>
+      <div class="feat">
+        <div class="feat-ico">🚨</div>
+        <h3>Lost mode</h3>
+        <p>If they get lost, their ID shows an alert banner so everyone can help.</p>
+      </div>
+      <div class="feat">
+        <div class="feat-ico">📍</div>
+        <h3>An alert for every scan</h3>
+        <p>Every time someone scans the QR code you get an email with the time and approximate neighborhood, plus a button to see it on the map.</p>
+      </div>
+      <div class="feat">
+        <div class="feat-ico">🔒</div>
+        <h3>Your number, protected</h3>
+        <p>Your phone number is not shown on the ID. Whoever finds your pet identifies themselves first and you decide whether to reply. If your pet is ever lost and you would rather be called right away, you can turn that on.</p>
+      </div>
+      <div class="feat">
+        <div class="feat-ico">📄</div>
+        <h3>Printable ID</h3>
+        <p>Download their foldable ID for free, like the one from the vet: print it, fold it in three and stick each vaccine label on it.</p>
+      </div>
+      <div class="feat">
+        <div class="feat-ico">🩺</div>
+        <h3>Your vet, connected</h3>
+        <p>If your vet is on Kolita and you give permission, they record vaccines and dewormings directly on the ID.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 5. ACCIÓN SIN RIESGO ══ -->
+<section class="band-soft" id="gratis">
+  <div class="container">
+    <div class="free-box">
+      <h2 class="free-title">First create their digital ID. It's free.</h2>
+      <ul class="free-list">
+        <li>Digital ID with a QR code to scan and use on their collar</li>
+        <li>A unique link for your pet's collar</li>
+        <li>Their vaccines, deworming, allergies and trusted vet</li>
+        <li><strong>Email reminders:</strong> vaccines, deworming, baths, vet appointments and birthdays</li>
+        <li>Lost mode with a visible alert on their ID</li>
+        <li><strong>Protected alert:</strong> whoever finds your pet identifies themselves first — your details stay safe</li>
+        <li><strong>An email every time the QR code is scanned</strong>, with the time and approximate neighborhood</li>
+        <li>Their foldable ID as a PDF, ready to print whenever you want</li>
+      </ul>
+      <a class="free-cta" href="/registro.html">Create their free ID 🐾</a>
+      <p class="free-foot">No passwords · No credit card · Ready in 2 minutes</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 6. PRODUCTOS FÍSICOS OPCIONALES ══ -->
+<section id="placa" class="band-white">
+  <div class="container">
+    <div class="products-head">
+      <div class="sec-kicker">Optional · To always have it with you</div>
+      <h2 class="sec-title">Their ID can also be physical</h2>
+      <p class="sec-sub">The Kolita digital ID is still <strong>free</strong>, and so is the foldable ID you print at home. If you want something sturdier, you can order a PVC ID card or a tag with their Kolita Code and QR code. Prices are in Colombian pesos (COP) and the order form is in Spanish.</p>
+    </div>
+
+    <div class="product-grid">
+
+      <!-- CARNET FÍSICO -->
+      <article class="product-card featured">
+        <span class="product-tag">Physical ID card</span>
+        <div class="product-visual">
+          <div class="carnet-slider">
+            <button class="slider-arrow prev" id="cPrev" aria-label="Previous">‹</button>
+            <div class="carnet-track" id="carnetTrack">
+              <div class="carnet-slide"><img src="/carnet-ibiza-frente.png" alt="Front of the Kolita physical ID card"></div>
+              <div class="carnet-slide"><img src="/carnet-ibiza-reverso.png" alt="Back of the Kolita physical ID card"></div>
+            </div>
+            <button class="slider-arrow next" id="cNext" aria-label="Next">›</button>
+          </div>
+        </div>
+        <div class="slider-dots" id="carnetDots">
+          <button aria-current="true" aria-label="Front"></button>
+          <button aria-current="false" aria-label="Back"></button>
+        </div>
+        <div class="slider-cap" id="carnetCap">Front</div>
+        <h3>PVC ID card</h3>
+        <p>Their ID in PVC, the size of a credit card, with their photo, details and Kolita Code. It survives your wallet and does not get wet. (The foldable ID you print at home is free.)</p>
+        <div class="product-price">$59.900 <small>COP · one-time payment</small></div>
+        <a class="product-btn" id="btnCarnetFisico" href="/pedido.html?producto=carnet">Order here 🐾</a>
+      </article>
+
+      <!-- PLACA ESTÁNDAR -->
+      <article class="product-card">
+        <span class="product-tag">Engraved QR</span>
+        <div class="product-visual">
+          <img id="imgStd" alt="Kolita standard tag">
+          <svg id="svgStd" viewBox="0 0 96 60" width="180" height="112">
+            <rect id="stdBody" x="2" y="2" width="92" height="56" rx="22" fill="#2B2B2B" stroke="#3C4A3A" stroke-width="1.6"/>
+            <circle cx="15" cy="30" r="4.5" fill="none" stroke="#93A28F" stroke-width="1.6"/>
+            <rect x="26" y="12" width="36" height="36" rx="2" fill="#EEEEEE" class="s-fg"/>
+            <rect x="29" y="15" width="8" height="8" fill="#2B2B2B" class="s-bg"/><rect x="51" y="15" width="8" height="8" fill="#2B2B2B" class="s-bg"/>
+            <rect x="29" y="37" width="8" height="8" fill="#2B2B2B" class="s-bg"/>
+            <rect x="41" y="27" width="3" height="3" fill="#2B2B2B" class="s-bg"/><rect x="47" y="31" width="3" height="3" fill="#2B2B2B" class="s-bg"/>
+            <text x="77" y="28" font-family="Nunito Sans" font-size="4.4" fill="#EEEEEE" text-anchor="middle" class="s-fg">kolita.co/p</text>
+            <text x="77" y="36" font-family="Nunito Sans" font-size="5.4" font-weight="bold" fill="#EEEEEE" text-anchor="middle" class="s-fg">A7K2M9</text>
+          </svg>
+        </div>
+        <h3>Standard tag</h3>
+        <a class="detail-link" href="/placas.html#estandar">See it larger with details →</a>
+        <p>Sturdy metal with a laser-engraved QR code. A simple, readable and durable option for the collar.</p>
+        <div class="opt-lbl">Color</div>
+        <div class="colores" id="colStd">
+          <button aria-pressed="true" style="background:#2B2B2B" data-c="#2B2B2B" data-g="#EEEEEE" data-n="Negra" data-l="Black"></button>
+          <button aria-pressed="false" style="background:#C9CCC7" data-c="#C9CCC7" data-g="#3C4A3A" data-n="Plateada" data-l="Silver"></button>
+        </div>
+        <div class="color-nom" id="nomStd">Black</div>
+        <div class="product-price">$69.900 <small>COP · one-time payment</small></div>
+        <a class="product-btn" id="btnStd" href="/pedido.html?producto=estandar">Order here 🐾</a>
+      </article>
+
+      <!-- PLACA CON FOTO -->
+      <article class="product-card">
+        <div class="tag-row"><span class="product-tag">With their face 🐶</span><span class="favorite-tag">Favorite</span></div>
+        <div class="product-visual">
+          <img id="imgFoto" alt="Kolita tag with photo">
+          <svg id="svgFoto" viewBox="0 0 96 60" width="180" height="112">
+            <rect id="fotBody" x="2" y="2" width="92" height="56" rx="22" fill="#2B2B2B" stroke="#3C4A3A" stroke-width="1.6"/>
+            <circle cx="15" cy="30" r="4.5" fill="none" stroke="#93A28F" stroke-width="1.6"/>
+            <circle cx="52" cy="28" r="14" fill="#EEEEEE" class="f-fg"/>
+            <path d="M40 18 q-3 -9 3.5 -10 q3.5 3 4 7z" fill="#EEEEEE" class="f-fg"/>
+            <path d="M64 18 q3 -9 -3.5 -10 q-3.5 3 -4 7z" fill="#EEEEEE" class="f-fg"/>
+            <circle cx="47" cy="26" r="2" fill="#2B2B2B" class="f-bg"/><circle cx="57" cy="26" r="2" fill="#2B2B2B" class="f-bg"/>
+            <ellipse cx="52" cy="32.5" rx="3" ry="2.2" fill="#2B2B2B" class="f-bg"/>
+            <text x="52" y="52" font-family="Nunito Sans" font-size="6" font-weight="bold" fill="#EEEEEE" text-anchor="middle" class="f-fg">IBIZA</text>
+          </svg>
+        </div>
+        <h3>Tag with their photo</h3>
+        <a class="detail-link" href="/placas.html#estandar">See it larger with details →</a>
+        <p>Their face laser-engraved on one side and their Kolita Code with QR code on the other.</p>
+        <div class="opt-lbl">Color</div>
+        <div class="colores" id="colFoto">
+          <button aria-pressed="true" style="background:#2B2B2B" data-c="#2B2B2B" data-g="#EEEEEE" data-n="Negra" data-l="Black"></button>
+          <button aria-pressed="false" style="background:#C9CCC7" data-c="#C9CCC7" data-g="#3C4A3A" data-n="Plateada" data-l="Silver"></button>
+        </div>
+        <div class="color-nom" id="nomFoto">Black</div>
+        <div class="product-price">$79.900 <small>COP · one-time payment</small></div>
+        <a class="product-btn" id="btnFoto" href="/pedido.html?producto=foto">Order here 🐾</a>
+      </article>
+
+      <!-- PLACA HUESITO -->
+      <article class="product-card">
+        <span class="product-tag">Small and light</span>
+        <div class="product-visual">
+          <img id="imgHue" alt="Kolita bone-shaped tag">
+          <svg id="svgHue" viewBox="0 0 100 62" width="180" height="112">
+            <path id="hueBody" d="M23 13a11.5 11.5 0 1 0-8.5 18.5A11.5 11.5 0 1 0 23 50h54a11.5 11.5 0 1 0 8.5-18.5A11.5 11.5 0 1 0 77 13z" fill="#3FA34D" stroke="#3C4A3A" stroke-width="1.6"/>
+            <circle cx="50" cy="17" r="3.4" fill="none" stroke="#3C4A3A" stroke-width="1.4"/>
+            <rect x="36" y="24" width="28" height="24" rx="2" fill="#FFFFFF" opacity=".93"/>
+            <rect x="38" y="26" width="6" height="6" fill="#2B2B2B"/><rect x="56" y="26" width="6" height="6" fill="#2B2B2B"/>
+            <rect x="38" y="40" width="6" height="6" fill="#2B2B2B"/>
+            <rect x="48" y="35" width="2.5" height="2.5" fill="#2B2B2B"/>
+          </svg>
+        </div>
+        <h3>Bone-shaped tag</h3>
+        <a class="detail-link" href="/placas.html#huesito">See it larger with details →</a>
+        <p>Smaller and lighter, available in several colors. Ideal for small pets.</p>
+        <div class="opt-lbl">Color</div>
+        <div class="colores" id="colHue">
+          <button aria-pressed="true" style="background:#3FA34D" data-c="#3FA34D" data-n="Verde" data-l="Green"></button>
+          <button aria-pressed="false" style="background:#2F6FD0" data-c="#2F6FD0" data-n="Azul" data-l="Blue"></button>
+          <button aria-pressed="false" style="background:#8B4FC4" data-c="#8B4FC4" data-n="Morada" data-l="Purple"></button>
+          <button aria-pressed="false" style="background:#E86AB0" data-c="#E86AB0" data-n="Fucsia" data-l="Fuchsia"></button>
+          <button aria-pressed="false" style="background:#F2A7C3" data-c="#F2A7C3" data-n="Rosada" data-l="Pink"></button>
+          <button aria-pressed="false" style="background:#F2A03D" data-c="#F2A03D" data-n="Naranja" data-l="Orange"></button>
+          <button aria-pressed="false" style="background:#C9CCC7" data-c="#C9CCC7" data-n="Plateada" data-l="Silver"></button>
+          <button aria-pressed="false" style="background:#2B2B2B" data-c="#2B2B2B" data-n="Negra" data-l="Black"></button>
+        </div>
+        <div class="color-nom" id="nomHue">Green</div>
+        <div class="product-price">$49.900 <small>COP · one-time payment</small></div>
+        <a class="product-btn" id="btnHue" href="/pedido.html?producto=huesito">Order here 🐾</a>
+      </article>
+
+    </div>
+
+    <a class="ver-placas" href="/placas.html">See all the tags larger and in detail (in Spanish) →</a>
+
+    <div class="optional-note">
+      The digital ID is free and works without buying any physical product. The printed ID card and the tags are optional extras for those who also want to carry their pet's ID outside their phone.
+    </div>
+  </div>
+</section>
+
+<!-- ══ 7. OBJECIONES ══ -->
+<section class="band-white" id="veterinarios">
+  <div class="container">
+    <div class="vet-band">
+      <div class="vet-band-ico">🩺</div>
+      <div class="vet-band-txt">
+        <h2>Are you a veterinarian?</h2>
+        <p>Record your patients' vaccines and dewormings directly on their Kolita ID. Families get the reminder and come back to your practice. It's free.</p>
+      </div>
+      <a class="btn btn-main" href="/veterinarios.html">Sign up →</a>
+    </div>
+  </div>
+</section>
+
+<section class="band-soft" id="preguntas">
+  <div class="container">
+    <div class="sec-kicker">Frequently asked questions</div>
+    <h2 class="sec-title">What everyone asks</h2>
+    <details class="faq-box">
+      <summary>
+        <span><b>See the frequently asked questions</b><small>9 questions · free plan, tags, privacy and more</small></span>
+        <span class="faq-open">See questions</span>
+      </summary>
+    <div class="faq-list">
+      <details>
+        <summary>Is it really free? What's the catch?</summary>
+        <p>Yes. The ID, the QR code, the reminders, the scan alerts, the protected alert and the printable ID are free and will stay free. We do not ask for a card. The only paid items are the tags and the PVC ID card, and they are completely optional.</p>
+      </details>
+      <details>
+        <summary>Do I need a password?</summary>
+        <p>No, and we will never ask you for one. To sign in you type your email and receive a code; you enter it and that's it. That way nobody else can change your pet's ID or turn off lost mode, and you have nothing to remember.</p>
+      </details>
+      <details>
+        <summary>Are the digital ID and the physical ID card the same thing?</summary>
+        <p>No. The digital ID is free and you use it from your phone. From "Mis carnets" (My pet IDs) you can also download their foldable ID for free and print it at home. The PVC ID card is an optional product at $59.900 COP for those who want something sturdier.</p>
+      </details>
+      <details>
+        <summary>Do I have to buy the tag?</summary>
+        <p>No. The digital ID works without buying a tag. The tag is optional and keeps the Kolita Code and QR code on the collar at all times, in a sturdy format. It's up to you.</p>
+      </details>
+      <details>
+        <summary>How do I order the tag and how do I pay?</summary>
+        <p>First create your pet's ID, which is free. When you finish you receive their Kolita Code. Then tap "Order here" on the tag you like and fill in the form (in Spanish). We message you on WhatsApp with the shipping cost (paid separately) and the payment details.</p>
+      </details>
+      <details>
+        <summary>Do I have to download an app?</summary>
+        <p>No. Kolita works in the browser of any phone. Neither you nor the person who finds your pet needs to install anything — scanning the QR code with the camera is enough.</p>
+      </details>
+      <details>
+        <summary>Who can see my details?</summary>
+        <p>The ID shows your pet's details and your name. Your phone number is not shown, unless you turn on the option to show it while your pet is lost. If someone finds your pet, they first have to say who they are and where they saw them; that alert reaches your email and you decide whether to reply. Your email is never shown to anyone. All the details are in our <a href="/privacidad.html">Privacy Policy</a> (in Spanish).</p>
+      </details>
+      <details>
+        <summary>Does it work for cats and other pets?</summary>
+        <p>Of course! Dogs, cats, rabbits, birds and any companion at home. Cats that like to explore are, in fact, the ones that need it most.</p>
+      </details>
+      <details>
+        <summary>What happens if my pet gets lost?</summary>
+        <p>You can turn on lost mode and their ID shows an alert. Whoever finds your pet scans the QR code, sees the ID and fills in a short alert: who they are, their WhatsApp, where they saw your pet and a photo. That alert reaches your email with the approximate location, and you decide whether to contact them. Your number is never exposed.</p>
+      </details>
+    </div>
+    </details>
+  </div>
+</section>
+
+<section class="container cta-end">
+  <div class="cta-box">
+    <h2>Their ID protects them.<br>Creating it takes 2 minutes.</h2>
+    <p>Free for dogs, cats and every pet at home. No passwords, no credit card 🐾</p>
+    <a class="btn btn-main" href="/registro.html">Create free ID →</a>
+  </div>
+</section>
+
+<footer>
+  <div class="f-brand">
+    <img class="brand-logo-footer" src="/logo-kolita.png" alt="">
+    <span class="brand-word-footer">kolita</span>
+  </div>
+  <p>Your pet's digital ID · Medellín, Colombia 🇨🇴 · <a href="/" style="color:var(--mut);">Español</a> · <a href="/privacidad.html" style="color:var(--mut);">Privacy Policy (in Spanish)</a></p>
+</footer>
+
+<div class="sticky-cta"><a href="/registro.html">Create their free ID 🐾</a></div>
+
+<script>
+// Contador real de carnets. La base solo devuelve el número, ningún dato de nadie.
+(function(){
+  fetch('https://fdwbstqxqdailyeedmuo.supabase.co/rest/v1/rpc/contar_carnets', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json',
+      'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZkd2JzdHF4cWRhaWx5ZWVkbXVvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM5MDEwMDEsImV4cCI6MjA5OTQ3NzAwMX0.GG6O9z1Exu5z0DsM8Fzk-fx1h2BIII0I9flMVZiPwIw',
+      'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZkd2JzdHF4cWRhaWx5ZWVkbXVvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM5MDEwMDEsImV4cCI6MjA5OTQ3NzAwMX0.GG6O9z1Exu5z0DsM8Fzk-fx1h2BIII0I9flMVZiPwIw' },
+    body: '{}'
+  }).then(function(r){ return r.json(); }).then(function(n){
+    if (typeof n === 'number' && n >= 10) {
+      document.getElementById('heroCountN').textContent = n;
+      document.getElementById('heroCount').hidden = false;
+    }
+  }).catch(function(){});
+})();
+</script>
+
+<script>
+(function(){
+  var WA = 'https://wa.me/573123223627?text=';
+  var std  = { color:'negra' };
+  var foto = { color:'negra' };
+  var hue  = { color:'verde' };
+
+  // Los botones llevan al formulario de pedido con el producto y el color ya elegidos.
+  function pedir(producto, color){ return '/pedido.html?producto=' + producto + (color ? '&color=' + encodeURIComponent(color) : ''); }
+  function refrescaStd(){  document.getElementById('btnStd').href  = pedir('estandar', std.color); }
+  function refrescaFoto(){ document.getElementById('btnFoto').href = pedir('foto', foto.color); }
+  function refrescaHue(){  document.getElementById('btnHue').href  = pedir('huesito', hue.color); }
+  function refrescaCarnetFisico(){
+    var el = document.getElementById('btnCarnetFisico');
+    if(el) el.href = pedir('carnet');
+  }
+
+  function pintaMetal(cuerpoId, cuerpo, grabado, claseFg, claseBg, claseSt){
+    document.getElementById(cuerpoId).setAttribute('fill', cuerpo);
+    document.querySelectorAll(claseFg).forEach(function(el){ el.setAttribute('fill', grabado); });
+    document.querySelectorAll(claseBg).forEach(function(el){ el.setAttribute('fill', cuerpo); });
+    if(claseSt) document.querySelectorAll(claseSt).forEach(function(el){ el.setAttribute('stroke', cuerpo); });
+  }
+
+  function conectarColores(grupoId, nomId, alElegir){
+    document.querySelectorAll('#' + grupoId + ' button').forEach(function(b){
+      b.addEventListener('click', function(){
+        document.querySelectorAll('#' + grupoId + ' button').forEach(function(o){ o.setAttribute('aria-pressed','false'); });
+        b.setAttribute('aria-pressed','true');
+        document.getElementById(nomId).textContent = b.getAttribute('data-l') || b.getAttribute('data-n');
+        alElegir(b);
+      });
+    });
+  }
+
+  conectarColores('colStd', 'nomStd', function(b){
+    std.color = b.getAttribute('data-n').toLowerCase();
+    pintaMetal('stdBody', b.getAttribute('data-c'), b.getAttribute('data-g'), '.s-fg', '.s-bg', null);
+    refrescaStd(); fotoStd();
+  });
+
+  conectarColores('colFoto', 'nomFoto', function(b){
+    foto.color = b.getAttribute('data-n').toLowerCase();
+    pintaMetal('fotBody', b.getAttribute('data-c'), b.getAttribute('data-g'), '.f-fg', '.f-bg', '.f-st');
+    refrescaFoto(); fotoFoto();
+  });
+
+  conectarColores('colHue', 'nomHue', function(b){
+    hue.color = b.getAttribute('data-n').toLowerCase();
+    document.getElementById('hueBody').setAttribute('fill', b.getAttribute('data-c'));
+    refrescaHue(); fotoHue();
+  });
+
+  // ── FOTOS REALES ──────────────────────────────────────────
+  // Si la foto existe en img/, se muestra; si no, se ve el dibujo.
+  //   Estándar : img/placa-negra · img/placa-plateada
+  //   Con foto : img/placa-foto-negra · img/placa-foto-plateada · img/placa-foto
+  //   Huesito  : img/huesito-verde · img/huesito-azul · img/huesito-morada
+  //              img/huesito-fucsia · img/huesito-rosada · img/huesito-naranja
+  //              img/huesito-plateada · img/huesito-negra · img/placa-huesito
+  var TERMINACIONES = ['.jpg', '.png', '.jpg.png', '.jpeg', '.JPG', '.PNG'];
+
+  function pintaFoto(img, svg, bases){
+    if(typeof bases === 'string') bases = [bases];
+    var b = 0, i = 0;
+    function intenta(){
+      if(i >= TERMINACIONES.length){ i = 0; b++;
+        if(b >= bases.length){ img.style.display='none'; svg.style.display=''; return; }
+      }
+      var src = bases[b] + TERMINACIONES[i++];
+      var p = new Image();
+      p.onload  = function(){ img.src = src; img.style.display='block'; svg.style.display='none'; };
+      p.onerror = intenta;
+      p.src = src;
+    }
+    intenta();
+  }
+
+  function fotoStd(){
+    pintaFoto(document.getElementById('imgStd'), document.getElementById('svgStd'),
+      std.color === 'plateada' ? ['/img/placa-plateada'] : ['/img/placa-negra']);
+  }
+  function fotoFoto(){
+    pintaFoto(document.getElementById('imgFoto'), document.getElementById('svgFoto'),
+      ['/img/placa-foto-' + foto.color, '/img/placa-foto']);
+  }
+  function fotoHue(){
+    pintaFoto(document.getElementById('imgHue'), document.getElementById('svgHue'),
+      ['/img/huesito-' + hue.color, '/img/placa-huesito']);
+  }
+
+  // ── CONTEO: clics en los botones de producto ──
+  // Se ve en Google Analytics → Informes → Interacción → Eventos
+  function contar(modelo, color, precio){
+    if(typeof gtag !== 'function') return;
+    gtag('event', 'clic_placa', { modelo:modelo, color:color, precio:precio, valor_pesos:precio });
+  }
+  document.getElementById('btnStd').addEventListener('click', function(){ contar('estandar', std.color, 69900); });
+  document.getElementById('btnFoto').addEventListener('click', function(){ contar('con_foto', foto.color, 79900); });
+  document.getElementById('btnHue').addEventListener('click', function(){ contar('huesito', hue.color, 49900); });
+  var bcf = document.getElementById('btnCarnetFisico');
+  if(bcf) bcf.addEventListener('click', function(){ contar('carnet_fisico', 'personalizado', 59900); });
+
+  // ── CONTEO: clics en "Crear carnet" ──
+  [['.nav-cta','menu'], ['.hero .btn-main','hero'], ['.free-cta','ventajas'],
+   ['.cta-end .btn-main','cierre'], ['.sticky-cta a','fijo_celular']]
+    .forEach(function(par){
+      var el = document.querySelector(par[0]);
+      if(el) el.addEventListener('click', function(){
+        if(typeof gtag === 'function') gtag('event', 'clic_crear_carnet', { desde: par[1] });
+      });
+    });
+
+  // ── CARRUSEL del carnet físico ──
+  var track = document.getElementById('carnetTrack');
+  if(track){
+    var dots  = document.getElementById('carnetDots').querySelectorAll('button');
+    var cap   = document.getElementById('carnetCap');
+    var caras = ['Front','Back'];
+
+    function irA(i){
+      track.scrollTo({ left: track.clientWidth * i, behavior:'smooth' });
+    }
+    function marcar(i){
+      dots.forEach(function(d,n){ d.setAttribute('aria-current', n===i ? 'true':'false'); });
+      cap.textContent = caras[i] || '';
+    }
+    dots.forEach(function(d,i){ d.addEventListener('click', function(){ irA(i); }); });
+    document.getElementById('cPrev').addEventListener('click', function(){
+      irA(Math.max(0, Math.round(track.scrollLeft / track.clientWidth) - 1));
+    });
+    document.getElementById('cNext').addEventListener('click', function(){
+      irA(Math.min(1, Math.round(track.scrollLeft / track.clientWidth) + 1));
+    });
+    var t0;
+    track.addEventListener('scroll', function(){
+      clearTimeout(t0);
+      t0 = setTimeout(function(){
+        marcar(Math.round(track.scrollLeft / track.clientWidth));
+      }, 90);
+    });
+  }
+
+  refrescaStd(); refrescaFoto(); refrescaHue(); refrescaCarnetFisico();
+  fotoStd(); fotoFoto(); fotoHue();
+})();
+</script>
+
+</body>
+</html>

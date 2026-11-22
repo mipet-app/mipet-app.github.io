@@ -9,6 +9,26 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://kolita.co/en/</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://kolita.co/blog/</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://kolita.co/blog/polvora-perros-gatos-diciembre.html</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://kolita.co/blog/perro-perdido-medellin.html</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://kolita.co/blog/placa-qr-vs-microchip.html</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://kolita.co/mis-carnets.html</loc>
     <priority>0.6</priority>
   </url>
