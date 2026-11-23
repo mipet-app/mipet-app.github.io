@@ -386,32 +386,20 @@ details.vet-det .inner{padding-bottom:16px;}
     <div class="url-box" id="successUrl"></div>
     <p id="successVet" style="display:none;background:var(--soft);border-radius:12px;padding:10px 12px;margin-top:12px;font-size:12.5px;font-weight:700;color:var(--deep);"></p>
     <div class="kcode-box">Código Kolita<strong id="successCode">—</strong>Anótalo. Si el QR llegara a fallar, con este código puedes abrir el carnet.</div>
+    <!-- OFERTA DE LA PLACA: justo después del Código Kolita -->
+    <div style="margin-top:16px;background:#fff;border:2px solid var(--mid);border-radius:18px;padding:18px 16px;text-align:left;box-shadow:0 10px 28px rgba(85,111,81,.12);">
+      <div style="font-size:10px;font-weight:800;color:var(--deep);text-transform:uppercase;letter-spacing:1.3px;">Último paso</div>
+      <h3 style="font-family:'Fraunces',serif;font-size:19px;font-weight:700;line-height:1.3;margin-top:6px;color:var(--ink);">Que lo lleve siempre puesto 🏷️</h3>
+      <p style="font-size:13px;color:var(--ink);font-weight:600;line-height:1.6;margin-top:8px;">Para que su carnet funcione en la calle, el QR tiene que ir en su collar. La placa Kolita lo lleva grabado a láser en metal: aguanta el agua, el barro y los años sin borrarse.</p>
+      <a id="btnPlaca" href="pedido.html" target="_blank" onclick="if(typeof gtag==='function')gtag('event','clic_placa_desde_registro');" style="display:block;text-align:center;margin-top:14px;background:var(--deep);color:#fff;text-decoration:none;font-size:15px;font-weight:800;padding:15px;border-radius:14px;box-shadow:0 8px 20px rgba(85,111,81,.3);">Pedir su placa desde $49.900 🐾</a>
+      <p style="font-size:11.5px;color:var(--mut);font-weight:700;text-align:center;margin-top:9px;">Pago único · Su Código Kolita ya queda puesto en el pedido</p>
+      <p style="font-size:12.5px;color:var(--ink);font-weight:700;text-align:center;margin-top:16px;padding-top:14px;border-top:1px solid var(--line);">Puedes imprimir su carnet completo en físico aquí:</p>
+      <a href="mis-carnets.html" target="_blank" onclick="if(typeof gtag==='function')gtag('event','clic_imprimir_desde_registro');" style="display:block;text-align:center;margin-top:10px;background:#fff;color:var(--deep);border:1.5px solid var(--mid);text-decoration:none;font-size:14px;font-weight:800;padding:13px;border-radius:14px;">📄 Imprimir su carnet</a>
+    </div>
     <button class="btn btn-wa" id="viewBtn">Ver el carnet 🐾</button>
     <button class="btn btn-ghost" onclick="copyLink()">📋 Copiar enlace</button>
     <button class="btn-plain" onclick="resetForm()">+ Crear otro carnet</button>
 
-    <div class="placa-of">
-      <div class="placa-of-tag">Si quieres, opcional</div>
-      <h3>¿Le pones su placa?</h3>
-      <p>El QR impreso funciona igual y no cuesta nada. La placa es de metal con el código grabado a láser: aguanta el agua, el barro y los años sin borrarse.</p>
-
-      <div class="placa-of-row">
-        <svg viewBox="0 0 96 60" width="62" height="39">
-          <rect x="2" y="2" width="92" height="56" rx="22" fill="#2B2B2B"/>
-          <circle cx="15" cy="30" r="4.5" fill="none" stroke="#93A28F" stroke-width="1.8"/>
-          <rect x="26" y="12" width="36" height="36" rx="2" fill="#EEEEEE"/>
-          <rect x="29" y="15" width="8" height="8" fill="#2B2B2B"/><rect x="51" y="15" width="8" height="8" fill="#2B2B2B"/>
-          <rect x="29" y="37" width="8" height="8" fill="#2B2B2B"/>
-          <rect x="41" y="27" width="3" height="3" fill="#2B2B2B"/><rect x="47" y="31" width="3" height="3" fill="#2B2B2B"/>
-        </svg>
-        <div>
-          <b>Desde $49.900</b>
-          <span>Pago único · No es suscripción</span>
-        </div>
-      </div>
-
-      <a class="btn-ver" href="placas.html" target="_blank">Ver las placas 🐾</a>
-    </div>
   </div>
 </div>
 
@@ -973,6 +961,7 @@ async function guardarCarnet() {
     s.classList.add('show');
     document.getElementById('successUrl').textContent = createdPetUrl;
     document.getElementById('successCode').textContent = shortCode;
+    document.getElementById('btnPlaca').href = 'pedido.html?codigo=' + encodeURIComponent(shortCode);
     var sv = document.getElementById('successVet');
     if (vetOk) { sv.textContent = '🩺 ' + vetOk + ' quedó como veterinario de confianza de ' + v('petName') + '. Ya puede registrar sus vacunas.'; sv.style.display = 'block'; }
     else { sv.style.display = 'none'; }
