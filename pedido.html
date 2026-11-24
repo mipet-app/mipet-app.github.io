@@ -11,7 +11,7 @@
   gtag('config', 'G-381DD74KP3');
 </script>
 <title>Pedir placa o carnet — Kolita</title>
-<meta name="description" content="Pide la placa con QR o el carnet PVC de tu peludo. Te confirmamos el envío por WhatsApp.">
+<meta name="description" content="Pide la placa con QR o el carnet PVC de tu peludo y paga en línea de forma segura con Wompi.">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Quicksand:wght@600;700&family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -113,7 +113,7 @@ textarea{resize:vertical;min-height:70px;}
 
 <div class="wrap" id="formBox">
   <h1>Pide su placa o su carnet 🐾</h1>
-  <p class="sub">Llena estos datos una sola vez. Te escribimos por WhatsApp con el valor del envío y cómo pagar.</p>
+  <p class="sub">Llena estos datos una sola vez. Al final puedes pagar en línea de forma segura con Wompi.</p>
 
   <form id="f" novalidate>
     <!-- 1. PRODUCTOS -->
@@ -161,10 +161,10 @@ textarea{resize:vertical;min-height:70px;}
       </div>
       <p class="hint">Área metropolitana: Envigado, Itagüí, Sabaneta, Bello, La Estrella, Caldas, Copacabana, Girardota y Barbosa.</p>
       <div class="envio">
-        🚚 <strong>El envío se paga aparte.</strong><br>
-        · En Medellín y el área metropolitana, el valor depende de qué tan lejos estés.<br>
-        · Fuera del área metropolitana, depende de la transportadora y de sus condiciones del momento.<br>
-        Te confirmamos el valor exacto por WhatsApp <strong>antes</strong> de pagar.
+        🚚 <strong>Valor del envío</strong><br>
+        · Medellín y área metropolitana: <strong>$9.000</strong> (llega en 2 a 3 días hábiles).<br>
+        · Resto de Colombia: <strong>$16.000</strong> (llega en 5 a 8 días hábiles).<br>
+        · <strong>Envío gratis</strong> en pedidos desde $120.000.
       </div>
       <label for="ciudad">Ciudad o municipio</label>
       <input id="ciudad" maxlength="80" placeholder="Ej: Medellín">
@@ -183,7 +183,7 @@ textarea{resize:vertical;min-height:70px;}
       <input id="nombre" maxlength="80" autocomplete="name">
       <label for="whatsapp">Tu WhatsApp</label>
       <input id="whatsapp" type="tel" inputmode="tel" maxlength="16" placeholder="Ej: 3001234567" autocomplete="tel">
-      <p class="hint">Por aquí te confirmamos el envío y te enviamos los datos de pago.</p>
+      <p class="hint">Por aquí te confirmamos tu pedido y te avisamos cuando salga.</p>
       <label for="correo">Tu correo <span class="opc">(opcional, para enviarte la confirmación)</span></label>
       <input id="correo" type="email" inputmode="email" maxlength="120" autocomplete="email">
       <label for="notas">¿Algo más que debamos saber? <span class="opc">(opcional)</span></label>
@@ -194,12 +194,12 @@ textarea{resize:vertical;min-height:70px;}
 
     <div class="resumen" id="resumen">
       <div id="rItems"><div class="r"><span>Elige al menos un producto</span><span>—</span></div></div>
-      <div class="r"><span>Envío</span><span>Te lo confirmamos</span></div>
-      <div class="r t"><span>Total productos</span><span id="rTotal">—</span></div>
+      <div class="r"><span>Envío</span><span id="rEnvio">Elige la zona de entrega</span></div>
+      <div class="r t"><span>Total a pagar</span><span id="rTotal">—</span></div>
     </div>
 
     <button class="btn" type="submit" id="enviar">Enviar pedido 🐾</button>
-    <p class="hint" style="text-align:center;">Todavía no pagas nada. Un asesor de Kolita te escribe por WhatsApp para confirmar el envío y el pago.</p>
+    <p class="hint" style="text-align:center;">Todavía no pagas nada. Al enviar tu pedido te mostramos cómo pagar en línea con Wompi: tarjeta, PSE, Nequi, Bancolombia y más.</p>
   </form>
 </div>
 
@@ -208,14 +208,21 @@ textarea{resize:vertical;min-height:70px;}
     <div class="big">🎉</div>
     <h2>¡Pedido recibido!</h2>
     <div class="ok-num" id="okNum">#—</div>
-    <p><strong>Un asesor de Kolita te escribe por WhatsApp en los próximos minutos</strong> para confirmar el envío y darte los datos de pago. Si es de noche, te escribimos a primera hora del día siguiente.</p>
-    <a class="btn btn-wa pulso" id="okWa" href="#" target="_blank" rel="noopener">💬 ¿No quieres esperar? Escríbenos ya</a>
-    <div class="pasos-ok">
-      <div><i>1</i><span>Te confirmamos el valor del envío a tu dirección.</span></div>
-      <div><i>2</i><span>Pagas por transferencia con los datos que te enviamos por WhatsApp.</span></div>
-      <div><i>3</i><span>Lo hacemos, te mandamos una foto para que lo apruebes y te lo entregamos.</span></div>
+    <div id="okConLink" class="hide">
+      <p><strong>Solo falta el pago.</strong> Total con envío: <strong id="okTotal">—</strong>. Pagas en línea con Wompi, con tarjeta, PSE, Nequi, Bancolombia y más.</p>
+      <a class="btn pulso" id="okPagar" href="#" target="_blank" rel="noopener">🔒 Pagar ahora con Wompi</a>
+      <p style="font-size:12.5px;">Wompi te pedirá el nombre de tu mascota y la dirección, para asociar el pago con tu pedido.</p>
     </div>
-    <div class="seguro">🔒 Por tu seguridad: Kolita solo te escribe desde el WhatsApp <strong>+57 312 322 3627</strong>. Nunca te pediremos pagar por un enlace ni a nombre de otra persona.</div>
+    <div id="okSinLink">
+      <p><strong>Un asesor de Kolita te escribe por WhatsApp en los próximos minutos</strong> con el enlace de pago de Wompi por el total de tu pedido: <strong id="okTotal2">—</strong>. Si es de noche, te escribimos a primera hora del día siguiente.</p>
+    </div>
+    <a class="btn btn-wa" id="okWa" href="#" target="_blank" rel="noopener">💬 ¿Tienes dudas? Escríbenos</a>
+    <div class="pasos-ok">
+      <div><i>1</i><span>Pagas en línea con Wompi.</span></div>
+      <div><i>2</i><span>Hacemos tu pedido y te mandamos una foto para que lo apruebes.</span></div>
+      <div><i>3</i><span>Te lo entregamos: 2 a 3 días hábiles en Medellín y área metropolitana, 5 a 8 en el resto de Colombia.</span></div>
+    </div>
+    <div class="seguro">🔒 Por tu seguridad: Kolita solo te escribe desde el WhatsApp <strong>+57 312 322 3627</strong>. Los pagos en línea se hacen únicamente por Wompi (checkout.wompi.co). Nunca te pediremos pagar a nombre de otra persona.</div>
     <a class="btn btn-sec" href="index.html">Volver a Kolita</a>
   </div>
 </div>
@@ -237,6 +244,17 @@ textarea{resize:vertical;min-height:70px;}
     carnet:   { nombre:'Carnet PVC tipo tarjeta', precio:59900, colores:[] }
   };
   var ORDEN = ['estandar','foto','huesito','carnet'];
+  // ── Envío y links de pago de Wompi (cada link ya incluye el envío) ──
+  var ENVIO = { medellin:9000, area_metro:9000, fuera:16000 };
+  var ENVIO_GRATIS_DESDE = 120000;
+  var LINKS = {
+    huesito:  { local:'https://checkout.wompi.co/l/qDJxZX', nacional:'https://checkout.wompi.co/l/MSaa1h' },
+    estandar: { local:'https://checkout.wompi.co/l/BcxYHb', nacional:'https://checkout.wompi.co/l/3SFDoj' },
+    foto:     { local:'https://checkout.wompi.co/l/7Jh24A', nacional:'https://checkout.wompi.co/l/R0ehmF' },
+    carnet:   { local:'https://checkout.wompi.co/l/GUBrwM', nacional:'https://checkout.wompi.co/l/ingto1' }
+  };
+  function subtotal(lista){ return lista.reduce(function(t, i){ return t + PRODUCTOS[i.producto].precio * i.cantidad; }, 0); }
+  function envioDe(sub){ if(!estado.entrega) return null; return sub >= ENVIO_GRATIS_DESDE ? 0 : ENVIO[estado.entrega]; }
   var $ = function(id){ return document.getElementById(id); };
   var carrito = {};               // { estandar: { color:'Negra', cantidad:1 }, ... }
   var estado = { entrega:'', pet:null, foto:'' };
@@ -309,7 +327,7 @@ textarea{resize:vertical;min-height:70px;}
   function resumen(){
     var lista = items(), cont = $('rItems'), total = 0;
     cont.innerHTML = '';
-    if(!lista.length){ cont.innerHTML = '<div class="r"><span>Elige al menos un producto</span><span>—</span></div>'; $('rTotal').textContent = '—'; return; }
+    if(!lista.length){ cont.innerHTML = '<div class="r"><span>Elige al menos un producto</span><span>—</span></div>'; $('rEnvio').textContent = estado.entrega ? pesos(ENVIO[estado.entrega]) : 'Elige la zona de entrega'; $('rTotal').textContent = '—'; return; }
     lista.forEach(function(i){
       var P = PRODUCTOS[i.producto], sub = P.precio * i.cantidad; total += sub;
       var r = document.createElement('div'); r.className = 'r';
@@ -317,7 +335,9 @@ textarea{resize:vertical;min-height:70px;}
       var b = document.createElement('span'); b.textContent = pesos(sub);
       r.appendChild(a); r.appendChild(b); cont.appendChild(r);
     });
-    $('rTotal').textContent = pesos(total) + ' + envío';
+    var env = envioDe(total);
+    $('rEnvio').textContent = env === null ? 'Elige la zona de entrega' : (env === 0 ? 'Gratis' : pesos(env));
+    $('rTotal').textContent = env === null ? pesos(total) + ' + envío' : pesos(total + env);
   }
 
   // ── Foto: la del carnet u otra por WhatsApp ──
@@ -345,6 +365,7 @@ textarea{resize:vertical;min-height:70px;}
       estado.entrega = b.getAttribute('data-e');
       document.querySelectorAll('#entregas .chip').forEach(function(x){ x.classList.toggle('on', x === b); });
       if(estado.entrega === 'medellin' && !$('ciudad').value.trim()) $('ciudad').value = 'Medellín';
+      resumen();
     };
   });
 
@@ -422,7 +443,15 @@ textarea{resize:vertical;min-height:70px;}
       if(!d.ok) throw new Error(d.error || 'No pudimos enviar el pedido.');
       var resumenTxt = lista.map(function(i){ return i.cantidad + ' ' + PRODUCTOS[i.producto].nombre + (i.color ? ' ' + i.color : ''); }).join(', ');
       $('okNum').textContent = '#' + d.numero;
-      $('okWa').href = 'https://wa.me/' + WA_KOLITA + '?text=' + encodeURIComponent('¡Hola Kolita! 🐾 Acabo de hacer el pedido #' + d.numero + ' para ' + bonito(estado.pet.name) + ': ' + resumenTxt + '. Quedo atenta(o) al valor del envío y los datos de pago.');
+      var sub = subtotal(lista), totalPagar = sub + (envioDe(sub) || 0);
+      var unico = (lista.length === 1 && lista[0].cantidad === 1 && LINKS[lista[0].producto]) ? LINKS[lista[0].producto][estado.entrega === 'fuera' ? 'nacional' : 'local'] : '';
+      $('okTotal').textContent = pesos(totalPagar); $('okTotal2').textContent = pesos(totalPagar);
+      if(unico){
+        $('okPagar').href = unico;
+        $('okPagar').onclick = function(){ if(window.gtag) gtag('event', 'clic_pagar_wompi', { value: totalPagar, currency: 'COP' }); };
+      }
+      $('okConLink').classList.toggle('hide', !unico); $('okSinLink').classList.toggle('hide', !!unico);
+      $('okWa').href = 'https://wa.me/' + WA_KOLITA + '?text=' + encodeURIComponent('¡Hola Kolita! 🐾 Acabo de hacer el pedido #' + d.numero + ' para ' + bonito(estado.pet.name) + ': ' + resumenTxt + '. ');
       $('formBox').classList.add('hide'); $('okBox').classList.remove('hide');
       window.scrollTo({ top:0, behavior:'smooth' });
       if(window.gtag) gtag('event', 'pedido_enviado', { value: d.total, currency: 'COP' });
