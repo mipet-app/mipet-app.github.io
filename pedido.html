@@ -198,8 +198,8 @@ textarea{resize:vertical;min-height:70px;}
       <div class="r t"><span>Total a pagar</span><span id="rTotal">—</span></div>
     </div>
 
-    <button class="btn" type="submit" id="enviar">Enviar pedido 🐾</button>
-    <p class="hint" style="text-align:center;">Todavía no pagas nada. Al enviar tu pedido te mostramos cómo pagar en línea con Wompi: tarjeta, PSE, Nequi, Bancolombia y más.</p>
+    <button class="btn" type="submit" id="enviar">Continuar al pago 🔒</button>
+    <p class="hint" style="text-align:center;">Al continuar te llevamos a Wompi para pagar de forma segura con tarjeta, PSE, Nequi, Bancolombia y más.</p>
   </form>
 </div>
 
@@ -209,12 +209,12 @@ textarea{resize:vertical;min-height:70px;}
     <h2>¡Pedido recibido!</h2>
     <div class="ok-num" id="okNum">#—</div>
     <div id="okConLink" class="hide">
-      <p><strong>Solo falta el pago.</strong> Total con envío: <strong id="okTotal">—</strong>. Pagas en línea con Wompi, con tarjeta, PSE, Nequi, Bancolombia y más.</p>
-      <a class="btn pulso" id="okPagar" href="#" target="_blank" rel="noopener">🔒 Pagar ahora con Wompi</a>
-      <p style="font-size:12.5px;">Wompi te pedirá el nombre de tu mascota y la dirección, para asociar el pago con tu pedido.</p>
+      <p><strong>Solo falta el pago.</strong> Total con envío: <strong id="okTotal">—</strong>. Te estamos llevando a Wompi para que pagues con tarjeta, PSE, Nequi, Bancolombia y más.</p>
+      <a class="btn pulso" id="okPagar" href="#">🔒 Pagar ahora con Wompi</a>
+      <p style="font-size:12.5px;">Si la página de pago no abre sola en unos segundos, toca el botón.</p>
     </div>
     <div id="okSinLink">
-      <p><strong>Un asesor de Kolita te escribe por WhatsApp en los próximos minutos</strong> con el enlace de pago de Wompi por el total de tu pedido: <strong id="okTotal2">—</strong>. Si es de noche, te escribimos a primera hora del día siguiente.</p>
+      <p><strong>Tu pedido quedó guardado</strong>, pero no pudimos abrir el pago en línea en este momento. Total con envío: <strong id="okTotal2">—</strong>. Escríbenos por WhatsApp y te ayudamos a pagarlo.</p>
     </div>
     <a class="btn btn-wa" id="okWa" href="#" target="_blank" rel="noopener">💬 ¿Tienes dudas? Escríbenos</a>
     <div class="pasos-ok">
@@ -244,15 +244,9 @@ textarea{resize:vertical;min-height:70px;}
     carnet:   { nombre:'Carnet PVC tipo tarjeta', precio:59900, colores:[] }
   };
   var ORDEN = ['estandar','foto','huesito','carnet'];
-  // ── Envío y links de pago de Wompi (cada link ya incluye el envío) ──
+  // ── Envío (el total y el enlace de pago de Wompi los calcula el servidor) ──
   var ENVIO = { medellin:9000, area_metro:9000, fuera:16000 };
   var ENVIO_GRATIS_DESDE = 120000;
-  var LINKS = {
-    huesito:  { local:'https://checkout.wompi.co/l/qDJxZX', nacional:'https://checkout.wompi.co/l/MSaa1h' },
-    estandar: { local:'https://checkout.wompi.co/l/BcxYHb', nacional:'https://checkout.wompi.co/l/3SFDoj' },
-    foto:     { local:'https://checkout.wompi.co/l/7Jh24A', nacional:'https://checkout.wompi.co/l/R0ehmF' },
-    carnet:   { local:'https://checkout.wompi.co/l/GUBrwM', nacional:'https://checkout.wompi.co/l/ingto1' }
-  };
   function subtotal(lista){ return lista.reduce(function(t, i){ return t + PRODUCTOS[i.producto].precio * i.cantidad; }, 0); }
   function envioDe(sub){ if(!estado.entrega) return null; return sub >= ENVIO_GRATIS_DESDE ? 0 : ENVIO[estado.entrega]; }
   var $ = function(id){ return document.getElementById(id); };
@@ -426,7 +420,7 @@ textarea{resize:vertical;min-height:70px;}
     if(correo && !/^[^@\s]+@[^@\s]+\.[A-Za-z]{2,}$/.test(correo)) return falta('correo', 'Revisa tu correo');
     if(!$('autoriza').checked) return falta('autoriza', 'Marca la autorización de datos');
 
-    var btn = $('enviar'); btn.disabled = true; btn.textContent = 'Enviando…';
+    var btn = $('enviar'); btn.disabled = true; btn.textContent = 'Un momento…';
     try{
       var r = await fetch(SUPABASE_URL + '/functions/v1/nuevo-pedido', {
         method:'POST', headers:HDR,
@@ -443,21 +437,22 @@ textarea{resize:vertical;min-height:70px;}
       if(!d.ok) throw new Error(d.error || 'No pudimos enviar el pedido.');
       var resumenTxt = lista.map(function(i){ return i.cantidad + ' ' + PRODUCTOS[i.producto].nombre + (i.color ? ' ' + i.color : ''); }).join(', ');
       $('okNum').textContent = '#' + d.numero;
-      var sub = subtotal(lista), totalPagar = sub + (envioDe(sub) || 0);
-      var unico = (lista.length === 1 && lista[0].cantidad === 1 && LINKS[lista[0].producto]) ? LINKS[lista[0].producto][estado.entrega === 'fuera' ? 'nacional' : 'local'] : '';
+      var sub = subtotal(lista), totalPagar = d.total_pagar || (sub + (envioDe(sub) || 0));
+      var pago = (typeof d.pago_url === 'string' && d.pago_url.indexOf('https://checkout.wompi.co/') === 0) ? d.pago_url : '';
       $('okTotal').textContent = pesos(totalPagar); $('okTotal2').textContent = pesos(totalPagar);
-      if(unico){
-        $('okPagar').href = unico;
-        $('okPagar').onclick = function(){ if(window.gtag) gtag('event', 'clic_pagar_wompi', { value: totalPagar, currency: 'COP' }); };
+      if(pago){
+        $('okPagar').href = pago;
+        if(window.gtag) gtag('event', 'ir_a_pagar_wompi', { value: totalPagar, currency: 'COP' });
+        setTimeout(function(){ location.href = pago; }, 1500);   // la llevamos sola a Wompi
       }
-      $('okConLink').classList.toggle('hide', !unico); $('okSinLink').classList.toggle('hide', !!unico);
+      $('okConLink').classList.toggle('hide', !pago); $('okSinLink').classList.toggle('hide', !!pago);
       $('okWa').href = 'https://wa.me/' + WA_KOLITA + '?text=' + encodeURIComponent('¡Hola Kolita! 🐾 Acabo de hacer el pedido #' + d.numero + ' para ' + bonito(estado.pet.name) + ': ' + resumenTxt + '. ');
       $('formBox').classList.add('hide'); $('okBox').classList.remove('hide');
       window.scrollTo({ top:0, behavior:'smooth' });
       if(window.gtag) gtag('event', 'pedido_enviado', { value: d.total, currency: 'COP' });
     }catch(err){
       toast('⚠️ ' + (err.message || 'No pudimos enviar el pedido. Intenta de nuevo.'));
-      btn.disabled = false; btn.textContent = 'Enviar pedido 🐾';
+      btn.disabled = false; btn.textContent = 'Continuar al pago 🔒';
     }
   });
 
