@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Administración · Kolita</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Quicksand:wght@600;700&family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.111.0/dist/umd/supabase.js" integrity="sha384-faMlYZUtkJj+Sh6Bmu/L0GzPcraRWN6CW+9RH3GUrK/Z0WS9tgaNNt0tHiLxsbdb" crossorigin="anonymous"></script>
+<script src="js/kolita-auth.js"></script>
+<script src="js/kolita-login.js"></script>
+<style>
+:root{
+  --bg:#FBFCFA; --soft:#EDF2EA; --mid:#7C9877; --deep:#556F51; --ink:#3C4A3A; --mut:#7F8D7B;
+  --line:#E4EAE1; --orange:#E8813A;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+body{font-family:'Nunito Sans',sans-serif;background:#F1F3EF;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:22px 16px 60px;color:var(--ink);}
+.top{max-width:640px;width:100%;display:flex;align-items:center;gap:8px;margin-bottom:18px;}
+.brand-k{width:32px;height:32px;flex-shrink:0;}
+.brand-name{font-family:'Quicksand',sans-serif;font-weight:700;font-size:18px;}
+.top button{margin-left:auto;background:none;border:none;font-size:12px;font-weight:800;color:var(--deep);cursor:pointer;font-family:inherit;}
+.wrap{max-width:640px;width:100%;background:var(--bg);border:1px solid var(--line);border-radius:26px;padding:24px 20px;box-shadow:0 14px 40px rgba(70,85,66,.08);display:flex;flex-direction:column;gap:22px;}
+.hide{display:none!important;}
+h1{font-family:'Fraunces',serif;font-size:25px;font-weight:700;line-height:1.15;}
+h2{font-family:'Fraunces',serif;font-size:18px;font-weight:700;margin-bottom:10px;}
+.sub{font-size:13px;color:var(--mut);font-weight:600;margin-top:4px;line-height:1.5;}
+.denied{text-align:center;font-size:14px;color:var(--mut);font-weight:600;line-height:1.6;}
+.meta{background:var(--deep);color:#fff;border-radius:18px;padding:16px 18px;}
+.meta small{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#DCE8D8;}
+.meta b{display:block;font-family:'Fraunces',serif;font-size:34px;line-height:1.15;font-variant-numeric:tabular-nums;margin-top:2px;}
+.meta p{font-size:13px;font-weight:600;color:#DCE8D8;margin-top:2px;}
+.bar{height:8px;background:rgba(255,255,255,.25);border-radius:9px;overflow:hidden;margin-top:10px;}
+.bar i{display:block;height:100%;background:var(--orange);width:0;transition:width .4s;}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;}
+.stat{background:var(--soft);border-radius:14px;padding:12px 14px;}
+.stat b{display:block;font-family:'Fraunces',serif;font-size:26px;line-height:1.1;font-variant-numeric:tabular-nums;color:var(--deep);}
+.stat small{font-size:12px;color:var(--mut);font-weight:700;line-height:1.35;display:block;margin-top:2px;}
+.paso{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);}
+.paso:last-child{border-bottom:none;}
+.paso .n{flex:none;width:64px;font-family:'Fraunces',serif;font-size:24px;font-weight:700;color:var(--deep);font-variant-numeric:tabular-nums;text-align:right;}
+.paso .t{flex:1;min-width:0;}
+.paso .t strong{display:block;font-size:14px;}
+.paso .t span{font-size:12px;color:var(--mut);font-weight:600;}
+.paso .p{flex:none;font-size:13px;font-weight:800;color:var(--orange);font-variant-numeric:tabular-nums;}
+.scroll{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;font-size:13px;}
+th{text-align:right;font-size:11px;font-weight:800;color:var(--deep);text-transform:uppercase;letter-spacing:.6px;padding:8px 8px;border-bottom:1.5px solid var(--line);white-space:nowrap;}
+td{text-align:right;padding:9px 8px;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums;white-space:nowrap;}
+th:first-child,td:first-child{text-align:left;}
+.vacio{font-size:13px;color:var(--mut);font-weight:600;line-height:1.5;}
+.pie{font-size:11px;color:var(--mut);font-weight:600;line-height:1.5;}
+.btn{align-self:flex-start;background:var(--mid);color:#fff;border:none;border-radius:12px;padding:10px 16px;font-family:inherit;font-size:13px;font-weight:800;cursor:pointer;}
+#lista h2{margin:18px 0 8px;} #lista h2:first-child{margin-top:0;}
+.links{display:flex;flex-direction:column;gap:8px;}
+.lk{display:flex;align-items:center;gap:12px;background:var(--soft);border-radius:14px;padding:13px 14px;text-decoration:none;color:var(--ink);}
+.lk .t{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;}
+.lk strong{font-size:14.5px;}
+.lk small{font-size:12px;color:var(--mut);font-weight:600;line-height:1.4;}
+.lk .go{flex:none;font-size:18px;font-weight:800;color:var(--deep);}
+</style>
+</head>
+<body>
+<div class="top">
+  <svg class="brand-k" viewBox="0 0 92 92"><rect x="2" y="2" width="88" height="88" rx="24" fill="#7C9877"/><path d="M32 24 L32 68" stroke="#FBFCFA" stroke-width="9" stroke-linecap="round"/><path d="M34 48 C 48 46, 58 36, 56 24" fill="none" stroke="#FBFCFA" stroke-width="9" stroke-linecap="round"/><path d="M34 48 C 48 52, 58 60, 62 70" fill="none" stroke="#DCE8D8" stroke-width="9" stroke-linecap="round"/></svg>
+  <span class="brand-name">kolita</span>
+  <button type="button" id="salir" class="hide">Salir</button>
+</div>
+
+
+<div class="wrap" id="cajaLogin"></div>
+
+<div class="wrap hide" id="cajaNo">
+  <p class="denied">Esta página es solo para el equipo Kolita.<br>Si eres del equipo, entra con el correo registrado.</p>
+</div>
+
+<div class="wrap hide" id="cajaApp">
+  <div>
+    <h1>Administración de Kolita</h1>
+    <p class="sub">Todo lo tuyo en un solo lugar. Los documentos de Google se abren con la cuenta de Kolita.</p>
+  </div>
+  <div id="lista"></div>
+</div>
+
+<script>
+(function(){
+  var A = window.KolitaAuth;
+  var cli = A && A.client;
+  function $(id){ return document.getElementById(id); }
+  function ver(id){ ['cajaLogin','cajaNo','cajaApp'].forEach(function(x){ $(x).classList.toggle('hide', x !== id); }); }
+  // Todo lo que viene de la base de datos se escribe como texto, nunca como HTML.
+  function el(tag, cls, txt){ var e = document.createElement(tag); if(cls) e.className = cls; if(txt != null) e.textContent = txt; return e; }
+
+  function pinta(enlaces){
+    var lista = $('lista'); lista.textContent = '';
+    var grupo = null, caja = null;
+    enlaces.forEach(function(x){
+      if(!/^https:\/\//.test(String(x.url || ''))) return;   // solo enlaces seguros
+      if(x.grupo !== grupo){
+        grupo = x.grupo;
+        lista.appendChild(el('h2', '', grupo));
+        caja = el('div', 'links'); lista.appendChild(caja);
+      }
+      var a = el('a', 'lk'); a.href = x.url; a.target = '_blank'; a.rel = 'noopener';
+      var t = el('span', 't'); t.appendChild(el('strong', '', x.titulo)); t.appendChild(el('small', '', x.detalle || ''));
+      a.appendChild(t); a.appendChild(el('span', 'go', '→'));
+      caja.appendChild(a);
+    });
+  }
+
+  async function carga(){
+    var r = await cli.rpc('kolita_admin_enlaces');
+    if(r.error || !Array.isArray(r.data)){ ver('cajaNo'); return; }
+    ver('cajaApp'); pinta(r.data);
+  }
+
+  $('salir').addEventListener('click', async function(){ await A.salir(); location.reload(); });
+
+  async function entrar(){ $('salir').classList.remove('hide'); carga(); }
+
+  async function inicio(){
+    if(!cli){ $('cajaLogin').innerHTML = '<p class="denied">No cargó la conexión. Recarga la página.</p>'; return; }
+    var s = await A.sesionActual();
+    if(s){ entrar(); return; }
+    KolitaLogin.montar($('cajaLogin'), {
+      titulo: 'Equipo Kolita',
+      subtitulo: 'Entra con tu correo para abrir la administración.',
+      crearSiNoExiste: false,
+      alEntrar: entrar
+    });
+  }
+  inicio();
+})();
+</script>
+</body>
+</html>
