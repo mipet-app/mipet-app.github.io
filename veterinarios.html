@@ -141,26 +141,29 @@ input:focus,select:focus{border-color:var(--mid);}
   <div id="solicitud" style="display:none;">
     <div class="who"><span class="whoEmail">—</span><button onclick="salir()">Salir</button></div>
     <div class="paso">Paso 2 de 2 · Tus datos</div>
-    <h1 style="margin-top:6px;">🩺 Inscríbete como veterinario</h1>
+    <h1 style="margin-top:6px;">🩺 Inscríbete como veterinario o clínica</h1>
     <p class="sub">Con Kolita ves en un solo lugar a los peludos que atiendes, registras sus vacunas y desparasitaciones en segundos, y cada mes te llega la lista de quién necesita volver.</p>
 
-    <label>¿Qué eres? *</label>
-    <div class="tipo-row">
+    <label>¿Quién se inscribe? *</label>
+    <div class="tipo-row" style="flex-wrap:wrap;">
+      <button type="button" class="tipo-btn" data-tipo="clinica" onclick="elegirTipo('clinica')" style="flex-basis:100%;">🏥 Clínica veterinaria</button>
       <button type="button" class="tipo-btn" data-tipo="medico" onclick="elegirTipo('medico')">🩺 Médico veterinario</button>
       <button type="button" class="tipo-btn" data-tipo="auxiliar" onclick="elegirTipo('auxiliar')">💉 Auxiliar o técnico</button>
     </div>
 
+    <p class="hint" id="notaClinica" style="display:none;">La cuenta queda a nombre de la veterinaria. Inscríbela con el <b>correo de la clínica</b>, no con uno personal: así sigue siendo de ustedes aunque cambie el equipo. Si entraste con otro correo, toca <b>Salir</b> y vuelve a entrar con el de la clínica.</p>
+
     <div id="campoMatricula" style="display:none;">
-      <label>Número de matrícula profesional *</label>
+      <label id="lblMatricula">Número de matrícula profesional *</label>
       <input type="text" id="vMatricula" maxlength="30" placeholder="Ej: 12345">
       <p class="hint">La verificamos en la consulta pública del Consejo Profesional de Medicina Veterinaria.</p>
     </div>
     <div id="campoDonde" style="display:none;">
-      <label>¿Dónde trabajas o con qué veterinario? *</label>
+      <label id="lblDonde">¿Dónde trabajas o con qué veterinario? *</label>
       <input type="text" id="vDonde" maxlength="120" placeholder="Ej: Clínica Patitas, con la Dra. Ríos">
     </div>
 
-    <label>Tu nombre o el de tu veterinaria *</label>
+    <label id="lblNombre">Tu nombre o el de tu veterinaria *</label>
     <input type="text" id="vNombre" maxlength="80" placeholder="Ej: Mario Ruiz · Vacunación a domicilio">
     <label>Teléfono del consultorio</label>
     <input type="tel" id="vTel" maxlength="15" placeholder="Ej: 3001234567">
@@ -448,8 +451,16 @@ var tipoVet = '';
 function elegirTipo(t){
   tipoVet = t;
   document.querySelectorAll('.tipo-btn').forEach(function(b){ b.classList.toggle('active', b.getAttribute('data-tipo') === t); });
-  qs('campoMatricula').style.display = t === 'medico' ? 'block' : 'none';
-  qs('campoDonde').style.display = t === 'auxiliar' ? 'block' : 'none';
+  var clinica = t === 'clinica';
+  qs('campoMatricula').style.display = (t === 'medico' || clinica) ? 'block' : 'none';
+  qs('campoDonde').style.display = (t === 'auxiliar' || clinica) ? 'block' : 'none';
+  // Clínica: la cuenta es de la veterinaria y responde un médico con matrícula.
+  qs('notaClinica').style.display = clinica ? 'block' : 'none';
+  qs('lblMatricula').textContent = clinica ? 'Matrícula profesional del médico veterinario responsable *' : 'Número de matrícula profesional *';
+  qs('lblDonde').textContent = clinica ? 'Nombre del médico veterinario responsable *' : '¿Dónde trabajas o con qué veterinario? *';
+  qs('vDonde').placeholder = clinica ? 'Ej: Dra. Laura Ríos' : 'Ej: Clínica Patitas, con la Dra. Ríos';
+  qs('lblNombre').textContent = clinica ? 'Nombre de la veterinaria *' : 'Tu nombre o el de tu veterinaria *';
+  qs('vNombre').placeholder = clinica ? 'Ej: Clínica Veterinaria Patitas' : 'Ej: Mario Ruiz · Vacunación a domicilio';
 }
 
 function rellenarSolicitud(p){
@@ -470,16 +481,18 @@ async function solicitar(){
   var err = qs('errSolicitud'); err.classList.remove('show');
   var nombre = qs('vNombre').value.trim();
   function falla(m){ err.textContent = m; err.classList.add('show'); }
-  if(!tipoVet) return falla('Dinos si eres médico veterinario o auxiliar.');
+  if(!tipoVet) return falla('Dinos si inscribes una clínica, o si eres médico veterinario o auxiliar.');
+  if(tipoVet === 'clinica' && qs('vMatricula').value.trim().length < 3) return falla('Escribe la matrícula profesional del médico veterinario responsable.');
+  if(tipoVet === 'clinica' && qs('vDonde').value.trim().length < 3) return falla('Escribe el nombre del médico veterinario responsable.');
   if(tipoVet === 'medico' && qs('vMatricula').value.trim().length < 3) return falla('Escribe tu número de matrícula profesional.');
   if(tipoVet === 'auxiliar' && qs('vDonde').value.trim().length < 3) return falla('Cuéntanos dónde trabajas o con qué veterinario.');
-  if(nombre.length < 3) return falla('Escribe tu nombre o el de tu veterinaria.');
+  if(nombre.length < 3) return falla(tipoVet === 'clinica' ? 'Escribe el nombre de la veterinaria.' : 'Escribe tu nombre o el de tu veterinaria.');
   var b = qs('btnSolicitar'); b.disabled = true; b.textContent = 'Enviando…';
   var r = await cli.rpc('vet_solicitar', {
     p_nombre: nombre, p_telefono: qs('vTel').value.trim(), p_ciudad: qs('vCiudad').value.trim(),
     p_tipo: tipoVet,
-    p_matricula: tipoVet === 'medico' ? qs('vMatricula').value.trim() : null,
-    p_donde: tipoVet === 'auxiliar' ? qs('vDonde').value.trim() : null
+    p_matricula: (tipoVet === 'medico' || tipoVet === 'clinica') ? qs('vMatricula').value.trim() : null,
+    p_donde: (tipoVet === 'auxiliar' || tipoVet === 'clinica') ? qs('vDonde').value.trim() : null
   });
   b.disabled = false; b.textContent = 'Enviar solicitud 🐾';
   if(r.error){ return falla(limpiarError(r.error)); }
