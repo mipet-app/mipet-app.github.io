@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Busco hogar para un peludo · Hogares Kolita</title>
+<meta name="description" content="¿No puedes tener a tu perrito o encontraste uno? Regístralo en Hogares Kolita y lo conectamos con una familia verificada. Gratis y seguro.">
+<meta property="og:title" content="Busco hogar para un peludo · Hogares Kolita">
+<meta property="og:description" content="Lo conectamos con una familia verificada, sin publicarlo como perro gratis. Gratis y seguro.">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://kolita.co/entregar.html">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#FBFCFA;color:#3C4A3A;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;font-size:16px;line-height:1.55}
+header{background:#7C9877;color:#FBFCFA;text-align:center;padding:26px 18px 30px}
+header a.marca{font-family:Verdana,sans-serif;font-weight:bold;font-size:26px;color:#FBFCFA;text-decoration:none}
+header .sub{font-size:11px;letter-spacing:2px;color:#DCE8D8;margin-top:2px}
+header h1{font-size:23px;line-height:1.25;margin:16px auto 6px;max-width:460px}
+header p{margin:0 auto;max-width:440px;font-size:15px;color:#EDF2EA}
+main{max-width:560px;margin:0 auto;padding:18px 16px 60px}
+.caja{background:#fff;border:1px solid #E4EAE1;border-radius:18px;padding:18px;margin-bottom:14px}
+.caja h2{font-size:17px;margin:0 0 4px}
+.caja .nota{font-size:13.5px;color:#7A8A76;margin:0 0 12px}
+label.c{display:block;font-size:14px;font-weight:600;margin:14px 0 5px}
+label.c small{font-weight:400;color:#93A28F}
+input[type=text],input[type=tel],input[type=email],input[type=number],select,textarea{width:100%;font:inherit;color:#3C4A3A;background:#FBFCFA;border:1.5px solid #DCE5D8;border-radius:12px;padding:12px 13px;-webkit-appearance:none;appearance:none}
+select{background-image:linear-gradient(45deg,transparent 50%,#7C9877 50%),linear-gradient(135deg,#7C9877 50%,transparent 50%);background-position:calc(100% - 20px) 52%,calc(100% - 14px) 52%;background-size:6px 6px;background-repeat:no-repeat;padding-right:36px}
+textarea{min-height:84px;resize:vertical}
+input:focus,select:focus,textarea:focus{outline:none;border-color:#7C9877;box-shadow:0 0 0 3px #EDF2EA}
+.ops{display:flex;flex-wrap:wrap;gap:8px}
+.ops label{flex:1 1 auto;position:relative;cursor:pointer}
+.ops input{position:absolute;opacity:0;inset:0;cursor:pointer}
+.ops span{display:block;text-align:center;border:1.5px solid #DCE5D8;border-radius:12px;padding:11px 12px;font-size:14.5px;background:#FBFCFA}
+.ops input:checked+span{background:#7C9877;border-color:#7C9877;color:#fff;font-weight:600}
+.ops input:focus-visible+span{box-shadow:0 0 0 3px #DCE5D8}
+.marca-ok{display:flex;gap:10px;align-items:flex-start;font-size:14px;margin:12px 0;cursor:pointer}
+.marca-ok input{width:20px;height:20px;margin:2px 0 0;flex:none;accent-color:#7C9877}
+.aviso{background:#FDF7F3;border:1px solid #EAD4C9;border-radius:14px;padding:13px 15px;font-size:13.5px;color:#8A5238;line-height:1.6}
+.aviso strong{display:block;margin-bottom:4px}
+.aviso ol{margin:4px 0 0;padding-left:18px}
+.archivo{display:block;border:1.5px dashed #B9C9B5;border-radius:14px;padding:16px;text-align:center;background:#F4F8F2;cursor:pointer;font-size:14.5px;color:#556F51}
+.archivo input{display:block;margin:10px auto 0;max-width:100%;font-size:14px}
+button.enviar{width:100%;font:inherit;font-weight:700;font-size:17px;color:#fff;background:#E8813A;border:0;border-radius:14px;padding:16px;cursor:pointer;margin-top:6px}
+button.enviar:disabled{opacity:.6;cursor:wait}
+.error{display:none;background:#FCEBEB;border:1px solid #F0B9B9;color:#8B2525;border-radius:12px;padding:12px 14px;font-size:14.5px;margin:12px 0}
+.estado{display:none;text-align:center;color:#556F51;font-size:14.5px;margin:12px 0}
+.oculto{display:none}
+.trampa{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+#listo{display:none;text-align:center}
+#listo .grande{font-size:46px;margin:6px 0 0}
+#listo h2{font-size:22px;margin:6px 0 8px}
+a.boton{display:inline-block;background:#7C9877;color:#fff;text-decoration:none;font-weight:700;padding:14px 22px;border-radius:12px;margin:8px 4px}
+a.boton.wa{background:#25D366}
+footer{text-align:center;font-size:12px;color:#93A28F;padding:0 16px 30px}
+footer a{color:#7A8A76}
+</style>
+</head>
+<body>
+<header>
+  <a class="marca" href="https://kolita.co">kolita</a>
+  <div class="sub">HOGARES KOLITA</div>
+  <h1>Búscale un buen hogar a tu peludo</h1>
+  <p>Sin publicarlo como “perro gratis”. Lo conectamos con una familia que ya verificamos, y tú decides si se lo entregas.</p>
+</header>
+<main>
+<form id="f" novalidate>
+  <div class="trampa" aria-hidden="true"><label>No llenar <input type="text" name="sitio" tabindex="-1" autocomplete="off"></label></div>
+
+  <div class="caja">
+    <h2>1. El peludo</h2>
+    <label class="c" for="perro_nombre">¿Cómo se llama? <small>· o cómo le dices</small></label>
+    <input type="text" id="perro_nombre" name="perro_nombre" maxlength="40" required>
+    <label class="c">¿De dónde viene?</label>
+    <div class="ops">
+      <label><input type="radio" name="origen" value="propio"><span>Es mío</span></label>
+      <label><input type="radio" name="origen" value="encontrado"><span>Lo encontré</span></label>
+      <label><input type="radio" name="origen" value="rescatado"><span>Lo rescaté</span></label>
+    </div>
+    <div class="aviso oculto" id="encontradoCaja" style="margin-top:12px">
+      <strong>Puede tener una familia buscándolo</strong>
+      Antes de entregarlo, revisa si tiene placa o microchip (cualquier veterinaria lo lee gratis) y publícalo como encontrado en los grupos de tu zona.
+    </div>
+    <label class="c">Sexo</label>
+    <div class="ops">
+      <label><input type="radio" name="sexo" value="macho"><span>Macho</span></label>
+      <label><input type="radio" name="sexo" value="hembra"><span>Hembra</span></label>
+    </div>
+    <label class="c">Tamaño</label>
+    <div class="ops">
+      <label><input type="radio" name="tamano" value="pequeno"><span>Pequeño</span></label>
+      <label><input type="radio" name="tamano" value="mediano"><span>Mediano</span></label>
+      <label><input type="radio" name="tamano" value="grande"><span>Grande</span></label>
+    </div>
+    <label class="c">Edad</label>
+    <div class="ops">
+      <label><input type="radio" name="edad_grupo" value="cachorro"><span>Cachorro</span></label>
+      <label><input type="radio" name="edad_grupo" value="adulto"><span>Adulto</span></label>
+      <label><input type="radio" name="edad_grupo" value="senior"><span>Mayor</span></label>
+    </div>
+    <label class="c">Energía</label>
+    <div class="ops">
+      <label><input type="radio" name="energia" value="baja"><span>Tranquilo</span></label>
+      <label><input type="radio" name="energia" value="media"><span>Normal</span></label>
+      <label><input type="radio" name="energia" value="alta"><span>Muy activo</span></label>
+    </div>
+    <label class="marca-ok"><input type="checkbox" name="esterilizado"><span>Está esterilizado.</span></label>
+    <label class="marca-ok"><input type="checkbox" name="vacunado"><span>Tiene sus vacunas.</span></label>
+    <label class="c" for="bien_con_ninos">¿Se lleva bien con niños?</label>
+    <select id="bien_con_ninos" name="bien_con_ninos"><option value="no_se">No sé</option><option value="si">Sí</option><option value="no">No</option></select>
+    <label class="c" for="bien_con_animales">¿Se lleva bien con otros animales?</label>
+    <select id="bien_con_animales" name="bien_con_animales"><option value="no_se">No sé</option><option value="si">Sí</option><option value="no">No</option></select>
+    <label class="c" for="descripcion">Cuéntanos cómo es</label>
+    <textarea id="descripcion" name="descripcion" maxlength="500" placeholder="Carácter, costumbres, salud, qué le gusta"></textarea>
+    <label class="c" for="motivo">¿Por qué le buscas hogar?</label>
+    <textarea id="motivo" name="motivo" maxlength="400"></textarea>
+  </div>
+
+  <div class="caja">
+    <h2>2. Fotos</h2>
+    <p class="nota">De 1 a 3 fotos claras del peludo. Solo las ve Kolita y la familia con la que haga match.</p>
+    <label class="archivo">Toca aquí para elegir las fotos
+      <input type="file" id="fotos" accept="image/*" multiple>
+    </label>
+  </div>
+
+  <div class="caja">
+    <h2>3. Sobre ti</h2>
+    <label class="c" for="contacto_nombre">Nombre completo</label>
+    <input type="text" id="contacto_nombre" name="contacto_nombre" autocomplete="name" required>
+    <label class="c" for="cedula">Número de cédula</label>
+    <input type="tel" id="cedula" name="cedula" inputmode="numeric" maxlength="10" required>
+    <label class="c" for="whatsapp">WhatsApp</label>
+    <input type="tel" id="whatsapp" name="whatsapp" inputmode="numeric" placeholder="300 123 4567" autocomplete="tel" required>
+    <label class="c" for="correo">Correo <small>· aquí te avisamos cuando haya un hogar</small></label>
+    <input type="email" id="correo" name="correo" autocomplete="email" required>
+    <label class="c" for="zona">¿Dónde está el peludo?</label>
+    <select id="zona" name="zona" required>
+      <option value="">Elige la zona</option>
+      <option value="valle_aburra">Medellín y área metropolitana</option>
+      <option value="oriente">Oriente antioqueño</option>
+      <option value="bogota">Bogotá y alrededores</option>
+      <option value="cali">Cali y alrededores</option>
+      <option value="ibague">Ibagué</option>
+      <option value="otra">Otra ciudad</option>
+    </select>
+    <div id="otraCaja" class="oculto">
+      <label class="c" for="ciudad_otra">¿Cuál ciudad?</label>
+      <input type="text" id="ciudad_otra" name="ciudad_otra">
+    </div>
+    <label class="c" for="barrio">Barrio o municipio</label>
+    <input type="text" id="barrio" name="barrio">
+  </div>
+
+  <div class="aviso">
+    <strong>🔒 Así entregamos en Hogares Kolita</strong>
+    <ol>
+      <li>La entrega es en un lugar público o veterinaria, de día. Nunca en tu casa.</li>
+      <li>Se firma un acta de adopción y confirmas la cédula del adoptante.</li>
+      <li>Es gratis: no cobres ni pagues por la adopción.</li>
+      <li>Tú decides. Si la familia no te da confianza, no lo entregues.</li>
+    </ol>
+  </div>
+
+  <label class="marca-ok"><input type="checkbox" name="mayor_de_edad"><span>Soy mayor de edad.</span></label>
+  <label class="marca-ok"><input type="checkbox" name="acepta_condiciones"><span>Acepto las condiciones de entrega de arriba y declaro que puedo entregar a este peludo.</span></label>
+  <label class="marca-ok"><input type="checkbox" name="autoriza"><span>Autorizo a Kolita a tratar mis datos y, <strong>solo cuando haya un match aprobado</strong>, compartir mi primer nombre, mi WhatsApp y las fotos del peludo con la familia adoptante.</span></label>
+
+  <div class="error" id="error" role="alert"></div>
+  <div class="estado" id="estado" role="status"></div>
+  <button class="enviar" id="btn" type="submit">Buscarle un hogar</button>
+</form>
+
+<div id="listo" class="caja">
+  <div class="grande">🐾</div>
+  <h2>¡Ya lo estamos buscando!</h2>
+  <p id="listoTexto"></p>
+  <p style="font-size:13.5px;color:#7A8A76">Revisa tu correo (y la carpeta de spam): ahí te llega la confirmación.</p>
+  <a class="boton" href="https://kolita.co">Conocer Kolita</a>
+</div>
+</main>
+<footer>Hogares Kolita · Adopción segura de peludos · <a href="https://kolita.co">kolita.co</a></footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+var SUPA = "https://fdwbstqxqdailyeedmuo.supabase.co";
+var LLAVE = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZkd2JzdHF4cWRhaWx5ZWVkbXVvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM5MDEwMDEsImV4cCI6MjA5OTQ3NzAwMX0.GG6O9z1Exu5z0DsM8Fzk-fx1h2BIII0I9flMVZiPwIw";
+var WA_KOLITA = "573123223627";
+async function api(cuerpo){
+  var r = await fetch(SUPA + "/functions/v1/adopcion", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "Authorization": "Bearer " + LLAVE, "apikey": LLAVE },
+    body: JSON.stringify(cuerpo)
+  });
+  var j = null;
+  try { j = await r.json(); } catch (e) {}
+  if (!j || typeof j.ok === "undefined") return { ok: false, error: "Algo falló de nuestro lado. Intenta de nuevo en un momento." };
+  return j;
+}
+async function subirArchivo(bucket, subida, archivo){
+  try {
+    var cliente = window.supabase.createClient(SUPA, LLAVE);
+    var r = await cliente.storage.from(bucket).uploadToSignedUrl(subida.path, subida.token, archivo, { contentType: archivo.type });
+    return !r.error;
+  } catch (e) { return false; }
+}
+function mostrar(id, si){ document.getElementById(id).classList.toggle("oculto", !si); }
+function error(t){ var e = document.getElementById("error"); e.textContent = t || ""; e.style.display = t ? "block" : "none"; if (t) e.scrollIntoView({ block: "center", behavior: "smooth" }); }
+function ocupado(si, t){ var b = document.getElementById("btn"); b.disabled = si; var s = document.getElementById("estado"); s.textContent = t || ""; s.style.display = si && t ? "block" : "none"; }
+var FOTO_OK = ["image/jpeg","image/png","image/webp","image/heic","image/heif"];
+var f = document.getElementById("f");
+document.getElementById("zona").addEventListener("change", function(){ mostrar("otraCaja", this.value === "otra"); });
+f.addEventListener("change", function(e){ if (e.target.name === "origen") mostrar("encontradoCaja", e.target.value === "encontrado"); });
+
+f.addEventListener("submit", async function(e){
+  e.preventDefault();
+  error("");
+  var d = new FormData(f);
+  var faltan = ["origen","sexo","tamano","edad_grupo","energia"].filter(function(k){ return !d.get(k); });
+  if (faltan.length) return error("Completa los datos del peludo: origen, sexo, tamaño, edad y energía.");
+  var fotos = Array.prototype.slice.call(document.getElementById("fotos").files, 0, 3);
+  if (!fotos.length) return error("Sube al menos una foto del peludo.");
+  if (!window.supabase) return error("No cargó la página completa. Actualízala e intenta de nuevo.");
+  for (var i = 0; i < fotos.length; i++) {
+    if (FOTO_OK.indexOf(fotos[i].type) < 0) return error("Las fotos deben ser JPG o PNG.");
+    if (fotos[i].size > 15 * 1024 * 1024) return error("Una de las fotos pesa demasiado. Usa fotos de menos de 15 MB.");
+  }
+  var cuerpo = {
+    accion: "registrar_perro", sitio: d.get("sitio"),
+    contacto_nombre: d.get("contacto_nombre"), cedula: d.get("cedula"), whatsapp: d.get("whatsapp"), correo: d.get("correo"),
+    zona: d.get("zona"), ciudad_otra: d.get("ciudad_otra"), barrio: d.get("barrio"),
+    origen: d.get("origen"), perro_nombre: d.get("perro_nombre"), sexo: d.get("sexo"), tamano: d.get("tamano"),
+    edad_grupo: d.get("edad_grupo"), energia: d.get("energia"),
+    esterilizado: !!d.get("esterilizado"), vacunado: !!d.get("vacunado"),
+    bien_con_ninos: d.get("bien_con_ninos"), bien_con_animales: d.get("bien_con_animales"),
+    descripcion: d.get("descripcion"), motivo: d.get("motivo"),
+    mayor_de_edad: !!d.get("mayor_de_edad"), acepta_condiciones: !!d.get("acepta_condiciones"), autoriza: !!d.get("autoriza"),
+    fotos_tipos: fotos.map(function(x){ return x.type; })
+  };
+  ocupado(true, "Guardando los datos…");
+  try {
+    var r = await api(cuerpo);
+    if (!r.ok) { ocupado(false); return error(r.error); }
+    ocupado(true, "Subiendo las fotos… No cierres esta página.");
+    for (var j = 0; j < r.subidas.length; j++) { await subirArchivo(r.bucket, r.subidas[j], fotos[j]); }
+    ocupado(true, "Ya casi…");
+    var fin = await api({ accion: "finalizar", tipo: "perro", id: r.id, clave: r.clave });
+    if (!fin.ok) { ocupado(false); return error(fin.error); }
+    f.style.display = "none";
+    document.getElementById("listoTexto").textContent = "Recibimos a " + String(d.get("perro_nombre")).trim() + ". Cuando encontremos una familia verificada que encaje, te escribimos al correo con sus datos. Tú decides si se lo entregas.";
+    document.getElementById("listo").style.display = "block";
+    window.scrollTo(0, 0);
+  } catch (err) {
+    ocupado(false);
+    error("No pudimos conectar. Revisa tu internet e intenta de nuevo.");
+  }
+});
+</script>
+</body>
+</html>
