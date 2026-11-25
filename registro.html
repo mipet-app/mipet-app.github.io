@@ -305,6 +305,10 @@ details.vet-det .inner{padding-bottom:16px;}
         <input type="date" id="nextVetVisit">
         <p class="hint">Te la recordamos un día antes.</p>
 
+        <label for="lastCheckup">¿Cuándo fue su último chequeo general? <span class="opc">(opcional)</span></label>
+        <input type="date" id="lastCheckup">
+        <p class="hint">Un año después te recordamos su control anual.</p>
+
         <!-- Veterinario: código; si no lo sabe, lo buscamos por su celular -->
         <details class="vet-det" id="vetDet">
           <summary>¿Quieres agregar a tu veterinario?</summary>
@@ -925,6 +929,7 @@ async function guardarCarnet() {
       bath_every_days: bathDays || null,
       next_bath_date: bathDays ? proximoBano() : null,
       next_vet_visit: v('nextVetVisit') || null,
+      last_checkup_date: v('lastCheckup') || null,
       scan_alerts: true,
       owner_name: v('ownerName'),
       emergency_phone: soloDigitos(v('ownerPhone')),
