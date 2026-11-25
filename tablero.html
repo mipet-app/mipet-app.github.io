@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Tablero Kolita</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Quicksand:wght@600;700&family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.111.0/dist/umd/supabase.js" integrity="sha384-faMlYZUtkJj+Sh6Bmu/L0GzPcraRWN6CW+9RH3GUrK/Z0WS9tgaNNt0tHiLxsbdb" crossorigin="anonymous"></script>
+<script src="js/kolita-auth.js"></script>
+<script src="js/kolita-login.js"></script>
+<style>
+:root{
+  --bg:#FBFCFA; --soft:#EDF2EA; --mid:#7C9877; --deep:#556F51; --ink:#3C4A3A; --mut:#7F8D7B;
+  --line:#E4EAE1; --orange:#E8813A;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+body{font-family:'Nunito Sans',sans-serif;background:#F1F3EF;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:22px 16px 60px;color:var(--ink);}
+.top{max-width:640px;width:100%;display:flex;align-items:center;gap:8px;margin-bottom:18px;}
+.brand-k{width:32px;height:32px;flex-shrink:0;}
+.brand-name{font-family:'Quicksand',sans-serif;font-weight:700;font-size:18px;}
+.top button{margin-left:auto;background:none;border:none;font-size:12px;font-weight:800;color:var(--deep);cursor:pointer;font-family:inherit;}
+.wrap{max-width:640px;width:100%;background:var(--bg);border:1px solid var(--line);border-radius:26px;padding:24px 20px;box-shadow:0 14px 40px rgba(70,85,66,.08);display:flex;flex-direction:column;gap:22px;}
+.hide{display:none!important;}
+h1{font-family:'Fraunces',serif;font-size:25px;font-weight:700;line-height:1.15;}
+h2{font-family:'Fraunces',serif;font-size:18px;font-weight:700;margin-bottom:10px;}
+.sub{font-size:13px;color:var(--mut);font-weight:600;margin-top:4px;line-height:1.5;}
+.denied{text-align:center;font-size:14px;color:var(--mut);font-weight:600;line-height:1.6;}
+.meta{background:var(--deep);color:#fff;border-radius:18px;padding:16px 18px;}
+.meta small{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#DCE8D8;}
+.meta b{display:block;font-family:'Fraunces',serif;font-size:34px;line-height:1.15;font-variant-numeric:tabular-nums;margin-top:2px;}
+.meta p{font-size:13px;font-weight:600;color:#DCE8D8;margin-top:2px;}
+.bar{height:8px;background:rgba(255,255,255,.25);border-radius:9px;overflow:hidden;margin-top:10px;}
+.bar i{display:block;height:100%;background:var(--orange);width:0;transition:width .4s;}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;}
+.stat{background:var(--soft);border-radius:14px;padding:12px 14px;}
+.stat b{display:block;font-family:'Fraunces',serif;font-size:26px;line-height:1.1;font-variant-numeric:tabular-nums;color:var(--deep);}
+.stat small{font-size:12px;color:var(--mut);font-weight:700;line-height:1.35;display:block;margin-top:2px;}
+.paso{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);}
+.paso:last-child{border-bottom:none;}
+.paso .n{flex:none;width:64px;font-family:'Fraunces',serif;font-size:24px;font-weight:700;color:var(--deep);font-variant-numeric:tabular-nums;text-align:right;}
+.paso .t{flex:1;min-width:0;}
+.paso .t strong{display:block;font-size:14px;}
+.paso .t span{font-size:12px;color:var(--mut);font-weight:600;}
+.paso .p{flex:none;font-size:13px;font-weight:800;color:var(--orange);font-variant-numeric:tabular-nums;}
+.scroll{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;font-size:13px;}
+th{text-align:right;font-size:11px;font-weight:800;color:var(--deep);text-transform:uppercase;letter-spacing:.6px;padding:8px 8px;border-bottom:1.5px solid var(--line);white-space:nowrap;}
+td{text-align:right;padding:9px 8px;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums;white-space:nowrap;}
+th:first-child,td:first-child{text-align:left;}
+.vacio{font-size:13px;color:var(--mut);font-weight:600;line-height:1.5;}
+.pie{font-size:11px;color:var(--mut);font-weight:600;line-height:1.5;}
+.btn{align-self:flex-start;background:var(--mid);color:#fff;border:none;border-radius:12px;padding:10px 16px;font-family:inherit;font-size:13px;font-weight:800;cursor:pointer;}
+</style>
+</head>
+<body>
+<div class="top">
+  <svg class="brand-k" viewBox="0 0 92 92"><rect x="2" y="2" width="88" height="88" rx="24" fill="#7C9877"/><path d="M32 24 L32 68" stroke="#FBFCFA" stroke-width="9" stroke-linecap="round"/><path d="M34 48 C 48 46, 58 36, 56 24" fill="none" stroke="#FBFCFA" stroke-width="9" stroke-linecap="round"/><path d="M34 48 C 48 52, 58 60, 62 70" fill="none" stroke="#DCE8D8" stroke-width="9" stroke-linecap="round"/></svg>
+  <span class="brand-name">kolita</span>
+  <button type="button" id="salir" class="hide">Salir</button>
+</div>
+
+
+<div class="wrap" id="cajaLogin"></div>
+
+<div class="wrap hide" id="cajaNo">
+  <p class="denied">Esta página es solo para el equipo Kolita.<br>Si eres del equipo, entra con el correo registrado.</p>
+</div>
+
+<div class="wrap hide" id="cajaApp">
+  <div>
+    <h1>Tablero de conversión</h1>
+    <p class="sub">Del carnet digital a la compra pagada. Los datos salen en vivo de la base de datos de Kolita.</p>
+  </div>
+
+  <div class="meta">
+    <small>Meta de la Alcaldía · ventas pagadas</small>
+    <b id="mVentas">—</b>
+    <p id="mTexto"></p>
+    <div class="bar"><i id="mBar"></i></div>
+  </div>
+
+  <div>
+    <h2>Embudo: del registro a la compra</h2>
+    <div id="embudo"></div>
+  </div>
+
+  <div>
+    <h2>Resumen</h2>
+    <div class="stats" id="stats"></div>
+  </div>
+
+  <div>
+    <h2>Mes a mes (últimos 6 meses)</h2>
+    <div class="scroll"><table id="tMes"></table></div>
+  </div>
+
+  <div>
+    <h2>Productos vendidos (pagados)</h2>
+    <div id="prod"></div>
+  </div>
+
+  <div>
+    <h2>Últimos pedidos</h2>
+    <div id="ult"></div>
+  </div>
+
+  <button class="btn" id="recargar">Actualizar datos</button>
+  <p class="pie" id="pie"></p>
+</div>
+
+<script>
+(function(){
+  var A = window.KolitaAuth;
+  var cli = A && A.client;
+  function $(id){ return document.getElementById(id); }
+  function ver(id){ ['cajaLogin','cajaNo','cajaApp'].forEach(function(x){ $(x).classList.toggle('hide', x !== id); }); }
+  function n(v){ return Number(v || 0).toLocaleString('es-CO'); }
+  function pesos(v){ return '$' + n(v); }
+  function pct(a, b){ return b > 0 ? (Math.round(a * 1000 / b) / 10).toLocaleString('es-CO') + ' %' : '—'; }
+  // Todo lo que viene de la base de datos se escribe como texto, nunca como HTML.
+  function el(tag, cls, txt){ var e = document.createElement(tag); if(cls) e.className = cls; if(txt != null) e.textContent = txt; return e; }
+  var MESES = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+  function mesCorto(m){ var p = String(m).split('-'); return MESES[parseInt(p[1], 10) - 1] + ' ' + p[0]; }
+  var ESTADOS = { APPROVED: 'Pagado', DECLINED: 'Rechazado', PENDING: 'Pendiente', VOIDED: 'Anulado', ERROR: 'Error', 'SIN PAGO': 'Sin pagar' };
+
+  function paso(num, titulo, detalle, porcentaje){
+    var d = el('div', 'paso');
+    d.appendChild(el('div', 'n', n(num)));
+    var t = el('div', 't'); t.appendChild(el('strong', '', titulo)); t.appendChild(el('span', '', detalle)); d.appendChild(t);
+    d.appendChild(el('div', 'p', porcentaje));
+    return d;
+  }
+  function stat(valor, texto){ var d = el('div', 'stat'); d.appendChild(el('b', '', valor)); d.appendChild(el('small', '', texto)); return d; }
+  function tabla(t, cab, filas){
+    t.textContent = '';
+    var tr = el('tr'); cab.forEach(function(c){ tr.appendChild(el('th', '', c)); }); t.appendChild(tr);
+    filas.forEach(function(f){ var r = el('tr'); f.forEach(function(c){ r.appendChild(el('td', '', c)); }); t.appendChild(r); });
+  }
+
+  function pinta(d){
+    var meta = d.meta_ventas || 20;
+    $('mVentas').textContent = n(d.pedidos_pagados) + ' de ' + n(meta);
+    $('mTexto').textContent = d.pedidos_pagados >= meta ? '¡Meta cumplida!' : 'Faltan ' + n(meta - d.pedidos_pagados) + ' ventas pagadas para la meta.';
+    $('mBar').style.width = Math.min(100, d.pedidos_pagados * 100 / meta) + '%';
+
+    var e = $('embudo'); e.textContent = '';
+    e.appendChild(paso(d.familias, 'Familias con carnet', n(d.carnets) + ' carnets creados en total', '100 %'));
+    e.appendChild(paso(d.familias_con_pedido, 'Familias que hicieron un pedido', 'Llegaron hasta el formulario de compra', pct(d.familias_con_pedido, d.familias)));
+    e.appendChild(paso(d.familias_con_pago, 'Familias que pagaron', 'Conversión de registro a compra', pct(d.familias_con_pago, d.familias)));
+
+    var s = $('stats'); s.textContent = '';
+    s.appendChild(stat(n(d.carnets_30d), 'carnets nuevos en los últimos 30 días'));
+    s.appendChild(stat(n(d.pedidos), 'pedidos recibidos en total'));
+    s.appendChild(stat(pct(d.pedidos_pagados, d.pedidos), 'de los pedidos terminaron pagados'));
+    s.appendChild(stat(pesos(d.ingresos), 'recibidos por Wompi (productos + envío)'));
+    s.appendChild(stat(n(d.unidades), 'productos vendidos (unidades)'));
+    s.appendChild(stat(d.pedidos_pagados > 0 ? pesos(Math.round(d.ingresos / d.pedidos_pagados)) : '—', 'valor promedio por venta'));
+    s.appendChild(stat(n(d.veterinarias), 'veterinarias aliadas activas'));
+    s.appendChild(stat(n(d.peludos_con_veterinaria), 'peludos con veterinaria de confianza'));
+
+    tabla($('tMes'), ['Mes', 'Carnets', 'Familias nuevas', 'Pedidos', 'Pagados', 'Ingresos'],
+      (d.por_mes || []).map(function(m){ return [mesCorto(m.mes), n(m.carnets), n(m.familias), n(m.pedidos), n(m.pagados), pesos(m.ingresos)]; }));
+
+    var p = $('prod'); p.textContent = '';
+    if(!(d.por_producto || []).length) p.appendChild(el('p', 'vacio', 'Todavía no hay ventas pagadas. Aquí aparecerá cada producto con sus unidades.'));
+    else {
+      var w = el('div', 'scroll'), t = el('table'); w.appendChild(t); p.appendChild(w);
+      tabla(t, ['Producto', 'Unidades', 'Ventas'], d.por_producto.map(function(x){ return [x.nombre, n(x.unidades), pesos(x.ventas)]; }));
+    }
+
+    var u = $('ult'); u.textContent = '';
+    if(!(d.ultimos_pedidos || []).length) u.appendChild(el('p', 'vacio', 'Todavía no hay pedidos.'));
+    else {
+      var w2 = el('div', 'scroll'), t2 = el('table'); w2.appendChild(t2); u.appendChild(w2);
+      tabla(t2, ['Pedido', 'Fecha', 'Peludo', 'Ciudad', 'Productos', 'Estado'], d.ultimos_pedidos.map(function(x){
+        return ['#' + x.numero, x.fecha, x.peludo || '—', x.ciudad || '—', pesos(x.productos), ESTADOS[x.estado] || x.estado];
+      }));
+    }
+
+    $('pie').textContent = 'Actualizado: ' + new Date(d.actualizado).toLocaleString('es-CO', { dateStyle: 'medium', timeStyle: 'short' }) +
+      '. Una venta cuenta como pagada cuando Wompi confirma el pago. La conversión compara familias con carnet contra familias que pagaron con el mismo correo.';
+  }
+
+  async function carga(){
+    $('recargar').disabled = true;
+    var r = await cli.rpc('kolita_tablero');
+    $('recargar').disabled = false;
+    if(r.error || !r.data){ ver('cajaNo'); return; }
+    ver('cajaApp'); pinta(r.data);
+  }
+
+  $('recargar').addEventListener('click', carga);
+  $('salir').addEventListener('click', async function(){ await A.salir(); location.reload(); });
+
+  async function entrar(){ $('salir').classList.remove('hide'); carga(); }
+
+  async function inicio(){
+    if(!cli){ $('cajaLogin').innerHTML = '<p class="denied">No cargó la conexión. Recarga la página.</p>'; return; }
+    var s = await A.sesionActual();
+    if(s){ entrar(); return; }
+    KolitaLogin.montar($('cajaLogin'), {
+      titulo: 'Equipo Kolita',
+      subtitulo: 'Entra con tu correo para ver el tablero.',
+      crearSiNoExiste: false,
+      alEntrar: entrar
+    });
+  }
+  inicio();
+})();
+</script>
+</body>
+</html>
