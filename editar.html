@@ -203,6 +203,10 @@ input[readonly]{background:var(--soft);color:var(--mut);}
     <input type="date" id="nextVetVisit">
     <p class="hint">Te la recordamos un día antes.</p>
 
+    <label>Último chequeo general</label>
+    <input type="date" id="lastCheckup">
+    <p class="hint">Un año después te recordamos su control anual.</p>
+
     <label>Alergias (separadas por coma)</label>
     <textarea id="petAllergies" rows="2" placeholder="Ej: Pollo, penicilina"></textarea>
     <label class="check-line"><input type="checkbox" id="sinAlergias" onchange="toggleAlergias()"> No tiene alergias conocidas</label>
@@ -402,6 +406,7 @@ async function llenar(p){
   qs('bathEvery').value = p.bath_every_days ? String(p.bath_every_days) : '';
   qs('lastBath').value = p.last_bath_date || '';
   qs('nextVetVisit').value = p.next_vet_visit || '';
+  qs('lastCheckup').value = p.last_checkup_date || '';
   qs('scanAlerts').checked = p.scan_alerts !== false;
   vaccines = Array.isArray(p.vaccines) ? p.vaccines.map(function(v){ return (typeof v==='string') ? v : (v.name||''); }).filter(Boolean) : [];
   renderVaccines();
@@ -597,6 +602,7 @@ async function guardar(){
       last_bath_date: bathDias ? (qs('lastBath').value || null) : null,
       next_bath_date: bathDias ? proximoBano(qs('lastBath').value, bathDias) : null,
       next_vet_visit: qs('nextVetVisit').value || null,
+      last_checkup_date: qs('lastCheckup').value || null,
       scan_alerts: qs('scanAlerts').checked
     };
     if (qs('petBirth').value) cambios.age = edadTexto(qs('petBirth').value);
